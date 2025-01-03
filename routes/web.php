@@ -22,6 +22,3 @@ Route::prefix('admin')->group(function () {
     Route::get('/list-product', [ProductController::class,'listProduct']);
     Route::get('/add-product', [ProductController::class,'addProduct']);
 });
-
-
-
