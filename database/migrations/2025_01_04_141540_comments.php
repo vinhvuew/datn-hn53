@@ -13,15 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id(); // Tạo cột 'id' tự động tăng và là khóa chính
-           
-            // $table->foreignIdFor(User::class)->constrained(); 
-            // $table->foreignIdFor(Products::class)->constrained(); 
-            $table->integer('quantity'); // Tạo cột 'quantity' kiểu số nguyên, lưu trữ số lượng sản phẩm trong giỏ hàng
+            $table->foreignIdFor(User::class)->constrained(); // Liên kết với bảng 'users'
+            $table->foreignIdFor(Products::class)->constrained(); // Liên kết với bảng 'products'
+            $table->text('text'); // Tạo cột 'text' để lưu nội dung bình luận
             $table->timestamps(); // Tạo cột 'created_at' và 'updated_at'
-
-          
         });
     }
 
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('comments'); // Hủy bảng 'comments' khi rollback migration
     }
 };

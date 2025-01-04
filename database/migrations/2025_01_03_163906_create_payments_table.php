@@ -15,8 +15,7 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id(); // Tạo cột 'id' tự động tăng và là khóa chính
-            // $table->foreignIdFor(Orders::class)->constrained(); 
-            // $table->foreignIdFor(User::class)->constrained();
+           
             $table->decimal('amount', 10, 2); // Tạo cột 'amount' để lưu số tiền thanh toán
             $table->string('payment_method'); // Tạo cột 'payment_method' để lưu phương thức thanh toán (ví dụ: "credit card", "paypal")
             $table->enum('payment_status', ['pending', 'completed', 'failed']); // Tạo cột 'payment_status' để lưu trạng thái thanh toán

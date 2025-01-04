@@ -15,15 +15,13 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id(); // Tạo cột 'id' tự động tăng và là khóa chính
-            // $table->foreignIdFor(User::class)->constrained(); 
-            // $table->foreignIdFor(Payments::class)->constrained(); 
+            $table->foreignIdFor(User::class)->constrained(); // Khóa ngoại liên kết với bảng 'users'
+            $table->foreignIdFor(Payments::class)->constrained(); // Khóa ngoại liên kết với bảng 'payments'
            
-            $table->string('shipping_address'); // Tạo cột 'shipping_address' kiểu chuỗi để lưu trữ địa chỉ giao hàng
-            $table->decimal('total_price', 10, 2); // Tạo cột 'total_price' kiểu decimal để lưu tổng giá trị đơn hàng
-            $table->enum('status', ['pending', 'completed', 'cancelled', 'shipping']);
+            $table->string('shipping_address'); // Địa chỉ giao hàng
+            $table->decimal('total_price', 10, 2); // Tổng giá trị đơn hàng
+            $table->enum('status', ['pending', 'completed', 'cancelled', 'shipping']); // Trạng thái đơn hàng
             $table->timestamps(); // Tạo cột 'created_at' và 'updated_at'
-           
-         
         });
     }
 

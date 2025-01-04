@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Products;
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,14 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('sales', function (Blueprint $table) {
             $table->id(); // Tạo cột 'id' tự động tăng và là khóa chính
-            // $table->foreignIdFor(User::class)->constrained(); 
-            // $table->foreignIdFor(Products::class)->constrained();
-           
-            $table->text('text'); // Tạo cột 'text' để lưu nội dung bình luận
+            $table->foreignIdFor(Products::class)->constrained(); // Tạo khóa ngoại liên kết với bảng 'products'
+
+            $table->date('start_date'); // Tạo cột 'start_date' kiểu date để lưu ngày bắt đầu chương trình khuyến mãi
+            $table->date('end_date'); // Tạo cột 'end_date' kiểu date để lưu ngày kết thúc chương trình khuyến mãi
             $table->timestamps(); // Tạo cột 'created_at' và 'updated_at'
-          
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('sales');
     }
 };
