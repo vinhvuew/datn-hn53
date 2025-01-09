@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DashBoardController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+//admin
+Route::prefix('admin')->group(function () {
+    Route::get("/", [DashBoardController::class,"dashBoard"]);
+    Route::get('/list-product', [ProductController::class,'listProduct']);
+    Route::get('/add-product', [ProductController::class,'addProduct']);
 });
