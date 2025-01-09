@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\status_products;
+use App\Http\Controllers\Admin\Controller;
+use App\Models\cart;
 use Illuminate\Http\Request;
 
-class StatusProductsController extends Controller
+class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +35,7 @@ class StatusProductsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(status_products $status_products)
+    public function show(cart $cart)
     {
         //
     }
@@ -42,7 +43,7 @@ class StatusProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(status_products $status_products)
+    public function edit(cart $cart)
     {
         //
     }
@@ -50,7 +51,7 @@ class StatusProductsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, status_products $status_products)
+    public function update(Request $request, cart $cart)
     {
         //
     }
@@ -58,7 +59,7 @@ class StatusProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(status_products $status_products)
+    public function destroy(cart $cart)
     {
         //
     }

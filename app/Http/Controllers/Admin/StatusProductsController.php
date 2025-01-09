@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\inventory;
+use App\Models\status_products;
 use Illuminate\Http\Request;
 
-class InventoryController extends Controller
+class StatusProductsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class InventoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(inventory $inventory)
+    public function show(status_products $status_products)
     {
         //
     }
@@ -42,7 +42,7 @@ class InventoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(inventory $inventory)
+    public function edit(status_products $status_products)
     {
         //
     }
@@ -50,7 +50,7 @@ class InventoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, inventory $inventory)
+    public function update(Request $request, status_products $status_products)
     {
         //
     }
@@ -58,7 +58,7 @@ class InventoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(inventory $inventory)
+    public function destroy(status_products $status_products)
     {
         //
     }

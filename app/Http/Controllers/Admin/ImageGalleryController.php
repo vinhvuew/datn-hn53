@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Products;
+use App\Http\Controllers\Admin\Controller;
+use App\Models\image_gallery;
 use Illuminate\Http\Request;
 
-class ProductsController extends Controller
+class ImageGalleryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +35,7 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Products $products)
+    public function show(image_gallery $image_gallery)
     {
         //
     }
@@ -42,7 +43,7 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Products $products)
+    public function edit(image_gallery $image_gallery)
     {
         //
     }
@@ -50,7 +51,7 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Products $products)
+    public function update(Request $request, image_gallery $image_gallery)
     {
         //
     }
@@ -58,7 +59,7 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Products $products)
+    public function destroy(image_gallery $image_gallery)
     {
         //
     }

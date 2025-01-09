@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\variants;
+use App\Http\Controllers\Admin\Controller;
+use App\Models\Brands;
 use Illuminate\Http\Request;
 
-class VariantsController extends Controller
+class BrandsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +35,7 @@ class VariantsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(variants $variants)
+    public function show(Brands $brands)
     {
         //
     }
@@ -42,7 +43,7 @@ class VariantsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(variants $variants)
+    public function edit(Brands $brands)
     {
         //
     }
@@ -50,7 +51,7 @@ class VariantsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, variants $variants)
+    public function update(Request $request, Brands $brands)
     {
         //
     }
@@ -58,7 +59,7 @@ class VariantsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(variants $variants)
+    public function destroy(Brands $brands)
     {
         //
     }

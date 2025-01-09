@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Status_order;
+use App\Models\variants;
 use Illuminate\Http\Request;
 
-class StatusOrderController extends Controller
+class VariantsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class StatusOrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Status_order $status_order)
+    public function show(variants $variants)
     {
         //
     }
@@ -42,7 +42,7 @@ class StatusOrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Status_order $status_order)
+    public function edit(variants $variants)
     {
         //
     }
@@ -50,7 +50,7 @@ class StatusOrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Status_order $status_order)
+    public function update(Request $request, variants $variants)
     {
         //
     }
@@ -58,7 +58,7 @@ class StatusOrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Status_order $status_order)
+    public function destroy(variants $variants)
     {
         //
     }
