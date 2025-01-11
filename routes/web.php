@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\Controller;
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -17,8 +19,15 @@ use Illuminate\Support\Facades\Route;
 
 
 //admin
-Route::prefix('admin')->group(function () {
-    Route::get("/", [DashBoardController::class, "dashBoard"]);
-    Route::get('/list-product', [ProductController::class, 'listProduct']);
-    Route::get('/add-product', [ProductController::class, 'addProduct']);
-});
+// Route::prefix('admin')->group(function () {
+//     Route::get("/", [Controller::class, 'index']);
+//     Route::get('/list-product', [ProductController::class, 'listProduct']);
+//     Route::get('/add-product', [ProductController::class, 'addProduct']);
+// });
+Route::get("/", [Controller::class, 'index']);
+Route::get("/category", [Controller::class, 'category']);
+Route::get("/product", [Controller::class, 'product']);
+
+
+
+

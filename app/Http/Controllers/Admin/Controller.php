@@ -12,17 +12,17 @@ class Controller extends BaseController
 
     public function index()
     {
-        return view("client.index");
+        return view("admin.dashboard");
+    }
+
+    public function category()
+    {
+        return view("admin.categories.index");
     }
 
     public function product()
     {
-        return view("client.products");
-    }
-
-    public function cart()
-    {
-        return view("client.cart");
+        return view("admin.products.index");
     }
 
     public function detail()
