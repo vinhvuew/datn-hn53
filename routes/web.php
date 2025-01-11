@@ -18,12 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-//admin
-// Route::prefix('admin')->group(function () {
-//     Route::get("/", [Controller::class, 'index']);
-//     Route::get('/list-product', [ProductController::class, 'listProduct']);
-//     Route::get('/add-product', [ProductController::class, 'addProduct']);
-// });
+
 Route::get("/", [Controller::class, 'index']);
 Route::get("/category", [Controller::class, 'category']);
 Route::get("/product", [Controller::class, 'product']);
