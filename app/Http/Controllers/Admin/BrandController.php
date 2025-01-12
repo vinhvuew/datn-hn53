@@ -1,26 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
-
-use App\Http\Controllers\Admin\Controller;
+namespace App\Http\Controllers;
 use App\Models\Brands;
 use Illuminate\Http\Request;
 
-class BrandsController extends Controller
+class BrandController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Hiển thị danh sách thương hiệu
     public function index()
     {
         $brands = Brands::all(); // Lấy tất cả thương hiệu từ DB
-        return view('admin.brands.index', compact('brands'));
+        return view('brands.index', compact('brands'));
     }
 
     // Hiển thị form thêm mới thương hiệu
     public function create()
     {
-        return view('admin.brands.create');
+        return view('brands.create');
     }
 
     // Lưu thương hiệu mới vào DB
@@ -32,13 +28,13 @@ class BrandsController extends Controller
         ]);
 
         Brands::create($request->all()); // Thêm mới thương hiệu
-        return redirect()->route('admin.brands.index')->with('success', 'Thương hiệu đã được thêm thành công.');
+        return redirect()->route('brands.index')->with('success', 'Thương hiệu đã được thêm thành công.');
     }
 
     // Hiển thị form chỉnh sửa thương hiệu
     public function edit(Brands $brand)
     {
-        return view('admin.brands.edit', compact('brand'));
+        return view('brands.edit', compact('brand'));
     }
 
     // Cập nhật thương hiệu
@@ -50,13 +46,13 @@ class BrandsController extends Controller
         ]);
 
         $brand->update($request->all());
-        return redirect()->route('admin.brands.index')->with('success', 'Thương hiệu đã được cập nhật.');
+        return redirect()->route('brands.index')->with('success', 'Thương hiệu đã được cập nhật.');
     }
 
     // Xóa thương hiệu
     public function destroy(Brands $brand)
     {
         $brand->delete();
-        return redirect()->route('admin.brands.index')->with('success', 'Thương hiệu đã được xóa.');
+        return redirect()->route('brands.index')->with('success', 'Thương hiệu đã được xóa.');
     }
 }

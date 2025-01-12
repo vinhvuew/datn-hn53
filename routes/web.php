@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\Controller;
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\ProductController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,7 +26,7 @@ Route::get("/category", [Controller::class, 'category']);
 Route::get("/product", [Controller::class, 'product']);
 
 Route::get("/voucher", [Controller::class, 'voucher']);
-
-
-
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('brands', BrandsController::class);
+});
 
