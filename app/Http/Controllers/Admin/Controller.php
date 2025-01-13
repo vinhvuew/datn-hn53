@@ -34,4 +34,8 @@ class Controller extends BaseController
     {
         return view("admin.Vouchers.add");
     }
+    // public function donhang()
+    // {
+    //     return view("admin.orders.index");
+    // }
 }

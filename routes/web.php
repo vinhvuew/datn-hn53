@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\Controller;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\OrdersController;
+use App\Models\Orders;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,3 +30,7 @@ Route::get("/voucher", [Controller::class, 'voucher']);
 
 
 
+
+// Đơn hàng
+// Route::get("/qldonhang", [Controller::class, 'donhang']);
+Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
