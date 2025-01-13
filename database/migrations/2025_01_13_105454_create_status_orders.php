@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('status_order', function (Blueprint $table) {
+        Schema::create('status_orders', function (Blueprint $table) {
             $table->id(); // Cột id tự động tăng
-            $table->string('voucher')->nullable(); // Cột voucher (có thể để trống)
-            $table->string('status_pay'); // Cột trạng thái thanh toán
-            $table->string('payment_method'); // Cột phương thức thanh toán
-            $table->string('name_status'); // Cột tên trạng thái đơn hàng
+            $table->string('code'); // Cột mã (code)
+            $table->string('name'); // Cột tên (name)
+            $table->string('type'); // Cột loại (type)
             $table->timestamps(); // Cột created_at và updated_at
         });
     }

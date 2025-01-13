@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Status_order;
+use App\Models\StatusOrder;
 use Illuminate\Http\Request;
 
 class StatusOrderController extends Controller
@@ -34,7 +34,7 @@ class StatusOrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Status_order $status_order)
+    public function show(StatusOrder $statusOrder)
     {
         //
     }
@@ -42,7 +42,7 @@ class StatusOrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Status_order $status_order)
+    public function edit(StatusOrder $statusOrder)
     {
         //
     }
@@ -50,7 +50,7 @@ class StatusOrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Status_order $status_order)
+    public function update(Request $request, StatusOrder $statusOrder)
     {
         //
     }
@@ -58,7 +58,7 @@ class StatusOrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Status_order $status_order)
+    public function destroy(StatusOrder $statusOrder)
     {
         //
     }

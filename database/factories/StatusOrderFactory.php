@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Status_order>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\StatusOrder>
  */
 class StatusOrderFactory extends Factory
 {
