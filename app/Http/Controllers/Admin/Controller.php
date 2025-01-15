@@ -34,4 +34,8 @@ class Controller extends BaseController
     {
         return view("admin.Vouchers.add");
     }
+    public function User()
+    {
+        return view("admin.users.create");
+    }
 }
