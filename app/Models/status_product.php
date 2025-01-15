@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class variants extends Model
+class status_product extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'price',
-        'sku',
-        'color',
-        'size',
-       
+        'code_color',
+        'code_size',
+        'name_status',
+
     ];
 }

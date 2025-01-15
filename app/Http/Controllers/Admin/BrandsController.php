@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Controller;
-use App\Models\Brands;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 
 class BrandsController extends Controller
@@ -35,7 +35,7 @@ class BrandsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Brands $brands)
+    public function show(Brand $brands)
     {
         //
     }
@@ -43,7 +43,7 @@ class BrandsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Brands $brands)
+    public function edit(Brand $brands)
     {
         //
     }
@@ -51,7 +51,7 @@ class BrandsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Brands $brands)
+    public function update(Request $request, Brand $brands)
     {
         //
     }
@@ -59,7 +59,7 @@ class BrandsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Brands $brands)
+    public function destroy(Brand $brands)
     {
         //
     }

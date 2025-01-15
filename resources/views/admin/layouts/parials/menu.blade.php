@@ -121,7 +121,6 @@
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
                 <div class="text-truncate" data-i18n="Sản phẩm">Sản phẩm</div>
-
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
@@ -140,10 +139,34 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="app-invoice-add.html" class="menu-link">
+                    <a href="{{ route('products.create') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="Add">Add</div>
                     </a>
                 </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                <div class="text-truncate" data-i18n="Thuộc tính">Thuộc tính</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('attributes.create') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Thêm thuộc tính">Thêm thuộc tính</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('attributes.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Danh sách thuộc tính">Danh sách thuộc tính</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('attribute-values.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Giá trị thuộc tính">Giá trị thuộc tính</div>
+                    </a>
+                </li>
+
             </ul>
         </li>
         <li class="menu-item">

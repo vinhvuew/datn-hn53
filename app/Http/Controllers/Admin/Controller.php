@@ -22,7 +22,7 @@ class Controller extends BaseController
 
     public function product()
     {
-        return view("admin.products.index");
+        return view("admin.products.create");
     }
 
     public function detail()

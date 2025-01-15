@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('status_order', function (Blueprint $table) {
+        Schema::create('status_orders', function (Blueprint $table) {
             $table->id(); // Cột id tự động tăng
             $table->string('voucher')->nullable(); // Cột voucher (có thể để trống)
             $table->string('status_pay'); // Cột trạng thái thanh toán

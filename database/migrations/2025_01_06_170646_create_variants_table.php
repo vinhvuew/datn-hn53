@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Product;
+use App\Models\status_products;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,17 +15,13 @@ return new class extends Migration
     {
         Schema::create('variants', function (Blueprint $table) {
             $table->id(); // Cột id tự động tăng
-            $table->unsignedBigInteger('id_product'); // Khóa ngoại liên kết với bảng products
-            $table->unsignedBigInteger('id_status_product'); // Khóa ngoại liên kết với bảng status_products
-            $table->decimal('price', 10, 2); // Cột giá sản phẩm (kiểu số thập phân)
+            $table->foreignIdFor(Product::class)->constrained();
             $table->string('sku')->unique(); // Cột mã SKU (mã duy nhất cho từng sản phẩm)
-            $table->string('color'); // Cột màu sắc của sản phẩm
-            $table->string('size'); // Cột kích cỡ của sản phẩm
-            $table->timestamps(); // Cột created_at và updated_at
-
-            // Định nghĩa khóa ngoại
-            $table->foreign('id_product')->references('id')->on('products')->onDelete('cascade');
-            $table->foreign('id_status_product')->references('id')->on('status_products')->onDelete('cascade');
+            $table->string('image');
+            $table->integer('quantity')->default(0);
+            $table->decimal('wholesale_price', 10, 2)->default(0);
+            $table->decimal('selling_price', 10, 2)->default(0);
+            $table->timestamps();
         });
     }
 

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Order;
+use App\Http\Controllers\Admin\Controller;
+use App\Models\variant_attributes;
 use Illuminate\Http\Request;
 
-class OrdersController extends Controller
+class VariantAttributesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +35,7 @@ class OrdersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Order $orders)
+    public function show(variant_attributes $variant_attributes)
     {
         //
     }
@@ -42,7 +43,7 @@ class OrdersController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Order $orders)
+    public function edit(variant_attributes $variant_attributes)
     {
         //
     }
@@ -50,7 +51,7 @@ class OrdersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Order $orders)
+    public function update(Request $request, variant_attributes $variant_attributes)
     {
         //
     }
@@ -58,7 +59,7 @@ class OrdersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $orders)
+    public function destroy(variant_attributes $variant_attributes)
     {
         //
     }
