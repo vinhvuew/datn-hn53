@@ -27,15 +27,4 @@ Route::get("/voucher", [Controller::class, 'voucher']);
 Route::prefix('admin')->name('admin.')->group(function () {
     // Hiển thị
     Route::resource('users', UserController::class,);
-    
-    // Thêm mới
-    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
-    Route::post('/users', [UserController::class, 'store'])->name('users.store');
-    
-    // Chỉnh sửa
-    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
-    
-    // Xóa
-    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 });
