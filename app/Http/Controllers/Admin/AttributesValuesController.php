@@ -36,10 +36,19 @@ class AttributesValuesController extends Controller
     public function store(Request $request)
     {
         // Xác thực dữ liệu đầu vào
-        $data = $request->validate([
-            'value' => 'required|max:255',
-            'attributes_name_id' => 'required|exists:attributes_names,id',
-        ]);
+        $data = $request->validate(
+            [
+                'value' => 'required|max:255|unique:attributes_values,value',
+                'attributes_name_id' => 'required|exists:attributes_names,id',
+            ],
+            [
+                'value.required' => 'Giá trị Thuộc tính không được bỏ trống.',
+                'value.unique' => 'Giá trị Thuộc tính này đã tồn tại.',
+                'value.max' => 'không được quá 255 kí tự',
+                'attributes_name_id' => 'Thuộc tính không được bỏ trống.',
+
+            ]
+        );
         // dd($data);
 
         try {
@@ -74,16 +83,33 @@ class AttributesValuesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            // 'attributes_name_id' => 'required|exists:attributes_names,id',
-            'value' => 'required|string|max:255',
-        ]);
-        $value = attributes_value::findOrFail($id);
-        $value->update([
-            // 'attributes_name_id' => $request->attributes_name_id,
-            'value' => $request->value,
-        ]);
-        return redirect()->route('attribute-values.index')->with('success', 'Giá trị thuộc tính đã được cập nhật.');
+        $request->validate(
+            [
+                'attributes_name_id' => 'required|exists:attributes_names,id',
+                'value' => 'required|string|max:255|unique:attributes_values,value',
+            ],
+            [
+                'value.required' => 'Giá trị Thuộc tính không được bỏ trống.',
+                'value.unique' => 'Giá trị Thuộc tính này đã tồn tại.',
+                'value.max' => 'không được quá 255 kí tự',
+            ]
+        );
+        try {
+            //code...
+            $value = attributes_value::findOrFail($id);
+            $value->update([
+                // 'attributes_name_id' => $request->attributes_name_id,
+                'value' => $request->value,
+            ]);
+            return redirect()->route('attribute-values.index')->with('success', 'Giá trị thuộc tính đã được cập nhật.');
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::error($th->getMessage());
+
+            return back()
+                ->with('error', 'Cập nhật giá trị thuộc tính không thành công')
+                ->withInput();
+        }
     }
 
     /**

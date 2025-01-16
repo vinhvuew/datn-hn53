@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\Controller;
 use App\Models\attributes_name;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AttributesNameController extends Controller
 {
@@ -32,18 +33,34 @@ class AttributesNameController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            // 'data_type' => 'required|string|max:255',
-        ]);
+        $request->validate(
+            [
+                'name' => 'required|string|max:255|unique:attributes_names,name',
+                // 'data_type' => 'required|string|max:255',
+            ],
+            [
+                'name.required' => 'Thuộc tính này không được bỏ trống.',
+                'name.unique' => 'Thuộc tính này đã tồn tại.',
+                'name.max' => 'không được quá 255 kí tự',
+            ]
+        );
+        try {
+            //code...
+            attributes_name::create([
+                'name' => $request->name,
+                // 'data_type' => $request->data_type,
+            ]);
+            return redirect()->route('attributes.index')->with('success', 'Thuộc tính đã được thêm mới.');
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::error($th->getMessage());
 
-        attributes_name::create([
-            'name' => $request->name,
-            // 'data_type' => $request->data_type,
-        ]);
-
-        return redirect()->route('attributes.index')->with('success', 'Thuộc tính đã được thêm mới.');
+            return back()
+                ->with('error', 'Thêm thuộc tính không thành công')
+                ->withInput();
+        }
     }
+
 
     /**
      * Hiển thị form chỉnh sửa thuộc tính
@@ -59,16 +76,34 @@ class AttributesNameController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        $request->validate(
+            [
+                'name' => 'required|string|max:255|unique:attributes_names,name',
+                // 'data_type' => 'required|string|max:255',
+            ],
+            [
+                'name.required' => 'Thuộc tính này không được bỏ trống.',
+                'name.unique' => 'Thuộc tính này đã tồn tại.',
+                'name.max' => 'không được quá 255 kí tự',
+                
+            ]
+        );
+        try {
+            //code...
+            $attribute = attributes_name::findOrFail($id);
+            $attribute->update([
+                'name' => $request->name,
+            ]);
 
-        $attribute = attributes_name::findOrFail($id);
-        $attribute->update([
-            'name' => $request->name,
-        ]);
+            return redirect()->route('attributes.index')->with('success', 'Thuộc tính đã được cập nhật.');
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::error($th->getMessage());
 
-        return redirect()->route('attributes.index')->with('success', 'Thuộc tính đã được cập nhật.');
+            return back()
+                ->with('error', 'cập nhật thuộc tính không thành công')
+                ->withInput();
+        }
     }
 
     /**

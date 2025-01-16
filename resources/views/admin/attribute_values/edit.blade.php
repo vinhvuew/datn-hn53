@@ -17,10 +17,16 @@
                         {{ session()->get('success') }}
                     </div>
                 @endif
+                @if ($errors->has('name'))
+                    <div class="alert alert-danger">
+                        {{ $errors->first('name') }}
+                    </div>
+                @endif
                 <div class="card-body">
-                    <form action="{{ route('attribute-values.store') }}" method="POST"
+                    <form action="{{ route('attribute-values.update', $value->id) }}" method="POST"
                         class="p-4 border rounded shadow-sm bg-white">
                         @csrf
+                        @method('PUT')
                         <h5 class="mb-4">Cập nhật giá trị Thuộc Tính</h5>
                         <!-- Nút hành động -->
                         <div class="d-flex justify-content-end align-items-center gap-3">

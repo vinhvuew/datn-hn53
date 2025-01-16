@@ -26,7 +26,11 @@
                         + THÊM THUỘC TÍNH</a>
                 </div>
             </div>
-
+            @if (session()->has('success'))
+                <div class="alert alert-success fw-bold">
+                    {{ session()->get('success') }}
+                </div>
+            @endif
             <!-- Category List Table -->
             <div class="card">
                 <div class="card-datatable table-responsive">

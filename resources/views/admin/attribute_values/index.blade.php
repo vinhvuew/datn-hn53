@@ -6,10 +6,10 @@
             <span class="text-muted fw-light">GIÁ TRỊ THUỘC TÍNH /</span> DANH SÁCH GIÁ TRỊ THUỘC TÍNH
         </h4>
         @if (session()->has('success'))
-        <div class="alert alert-success fw-bold">
-            {{ session()->get('success') }}
-        </div>
-    @endif
+            <div class="alert alert-success fw-bold">
+                {{ session()->get('success') }}
+            </div>
+        @endif
         <div class="app-ecommerce-category">
             <!-- Search Bar and Add Category Button in a Single Row -->
             <div class="d-flex justify-content-between align-items-center mb-4">
