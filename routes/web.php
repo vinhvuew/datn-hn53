@@ -34,3 +34,5 @@ Route::get("/voucher", [Controller::class, 'voucher']);
 // Đơn hàng
 // Route::get("/qldonhang", [Controller::class, 'donhang']);
 Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
+Route::delete('/orders/{id}', [OrdersController::class, 'destroy'])->name('orders.destroy');
+

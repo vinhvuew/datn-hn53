@@ -16,4 +16,8 @@ class Orders extends Model
         'status_pay',
        
     ];
+    
+    public $table = 'orders';
+    public $timetamp = false;
+    protected $dates = ['deleted_at'];
 }
