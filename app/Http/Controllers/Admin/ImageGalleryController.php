@@ -13,10 +13,15 @@ class ImageGalleryController extends Controller
      */
  
 
-    public function index()
-    {
-       return view('admin.image.index');
-    }
+     public function index()
+     {
+         // Lấy tất cả ảnh từ bảng image_gallery
+        $listImage = image_gallery::all(); 
+         
+        //  // Trả về view kèm theo dữ liệu ảnh
+        return view('admin.image.index', compact('listImage'));
+     }
+ 
 
     /**
      * Show the form for creating a new resource.
@@ -24,6 +29,7 @@ class ImageGalleryController extends Controller
     public function create()
     {
         //
+        
     }
 
     /**

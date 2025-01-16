@@ -13,4 +13,8 @@ class image_gallery extends Model
        
        
     ];
+    public $table = 'image_gallery';
+    public $timetamp = false;
+    protected $dates = ['deleted_at'];
+    
 }

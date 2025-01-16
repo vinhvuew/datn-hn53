@@ -307,4 +307,13 @@
             </ul>
         </li>
 
+        <li class="menu-item">
+            <a href="{{route('image.index')}}" class="menu-link">
+           
+                    <i class=" menu-icon fa-solid fa-image"></i>
+                <div class="text-truncate" data-i18n="Quản Lý Hình Ảnh">Quản Lý Hình Ảnh </div>
+            </a>
+            
+        </li>
+
 </aside>

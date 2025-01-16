@@ -22,7 +22,9 @@ Route::get("/", [Controller::class, 'index']);
 Route::get("/category", [Controller::class, 'category']);
 Route::get("/product", [Controller::class, 'product']);
 Route::get("/voucher", [Controller::class, 'voucher']);
-Route::get('/image', [ImageGalleryController::class, 'image'])->name('image');
+Route::get('/image', [ImageGalleryController::class, 'index'])->name('image.index');
+
+
 
 
 
