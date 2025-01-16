@@ -9,6 +9,7 @@ class attributes_name extends Model
 {
     use HasFactory;
     protected $fillable = [
+        
         'name',
     ];
 

@@ -13,9 +13,10 @@
                     <h5 class="mb-0">Cập nhật thuộc tính</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('attributes.store') }}" method="POST"
+                    <form action="{{ route('attributes.update', $attribute->id) }}" method="POST"
                         class="p-4 border rounded shadow-sm bg-white">
                         @csrf
+                        @method('PUT')
                         <div class="d-flex justify-content-end align-items-center gap-3 ">
                             <button type="submit" class="btn btn-primary">
                                 <i class="mdi mdi-check-circle-outline me-1"></i> Cập nhật
@@ -30,12 +31,9 @@
                         <!-- Tên Thuộc Tính -->
                         <div class="mb-3">
                             <label for="name" class="form-label">Tên Thuộc Tính</label>
-                            <input type="text" name="name" id="name" class="form-control" value="{{$attribute->name}}"
-                                placeholder="Nhập tên thuộc tính" required>
+                            <input type="text" name="name" id="name" class="form-control"
+                                value="{{ $attribute->name }}" placeholder="Nhập tên thuộc tính" required>
                         </div>
-
-                        <!-- Nút hành động -->
-
                     </form>
 
                 </div>

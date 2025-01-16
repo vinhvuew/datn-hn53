@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class AttributesNameController extends Controller
 {
-      /**
+    /**
      * Danh sách thuộc tính
      */
     const PATH_VIEW = 'admin.attributes.';
@@ -66,7 +66,6 @@ class AttributesNameController extends Controller
         $attribute = attributes_name::findOrFail($id);
         $attribute->update([
             'name' => $request->name,
-            'data_type' => $request->data_type,
         ]);
 
         return redirect()->route('attributes.index')->with('success', 'Thuộc tính đã được cập nhật.');
