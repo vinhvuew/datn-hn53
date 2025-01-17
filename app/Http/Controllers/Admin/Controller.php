@@ -34,4 +34,8 @@ class Controller extends BaseController
     {
         return view("admin.Vouchers.view");
     }
+    public function brands()
+    {
+        return view("admin.Brands.index");
+    }
 }

@@ -13,54 +13,50 @@ class BrandsController extends Controller
      */
     public function index()
     {
-        //
+        $brands = Brands::all(); // Lấy tất cả thương hiệu từ DB
+        return view('admin.brands.index', compact('brands'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Hiển thị form thêm mới thương hiệu
     public function create()
     {
-        //
+        return view('admin.brands.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Lưu thương hiệu mới vào DB
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        Brands::create($request->all()); // Thêm mới thương hiệu
+        return redirect()->route('admin.brands.index')->with('success', 'Thương hiệu đã được thêm thành công.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Brands $brands)
+    // Hiển thị form chỉnh sửa thương hiệu
+    public function edit(Brands $brand)
     {
-        //
+        return view('admin.brands.edit', compact('brand'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Brands $brands)
+    // Cập nhật thương hiệu
+    public function update(Request $request, Brands $brand)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $brand->update($request->all());
+        return redirect()->route('admin.brands.index')->with('success', 'Thương hiệu đã được cập nhật.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Brands $brands)
+    // Xóa thương hiệu
+    public function destroy(Brands $brand)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Brands $brands)
-    {
-        //
+        $brand->delete();
+        return redirect()->route('admin.brands.index')->with('success', 'Thương hiệu đã được xóa.');
     }
 }
