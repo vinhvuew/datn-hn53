@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -31,23 +30,26 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate input data
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email|max:255',
-            'password' => 'required|min:6',
+            'password' => 'required|string|min:6|confirmed', // Validate password with confirmation
             'phone' => 'nullable|string|max:10',
             'role' => 'required|in:admin,user',
         ]);
 
+        // Create new user (data already validated)
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => $request->password, // Lưu mật khẩu không mã hóa
             'phone' => $request->phone,
             'role' => $request->role,
         ]);
 
-        return redirect()->route('admin.users.index')->with('Thành Công', 'Tạo tài khoản thành công.');
+        // Redirect back to user list with success message
+        return redirect()->route('admin.users.index')->with('success', 'Tạo tài khoản thành công.');
     }
 
     /**
@@ -65,35 +67,41 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-
+    
         // Validation rules
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'nullable|min:6',
+            'password' => 'nullable|string|min:6|confirmed',
             'phone' => 'nullable|string|max:10',
             'role' => 'required|in:admin,user',
         ]);
-
-        // Chỉ cập nhật các trường thay đổi
+    
+        // Only update fields that are provided
         $data = $request->only(['name', 'email', 'phone', 'role']);
+        
         if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
+            // If password is provided, use the raw password value
+            $data['password'] = $request->password;
         }
-
+    
+        // Update the user with validated data
         $user->update($data);
-
-        return redirect()->route('admin.users.index')->with('Thành Công', 'Cập nhật tài khoản thành công.');
+    
+        // Redirect back to user list with success message "Sửa tài khoản thành công."
+        return redirect()->route('admin.users.index')->with('success', 'Sửa tài khoản thành công.');
     }
-
+    
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
         $user = User::findOrFail($id);
+
+        // Ensure the user exists and delete
         $user->delete();
 
-        return redirect()->route('admin.users.index')->with('Thành Công', 'Xóa tài khoản thành công.');
+        return redirect()->route('admin.users.index')->with('success', 'Xóa tài khoản thành công.');
     }
 }

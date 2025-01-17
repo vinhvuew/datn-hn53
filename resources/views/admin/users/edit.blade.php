@@ -6,6 +6,17 @@
             <div class="card-header bg-primary text-white">
                 <h3>Chỉnh sửa thông tin người dùng</h3>
             </div>
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="card-body">
                 <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
                     @csrf
@@ -40,7 +51,6 @@
                         @enderror
                     </div>
 
-
                     <div class="form-group mb-3">
                         <label for="phone" class="form-label">Số điện thoại</label>
                         <input type="text" name="phone" id="phone" 
@@ -51,7 +61,6 @@
                         @enderror
                     </div>
 
-    
                     <div class="form-group mb-3">
                         <label for="role" class="form-label">Vai trò</label>
                         <select name="role" id="role" 
