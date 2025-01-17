@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id(); // Cột id tự động tăng
             $table->unsignedBigInteger('id_user'); // Cột id_user (khóa ngoại liên kết với bảng users)
-            $table->unsignedBigInteger('id_status'); // Cột id_status (khóa ngoại liên kết với bảng status_order)
+           
             $table->string('shipping_address'); // Cột địa chỉ giao hàng
             $table->decimal('total_price', 10, 2); // Cột tổng giá trị đơn hàng (2 chữ số sau dấu phẩy)
             $table->string('voucher')->nullable(); // Cột voucher (có thể để trống)
@@ -24,7 +24,7 @@ return new class extends Migration
 
             // Định nghĩa khóa ngoại
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('id_status')->references('id')->on('status_order')->onDelete('cascade');
+           
         });
     }
 
