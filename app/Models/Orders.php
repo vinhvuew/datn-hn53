@@ -18,6 +18,6 @@ class Orders extends Model
     ];
     
     public $table = 'orders';
-    public $timetamp = false;
+    public $timetamps = false;
     protected $dates = ['deleted_at'];
 }
