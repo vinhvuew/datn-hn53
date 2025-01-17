@@ -30,10 +30,12 @@ class VouchersController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'voucher' => 'required|string|max:255',
+            'voucher' => 'required|string|max:255|unique:vouchers,voucher',
             'name' => 'required|string|max:255',
             'valid_from' => 'required|date|before_or_equal:valid_to',
             'valid_to' => 'required|date|after_or_equal:valid_from',
+        ], [
+            'voucher.unique' => 'Voucher này đã tồn tại, vui lòng chọn mã khác.', // Thông báo lỗi tùy chỉnh
         ]);
     
         try {
@@ -48,7 +50,7 @@ class VouchersController extends Controller
             // Sau khi lưu thành công, quay lại trang view của vouchers
             return redirect()->route('vouchers.view')->with('success', 'them thanh cong!');
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'An error occurred while saving the voucher: ' . $e->getMessage()]);
+            return back()->withErrors(['error' => 'them that bai ' . $e->getMessage()]);
         }
     }
     

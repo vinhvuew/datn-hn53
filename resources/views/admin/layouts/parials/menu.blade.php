@@ -147,57 +147,12 @@
             </ul>
         </li>
         <li class="menu-item">
-            <a href="javascript:void(0)" class="menu-link menu-toggle">
+            <a href="/voucher" class="menu-link ">
                 <i class="menu-icon tf-icons bx bx-copy"></i>
                 <div class="text-truncate" data-i18n="Voucher">
                     Voucher
                 </div>
             </a>
-            <ul class="menu-sub">
-
-                <li class="menu-item">
-                    <a href="extended-ui-drag-and-drop.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Drag & Drop">
-                            Drag &amp; Drop
-                        </div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="extended-ui-media-player.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Media Player">
-                            Media Player
-                        </div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="extended-ui-perfect-scrollbar.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Perfect Scrollbar">
-                            Perfect Scrollbar
-                        </div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="extended-ui-star-ratings.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Star Ratings">
-                            Star Ratings
-                        </div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="extended-ui-sweetalert2.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="SweetAlert2">
-                            SweetAlert2
-                        </div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="extended-ui-text-divider.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Text Divider">
-                            Text Divider
-                        </div>
-                    </a>
-                </li>
-            </ul>
         </li>
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
