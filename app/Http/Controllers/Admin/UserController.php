@@ -33,11 +33,12 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|unique:users,email|max:255',
             'password' => 'required|min:6',
             'phone' => 'nullable|string|max:10',
             'role' => 'required|in:admin,user',
         ]);
+
         User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -45,15 +46,8 @@ class UserController extends Controller
             'phone' => $request->phone,
             'role' => $request->role,
         ]);
-        return redirect()->route('admin.users.index')->with('Thành Công','Tạo Tài Khoản Thành Công.');
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return redirect()->route('admin.users.index')->with('Thành Công', 'Tạo tài khoản thành công.');
     }
 
     /**
@@ -62,7 +56,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('admin.users.edit',compact('user'));
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -70,24 +64,26 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $user = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
-       $request->validate([
-        'name'=>'required',
-        'email'=>'required|email|unique:users,email,' . $id,
-        'password'=>'required|min:6',
-        'phone'=>'nullable|string|max:10',
-        'role'=>'required|in:admin,user',
-       ]);
-       $user->update([
-        'name'=>$request->name,
-        'email'=>$request->email,
-        'password'=>Hash::make($request->password),
-        'phone'=>$request->phone,
-        'role'=>$request->role,
-       ]);
-       return redirect()->route('admin.users.index')->with('Thành Công','Cập Nhật Thành Công');
+        // Validation rules
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'password' => 'nullable|min:6',
+            'phone' => 'nullable|string|max:10',
+            'role' => 'required|in:admin,user',
+        ]);
 
+        // Chỉ cập nhật các trường thay đổi
+        $data = $request->only(['name', 'email', 'phone', 'role']);
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $user->update($data);
+
+        return redirect()->route('admin.users.index')->with('Thành Công', 'Cập nhật tài khoản thành công.');
     }
 
     /**
@@ -95,7 +91,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        User::findOrFail($id)->delete();
-        return redirect()->route('admin.users.index')->with('Thành Công',' Xóa Tài Khoản Thành Công');
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('admin.users.index')->with('Thành Công', 'Xóa tài khoản thành công.');
     }
 }

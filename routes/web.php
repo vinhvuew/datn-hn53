@@ -23,8 +23,3 @@ Route::get("/category", [Controller::class, 'category']);
 Route::get("/product", [Controller::class, 'product']);
 Route::get("/voucher", [Controller::class, 'voucher']);
 
-// Routes Ql UserUser
-Route::prefix('admin')->name('admin.')->group(function () {
-    // Hiển thị
-    Route::resource('users', UserController::class,);
-});

@@ -3,8 +3,8 @@
 @section('content')
 
 <div class="container">
-    <h1>User Management</h1>
-    <a href="{{ route('admin.users.create') }}" class="btn btn-primary">Add User</a>
+    <h1>Quản Lý User</h1>
+    {{-- <a href="{{ route('admin.users.create') }}" class="btn btn-primary">Add User</a> --}}
 
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -14,11 +14,11 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th>Tên</th>
                 <th>Email</th>
-                <th>Phone</th>
-                <th>Role</th>
-                <th>Actions</th>
+                <th>Số Điện Thoại</th>
+                <th>Vai Trò</th>
+                <th>Chức Năng</th>
             </tr>
         </thead>
         <tbody>
@@ -30,11 +30,11 @@
                     <td>{{ $user->phone }}</td>
                     <td>{{ $user->role }}</td>
                     <td>
-                        <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
+                        <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning">Sửa</a>
                         <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger">Xóa</button>
                         </form>
                     </td>
                 </tr>
