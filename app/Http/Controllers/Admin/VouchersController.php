@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\vouchers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VouchersController extends Controller
 {
@@ -44,11 +45,13 @@ class VouchersController extends Controller
                 'valid_to' => $request->valid_to,
             ]);
     
-            return redirect()->route('voucher.index')->with('success', 'Voucher added successfully!');
+            // Sau khi lưu thành công, quay lại trang view của vouchers
+            return redirect()->route('vouchers.view')->with('success', 'them thanh cong!');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'An error occurred while saving the voucher: ' . $e->getMessage()]);
         }
     }
+    
     
     
 
@@ -63,24 +66,57 @@ class VouchersController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(vouchers $vouchers)
+    public function edit($id)
     {
-        //
+         // Tìm voucher theo ID
+    $voucher = Vouchers::findOrFail($id);
+    
+    // Trả về form chỉnh sửa
+    return view('admin.vouchers.edit', compact('voucher'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, vouchers $vouchers)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'voucher' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'valid_from' => 'required|date|before_or_equal:valid_to',
+            'valid_to' => 'required|date|after_or_equal:valid_from',
+        ]);
+    
+        try {
+            // Tìm voucher theo ID và cập nhật
+            $voucher = Vouchers::findOrFail($id);
+            $voucher->update([
+                'voucher' => $request->voucher,
+                'name' => $request->name,
+                'valid_from' => $request->valid_from,
+                'valid_to' => $request->valid_to,
+            ]);
+    
+            return redirect()->route('vouchers.view')->with('success', 'Voucher updated successfully!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'An error occurred while updating the voucher: ' . $e->getMessage()]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(vouchers $vouchers)
+    public function destroy($id)
     {
-        //
+        try {
+            // Tìm đơn hàng theo ID và xóa
+            DB::table('vouchers')->where('id', $id)->delete();
+    
+            // Redirect với thông báo thành công
+            return redirect()->route('vouchers.view')->with('success', 'Xóa đơn hàng thành công!');
+        } catch (\Exception $e) {
+            // Trường hợp lỗi
+            return redirect()->route('vouchers.view')->with('error', 'Xóa đơn hàng thất bại!');
+        }
     }
 }

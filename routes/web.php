@@ -24,13 +24,22 @@ Route::get("/", [Controller::class, 'index']);
 Route::get("/category", [Controller::class, 'category']);
 Route::get("/product", [Controller::class, 'product']);
 
-Route::get("/voucher", [VouchersController::class, 'index']);
+// Route hiển thị danh sách vouchers
+Route::get('/voucher', [VouchersController::class, 'index'])->name('vouchers.view');
+
 use App\Http\Controllers\VoucherController;
 
 // Route để hiển thị form thêm voucher
 Route::get('/vouchers/create', [VouchersController::class, 'create'])->name('voucher.create');
-
 // Route để xử lý thêm voucher
 Route::post('/vouchers', [VouchersController::class, 'store'])->name('voucher.store');
+
+// Route để hiển thị form chỉnh sửa voucher
+Route::get('/vouchers/{id}/edit', [VouchersController::class, 'edit'])->name('vouchers.edit');
+// Route để xử lý cập nhật voucher
+Route::put('/vouchers/{id}', [VouchersController::class, 'update'])->name('vouchers.update');
+
+// Route để xử lý xóaxóa voucher
+Route::delete('/vouchers/{id}', [VouchersController::class, 'destroy'])->name('voucher.destroy');
 
 

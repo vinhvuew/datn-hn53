@@ -10,7 +10,7 @@
         <div class="card">
             <div class="d-flex justify-content-between align-items-center p-3">
                 <h5 class="card-title mb-0">Danh sách Vouchers</h5>
-                <a href="" class="btn btn-primary">Thêm mới</a>
+                <a href="{{ route('voucher.create') }}" class="btn btn-primary">Thêm mới</a>
             </div>
             <div class="card-datatable table-responsive">
                 <table class="datatables-category-list table border-top">
@@ -33,12 +33,13 @@
                                 <td>{{ $voucher->valid_from }}</td>
                                 <td>{{ $voucher->valid_to }}</td>
                                 <td class="text-center">
-                                    <a href="" class="btn btn-warning btn-sm">Sửa</a>
-                                    <form action="" method="POST" style="display: inline-block;">
+                                    <a href="{{ route('vouchers.edit', $voucher->id) }}" class="btn btn-warning btn-sm">Sửa</a>
+                                    <form action="{{ route('voucher.destroy', $voucher->id) }}" method="POST" style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">Xóa</button>
                                     </form>
+                                    
                                 </td>
                             </tr>
                         @endforeach
