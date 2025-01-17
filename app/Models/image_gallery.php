@@ -10,11 +10,12 @@ class image_gallery extends Model
     use HasFactory;
     protected $fillable = [
         'img',
+      'created_at',
        
        
     ];
     public $table = 'image_gallery';
-    public $timetamp = false;
+    public $timestamp = true;
     protected $dates = ['deleted_at'];
     
 }

@@ -23,6 +23,8 @@ Route::get("/category", [Controller::class, 'category']);
 Route::get("/product", [Controller::class, 'product']);
 Route::get("/voucher", [Controller::class, 'voucher']);
 Route::get('/image', [ImageGalleryController::class, 'index'])->name('image.index');
+Route::get('/image/create', [ImageGalleryController::class, 'create'])->name('image.create');
+Route::post('/image/store', [ImageGalleryController::class, 'store'])->name('image.store');
 
 
 

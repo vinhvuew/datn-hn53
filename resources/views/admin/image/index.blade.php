@@ -2,10 +2,11 @@
 @section('content')
 
 <div class="cart">
-    <h3 class="text-center">Quản Lí Ảnh</h3>
+    <h3 class="text-center"><br>Quản Lý Ảnh</h3>
 
     <div class="cart-boby">
-        {{-- <a href="{{route('image_gallery.create')}}" class="btn btn-success">Thêm Ảnh</a> --}}
+        
+           <a href="{{route('image.create') }}" class="btn btn-success" >Thêm Ảnh</a>
 
         <table class="table table-striped tab-hover">
             <thead>
@@ -21,17 +22,20 @@
                 @foreach($listImage as $image)
                     <tr>
                         <td>{{ $image->id }}</td>
-                        <td><img src="{{ asset('storage/' . $image->img) }}" alt="Image" width="100"></td> 
-                        <td>{{ $image->created_at->format('d/m/Y H:i') }}</td>
-                        <td>{{ $image->updated_at->format('d/m/Y H:i') }}</td>
                         <td>
-                            <!-- Thêm các nút chức năng như chỉnh sửa, xóa nếu cần -->
-                            {{-- <a href="{{ route('image.edit', $image->id) }}" class="btn btn-warning">Sửa</a> --}}
-                            {{-- <form action="{{ route('image.destroy', $image->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Xóa</button>
-                            </form> --}}
+                            <img src="{{ Storage::url($image->img) }}" alt="Image" width="100px" height="100px">
+
+                        </td>
+                       
+                       <td>{{ $image->created_at->format('d/m/Y h:i:s') }}</td>
+                     
+                        
+                        <td>{{ $image->updated_at->format('d/m/Y h:i:s') }}</td>
+                        <td>
+                            
+                            <a href="" class="btn btn-warning">Sửa</a>
+                            <a href="" class="btn btn-danger">Xóa</a>
+                           
                         </td>
                     </tr>
                 @endforeach
