@@ -23,7 +23,7 @@ Route::get("/category", [Controller::class, 'category']);
 Route::get("/product", [Controller::class, 'product']);
 Route::get("/voucher", [Controller::class, 'voucher']);
 
-Route::prefix('admin/')->group(function () {
+Route::prefix('admin')->group(function () {
     Route::resource('users', UserController::class);
     
 });
