@@ -10,7 +10,7 @@
         <div class="card">
             <div class="d-flex justify-content-between align-items-center p-3">
                 <h5 class="card-title mb-0">Danh sách Vouchers</h5>
-                <a href="{{ route('voucher.create') }}" class="btn btn-primary">Thêm mới</a>
+               
             </div>
             <div class="card-datatable table-responsive">
                 <table class="datatables-category-list table border-top">
