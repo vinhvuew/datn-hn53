@@ -45,11 +45,9 @@ Route::delete('/vouchers/{id}', [VouchersController::class, 'destroy'])->name('v
 
 
 
-Route::get('/brands', [BrandsController::class, 'index'])->name('brands.index');
-Route::get('/brands/create', [BrandsController::class, 'create'])->name('brands.create');
-
-
-
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('brands', BrandsController::class);
+});
 
 
 
