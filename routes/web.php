@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\VouchersController;
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\ProductController;
 
+use App\Http\Controllers\Admin\UserController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,8 +21,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-
 
 Route::get("/", [Controller::class, 'index']);
 Route::get("/category", [Controller::class, 'category']);
@@ -47,7 +47,10 @@ Route::delete('/vouchers/{id}', [VouchersController::class, 'destroy'])->name('v
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('brands', BrandsController::class);
+    Route::resource('users', UserController::class);
 });
+
+
 
 
 

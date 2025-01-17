@@ -38,4 +38,8 @@ class Controller extends BaseController
     {
         return view("admin.Brands.index");
     }
+    public function User()
+    {
+        return view("admin.users.create");
+    }
 }

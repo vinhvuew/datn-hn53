@@ -211,74 +211,84 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="app-user-list.html" class="menu-link">
+                    <a href="{{ route('admin.users.index') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="List">List</div>
                     </a>
                 </li>
-
                 <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <div class="text-truncate" data-i18n="View">View</div>
+                    <a href="{{ route('admin.users.create') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Create">Add</div>
                     </a>
-                    <ul class="menu-sub">
-                        <li class="menu-item">
-                            <a href="app-user-view-account.html" class="menu-link">
-                                <div class="text-truncate" data-i18n="Account">
-                                    Account
-                                </div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="app-user-view-security.html" class="menu-link">
-                                <div class="text-truncate" data-i18n="Security">
-                                    Security
-                                </div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="app-user-view-billing.html" class="menu-link">
-                                <div class="text-truncate" data-i18n="Billing & Plans">
-                                    Billing & Plans
-                                </div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="app-user-view-notifications.html" class="menu-link">
-                                <div class="text-truncate" data-i18n="Notifications">
-                                    Notifications
-                                </div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="app-user-view-connections.html" class="menu-link">
-                                <div class="text-truncate" data-i18n="Connections">
-                                    Connections
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
-            </ul>
-        </li>
+                {{-- <li class="menu-item">
+                    <a href="{{ route('admin.users.edit') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Edit">Edit</div>
+                    </a>
+                </li> --}}
+
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-chart"></i>
-                <div class="text-truncate" data-i18n="bình luận">bình luận</div>
+                <div class="text-truncate" data-i18n="View">View</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="charts-apex.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Apex Charts">
-                            Apex Charts
+                    <a href="app-user-view-account.html" class="menu-link">
+                        <div class="text-truncate" data-i18n="Account">
+                            Account
                         </div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="charts-chartjs.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="ChartJS">ChartJS</div>
+                    <a href="app-user-view-security.html" class="menu-link">
+                        <div class="text-truncate" data-i18n="Security">
+                            Security
+                        </div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="app-user-view-billing.html" class="menu-link">
+                        <div class="text-truncate" data-i18n="Billing & Plans">
+                            Billing & Plans
+                        </div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="app-user-view-notifications.html" class="menu-link">
+                        <div class="text-truncate" data-i18n="Notifications">
+                            Notifications
+                        </div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="app-user-view-connections.html" class="menu-link">
+                        <div class="text-truncate" data-i18n="Connections">
+                            Connections
+                        </div>
                     </a>
                 </li>
             </ul>
         </li>
+    </ul>
+    </li>
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-chart"></i>
+            <div class="text-truncate" data-i18n="bình luận">bình luận</div>
+        </a>
+        <ul class="menu-sub">
+            <li class="menu-item">
+                <a href="charts-apex.html" class="menu-link">
+                    <div class="text-truncate" data-i18n="Apex Charts">
+                        Apex Charts
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="charts-chartjs.html" class="menu-link">
+                    <div class="text-truncate" data-i18n="ChartJS">ChartJS</div>
+                </a>
+            </li>
+        </ul>
+    </li>
 
 </aside>
