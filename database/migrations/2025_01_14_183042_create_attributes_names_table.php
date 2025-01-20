@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('status_orders', function (Blueprint $table) {
+        Schema::create('attributes', function (Blueprint $table) {
             $table->id();
-            $table->string('status_name'); // Tên trạng thái đơn hàng
-            $table->text('description')->nullable(); // Mô tả trạng thái
-            $table->timestamps(); // Timestamps: created_at, updated_at
+            $table->string('name'); // Tên thuộc tính
+            $table->string('data_type')->default('string'); // Kiểu dữ liệu của thuộc tính
+            $table->timestamps();
         });
     }
 
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('status_orders');
+        Schema::dropIfExists('attributes_names');
     }
 };

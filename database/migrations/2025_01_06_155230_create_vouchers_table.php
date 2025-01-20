@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('vouchers', function (Blueprint $table) {
-            $table->id(); // Cột id tự động tăng
-            $table->string('voucher')->unique(); // Mã voucher, đảm bảo duy nhất
-            $table->string('name'); // Tên của voucher
-            $table->timestamps(); // Cột created_at và updated_at
+            $table->id();
+            $table->string('voucher')->unique();
+            $table->string('name');
+            $table->string('valid_from');
+            $table->string('valid_to');
+            $table->timestamps();
         });
     }
 

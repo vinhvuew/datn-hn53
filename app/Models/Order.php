@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Orders extends Model
+class Order extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -14,6 +14,11 @@ class Orders extends Model
         'voucher',
         'pay',
         'status_pay',
-       
+
     ];
+
+    public $table = 'orders';
+    public $timestamp = false;
+    protected $dates = ['deleted_at'];
+
 }

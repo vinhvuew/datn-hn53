@@ -9,8 +9,7 @@ class image_gallery extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'product_id',
         'img',
-       
-       
     ];
 }

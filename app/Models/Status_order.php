@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class status_products extends Model
+class Status_order extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'code_color',
-        'code_size',
+        'voucher',
+        'status_pay',
+        'payment_method',
         'name_status',
        
     ];
