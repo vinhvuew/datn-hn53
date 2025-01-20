@@ -15,7 +15,7 @@
             <div class="app-ecommerce">
 
                 <!-- Add Product -->
-                <form action="{{ route('products.store') }}" method="post">
+                <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
 
@@ -24,15 +24,14 @@
                             <p class="text-muted">Orders placed across your store</p>
                         </div>
                         <div class="d-flex align-content-center flex-wrap gap-3">
-                            <button class="btn btn-label-secondary">Discard</button>
-                            <button class="btn btn-label-primary">Save draft</button>
-                            <button type="submit" class="btn btn-primary">Publish product</button>
+                            <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">
+                                <i class="mdi mdi-arrow-left me-1"></i> Quay lại
+                            </a>
+                            <button type="reset" class="btn btn-secondary"> Nhập lại</button>
+                            <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
                         </div>
-
                     </div>
-
                     <div class="row">
-
                         <!-- First column-->
                         <div class="col-12 col-lg-8">
                             <!-- Product Information -->
@@ -79,287 +78,134 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /Product Information -->
-                            <!-- Media -->
-
-                            <!-- /Media -->
-                            <!-- Variants -->
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Variants</h5>
+                                    <h5 class="card-title mb-0">Album ảnh</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form class="form-repeater">
-                                        <div data-repeater-list="group-a">
-                                            <div data-repeater-item>
-                                                <div class="row">
-
-                                                    <div class="mb-3 col-4">
-                                                        <label class="form-label" for="form-repeater-1-1">Options</label>
-                                                        <select id="form-repeater-1-1" class="select2 form-select"
-                                                            data-placeholder="Size">
-                                                            <option value="">Size</option>
-                                                            <option value="size">Size</option>
-                                                            <option value="color">Color</option>
-                                                            <option value="weight">Weight</option>
-                                                            <option value="smell">Smell</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="mb-3 col-8">
-                                                        <label class="form-label invisible" for="form-repeater-1-2">Not
-                                                            visible</label>
-                                                        <input type="number" id="form-repeater-1-2" class="form-control"
-                                                            placeholder="Enter size" />
-                                                    </div>
-
+                                    <div class="row gy-3" id="gallery-container">
+                                        <div id="gallery_1">
+                                            <label for="gallery_input_1" class="form-label">Gallery 1</label>
+                                            <input type="file" class="form-control" name="product_galleries[]"
+                                                id="gallery_input_1">
+                                            @if ($errors->has('product_galleries'))
+                                                <div class="text-danger">
+                                                    {{ $errors->first('product_galleries') }}
                                                 </div>
-                                            </div>
+                                            @endif
                                         </div>
-                                        <div>
-                                            <button class="btn btn-primary" data-repeater-create>
-                                                Add another option
-                                            </button>
-                                        </div>
-                                    </form>
+                                    </div>
+                                    <button type="button" class="btn btn-primary mt-3" id="add-gallery"><i
+                                            class="mdi mdi-plus me-0 me-sm-1"></i>Thêm</button>
                                 </div>
                             </div>
-                            <!-- /Variants -->
-                            <!-- Inventory -->
+
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Inventory</h5>
+                                    <h5 class="card-title">Thuộc Tính</h5>
+                                    <p>Thêm mới thuộc tính giúp sản phẩm có nhiều lựa chọn, như kích cỡ hay màu sắc.</p>
                                 </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <!-- Navigation -->
-                                        <div class="col-12 col-md-4 mx-auto card-separator">
-                                            <div class="d-flex justify-content-between flex-column mb-3 mb-md-0 pe-md-3">
-                                                <ul class="nav nav-align-left nav-pills flex-column">
-                                                    <li class="nav-item">
-                                                        <button class="nav-link active" data-bs-toggle="tab"
-                                                            data-bs-target="#restock">
-                                                            <i class="bx bx-cube me-2"></i>
-                                                            <span class="align-middle">Restock</span>
-                                                        </button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button class="nav-link" data-bs-toggle="tab"
-                                                            data-bs-target="#shipping">
-                                                            <i class="bx bx-car me-2"></i>
-                                                            <span class="align-middle">Shipping</span>
-                                                        </button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button class="nav-link" data-bs-toggle="tab"
-                                                            data-bs-target="#global-delivery">
-                                                            <i class="bx bx-globe me-2"></i>
-                                                            <span class="align-middle">Global Delivery</span>
-                                                        </button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button class="nav-link" data-bs-toggle="tab"
-                                                            data-bs-target="#attributes">
-                                                            <i class="bx bx-link me-2"></i>
-                                                            <span class="align-middle">Attributes</span>
-                                                        </button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button class="nav-link" data-bs-toggle="tab"
-                                                            data-bs-target="#advanced">
-                                                            <i class="bx bx-lock me-2"></i>
-                                                            <span class="align-middle">Advanced</span>
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <!-- /Navigation -->
-                                        <!-- Options -->
-                                        <div class="col-12 col-md-8 pt-4 pt-md-0">
-                                            <div class="tab-content p-0 pe-md-5 ps-md-3">
-                                                <!-- Restock Tab -->
-                                                <div class="tab-pane fade show active" id="restock" role="tabpanel">
-                                                    <h5>Options</h5>
-                                                    <label class="form-label" for="ecommerce-product-stock">Add to
-                                                        Stock</label>
-                                                    <div class="row mb-3 g-3">
-                                                        <div class="col-12 col-sm-9">
-                                                            <input type="number" class="form-control"
-                                                                id="ecommerce-product-stock" placeholder="Quantity"
-                                                                name="quantitys" aria-label="Quantity">
-                                                        </div>
-                                                        <div class="col-12 col-sm-3">
-                                                            <button class="btn btn-primary"><i
-                                                                    class='bx bx-check me-2'></i>Confirm</button>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <h6>Product in stock now: <span class="text-muted">54</span></h6>
-                                                        <h6>Product in transit: <span class="text-muted">390</span></h6>
-                                                        <h6>Last time restocked: <span class="text-muted">24th June,
-                                                                2023</span></h6>
-                                                        <h6>Total stock over lifetime: <span class="text-muted">2430</span>
-                                                        </h6>
-                                                    </div>
+                                <div class="card-body" style="margin-top: -25px">
+                                    <input type="checkbox" id="hasVariants" class="form-check-input">
+                                    <label class="form-check-label" for="hasVariants">Sản phẩm này có biến thể</label>
+
+                                    <!-- Biến thể sản phẩm (ẩn theo mặc định) -->
+                                    <div id="variantsSection" style="display: none;">
+                                        <div id="variants" class="mb-3">
+                                            <div class="variant">
+                                                <h5 class="mt-3">Thuộc Tính 1</h5>
+                                                <div class="mb-3">
+                                                    <label for="variant_sku_0">Mã biến thể</label>
+                                                    <input type="text" id="variant_sku_0" name="variants[0][sku]"
+                                                        placeholder="Mã biến thể" class="form-control"
+                                                        value="{{ old('variant_sku_0') }}">
                                                 </div>
-                                                <!-- Shipping Tab -->
-                                                <div class="tab-pane fade" id="shipping" role="tabpanel">
-                                                    <h5 class="mb-4">Shipping Type</h5>
-                                                    <div>
-                                                        <div class="form-check mb-3">
-                                                            <input class="form-check-input" type="radio"
-                                                                name="shippingType" id="seller">
-                                                            <label class="form-check-label" for="seller">
-                                                                <span class="mb-1 h6">Fulfilled by Seller</span><br>
-                                                                <small class="text-muted">You'll be responsible for product
-                                                                    delivery.<br>
-                                                                    Any damage or delay during shipping may cost you a
-                                                                    Damage
-                                                                    fee.</small>
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check mb-5">
-                                                            <input class="form-check-input" type="radio"
-                                                                name="shippingType" id="companyName" checked>
-                                                            <label class="form-check-label" for="companyName">
-                                                                <span class="mb-1 h6">Fulfilled by Company name &nbsp;<span
-                                                                        class="badge rounded-2 badge-warning bg-label-warning fs-tiny py-1">RECOMMENDED</span></span>
-                                                                <br><small class="text-muted">Your product, Our
-                                                                    responsibility.<br>
-                                                                    For a measly fee, we will handle the delivery process
-                                                                    for
-                                                                    you.</small>
-                                                            </label>
-                                                        </div>
-                                                        <p class="mb-0">See our <a href="javascript:void(0);">Delivery
-                                                                terms
-                                                                and conditions</a> for details</p>
-                                                    </div>
+
+                                                <div class="mb-3">
+                                                    <label for="variant_selling_price_0">Giá điều chỉnh</label>
+                                                    <input type="number" id="variant_selling_price_0"
+                                                        name="variants[0][selling_price]" class="form-control"
+                                                        step="0.01" placeholder="Giá điều chỉnh" max="99999999"
+                                                        value="{{ old('variants[0][selling_price]') }}">
                                                 </div>
-                                                <!-- Global Delivery Tab -->
-                                                <div class="tab-pane fade" id="global-delivery" role="tabpanel">
-                                                    <h5 class="mb-4">Global Delivery</h5>
-                                                    <!-- Worldwide delivery -->
-                                                    <div class="form-check mb-3">
-                                                        <input class="form-check-input" type="radio" name="globalDel"
-                                                            id="worldwide">
-                                                        <label class="form-check-label" for="worldwide">
-                                                            <span class="mb-1 h6">Worldwide delivery</span><br>
-                                                            <small class="text-muted">Only available with Shipping method:
-                                                                <a href="javascript:void(0);">Fulfilled by Company
-                                                                    name</a></small>
-                                                        </label>
-                                                    </div>
-                                                    <!-- Global delivery -->
-                                                    <div class="form-check mb-3">
-                                                        <input class="form-check-input" type="radio" name="globalDel"
-                                                            checked>
-                                                        <label class="form-check-label w-75 pe-5" for="country-selected">
-                                                            <span class="mb-2 h6">Selected Countries</span>
-                                                            <input type="text" class="form-control"
-                                                                placeholder="Type Country name" id="country-selected">
-                                                        </label>
-                                                    </div>
-                                                    <!-- Local delivery -->
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="globalDel"
-                                                            id="local">
-                                                        <label class="form-check-label" for="local">
-                                                            <span class="mb-1 h6">Local delivery</span><br>
-                                                            <small class="text-muted">Deliver to your country of residence
-                                                                :
-                                                                <a href="javascript:void(0);">Change profile
-                                                                    address</a></small>
-                                                        </label>
-                                                    </div>
+
+                                                <div class="mb-4">
+                                                    <label for="variant_quantity_0">Số lượng tồn kho</label>
+                                                    <input type="number" id="variant_quantity_0"
+                                                        name="variants[0][quantity]" class="form-control"
+                                                        placeholder="Số lượng tồn kho"
+                                                        value="{{ old('variants[0][quantity]') }}">
                                                 </div>
-                                                <!-- Attributes Tab -->
-                                                <div class="tab-pane fade" id="attributes" role="tabpanel">
-                                                    <h5 class="mb-4">Attributes</h5>
-                                                    <div>
-                                                        <!-- Fragile Product -->
-                                                        <div class="form-check mb-3">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="fragile" id="fragile">
-                                                            <label class="form-check-label" for="fragile">
-                                                                <span class="mb-0 h6">Fragile Product</span>
-                                                            </label>
-                                                        </div>
-                                                        <!-- Biodegradable -->
-                                                        <div class="form-check mb-3">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="biodegradable" id="biodegradable">
-                                                            <label class="form-check-label" for="biodegradable">
-                                                                <span class="mb-0 h6">Biodegradable</span>
-                                                            </label>
-                                                        </div>
-                                                        <!-- Frozen Product -->
-                                                        <div class="form-check mb-3">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="frozen" checked>
-                                                            <label class="form-check-label w-75 pe-5" for="frozen">
-                                                                <span class="mb-1 h6">Frozen Product</span>
-                                                                <input type="number" class="form-control"
-                                                                    placeholder="Max. allowed Temperature" id="frozen">
-                                                            </label>
-                                                        </div>
-                                                        <!-- Exp Date -->
-                                                        <div class="form-check mb-4">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="expDate" id="expDate" checked>
-                                                            <label class="form-check-label w-75 pe-5" for="date-input">
-                                                                <span class="mb-1 h6">Expiry Date of Product</span>
-                                                                <input type="date" class="product-date form-control"
-                                                                    id="date-input">
-                                                            </label>
-                                                        </div>
-                                                    </div>
+                                                <div class="mb-3">
+                                                    <input type="file" id="variant_image_0" name="variants[0][image]"
+                                                        class="form-control">
                                                 </div>
-                                                <!-- /Attributes Tab -->
-                                                <!-- Advanced Tab -->
-                                                <div class="tab-pane fade" id="advanced" role="tabpanel">
-                                                    <h5 class="mb-4">Advanced</h5>
-                                                    <div class="row">
-                                                        <!-- Product Id Type -->
-                                                        <div class="col">
-                                                            <label class="form-label" for="product-id">
-                                                                <span class="mb-0 h6">Product ID Type</span>
-                                                            </label>
-                                                            <select id="product-id" class="select2 form-select"
-                                                                data-placeholder="ISBN">
-                                                                <option value="">ISBN</option>
-                                                                <option value="ISBN">ISBN</option>
-                                                                <option value="UPC">UPC</option>
-                                                                <option value="EAN">EAN</option>
-                                                                <option value="JAN">JAN</option>
+                                                <!-- Thuộc tính của biến thể -->
+                                                <div id="attributesSection_0 mb-3">
+                                                    @foreach ($attributes as $attribute)
+                                                        <div class="mt-3">
+                                                            <label
+                                                                for="variant_attribute_{{ $attribute->id }}_0">{{ $attribute->name }}</label>
+                                                            <select class="select2 form-select"
+                                                                id="variant_attribute_{{ $attribute->id }}_0"
+                                                                name="variants[0][attributes][{{ $attribute->id }}]"
+                                                                class="form-control">
+                                                                <option value="">Chọn {{ $attribute->name }}</option>
+                                                                @foreach ($attribute->values as $value)
+                                                                    <option value="{{ $value->id }}">
+                                                                        {{ $value->value }}
+                                                                    </option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
-                                                        <!-- Product Id -->
-                                                        <div class="col">
-                                                            <label class="form-label" for="product-id-1">
-                                                                <span class="mb-0 h6">Product ID</span>
-                                                            </label>
-                                                            <input type="number" id="product-id-1" class="form-control"
-                                                                placeholder="ISBN Number" />
-                                                        </div>
-
-                                                    </div>
+                                                    @endforeach
                                                 </div>
-                                                <!-- /Advanced Tab -->
-
                                             </div>
                                         </div>
-                                        <!-- /Options-->
+                                        <button type="button" id="add-variant" class="btn btn-primary "><i
+                                                class="mdi mdi-plus me-0 me-sm-1"></i>Thêm Thuộc
+                                            Tính</button>
                                     </div>
                                 </div>
                             </div>
-                            <!-- /Inventory -->
+                            <!-- /Product Information -->
                         </div>
-                        <!-- /Second column -->
-
                         <!-- Second column -->
                         <div class="col-12 col-lg-4">
+                            <!-- /danh mục -->
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Pricing</h5>
+                                </div>
+                                <div class="card-body">
+                                    {{-- danh mục --}}
+                                    <div class="mb-3">
+                                        <label for="category_id" class="form-label">Danh mục</label>
+                                        <select name="category_id" class="form-select">
+                                            <option value="" disabled selected>Chọn danh mục</option>
+                                            @foreach ($category as $categori)
+                                                <option value="{{ $categori->id }}">{{ $categori->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('category_id')
+                                            <div class="text-danger mt-1">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <!-- thương hiệu -->
+                                    <div class="mb-3">
+                                        <label for="brand_id" class="form-label">Thương hiệu</label>
+                                        <select name="brand_id" class="form-select">
+                                            <option value="" disabled selected>Chọn thương hiệu</option>
+                                            @foreach ($brands as $brand)
+                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('brand_id')
+                                            <div class="text-danger mt-1">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
                             <!-- Pricing Card -->
                             <div class="card mb-4">
                                 <div class="card-header">
@@ -379,100 +225,9 @@
                                         <input type="number" class="form-control" id="price_sale"
                                             placeholder="price_sale" name="price_sale" aria-label="price_sale">
                                     </div>
-                                    <!-- Charge tax check box -->
-                                    <div class="form-check mb-2">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="price-charge-tax" checked>
-                                        <label class="form-label" for="price-charge-tax">
-                                            Charge tax on this product
-                                        </label>
-                                    </div>
-                                    <!-- Instock switch -->
-                                    <div class="d-flex justify-content-between align-items-center border-top pt-3">
-                                        <span class="mb-0 h6">In stock</span>
-                                        <div class="w-25 d-flex justify-content-end">
-                                            <label class="switch switch-primary switch-sm me-4 pe-2">
-                                                <input type="checkbox" class="switch-input" checked="">
-                                                <span class="switch-toggle-slider">
-                                                    <span class="switch-on">
-                                                        <span class="switch-off"></span>
-                                                    </span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <!-- /Pricing Card -->
-                            <!-- Organize Card -->
-                            <div class="card mb-4">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">Organize</h5>
-                                </div>
-                                <div class="card-body">
-                                    <!-- Vendor -->
-                                    <div class="mb-3 col ecommerce-select2-dropdown">
-                                        <label class="form-label mb-1" for="vendor">
-                                            Vendor
-                                        </label>
-                                        <select id="vendor" class="select2 form-select"
-                                            data-placeholder="Select Vendor">
-                                            <option value="">Select Vendor</option>
-                                            <option value="men-clothing">Men's Clothing</option>
-                                            <option value="women-clothing">Women's-clothing</option>
-                                            <option value="kid-clothing">Kid's-clothing</option>
-                                        </select>
-                                    </div>
-                                    <!-- Category -->
-                                    <div class="mb-3 col ecommerce-select2-dropdown">
-                                        <label class="form-label mb-1 d-flex justify-content-between align-items-center"
-                                            for="category-org">
-                                            <span>Category</span><a href="javascript:void(0);" class="fw-medium">Add new
-                                                category</a>
-                                        </label>
-                                        <select id="category-org" class="select2 form-select"
-                                            data-placeholder="Select Category">
-                                            <option value="">Select Category</option>
-                                            <option value="Household">Household</option>
-                                            <option value="Management">Management</option>
-                                            <option value="Electronics">Electronics</option>
-                                            <option value="Office">Office</option>
-                                            <option value="Automotive">Automotive</option>
-                                        </select>
-                                    </div>
-                                    <!-- Collection -->
-                                    <div class="mb-3 col ecommerce-select2-dropdown">
-                                        <label class="form-label mb-1" for="collection">Collection
-                                        </label>
-                                        <select id="collection" class="select2 form-select"
-                                            data-placeholder="Collection">
-                                            <option value="">Collection</option>
-                                            <option value="men-clothing">Men's Clothing</option>
-                                            <option value="women-clothing">Women's-clothing</option>
-                                            <option value="kid-clothing">Kid's-clothing</option>
-                                        </select>
-                                    </div>
-                                    <!-- Status -->
-                                    <div class="mb-3 col ecommerce-select2-dropdown">
-                                        <label class="form-label mb-1" for="status-org">Status
-                                        </label>
-                                        <select id="status-org" class="select2 form-select" data-placeholder="Published">
-                                            <option value="">Published</option>
-                                            <option value="Published">Published</option>
-                                            <option value="Scheduled">Scheduled</option>
-                                            <option value="Inactive">Inactive</option>
-                                        </select>
-                                    </div>
-                                    <!-- Tags -->
-                                    <div class="mb-3">
-                                        <label for="ecommerce-product-tags" class="form-label mb-1">Tags</label>
-                                        <input id="ecommerce-product-tags" class="form-control"
-                                            name="ecommerce-product-tags" value="Normal,Standard,Premium"
-                                            aria-label="Product Tags" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /Organize Card -->
                         </div>
                         <!-- /Second column -->
                     </div>
@@ -480,12 +235,90 @@
             </div>
         </div>
         <!-- / Content -->
-
-
-        <div class="content-backdrop fade"></div>
     </div>
 @endsection
 @section('style-libs')
 @endsection
 @section('script-libs')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let galleryCount = 1;
+
+            const galleryContainer = document.getElementById('gallery-container');
+            const addGalleryButton = document.getElementById('add-gallery');
+
+            addGalleryButton.addEventListener('click', function() {
+                galleryCount++;
+                const newGalleryDiv = document.createElement('div');
+                newGalleryDiv.classList.add('col-12');
+                newGalleryDiv.id = `gallery_${galleryCount}`;
+                newGalleryDiv.innerHTML = `
+            <label for="gallery_input_${galleryCount}" class="form-label">Gallery ${galleryCount}</label>
+            <input type="file" class="form-control" name="product_galleries[]" id="gallery_input_${galleryCount}">
+        `;
+                galleryContainer.appendChild(newGalleryDiv);
+            });
+        });
+    </script>
+    <script>
+        // JSON cho dữ liệu thuộc tính và các giá trị của chúng
+        const attributesData = @json($attributes);
+
+        document.getElementById('hasVariants').addEventListener('change', function() {
+            const variantsSection = document.getElementById('variantsSection');
+            variantsSection.style.display = this.checked ? 'block' : 'none';
+        });
+
+        let variantIndex = 1;
+        document.getElementById('add-variant').addEventListener('click', function() {
+            let variantsDiv = document.getElementById('variants');
+            let newVariantDiv = document.createElement('div');
+            newVariantDiv.classList.add('variant');
+            newVariantDiv.innerHTML = `
+        <h5 class="mt-3">Thuộc Tính ${variantIndex + 1}</h5>
+        <div class="mb-3">
+        <label for="variant_sku_${variantIndex}">Mã biến thể</label>
+        <input type="text" id="variant_sku_${variantIndex}" name="variants[${variantIndex}][sku]" placeholder="Mã biến thể" class="form-control">
+        </div>
+
+        <div class="mb-3">
+        <label for="variant_selling_price_${variantIndex}">Giá điều chỉnh</label>
+        <input type="number" id="variant_selling_price_${variantIndex}" name="variants[${variantIndex}][selling_price]" max="99999999" class="form-control" step="0.01" placeholder="Giá điều chỉnh">
+        </div>
+
+        <div class="mb-4">
+        <label for="variant_quantity_${variantIndex}">Số lượng tồn kho</label>
+        <input type="number" id="variant_quantity_${variantIndex}" name="variants[${variantIndex}][quantity]" class="form-control" placeholder="Số lượng tồn kho">
+        </div>
+
+        <div class="mb-3">
+        <input type="file" id="variant_image_${variantIndex}" name="variants[${variantIndex}][image]" class="form-control">
+        </div>
+            ${generateAttributeFields(variantIndex)}
+`;
+            variantsDiv.appendChild(newVariantDiv);
+            variantIndex++;
+        });
+
+        function generateAttributeFields(index) {
+            let fieldsHTML = '';
+            attributesData.forEach(attribute => {
+                let optionsHTML = `<option value="">Chọn ${attribute.name}</option>`;
+
+                attribute.values.forEach(value => {
+                    optionsHTML += `<option value="${value.id}">${value.value}</option>`;
+                });
+
+                fieldsHTML += `
+        <div class="mb-3">
+            <label for="variant_attribute_${attribute.id}_${index}">${attribute.name}</label>
+            <select id="variant_attribute_${attribute.id}_${index}" name="variants[${index}][attributes][${attribute.id}]" class="form-control">
+                ${optionsHTML}
+            </select>
+        </div>
+    `;
+            });
+            return fieldsHTML;
+        }
+    </script>
 @endsection

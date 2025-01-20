@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\attributes_name;
+use App\Models\attribute;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,9 +12,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attributes_values', function (Blueprint $table) {
+        Schema::create('attribute_values', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(attributes_name::class)->constrained();
+            $table->foreignIdFor(Attribute::class)->constrained();
             $table->string('value');
             $table->timestamps();
         });

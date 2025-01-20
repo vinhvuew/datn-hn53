@@ -39,21 +39,21 @@ class Product extends Model
 
     public function variants()
     {
-        return $this->hasMany(variant::class, 'product_id');
+        return $this->hasMany(Variant::class);
     }
 
     public function brand()
     {
-        return $this->belongsTo(Brand::class, 'brand_id');
+        return $this->belongsTo(Brand::class);
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'id_category');
+        return $this->belongsTo(Category::class);
     }
 
     public function images()
     {
-        return $this->belongsTo(image_gallery::class, 'id_img');
+        return $this->belongsTo(image_gallery::class);
     }
 }

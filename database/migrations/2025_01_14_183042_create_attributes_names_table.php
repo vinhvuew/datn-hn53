@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attributes_names', function (Blueprint $table) {
+        Schema::create('attributes', function (Blueprint $table) {
             $table->id();
             $table->string('name'); // Tên thuộc tính
             $table->string('data_type')->default('string'); // Kiểu dữ liệu của thuộc tính

@@ -122,27 +122,19 @@
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
                 <div class="text-truncate" data-i18n="Sản phẩm">Sản phẩm</div>
             </a>
+
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="app-invoice-list.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="List">List</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-invoice-preview.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Preview">Preview</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-invoice-edit.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Edit">Edit</div>
-                    </a>
-                </li>
-                <li class="menu-item">
                     <a href="{{ route('products.create') }}" class="menu-link">
-                        <div class="text-truncate" data-i18n="Add">Add</div>
+                        <div class="text-truncate" data-i18n="Thêm sản phẩm">Thêm sản phẩm</div>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{ route('products.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Danh sách sản phẩm">Danh sách sản phẩm</div>
+                    </a>
+                </li>
+
             </ul>
         </li>
         <li class="menu-item">

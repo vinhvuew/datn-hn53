@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Controller;
-use App\Models\variant_attributes;
+use App\Models\VariantAttribute;
 use Illuminate\Http\Request;
 
 class VariantAttributesController extends Controller
@@ -35,7 +35,7 @@ class VariantAttributesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(variant_attributes $variant_attributes)
+    public function show(VariantAttribute $variant_attributes)
     {
         //
     }
@@ -43,7 +43,7 @@ class VariantAttributesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(variant_attributes $variant_attributes)
+    public function edit(VariantAttribute $variant_attributes)
     {
         //
     }
@@ -51,7 +51,7 @@ class VariantAttributesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, variant_attributes $variant_attributes)
+    public function update(Request $request, VariantAttribute $variant_attributes)
     {
         //
     }
@@ -59,7 +59,7 @@ class VariantAttributesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(variant_attributes $variant_attributes)
+    public function destroy(VariantAttribute $variant_attributes)
     {
         //
     }

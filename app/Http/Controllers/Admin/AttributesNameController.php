@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Controller;
+use App\Models\Attribute;
 use App\Models\attributes_name;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -16,7 +17,7 @@ class AttributesNameController extends Controller
 
     public function index()
     {
-        $attributes = attributes_name::all();
+        $attributes = Attribute::all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('attributes'));
     }
 
@@ -35,7 +36,7 @@ class AttributesNameController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required|string|max:255|unique:attributes_names,name',
+                'name' => 'required|string|max:255|unique:attributes,name',
                 // 'data_type' => 'required|string|max:255',
             ],
             [
@@ -46,7 +47,7 @@ class AttributesNameController extends Controller
         );
         try {
             //code...
-            attributes_name::create([
+            Attribute::create([
                 'name' => $request->name,
                 // 'data_type' => $request->data_type,
             ]);
@@ -67,7 +68,7 @@ class AttributesNameController extends Controller
      */
     public function edit($id)
     {
-        $attribute = attributes_name::findOrFail($id);
+        $attribute = Attribute::findOrFail($id);
         return view(self::PATH_VIEW . __FUNCTION__, compact('attribute'));
     }
 
@@ -78,19 +79,19 @@ class AttributesNameController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required|string|max:255|unique:attributes_names,name',
+                'name' => 'required|string|max:255|unique:attributes,name',
                 // 'data_type' => 'required|string|max:255',
             ],
             [
                 'name.required' => 'Thuộc tính này không được bỏ trống.',
                 'name.unique' => 'Thuộc tính này đã tồn tại.',
                 'name.max' => 'không được quá 255 kí tự',
-                
+
             ]
         );
         try {
             //code...
-            $attribute = attributes_name::findOrFail($id);
+            $attribute = Attribute::findOrFail($id);
             $attribute->update([
                 'name' => $request->name,
             ]);
@@ -111,7 +112,7 @@ class AttributesNameController extends Controller
      */
     public function destroy($id)
     {
-        $attribute = attributes_name::findOrFail($id);
+        $attribute = Attribute::findOrFail($id);
         $attribute->delete();
 
         return redirect()->route('attributes.index')->with('success', 'Thuộc tính đã được xóa.');

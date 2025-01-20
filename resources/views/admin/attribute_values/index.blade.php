@@ -46,7 +46,7 @@
                                 <!-- Placeholder Rows -->
                                 <tr class="text-center">
                                     <td>{{ $value->id }}</td>
-                                    <td>{{ $value->attributeName->name }}</td>
+                                    <td>{{ $value->attribute->name }}</td>
                                     <td>{{ $value->value }}</td>
                                     <td>
 

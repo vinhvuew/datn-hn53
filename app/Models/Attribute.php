@@ -5,16 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class attributes_name extends Model
+class Attribute extends Model
 {
     use HasFactory;
     protected $fillable = [
-        
         'name',
     ];
 
     public function values()
     {
-        return $this->hasMany(attributes_value::class);
+        return $this->hasMany(AttributeValue::class);
+    }
+
+    public function attributes()
+    {
+        return $this->hasMany(VariantAttribute::class);
     }
 }

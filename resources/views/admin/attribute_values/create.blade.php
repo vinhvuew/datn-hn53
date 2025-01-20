@@ -36,14 +36,14 @@
                         </div>
                         <!-- Dropdown chọn thuộc tính -->
                         <div class="mb-3">
-                            <label for="attributes_name_id" class="form-label">Tên Thuộc Tính</label>
-                            <select name="attributes_name_id" id="attributes_name_id" class="form-select">
+                            <label for="attribute_id" class="form-label">Tên Thuộc Tính</label>
+                            <select name="attribute_id" id="attributes_name_id" class="form-select">
                                 <option value="" disabled selected>Chọn thuộc tính</option>
                                 @foreach ($attributes as $attribute)
                                     <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
                                 @endforeach
                             </select>
-                            @error('attributes_name_id')
+                            @error('attribute_id')
                                 <div class="text-danger mt-1">{{ $message }}</div>
                             @enderror
                         </div>

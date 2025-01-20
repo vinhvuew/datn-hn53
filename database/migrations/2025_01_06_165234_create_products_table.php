@@ -24,7 +24,7 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->text('user_manual')->nullable();
             $table->integer('quantity'); // số lượng
-            $table->unsignedDecimal('base_price', 10, 2);
+            $table->unsignedDecimal('base_price', 15, 2);
             $table->unsignedBigInteger('price_sale')->nullable();
             $table->string('img_thumbnail')->nullable();
             $table->unsignedBigInteger('view')->default(0);

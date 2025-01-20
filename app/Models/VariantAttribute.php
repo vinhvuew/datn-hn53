@@ -5,27 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class variant_attribute extends Model
+class VariantAttribute extends Model
 {
     use HasFactory;
     protected $fillable = [
         'variant_id',
-        'attribute_name_id',
-        'attributes_value_id'
+        'attribute_id',
+        'attribute_value_id'
     ];
 
     public function variant()
     {
-        return $this->belongsTo(variant::class);
+        return $this->belongsTo(Variant::class);
     }
 
-    public function attributeName()
+    public function attribute()
     {
-        return $this->belongsTo(attributes_name::class);
+        return $this->belongsTo(Attribute::class);
     }
 
     public function attributeValue()
     {
-        return $this->belongsTo(attributes_value::class);
+        return $this->belongsTo(AttributeValue::class);
     }
 }

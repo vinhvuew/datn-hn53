@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Controller;
-use App\Models\attributes_name;
-use App\Models\attributes_value;
+use App\Models\Attribute;
+use App\Models\AttributeValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -17,7 +17,7 @@ class AttributesValuesController extends Controller
      */
     public function index()
     {
-        $values = attributes_value::with('attributeName')->get();
+        $values = AttributeValue::with('attribute')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('values'));
     }
 
@@ -26,7 +26,7 @@ class AttributesValuesController extends Controller
      */
     public function create()
     {
-        $attributes = attributes_name::all();
+        $attributes = Attribute::all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('attributes'));
     }
 
@@ -38,14 +38,14 @@ class AttributesValuesController extends Controller
         // Xác thực dữ liệu đầu vào
         $data = $request->validate(
             [
-                'value' => 'required|max:255|unique:attributes_values,value',
-                'attributes_name_id' => 'required|exists:attributes_names,id',
+                'value' => 'required|max:255|unique:attribute_values,value',
+                'attribute_id' => 'required|exists:attributes,id',
             ],
             [
                 'value.required' => 'Giá trị Thuộc tính không được bỏ trống.',
                 'value.unique' => 'Giá trị Thuộc tính này đã tồn tại.',
                 'value.max' => 'không được quá 255 kí tự',
-                'attributes_name_id' => 'Thuộc tính không được bỏ trống.',
+                'attribute_id' => 'Thuộc tính không được bỏ trống.',
 
             ]
         );
@@ -53,7 +53,7 @@ class AttributesValuesController extends Controller
 
         try {
             // Tạo giá trị thuộc tính
-            attributes_value::create($data);
+            AttributeValue::create($data);
             // dd($data);
             return redirect()->route('attribute-values.index')
                 ->with('success', 'Thêm giá trị thuộc tính thành công');
@@ -73,8 +73,8 @@ class AttributesValuesController extends Controller
      */
     public function edit($id)
     {
-        $value = attributes_value::findOrFail($id);
-        $attributes = attributes_name::all();
+        $value = AttributeValue::findOrFail($id);
+        $attributes = Attribute::all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('value', 'attributes'));
     }
 
@@ -85,8 +85,8 @@ class AttributesValuesController extends Controller
     {
         $request->validate(
             [
-                'attributes_name_id' => 'required|exists:attributes_names,id',
-                'value' => 'required|string|max:255|unique:attributes_values,value',
+                'attribute_id' => 'required|exists:attributes,id',
+                'value' => 'required|string|max:255|unique:attribute_values,value',
             ],
             [
                 'value.required' => 'Giá trị Thuộc tính không được bỏ trống.',
@@ -96,7 +96,7 @@ class AttributesValuesController extends Controller
         );
         try {
             //code...
-            $value = attributes_value::findOrFail($id);
+            $value = AttributeValue::findOrFail($id);
             $value->update([
                 // 'attributes_name_id' => $request->attributes_name_id,
                 'value' => $request->value,
@@ -117,7 +117,7 @@ class AttributesValuesController extends Controller
      */
     public function destroy($id)
     {
-        $value = attributes_value::findOrFail($id);
+        $value = AttributeValue::findOrFail($id);
         $value->delete();
 
         return redirect()->route('attribute-values.index')->with('success', 'Giá trị thuộc tính đã được xóa.');

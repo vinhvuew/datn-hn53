@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('sku')->unique(); // Cột mã SKU (mã duy nhất cho từng sản phẩm)
             $table->string('image');
             $table->integer('quantity')->default(0);
-            $table->decimal('wholesale_price', 10, 2)->default(0);
-            $table->decimal('selling_price', 10, 2)->default(0);
+            $table->decimal('wholesale_price', 15, 2)->default(0);
+            $table->decimal('selling_price', 15, 2)->default(0);
             $table->timestamps();
         });
     }
