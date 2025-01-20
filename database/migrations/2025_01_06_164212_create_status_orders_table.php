@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('status_products', function (Blueprint $table) {
+        Schema::create('status_Orders', function (Blueprint $table) {
             $table->id(); // Cột id tự động tăng
-            $table->string('code_color'); // Cột code_color (Mã màu sản phẩm)
-            $table->string('code_size'); // Cột code_size (Mã kích cỡ sản phẩm)
-            $table->string('name_status'); // Cột name_status (Tên trạng thái sản phẩm)
+            $table->string('status_name');
+            $table->string('description');
             $table->timestamps(); // Cột created_at và updated_at
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('status_products');
+        Schema::dropIfExists('status_orders');
     }
 };

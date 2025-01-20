@@ -5,19 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Orders extends Model
+class Status_order extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'shipping_address',
-        'total_price',
         'voucher',
-        'pay',
         'status_pay',
+        'payment_method',
+        'name_status',
        
     ];
-    
-    public $table = 'orders';
-    public $timetamps = false;
-    protected $dates = ['deleted_at'];
 }

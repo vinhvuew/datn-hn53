@@ -42,15 +42,11 @@
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $order->user_name }}</td>
                             <td>{{ $order->shipping_address }}</td>
-                            <td>{{ $order->voucher }}</td>
-                            <td>{{ number_format($order->total_price, 0, ',', '.') }} đ</td>
-                            <td>{{ $order->payment_method }}</td>
-                            <td class="{{ $order->name_status == 'Đã thanh toán' ? 'text-success' : 'text-danger' }}">
-                                {{ $order->name_status }}
-                            </td>
-                            <td class="{{ $order->status_pay == 'Hoàn thành' ? 'text-success' : 'text-warning' }}">
-                                {{ $order->status_pay }}
-                            </td>
+                            <td>{{ $order->voucher_name }}</td>
+                            <td>{{ ($order->total_price) }} </td>
+                            <td>{{ $order->pay}}</td>
+                            <td>{{ $order->status_pay }}</td>
+                            <td>{{ $order->status_name }}</td>
                             <td>{{ $order->created_at }}</td>
                             <td>{{ $order->updated_at }}</td>
                             <td>

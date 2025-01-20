@@ -14,12 +14,13 @@ class OrdersController extends Controller
     public function index()
     {
         $listOrders = DB::table('orders')
-                ->join('users', 'orders.id_user', '=', 'users.id')  // Sửa tên cột cho đúng
-                ->join('status_order', 'orders.id_status', '=', 'status_order.id')
-                ->select('orders.*', 'users.name as user_name', 'status_order.name_status' , 'status_order.payment_method')  // Lấy các cột cần thiết từ cả hai bảng
-                ->get();
+            ->join('users', 'orders.user_id', '=', 'users.id')
+            ->join('status_orders', 'orders.status_order_id', '=', 'status_orders.id')
+            ->join('vouchers', 'orders.voucher_id', '=' , 'vouchers.id')
+            ->select('orders.*', 'users.name as user_name', 'status_orders.status_name', 'vouchers.name as voucher_name')  // Lấy các cột cần thiết từ cả hai bảng
+            ->get();
         return view('admin.orders.index', compact('listOrders'));
-    }
+    }   
 
     /**g
      * Show the form for creating a new resource.
@@ -40,7 +41,7 @@ class OrdersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Orders $orders)
+    public function show($orders)
     {
         //
     }
@@ -48,7 +49,7 @@ class OrdersController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Orders $orders)
+    public function edit($orders)
     {
         //
     }
@@ -56,7 +57,7 @@ class OrdersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Orders $orders)
+    public function update(Request $request, $orders)
     {
         //
     }
@@ -69,7 +70,7 @@ class OrdersController extends Controller
         try {
             // Tìm đơn hàng theo ID và xóa
             DB::table('orders')->where('id', $id)->delete();
-    
+
             // Redirect với thông báo thành công
             return redirect()->route('orders')->with('success', 'Xóa đơn hàng thành công!');
         } catch (\Exception $e) {

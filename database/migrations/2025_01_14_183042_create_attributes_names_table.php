@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            // Thêm cột pay vào bảng orders
-            $table->string('pay'); // Cột chon loai thanh toan
+        Schema::create('attributes', function (Blueprint $table) {
+            $table->id();
+            $table->string('name'); // Tên thuộc tính
+            $table->string('data_type')->default('string'); // Kiểu dữ liệu của thuộc tính
+            $table->timestamps();
         });
     }
 
@@ -22,9 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            // Xóa cột pay nếu rollback migration
-            $table->dropColumn('pay');
-        });
+        Schema::dropIfExists('attributes_names');
     }
 };
