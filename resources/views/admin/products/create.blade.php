@@ -87,7 +87,7 @@
                                         <div id="gallery_1">
                                             <label for="gallery_input_1" class="form-label">Gallery 1</label>
                                             <input type="file" class="form-control" name="product_galleries[]"
-                                                id="gallery_input_1">
+                                                id="gallery_input_1" multiple>
                                             @if ($errors->has('product_galleries'))
                                                 <div class="text-danger">
                                                     {{ $errors->first('product_galleries') }}
@@ -150,7 +150,8 @@
                                                                 id="variant_attribute_{{ $attribute->id }}_0"
                                                                 name="variants[0][attributes][{{ $attribute->id }}]"
                                                                 class="form-control">
-                                                                <option value="">Chọn {{ $attribute->name }}</option>
+                                                                <option value="">Chọn {{ $attribute->name }}
+                                                                </option>
                                                                 @foreach ($attribute->values as $value)
                                                                     <option value="{{ $value->id }}">
                                                                         {{ $value->value }}
