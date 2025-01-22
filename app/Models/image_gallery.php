@@ -9,13 +9,7 @@ class image_gallery extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'product_id',
         'img',
-      'created_at',
-       
-       
     ];
-    public $table = 'image_gallery';
-    public $timestamp = true;
-    protected $dates = ['deleted_at'];
-    
 }
