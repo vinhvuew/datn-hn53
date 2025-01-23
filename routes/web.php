@@ -19,11 +19,13 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get("/", [Controller::class, 'index']);
-Route::get("/category", [Controller::class, 'category']);
-Route::get("/product", [Controller::class, 'product']);
+Route::prefix('admin')->group(function () {
+    Route::get("/", [Controller::class, 'index']);
+    Route::resource("category", CategoryController::class);
+    Route::get("/product", [Controller::class, 'product']);
+    Route::get("/voucher", [Controller::class, 'voucher']);
+});
 
-Route::get("/voucher", [Controller::class, 'voucher']);
 
 
 
