@@ -20,6 +20,7 @@ Route::get('/image', [ImageGalleryController::class, 'index'])->name('image.inde
 Route::get('/image/create', [ImageGalleryController::class, 'create'])->name('image.create');
 Route::post('/image/store', [ImageGalleryController::class, 'store'])->name('image.store');
 Route::get('/comment', [CommenController::class, 'index'])->name('comment.index');
+Route::get('/comment/create', [CommenController::class, 'create'])->name('comment.create');
 Route::delete('/comment/{id}', [CommenController::class, 'destroy'])->name('comment.destroy');
 
 

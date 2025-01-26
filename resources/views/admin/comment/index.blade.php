@@ -2,7 +2,10 @@
 
 @section('content')
     <div class="container my-4">
+        
         <h1 class="text-center mb-4">Quản Lý Bình Luận</h1>
+
+       <a href="{{route('comment.create') }}" class="btn btn-success" >Các Nội Dung Vi Phạm Cộng Đồng</a> 
 
         @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -16,7 +19,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-
+   
+   
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover align-middle text-center">
                 <thead class="table-primary">
