@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_detail', function (Blueprint $table) {
+        Schema::create('order_details', function (Blueprint $table) {
             $table->id(); // Cột id tự động tăng
             $table->foreignIdFor(Order::class)->constrained();
             $table->foreignIdFor(Product::class)->constrained();

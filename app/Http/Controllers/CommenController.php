@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Models\Variant;
+use App\Models\Commen;
 use Illuminate\Http\Request;
 
-class VariantsController extends Controller
+class CommenController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class VariantsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Variant $variants)
+    public function show(Commen $commen)
     {
         //
     }
@@ -42,7 +42,7 @@ class VariantsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(variant $variants)
+    public function edit(Commen $commen)
     {
         //
     }
@@ -50,7 +50,7 @@ class VariantsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, variant $variants)
+    public function update(Request $request, Commen $commen)
     {
         //
     }
@@ -58,7 +58,7 @@ class VariantsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(variant $variants)
+    public function destroy(Commen $commen)
     {
         //
     }
