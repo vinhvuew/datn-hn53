@@ -8,13 +8,14 @@ use Illuminate\Http\Request;
 
 class BrandsController extends Controller
 {
+    const PATH_VIEW = 'admin.brands.';
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $brands = Brand::all(); // Lấy tất cả thương hiệu từ DB
-        return view('admin.brands.index', compact('brands'));
+        return view( self::PATH_VIEW . __FUNCTION__,compact('brands'));
     }
 
     // Hiển thị form thêm mới thương hiệu

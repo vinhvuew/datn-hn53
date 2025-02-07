@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\Controller;
+
 use App\Http\Controllers\Admin\VouchersController;
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\ProductController;
