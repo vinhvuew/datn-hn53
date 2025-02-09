@@ -8,10 +8,10 @@ use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\VouchersController;
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\ProductController;
-
 use App\Http\Controllers\Admin\UserController;
-
-
+use App\Http\Controllers\Admin\AttributesNameController;
+use App\Http\Controllers\Admin\AttributesValuesController;
+use App\Http\Controllers\Admin\ProductsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,4 +60,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 // Route::get("/qldonhang", [Controller::class, 'donhang']);
 Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
 Route::delete('/orders/{id}', [OrdersController::class, 'destroy'])->name('orders.destroy');
+Route::get('/orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
+
+
+Route::prefix('admin/')->group(function () {
+    Route::resource('products', ProductsController::class);
+    Route::resource('attributes', AttributesNameController::class);
+    Route::resource('attribute-values', AttributesValuesController::class);
+});
 

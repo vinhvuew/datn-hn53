@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\vouchers;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,7 +13,7 @@ class VouchersController extends Controller
      */
     public function index()
     {
-        $vouchers = vouchers::all(); // Lấy tất cả các voucher
+        $vouchers = voucher::all(); // Lấy tất cả các voucher
         return view('admin.vouchers.view', compact('vouchers'));
     }
     /**
@@ -40,7 +40,7 @@ class VouchersController extends Controller
     
         try {
             // Lưu voucher vào cơ sở dữ liệu
-            Vouchers::create([
+            Voucher::create([
                 'voucher' => $request->voucher,
                 'name' => $request->name,
                 'valid_from' => $request->valid_from,
@@ -60,7 +60,7 @@ class VouchersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(vouchers $vouchers)
+    public function show(voucher $vouchers)
     {
         //
     }
@@ -71,7 +71,7 @@ class VouchersController extends Controller
     public function edit($id)
     {
          // Tìm voucher theo ID
-    $voucher = Vouchers::findOrFail($id);
+    $voucher = Voucher::findOrFail($id);
     
     // Trả về form chỉnh sửa
     return view('admin.vouchers.edit', compact('voucher'));
@@ -91,7 +91,7 @@ class VouchersController extends Controller
     
         try {
             // Tìm voucher theo ID và cập nhật
-            $voucher = Vouchers::findOrFail($id);
+            $voucher = Voucher::findOrFail($id);
             $voucher->update([
                 'voucher' => $request->voucher,
                 'name' => $request->name,

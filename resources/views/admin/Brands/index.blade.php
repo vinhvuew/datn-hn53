@@ -2,8 +2,6 @@
 @section('content')
 <div class="container mt-5">
     <h1>Danh Sách Thương Hiệu</h1>
-    <a href="{{ route('brands.create') }}">Thêm Thương Hiệu</a>
-
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>

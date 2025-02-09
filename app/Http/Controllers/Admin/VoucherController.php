@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Variant;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 
-class VariantsController extends Controller
+class VoucherController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class VariantsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Variant $variants)
+    public function show(Voucher $voucher)
     {
         //
     }
@@ -42,7 +42,7 @@ class VariantsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(variant $variants)
+    public function edit(Voucher $voucher)
     {
         //
     }
@@ -50,7 +50,7 @@ class VariantsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, variant $variants)
+    public function update(Request $request, Voucher $voucher)
     {
         //
     }
@@ -58,7 +58,7 @@ class VariantsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(variant $variants)
+    public function destroy(Voucher $voucher)
     {
         //
     }

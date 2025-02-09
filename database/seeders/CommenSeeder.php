@@ -5,8 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class VoucherSeeder extends Seeder
-
+class CommenSeeder extends Seeder
 {
     /**
      * Run the database seeds.

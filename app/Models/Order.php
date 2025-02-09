@@ -18,7 +18,30 @@ class Order extends Model
     ];
 
     public $table = 'orders';
-    public $timetamps = false;
+    public $timestamps = false;
     protected $dates = ['deleted_at'];
+
+    public function users()
+{
+    return $this->belongsTo(User::class);
+}
+
+public function status_order()
+{
+    return $this->belongsTo(Status_order::class);
+}
+
+public function vouchers()
+{
+    return $this->belongsTo(Voucher::class);
+}
+
+public function products()
+{
+    return $this->belongsToMany(Product::class, 'order_product')
+                ->withPivot('quantity', 'price')
+                ->withTimestamps();
+}
+
 
 }

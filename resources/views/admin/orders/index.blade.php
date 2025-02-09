@@ -43,20 +43,20 @@
                             <td>{{ $order->user_name }}</td>
                             <td>{{ $order->shipping_address }}</td>
                             <td>{{ $order->voucher_name }}</td>
-                            <td>{{ ($order->total_price) }} </td>
+                            <td>{{ ($order->total_price) }}vnd</td>
                             <td>{{ $order->pay}}</td>
                             <td>{{ $order->status_pay }}</td>
                             <td>{{ $order->status_name }}</td>
                             <td>{{ $order->created_at }}</td>
                             <td>{{ $order->updated_at }}</td>
                             <td>
-                                <div class="d-flex justify-content-center">
-                                    <a href="" class="btn btn-warning btn-sm me-1">Edit</a>
-                                    <form action="{{ route('orders.destroy', $order->id) }}" method="POST"
-                                        class="d-inline">
+                                <div class="d-flex gap-2 align-items-center">
+                                    <a href="{{ route('orders.show', $order->id)}}" class="btn btn-info">Detail</a>
+                                    <a href="#" class="btn btn-warning">Edit</a>
+                                    <form action="{{ route('orders.destroy', $order->id) }}" method="POST" class="m-0 p-0">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"
+                                        <button type="submit" class="btn btn-danger"
                                             onclick="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')">
                                             Delete
                                         </button>

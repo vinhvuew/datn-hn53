@@ -20,9 +20,8 @@ return new class extends Migration
             $table->foreignIdFor(Status_order::class)->constrained();
             $table->foreignIdFor(Voucher::class)->constrained();
             $table->string('shipping_address'); // Cột địa chỉ giao hàng
-            $table->decimal('total_price', 10, 3); // Cột tổng giá trị đơn hàng (2 chữ số sau dấu phẩy)
-            $table->string('voucher')->nullable(); // Cột voucher (có thể để trống)
-            $table->string('pay'); // Cột số tiền đã thanh toán
+            $table->decimal('total_price', 15, 3); // Cột tổng giá trị đơn hàng (2 chữ số sau dấu phẩy)
+            $table->string('pay'); //  phương thức thanh toán
             $table->string('status_pay'); // Cột trạng thái thanh toán (Ví dụ: "Đã thanh toán", "Chưa thanh toán")
             $table->timestamps(); // Cột created_at và updated_at
         });
