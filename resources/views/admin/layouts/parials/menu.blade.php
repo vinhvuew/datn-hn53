@@ -301,6 +301,7 @@
                 </li>
             </ul>
         </li>
+        
         <li class="menu-item">
             <a href="{{route('comment.index')}}" class="menu-link ">
                 <i class="menu-icon tf-icons bx bx-chart"></i>
@@ -309,13 +310,6 @@
            
         </li>
 
-        <li class="menu-item">
-            <a href="{{route('image.index')}}" class="menu-link">
-           
-                    <i class=" menu-icon fa-solid fa-image"></i>
-                <div class="text-truncate" data-i18n="Quản Lý Hình Ảnh">Quản Lý Hình Ảnh </div>
-            </a>
-            
-        </li>
+       
 
 </aside>

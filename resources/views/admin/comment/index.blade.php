@@ -33,7 +33,8 @@
                         <th scope="col">Nội Dung</th>
                         <th scope="col">Thời gian tạo</th>
                         <th scope="col">Thời gian cập nhật</th>
-                        <th scope="col">Chức năng</th>
+                        <th scope="col">Chức Năng</th>
+                      
                     </tr>
                 </thead>
                 <tbody>
@@ -71,9 +72,9 @@
 @endsection
 
 @section('style-libs')
-    {{-- Thêm các thư viện CSS nếu cần --}}
+    
 @endsection
 
 @section('script-libs')
-    {{-- Thêm các thư viện JavaScript nếu cần --}}
+   
 @endsection

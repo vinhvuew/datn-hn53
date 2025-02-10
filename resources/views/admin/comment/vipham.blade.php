@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        <!-- Nút Quay lại -->
+       
         <div class="text-center mt-4">
             <a href="{{ route('comment.index') }}" class="btn btn-primary">Quay lại Trang Danh Sách</a>
         </div>
