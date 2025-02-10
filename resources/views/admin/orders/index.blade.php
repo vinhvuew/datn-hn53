@@ -24,15 +24,15 @@
                 <thead class="table-primary">
                     <tr>
                         <th scope="col">STT</th>
-                        <th scope="col">Người mua</th>
-                        <th scope="col">Địa chỉ</th>
-                        <th scope="col">Mã giảm giá</th>
-                        <th scope="col">Tổng tiền</th>
-                        <th scope="col">Phương thức thanh toán</th>
-                        <th scope="col">Trạng thái thanh toán</th>
-                        <th scope="col">Trạng thái đơn hàng</th>
-                        <th scope="col">Thời gian tạo</th>
-                        <th scope="col">Thời gian cập nhật</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Voucher</th>
+                        <th scope="col">Total Money</th>
+                        <th scope="col">Pay</th>
+                        <th scope="col">Status Pay</th>
+                        <th scope="col">Status Order</th>
+                        <th scope="col">Created_at</th>
+                        <th scope="col">Updated_at</th>
                         <th scope="col">Chức năng</th>
                     </tr>
                 </thead>
@@ -43,7 +43,7 @@
                             <td>{{ $order->user_name }}</td>
                             <td>{{ $order->shipping_address }}</td>
                             <td>{{ $order->voucher_name }}</td>
-                            <td>{{ ($order->total_price) }}vnd</td>
+                            <td>{{ ($order->total_price) }}vnđ  </td>
                             <td>{{ $order->pay}}</td>
                             <td>{{ $order->status_pay }}</td>
                             <td>{{ $order->status_name }}</td>

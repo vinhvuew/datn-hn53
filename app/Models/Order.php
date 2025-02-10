@@ -23,7 +23,7 @@ class Order extends Model
 
     public function users()
 {
-    return $this->belongsTo(User::class);
+    return $this->belongsTo(User::class, 'user_id', 'id');
 }
 
 public function status_order()
@@ -33,15 +33,16 @@ public function status_order()
 
 public function vouchers()
 {
-    return $this->belongsTo(Voucher::class);
+    return $this->belongsTo(Voucher::class, 'voucher_id', 'id');
 }
 
 public function products()
 {
-    return $this->belongsToMany(Product::class, 'order_product')
-                ->withPivot('quantity', 'price')
+    return $this->belongsToMany(Product::class, 'order_details', 'order_id', 'product_id')
+                ->withPivot('name_product', 'quantity', 'price')
                 ->withTimestamps();
 }
+
 
 
 }
