@@ -20,7 +20,6 @@
                         <th scope="col">Status Pay</th>
                         <th scope="col">Status Order</th>
                         <th scope="col">Created_at</th>
-                        <th scope="col">Updated_at</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,7 +54,6 @@
                         <td>{{ $order_detail->status_pay ? 'Đã thanh toán' : 'Chưa thanh toán' }}</td>
                         <td>{{ $order_detail->status_order->status_name }}</td>
                         <td>{{ $order_detail->created_at }}</td>
-                        <td>{{ $order_detail->updated_at }}</td>
                     </tr>
                 </tbody>
             </table>
