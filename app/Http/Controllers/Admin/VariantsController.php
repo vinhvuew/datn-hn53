@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\variants;
+use App\Models\Variant;
 use Illuminate\Http\Request;
 
 class VariantsController extends Controller
@@ -34,7 +34,7 @@ class VariantsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(variants $variants)
+    public function show(Variant $variants)
     {
         //
     }
@@ -42,7 +42,7 @@ class VariantsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(variants $variants)
+    public function edit(variant $variants)
     {
         //
     }
@@ -50,7 +50,7 @@ class VariantsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, variants $variants)
+    public function update(Request $request, variant $variants)
     {
         //
     }
@@ -58,7 +58,7 @@ class VariantsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(variants $variants)
+    public function destroy(variant $variants)
     {
         //
     }

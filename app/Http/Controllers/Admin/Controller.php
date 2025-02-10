@@ -22,7 +22,7 @@ class Controller extends BaseController
 
     public function product()
     {
-        return view("admin.products.index");
+        return view("admin.products.create");
     }
 
     public function detail()
@@ -32,7 +32,11 @@ class Controller extends BaseController
 
     public function voucher()
     {
-        return view("admin.Vouchers.add");
+        return view("admin.Vouchers.view");
+    }
+    public function brands()
+    {
+        return view("admin.Brands.index");
     }
     public function User()
     {

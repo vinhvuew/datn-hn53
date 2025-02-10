@@ -33,7 +33,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email|max:255',
-            'password' => 'required|string|min:6|confirmed', 
+            'password' => 'required|string|min:6|confirmed',
             'phone' => 'nullable|string|max:10',
             'role' => 'required|in:admin,user',
         ]);
@@ -41,7 +41,7 @@ class UserController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password, // Lưu mật khẩu không mã hóa
+            'password' => $request->password,
             'phone' => $request->phone,
             'role' => $request->role,
         ]);
@@ -64,7 +64,6 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-    
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -73,26 +72,24 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:10',
             'role' => 'required|in:admin,user',
         ]);
-    
 
         $data = $request->only(['name', 'email', 'phone', 'role']);
-        
+
         if ($request->filled('password')) {
             $data['password'] = $request->password;
         }
-    
+
         $user->update($data);
-    
+
         return redirect()->route('admin.users.index')->with('success', 'Sửa tài khoản thành công.');
     }
-    
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-
         $user->delete();
 
         return redirect()->route('admin.users.index')->with('success', 'Xóa tài khoản thành công.');
