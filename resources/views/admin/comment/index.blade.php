@@ -21,7 +21,7 @@
     @endif
    
    
-        <div class="table-responsive">
+        <div class="table-responsive my-3">
             <table class="table table-bordered table-striped table-hover align-middle text-center">
                 <thead class="table-primary">
                     <tr>
@@ -38,7 +38,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($listCommen  as $key => $value)
+                    @foreach ($listComment  as $key => $value)
                         <tr>
                             <td>{{ $key + 1 }}</td>
                             <td>{{$value->user_id}}</td>

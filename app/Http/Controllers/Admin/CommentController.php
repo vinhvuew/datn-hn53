@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Controller;
-use App\Models\Commen;
+
 use App\Models\Comment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
-class CommenController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $listCommen = Comment ::all();
-        return view('admin.comment.index', compact('listCommen'));
+        $listComment = Comment ::all();
+        return view('admin.comment.index', compact('listComment'));
 
     }
 

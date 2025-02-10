@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\ImageGalleryController;
 use App\Http\Controllers\Admin\AttributesNameController;
 use App\Http\Controllers\Admin\AttributesValuesController;
 use App\Http\Controllers\Admin\ProductsController;
-use App\Http\Controllers\CommenController;
+use App\Http\Controllers\Admin\CommentController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,9 +19,9 @@ Route::get("/voucher", [Controller::class, 'voucher']);
 
 
 
-Route::get('/comment', [CommenController::class, 'index'])->name('comment.index');
-Route::get('/comment/create', [CommenController::class, 'create'])->name('comment.create');
-Route::delete('/comment/{id}', [CommenController::class, 'destroy'])->name('comment.destroy');
+Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
+Route::get('/comment/create', [CommentController::class, 'create'])->name('comment.create');
+Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
 
 
 
