@@ -38,15 +38,12 @@ class BrandsController extends Controller
 
     // Hiển thị form chỉnh sửa thương hiệu
     public function edit(Brand $brand)
-
     {
         return view('admin.brands.edit', compact('brand'));
     }
-
-
+  
     // Cập nhật thương hiệu
     public function update(Request $request, Brand $brand)
-
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -56,7 +53,6 @@ class BrandsController extends Controller
         $brand->update($request->all());
         return redirect()->route('admin.brands.index')->with('success', 'Thương hiệu đã được cập nhật.');
     }
-
 
     // Xóa thương hiệu
     public function destroy(Brand $brand)
