@@ -26,14 +26,14 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="{{route('category.create')}}" class="menu-link">
                         <div class="text-truncate" data-i18n="Thêm Mới">
                             Thêm Mới`
                         </div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="{{route('category.index')}}" class="menu-link">
                         <div class="text-truncate" data-i18n="Danh Sách">
                             Danh Sách
                         </div>
