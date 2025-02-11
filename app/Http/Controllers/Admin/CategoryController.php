@@ -14,7 +14,8 @@ class CategoryController extends Controller
 
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view("admin.categories.index", compact("categories"));
     }
 
     /**
@@ -22,7 +23,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.categories.create");
     }
 
     /**
@@ -30,7 +31,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "name"=> "required|max:50",
+        ],[
+            'name.required'=>'Bạn không được để trống tên danh mục',
+            'name.max'=>'Bạn khôg được điền quá :max kí tự'
+        ]);
+        $params = $request->all();
+        $obj = Category::create($params);
+        if($obj){
+            return redirect()->route('category.index')->with('categorySuccess','Thêm danh mục thành công');
+        }
     }
 
     /**
@@ -44,24 +55,39 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit( $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request,  $id)
     {
-        //
-    }
+        $request->validate([
+            "name"=> "required|max:50",
+        ],[
+            'name.required'=>'Bạn không được để trống tên danh mục',
+            'name.max'=>'Bạn khôg được điền quá :max kí tự'
+        ]);
+        $params = $request->all();
+        $obj = Category::findOrFail($id);
+        $obj->update($params);
+        if($obj){
+            return redirect()->route('category.index')->with('categorySuccess','Sửa danh mục thành công');
+        }    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy( $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        if($category){
+      $category->delete();
+      return redirect()->route('category.index')->with('categorySuccess','Xoá thành công danh mục');
+        }
     }
 }

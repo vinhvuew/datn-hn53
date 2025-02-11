@@ -12,7 +12,6 @@ class inventory extends Model
         'quantity',
         'restock_level',
         'location',
-        'last_restock_date',
-       
+        'last_restock_date'
     ];
 }
