@@ -25,9 +25,10 @@ class User extends Authenticatable
         'role',
     ];
 
-protected $acttributes =[
-    'role'=>'user'
-];
+    protected $attributes = [
+        'role' => 'user',  // Sử dụng dấu `=>` để gán giá trị mặc định
+    ];
+    
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -4,12 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();  // Khóa chính tự động tăng
@@ -19,15 +21,18 @@ return new class extends Migration
             $table->string('phone')->nullable();  // Cột số điện thoại, có thể null
             $table->enum('role', ['admin', 'user', 'moderator']);  // Cột vai trò, mặc định là 'user'
             $table->rememberToken();  // Cột để lưu token "Remember me"
-            $table->timestamps();  // Tạo các cột created_at và updated_at
+            $table->string('avata')->nullable(); // Cột tên người dùng
+            $table->timestamps(); // Cột created_at và updated_at
         });
     }
     
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('users');
     }

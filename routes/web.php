@@ -1,7 +1,14 @@
 <?php
 
-use App\Http\Controllers\DashBoardController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Admin\BrandsController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\Controller;
+use App\Http\Controllers\Admin\DashBoardController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\AttributesNameController;
+use App\Http\Controllers\Admin\AttributesValuesController;
+use App\Http\Controllers\Admin\ProductsController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,12 +23,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-//admin
-Route::prefix('admin')->group(function () {
-    Route::get("/", [DashBoardController::class,"dashBoard"]);
-    Route::get('/list-product', [ProductController::class,'listProduct']);
-    Route::get('/add-product', [ProductController::class,'addProduct']);
+
+
+Route::prefix('admin/')->group(function () {
+    Route::resource('products', ProductsController::class);
+    Route::resource("category", CategoryController::class);
+    Route::resource('attributes', AttributesNameController::class);
+    Route::resource('attribute-values', AttributesValuesController::class);
+    Route::resource('brands', BrandsController::class);
+  Route::get("/voucher", [Controller::class, 'voucher']);
 });
-
-
-

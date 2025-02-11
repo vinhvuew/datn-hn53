@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class inventory extends Model
 {
     use HasFactory;
-    protected $fillable=[
+    protected $fillable = [
         'quantity',
-        'restock_lecel',
+        'restock_level',
         'location',
-        'lasr_restock_date',
-
+        'last_restock_date'
     ];
 }
