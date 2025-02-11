@@ -56,4 +56,15 @@ class Product extends Model
     {
         return $this->belongsTo(image_gallery::class);
     }
+
+     /**
+     * Quan hệ nhiều-nhiều với bảng Order thông qua bảng trung gian order_product
+     */
+    public function orders()
+{
+    return $this->belongsToMany(Order::class, 'order_details', 'product_id', 'order_id')
+                ->withPivot('name_product', 'quantity', 'price')
+                ->withTimestamps();
+}
+
 }

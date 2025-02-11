@@ -3,13 +3,13 @@
 use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\Controller;
+use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\VouchersController;
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AttributesNameController;
 use App\Http\Controllers\Admin\AttributesValuesController;
-
 
 use Illuminate\Support\Facades\Route;
 
@@ -35,19 +35,16 @@ Route::prefix('admin/')->group(function () {
     Route::resource('users', UserController::class);
   
 Route::get('/voucher', [VouchersController::class, 'index'])->name('vouchers.view');
-
-
 Route::get('/vouchers/create', [VouchersController::class, 'create'])->name('voucher.create');
-
 Route::post('/vouchers', [VouchersController::class, 'store'])->name('voucher.store');
-
-
 Route::get('/vouchers/{id}/edit', [VouchersController::class, 'edit'])->name('vouchers.edit');
-
 Route::put('/vouchers/{id}', [VouchersController::class, 'update'])->name('vouchers.update');
-
-
 Route::delete('/vouchers/{id}', [VouchersController::class, 'destroy'])->name('voucher.destroy');
 
+// Đơn hàng
+// Route::get("/qldonhang", [Controller::class, 'donhang']);
+Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
+Route::delete('/orders/{id}', [OrdersController::class, 'destroy'])->name('orders.destroy');
+Route::get('/orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
 });
 

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Order;
+use App\Models\User;
+use App\Models\Status_order;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
@@ -12,10 +16,16 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        //
+        $listOrders = DB::table('orders')
+            ->join('users', 'orders.user_id', '=', 'users.id')
+            ->join('status_orders', 'orders.status_order_id', '=', 'status_orders.id')
+            ->join('vouchers', 'orders.voucher_id', '=', 'vouchers.id')
+            ->select('orders.*', 'users.name as user_name', 'status_orders.status_name', 'vouchers.name as voucher_name')  // Lấy các cột cần thiết từ cả hai bảng
+            ->get();
+        return view('admin.orders.index', compact('listOrders'));
     }
 
-    /**
+    /**g
      * Show the form for creating a new resource.
      */
     public function create()
@@ -34,15 +44,18 @@ class OrdersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Order $orders)
+    public function show($id)
     {
-        //
+        $order_detail = Order::with(['users', 'status_order', 'vouchers', 'products'])
+            ->where('id', $id)
+            ->firstOrFail();
+        return view('admin.orders.show', compact('order_detail'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Order $orders)
+    public function edit($orders)
     {
         //
     }
@@ -50,7 +63,7 @@ class OrdersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Order $orders)
+    public function update(Request $request, $orders)
     {
         //
     }
@@ -58,8 +71,17 @@ class OrdersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $orders)
+    public function destroy($id)
     {
-        //
+        try {
+            // Tìm đơn hàng theo ID và xóa
+            DB::table('orders')->where('id', $id)->delete();
+
+            // Redirect với thông báo thành công
+            return redirect()->route('orders')->with('success', 'Xóa đơn hàng thành công!');
+        } catch (\Exception $e) {
+            // Trường hợp lỗi
+            return redirect()->route('orders')->with('error', 'Xóa đơn hàng thất bại!');
+        }
     }
 }

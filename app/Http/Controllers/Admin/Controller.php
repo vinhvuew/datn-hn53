@@ -42,4 +42,8 @@ class Controller extends BaseController
     {
         return view("admin.users.create");
     }
+    // public function donhang()
+    // {
+    //     return view("admin.orders.index");
+    // }
 }

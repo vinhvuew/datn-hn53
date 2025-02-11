@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class VoucherSeeder extends Seeder
+
 {
     /**
      * Run the database seeds.
