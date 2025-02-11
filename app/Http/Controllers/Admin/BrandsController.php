@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Controller;
-use App\Models\Brands;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 
 class BrandsController extends Controller
@@ -42,7 +42,7 @@ class BrandsController extends Controller
     }
 
     // Cập nhật thương hiệu
-    public function update(Request $request, Brands $brand)
+    public function update(Request $request, Brand $brands)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -54,7 +54,7 @@ class BrandsController extends Controller
     }
 
     // Xóa thương hiệu
-    public function destroy(Brands $brand)
+    public function destroy(Brand $brands)
     {
         $brand->delete();
         return redirect()->route('admin.brands.index')->with('success', 'Thương hiệu đã được xóa.');

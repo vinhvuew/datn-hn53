@@ -76,14 +76,14 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="{{route('category.create')}}" class="menu-link">
                         <div class="text-truncate" data-i18n="Thêm Mới">
                             Thêm Mới`
                         </div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="{{route('category.index')}}" class="menu-link">
                         <div class="text-truncate" data-i18n="Danh Sách">
                             Danh Sách
                         </div>
@@ -121,29 +121,44 @@
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
                 <div class="text-truncate" data-i18n="Sản phẩm">Sản phẩm</div>
+            </a>
 
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('products.create') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Thêm sản phẩm">Thêm sản phẩm</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('products.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Danh sách sản phẩm">Danh sách sản phẩm</div>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                <div class="text-truncate" data-i18n="Thuộc tính">Thuộc tính</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="app-invoice-list.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="List">List</div>
+                    <a href="{{ route('attributes.create') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Thêm thuộc tính">Thêm thuộc tính</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="app-invoice-preview.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Preview">Preview</div>
+                    <a href="{{ route('attributes.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Danh sách thuộc tính">Danh sách thuộc tính</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="app-invoice-edit.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Edit">Edit</div>
+                    <a href="{{ route('attribute-values.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Giá trị thuộc tính">Giá trị thuộc tính</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="app-invoice-add.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Add">Add</div>
-                    </a>
-                </li>
+
             </ul>
         </li>
         <li class="menu-item">
