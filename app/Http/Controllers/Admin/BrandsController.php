@@ -8,59 +8,57 @@ use Illuminate\Http\Request;
 
 class BrandsController extends Controller
 {
+    const PATH_VIEW = 'admin.brands.';
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $brands = Brand::all(); // Lấy tất cả thương hiệu từ DB
+        return view( self::PATH_VIEW . __FUNCTION__,compact('brands'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Hiển thị form thêm mới thương hiệu
     public function create()
     {
-        //
+        return view('admin.brands.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Lưu thương hiệu mới vào DB
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        Brand::create($request->all()); // Thêm mới thương hiệu
+        return redirect()->route('admin.brands.index')->with('success', 'Thương hiệu đã được thêm thành công.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Brand $brands)
+    // Hiển thị form chỉnh sửa thương hiệu
+    public function edit(Brand $brand)
     {
-        //
+        return view('admin.brands.edit', compact('brand'));
+    }
+  
+    // Cập nhật thương hiệu
+    public function update(Request $request, Brand $brand)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $brand->update($request->all());
+        return redirect()->route('admin.brands.index')->with('success', 'Thương hiệu đã được cập nhật.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Brand $brands)
+    // Xóa thương hiệu
+    public function destroy(Brand $brand)
     {
-        //
-    }
+        $brand->delete();
+        return redirect()->route('admin.brands.index')->with('success', 'Thương hiệu đã được xóa.');
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Brand $brands)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Brand $brands)
-    {
-        //
     }
 }

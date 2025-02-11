@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Models\Status_order;
+use App\Models\voucher;
 use Illuminate\Http\Request;
 
-class StatusOrderController extends Controller
+class VoucherController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class StatusOrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Status_order $status_order)
+    public function show(voucher $voucher)
     {
         //
     }
@@ -42,7 +42,7 @@ class StatusOrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Status_order $status_order)
+    public function edit(voucher $voucher)
     {
         //
     }
@@ -50,7 +50,7 @@ class StatusOrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Status_order $status_order)
+    public function update(Request $request, voucher $voucher)
     {
         //
     }
@@ -58,7 +58,7 @@ class StatusOrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Status_order $status_order)
+    public function destroy(voucher $voucher)
     {
         //
     }

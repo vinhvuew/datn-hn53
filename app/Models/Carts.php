@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class oder_deltail extends Model
+class Carts extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'products_name',
+    protected $fillable=[
+       
         'quantity',
-        'price',
-       
-       
+
+
     ];
 }

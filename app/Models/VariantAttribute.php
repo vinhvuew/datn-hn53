@@ -14,7 +14,6 @@ class VariantAttribute extends Model
         'attributes_value_id',
         'attribute_id',
         'attribute_value_id',
-
     ];
 
     public function variant()

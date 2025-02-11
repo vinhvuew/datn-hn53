@@ -34,7 +34,7 @@ class OderDeltailController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(oder_deltail $oder_deltail)
+    public function show( $oder_deltail)
     {
         //
     }
@@ -42,7 +42,7 @@ class OderDeltailController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(oder_deltail $oder_deltail)
+    public function edit( $oder_deltail)
     {
         //
     }
@@ -50,7 +50,7 @@ class OderDeltailController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, oder_deltail $oder_deltail)
+    public function update(Request $request,  $oder_deltail)
     {
         //
     }
@@ -58,7 +58,7 @@ class OderDeltailController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(oder_deltail $oder_deltail)
+    public function destroy( $oder_deltail)
     {
         //
     }
