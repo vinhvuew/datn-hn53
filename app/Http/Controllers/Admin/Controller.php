@@ -29,4 +29,9 @@ class Controller extends BaseController
     {
         return view("client.productDetail");
     }
+
+    public function voucher()
+    {
+        return view("admin.Vouchers.add");
+    }
 }
