@@ -1,5 +1,7 @@
 @extends('admin.layouts.master')
+@section('item-atribute', 'open')
 
+@section('item-atribute-index', 'active')
 @section('content')
     <!-- Content wrapper -->
     <!-- Content -->
