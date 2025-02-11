@@ -1,26 +1,19 @@
 @extends('admin.layouts.master')
+@section('item-product', 'open')
+@section('item-product-create', 'active')
+
 @section('content')
     <div class="content-wrapper">
-
-        <!-- Content -->
-
         <div class="container-xxl flex-grow-1 container-p-y">
-
-
-
             <h4 class="py-3 mb-4">
-                <span class="text-muted fw-light">eCommerce /</span><span> Add Product</span>
+                <span class="text-muted fw-light">Sản phẩm /</span><span> Thêm mới sản phẩm</span>
             </h4>
-
             <div class="app-ecommerce">
-
-                <!-- Add Product -->
                 <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-
                         <div class="d-flex flex-column justify-content-center">
-                            <h4 class="mb-1 mt-3">Add a new Product</h4>
+                            <h4 class="mb-1 mt-3">Thêm mới 1 sản phẩm</h4>
                             <p class="text-muted">Orders placed across your store</p>
                         </div>
                         <div class="d-flex align-content-center flex-wrap gap-3">
@@ -85,7 +78,6 @@
                                 <div class="card-body">
                                     <div class="row gy-3" id="gallery-container">
                                         <div id="gallery_1">
-                                            <label for="gallery_input_1" class="form-label">Gallery 1</label>
                                             <input type="file" class="form-control" name="product_galleries[]"
                                                 id="gallery_input_1" multiple>
                                             @if ($errors->has('product_galleries'))
@@ -107,12 +99,13 @@
                                 </div>
                                 <div class="card-body" style="margin-top: -25px">
                                     <input type="checkbox" id="hasVariants" class="form-check-input">
-                                    <label class="form-check-label" for="hasVariants">Sản phẩm này có biến thể</label>
+                                    <label class="form-check-label mb-2" for="hasVariants">Sản phẩm này có biến
+                                        thể</label>
 
                                     <!-- Biến thể sản phẩm (ẩn theo mặc định) -->
                                     <div id="variantsSection" style="display: none;">
                                         <div id="variants" class="mb-3">
-                                            <div class="variant">
+                                            <div class="variant border p-3">
                                                 <h5 class="mt-3">Thuộc Tính 1</h5>
                                                 <div class="mb-3">
                                                     <label for="variant_sku_0">Mã biến thể</label>
@@ -238,26 +231,36 @@
         <!-- / Content -->
     </div>
 @endsection
+
 @section('style-libs')
 @endsection
 @section('script-libs')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             let galleryCount = 1;
-
             const galleryContainer = document.getElementById('gallery-container');
             const addGalleryButton = document.getElementById('add-gallery');
 
             addGalleryButton.addEventListener('click', function() {
                 galleryCount++;
                 const newGalleryDiv = document.createElement('div');
-                newGalleryDiv.classList.add('col-12');
+                newGalleryDiv.classList.add('d-flex', 'align-items-center', 'gap-2', 'mb-2');
                 newGalleryDiv.id = `gallery_${galleryCount}`;
                 newGalleryDiv.innerHTML = `
-            <label for="gallery_input_${galleryCount}" class="form-label">Gallery ${galleryCount}</label>
-            <input type="file" class="form-control" name="product_galleries[]" id="gallery_input_${galleryCount}">
-        `;
+                <input type="file" class="form-control" name="product_galleries[]" id="gallery_input_${galleryCount}">
+                <button type="button" class="btn btn-danger remove-gallery" data-id="gallery_${galleryCount}">Xóa</button>
+            `;
                 galleryContainer.appendChild(newGalleryDiv);
+            });
+
+            galleryContainer.addEventListener('click', function(event) {
+                if (event.target.classList.contains('remove-gallery')) {
+                    const galleryId = event.target.getAttribute('data-id');
+                    const galleryElement = document.getElementById(galleryId);
+                    if (galleryElement) {
+                        galleryElement.remove();
+                    }
+                }
             });
         });
     </script>
@@ -274,29 +277,36 @@
         document.getElementById('add-variant').addEventListener('click', function() {
             let variantsDiv = document.getElementById('variants');
             let newVariantDiv = document.createElement('div');
-            newVariantDiv.classList.add('variant');
+            newVariantDiv.classList.add('variant', 'border', 'p-3', 'mt-3');
+            newVariantDiv.id = `variant_${variantIndex}`;
             newVariantDiv.innerHTML = `
-        <h5 class="mt-3">Thuộc Tính ${variantIndex + 1}</h5>
-        <div class="mb-3">
-        <label for="variant_sku_${variantIndex}">Mã biến thể</label>
-        <input type="text" id="variant_sku_${variantIndex}" name="variants[${variantIndex}][sku]" placeholder="Mã biến thể" class="form-control">
-        </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mt-3">Thuộc Tính ${variantIndex + 1}</h5>
+                <button type="button" class="btn btn-danger remove-variant" data-id="variant_${variantIndex}">Xóa</button>
+            </div>
 
-        <div class="mb-3">
-        <label for="variant_selling_price_${variantIndex}">Giá điều chỉnh</label>
-        <input type="number" id="variant_selling_price_${variantIndex}" name="variants[${variantIndex}][selling_price]" max="99999999" class="form-control" step="0.01" placeholder="Giá điều chỉnh">
-        </div>
+            <div class="mb-3">
+                <label for="variant_sku_${variantIndex}">Mã biến thể</label>
+                <input type="text" id="variant_sku_${variantIndex}" name="variants[${variantIndex}][sku]" placeholder="Mã biến thể" class="form-control">
+            </div>
 
-        <div class="mb-4">
-        <label for="variant_quantity_${variantIndex}">Số lượng tồn kho</label>
-        <input type="number" id="variant_quantity_${variantIndex}" name="variants[${variantIndex}][quantity]" class="form-control" placeholder="Số lượng tồn kho">
-        </div>
+            <div class="mb-3">
+                <label for="variant_selling_price_${variantIndex}">Giá điều chỉnh</label>
+                <input type="number" id="variant_selling_price_${variantIndex}" name="variants[${variantIndex}][selling_price]" max="99999999" class="form-control" step="0.01" placeholder="Giá điều chỉnh">
+            </div>
 
-        <div class="mb-3">
-        <input type="file" id="variant_image_${variantIndex}" name="variants[${variantIndex}][image]" class="form-control">
-        </div>
+            <div class="mb-4">
+                <label for="variant_quantity_${variantIndex}">Số lượng tồn kho</label>
+                <input type="number" id="variant_quantity_${variantIndex}" name="variants[${variantIndex}][quantity]" class="form-control" placeholder="Số lượng tồn kho">
+            </div>
+
+            <div class="mb-3">
+                <input type="file" id="variant_image_${variantIndex}" name="variants[${variantIndex}][image]" class="form-control">
+            </div>
+
             ${generateAttributeFields(variantIndex)}
-`;
+        `;
+
             variantsDiv.appendChild(newVariantDiv);
             variantIndex++;
         });
@@ -311,15 +321,26 @@
                 });
 
                 fieldsHTML += `
-        <div class="mb-3">
-            <label for="variant_attribute_${attribute.id}_${index}">${attribute.name}</label>
-            <select id="variant_attribute_${attribute.id}_${index}" name="variants[${index}][attributes][${attribute.id}]" class="form-control">
-                ${optionsHTML}
-            </select>
-        </div>
-    `;
+            <div class="mb-3">
+                <label for="variant_attribute_${attribute.id}_${index}">${attribute.name}</label>
+                <select id="variant_attribute_${attribute.id}_${index}" name="variants[${index}][attributes][${attribute.id}]" class="form-control">
+                    ${optionsHTML}
+                </select>
+            </div>
+        `;
             });
             return fieldsHTML;
         }
+
+        // Lắng nghe sự kiện click để xóa biến thể
+        document.getElementById('variants').addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-variant')) {
+                const variantId = event.target.getAttribute('data-id');
+                const variantElement = document.getElementById(variantId);
+                if (variantElement) {
+                    variantElement.remove();
+                }
+            }
+        });
     </script>
 @endsection

@@ -1,13 +1,13 @@
 @extends('admin.layouts.master')
+
+@section('item-product', 'open')
+@section('item-product-index', 'active')
+
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4">
-            <span class="text-muted fw-light">eCommerce /</span> Product
-            List
+            <span class="text-muted fw-light">Sản phẩm /</span> Danh sách sản phẩm
         </h4>
-
-        <!-- Product List Widget -->
-
         <div class="card mb-4">
             <div class="card-widget-separator-wrapper">
                 <div class="card-body card-widget-separator">
@@ -87,7 +87,6 @@
             </div>
         </div>
 
-        <!-- Product List Table -->
         <div class="card">
             <!-- Search Bar and Add Product Button -->
             <div class="card-header d-flex justify-content-end align-items-center">
@@ -181,10 +180,6 @@
                 </table>
             </div>
         </div>
-
-        <!-- Add Product Offcanvas -->
-
-
     </div>
 @endsection
 @section('style-libs')
