@@ -162,6 +162,14 @@
                         <div class="text-truncate" data-i18n="Create">Add</div>
                     </a>
                 </li>
+            </ul>
+        </li>
+        
+        <li class="menu-item">
+            <a href="{{route('comment.index')}}" class="menu-link ">
+                <i class="menu-icon tf-icons bx bx-chart"></i>
+                <div class="text-truncate" data-i18n="bình luận">Bình Luận</div>
+            </a>
                 {{-- <li class="menu-item">
                     <a href="{{ route('admin.users.edit') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="Edit">Edit</div>
@@ -170,12 +178,9 @@
 
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-<<<<<<< HEAD
                 <i class="menu-icon tf-icons bx bx-chart"></i>
                 <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>
-=======
                 <div class="text-truncate" data-i18n="View">View</div>
->>>>>>> feature/vinhvq
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
@@ -237,5 +242,4 @@
             </li>
         </ul>
     </li>
-
 </aside>

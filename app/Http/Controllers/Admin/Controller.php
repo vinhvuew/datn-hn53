@@ -32,6 +32,13 @@ class Controller extends BaseController
 
     public function voucher()
     {
+        return view("admin.Vouchers.add");
+    }
+
+    public function image()
+    {
+        return view("admin.image.index");
+    }
         return view("admin.Vouchers.view");
     }
     public function brands()
