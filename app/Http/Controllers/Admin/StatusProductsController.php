@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\status_products;
+use App\Models\status_product;
 use Illuminate\Http\Request;
 
 class StatusProductsController extends Controller
@@ -34,7 +34,7 @@ class StatusProductsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(status_products $status_products)
+    public function show(status_product $status_products)
     {
         //
     }
@@ -42,7 +42,7 @@ class StatusProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(status_products $status_products)
+    public function edit(status_product $status_products)
     {
         //
     }
@@ -50,7 +50,7 @@ class StatusProductsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, status_products $status_products)
+    public function update(Request $request, status_product $status_products)
     {
         //
     }
@@ -58,7 +58,7 @@ class StatusProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(status_products $status_products)
+    public function destroy(status_product $status_products)
     {
         //
     }

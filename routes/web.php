@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\Controller;
-use App\Http\Controllers\Admin\DashBoardController;
-use App\Http\Controllers\Admin\ProductController;
+
+use App\Http\Controllers\Admin\AttributesNameController;
+use App\Http\Controllers\Admin\AttributesValuesController;
+use App\Http\Controllers\Admin\ProductsController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,14 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
-Route::get("/", [Controller::class, 'index']);
-Route::get("/category", [Controller::class, 'category']);
-Route::get("/product", [Controller::class, 'product']);
-
-Route::get("/voucher", [Controller::class, 'voucher']);
-
-
-
-
+Route::prefix('admin/')->group(function () {
+    Route::resource('products', ProductsController::class);
+    Route::resource('attributes', AttributesNameController::class);
+    Route::resource('attribute-values', AttributesValuesController::class);
+});
