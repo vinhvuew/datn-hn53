@@ -231,7 +231,7 @@
         <!-- / Content -->
     </div>
 @endsection
-
+{{-- tét --}}
 @section('style-libs')
 @endsection
 @section('script-libs')
