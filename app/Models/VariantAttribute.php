@@ -10,9 +10,10 @@ class VariantAttribute extends Model
     use HasFactory;
     protected $fillable = [
         'variant_id',
+        'attributes_name_id',
+        'attributes_value_id',
         'attribute_id',
-        'attribute_value_id'
-
+        'attribute_value_id',
     ];
 
     public function variant()

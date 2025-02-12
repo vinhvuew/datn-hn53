@@ -19,4 +19,7 @@ class Comment extends Model
         'content',
       'text'
     ];
+    // public $table = 'Comment';
+    // public $timestamp = false;
+    // protected $dates = ['deleted_at'];
 }

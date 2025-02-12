@@ -4,10 +4,9 @@
     </div>
 
     <div class="menu-inner-shadow"></div>
-
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item active">
+        <li class="menu-item">
             <a href="#" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div class="text-truncate" data-i18n="Dashboards">
@@ -16,24 +15,22 @@
                 <span class="badge badge-center rounded-pill bg-danger ms-auto">5</span>
             </a>
         </li>
-
-
-        <!-- e-commerce-app menu start -->
-        <li class="menu-item">
+        {{-- danh mục --}}
+        <li class="menu-item @yield('item-category')">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bxs-folder-open"></i>
                 <div class="text-truncate" data-i18n="Danh Mục">Danh Mục</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="{{route('category.create')}}" class="menu-link">
+                <li class="menu-item @yield('item-category-create')">
+                    <a href="{{ route('category.create') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="Thêm Mới">
                             Thêm Mới`
                         </div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="{{route('category.index')}}" class="menu-link">
+                <li class="menu-item @yield('item-category-index')">
+                    <a href="{{ route('category.index') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="Danh Sách">
                             Danh Sách
                         </div>
@@ -41,23 +38,22 @@
                 </li>
             </ul>
         </li>
-        <!-- e-commerce-app menu end -->
-        <!-- Academy menu start -->
-        <li class="menu-item">
+        {{-- thương hiệu --}}
+        <li class="menu-item @yield('item-brand')">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-book-open"></i>
-                <div class="text-truncate" data-i18n="Thương thiệu">thương hiệu</div>
+                <div class="text-truncate" data-i18n="Thương thiệu">Thương hiệu</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="{{ route('admin.brands.create') }}" class="menu-link">
+                <li class="menu-item @yield('item-brand-create')">
+                    <a href="{{ route('brands.create') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="Thêm Mới">
                             Thêm Mới
                         </div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="{{ route('admin.brands.index') }}" class="menu-link">
+                <li class="menu-item @yield('item-brand-index')">
+                    <a href="{{ route('brands.index') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="Danh Sách">
                             Danh Sách
                         </div>
@@ -65,21 +61,19 @@
                 </li>
             </ul>
         </li>
-        <!-- Academy menu end -->
-
-        <li class="menu-item">
+        {{-- sản phẩm --}}
+        <li class="menu-item @yield('item-product')">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
                 <div class="text-truncate" data-i18n="Sản phẩm">Sản phẩm</div>
             </a>
-
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item @yield('item-product-create')">
                     <a href="{{ route('products.create') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="Thêm sản phẩm">Thêm sản phẩm</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item @yield('item-product-index')">
                     <a href="{{ route('products.index') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="Danh sách sản phẩm">Danh sách sản phẩm</div>
                     </a>
@@ -87,23 +81,24 @@
 
             </ul>
         </li>
-        <li class="menu-item">
+        {{-- thuộc tính --}}
+        <li class="menu-item  @yield('item-atribute')">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
                 <div class="text-truncate" data-i18n="Thuộc tính">Thuộc tính</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item @yield('item-atribute-add')">
                     <a href="{{ route('attributes.create') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="Thêm thuộc tính">Thêm thuộc tính</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item @yield('item-atribute-index')">
                     <a href="{{ route('attributes.index') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="Danh sách thuộc tính">Danh sách thuộc tính</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item @yield('item-atribute-value')">
                     <a href="{{ route('attribute-values.index') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="Giá trị thuộc tính">Giá trị thuộc tính</div>
                     </a>
@@ -123,18 +118,18 @@
                 <li class="menu-item">
                     <a href="{{ route('vouchers.view') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="danh sach">
-                         danh sách
+                            danh sách
                         </div>
                     </a>
                 </li>
                 <li class="menu-item">
                     <a href="{{ route('voucher.create') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="them">
-                            Thêm 
+                            Thêm
                         </div>
                     </a>
                 </li>
-              
+
 
             </ul>
         </li>
@@ -153,29 +148,23 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="{{ route('admin.users.index') }}" class="menu-link">
+                    <a href="{{ route('users.index') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="List">List</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('admin.users.create') }}" class="menu-link">
+                    <a href="{{ route('users.create') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="Create">Add</div>
                     </a>
                 </li>
-                {{-- <li class="menu-item">
-                    <a href="{{ route('admin.users.edit') }}" class="menu-link">
-                        <div class="text-truncate" data-i18n="Edit">Edit</div>
-                    </a>
-                </li> --}}
+            </ul>
+        </li>
 
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-<<<<<<< HEAD
                 <i class="menu-icon tf-icons bx bx-chart"></i>
                 <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>
-=======
                 <div class="text-truncate" data-i18n="View">View</div>
->>>>>>> feature/vinhvq
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
@@ -216,26 +205,4 @@
             </ul>
         </li>
     </ul>
-    </li>
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bx-chart"></i>
-            <div class="text-truncate" data-i18n="bình luận">bình luận</div>
-        </a>
-        <ul class="menu-sub">
-            <li class="menu-item">
-                <a href="charts-apex.html" class="menu-link">
-                    <div class="text-truncate" data-i18n="Apex Charts">
-                        Apex Charts
-                    </div>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="charts-chartjs.html" class="menu-link">
-                    <div class="text-truncate" data-i18n="ChartJS">ChartJS</div>
-                </a>
-            </li>
-        </ul>
-    </li>
-
 </aside>

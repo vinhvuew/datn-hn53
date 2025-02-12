@@ -32,7 +32,12 @@ class Controller extends BaseController
 
     public function voucher()
     {
-        return view("admin.Vouchers.view");
+        return view("admin.Vouchers.add");
+    }
+
+    public function image()
+    {
+        return view("admin.image.index");
     }
     public function brands()
     {
@@ -42,8 +47,4 @@ class Controller extends BaseController
     {
         return view("admin.users.create");
     }
-    // public function donhang()
-    // {
-    //     return view("admin.orders.index");
-    // }
 }

@@ -1,11 +1,12 @@
 @extends('admin.layouts.master')
-
+@section('item-category', 'open')
+@section('item-category-index', 'active')
 @section('content')
     <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-4">
-                <span class="text-muted fw-light">eCommerce /</span> Category List
+                <span class="text-muted fw-light">Danh mục /</span> Danh sách danh mục
             </h4>
 
             <div class="app-ecommerce-category">
@@ -17,7 +18,7 @@
                     </div>
                     <!-- Add Category Button -->
                     <a href="{{ route('category.create') }}" class="btn btn-primary">
-                        + Add Category
+                        + Thêm mới danh mục
                     </a>
                 </div>
 
@@ -34,9 +35,9 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Category Name</th>
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Actions</th>
+                                    <th>Tên danh mục</th>
+                                    <th class="text-center">Trạng thái</th>
+                                    <th class="text-center">Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,18 +46,11 @@
                                         <td>{{ $item->id }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td class="text-center">
-                                            <span class="badge bg-success">Active</span>
+                                            <span class="badge bg-success">Kích hoạt</span>
                                         </td>
-                                        <td class="text-center" style="display:flex; margin-left:50px">
+                                        <td class="text-center">
                                             <a href="{{ route('category.edit', $item->id) }}"
-                                                class="btn btn-sm btn-primary">Edit</a>
-                                            <form action="{{ route('category.destroy', $item->id) }}" method="post"
-                                                id="form-{{ $item->id }}" style="margin-left: 10px">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" class="btn btn-sm btn-danger"
-                                                    data-id='{{ $item->id }}' id="submit-form">Delete</button>
-                                            </form>
+                                                class="btn btn-sm btn-primary">Chỉnh sửa</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -67,14 +61,6 @@
             </div>
         </div>
         <!-- / Content -->
-
-        <div class="buy-now">
-            <a href="https://themeselection.com/item/sneat-bootstrap-html-admin-template/" target="_blank"
-                class="btn btn-danger btn-buy-now">Buy Now</a>
-        </div>
-
-        <!-- Footer -->
-        <div class="content-backdrop fade"></div>
     </div>
     <script>
         const btn = document.querySelectorAll('#submit-form');
