@@ -11,10 +11,12 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+    const PATH_VIEW = 'admin.users.';
+
     public function index()
     {
         $users = User::all();
-        return view('admin.users.index', compact('users'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('users'));
     }
 
     /**
@@ -22,7 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        return view(self::PATH_VIEW . __FUNCTION__);
     }
 
     /**
@@ -46,7 +48,7 @@ class UserController extends Controller
             'role' => $request->role,
         ]);
 
-        return redirect()->route('admin.users.index')->with('success', 'Tạo tài khoản thành công.');
+        return redirect()->route('users.index')->with('success', 'Tạo tài khoản thành công.');
     }
 
     /**
@@ -55,7 +57,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('admin.users.edit', compact('user'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('user'));
     }
 
     /**
@@ -81,7 +83,7 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('admin.users.index')->with('success', 'Sửa tài khoản thành công.');
+        return redirect()->route('users.index')->with('success', 'Sửa tài khoản thành công.');
     }
 
     /**
@@ -92,6 +94,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('admin.users.index')->with('success', 'Xóa tài khoản thành công.');
+        return redirect()->route('users.index')->with('success', 'Xóa tài khoản thành công.');
     }
 }
