@@ -15,6 +15,5 @@ class voucher extends Model
         'start_date',
         'end_date',
         'usage_limit',
-
     ];
 }
