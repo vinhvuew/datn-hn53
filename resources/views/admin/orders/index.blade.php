@@ -52,7 +52,7 @@
                             <td>
                                 <div class="d-flex gap-2 align-items-center">
                                     <a href="{{ route('orders.show', $order->id)}}" class="btn btn-info">Detail</a>
-                                    <a href="#" class="btn btn-warning">Edit</a>
+                                    <a href="{{ route('orders.edit', $order->id) }} " class="btn btn-warning">Edit</a>
                                     <form action="{{ route('orders.destroy', $order->id) }}" method="POST" class="m-0 p-0">
                                         @csrf
                                         @method('DELETE')
