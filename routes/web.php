@@ -1,7 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Route;
+// client
+use App\Http\Controllers\Client\HomeController;
+// admin
 use App\Http\Controllers\Admin\Controller;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\BrandsController;
@@ -14,10 +17,16 @@ use App\Http\Controllers\Admin\AttributesNameController;
 use App\Http\Controllers\Admin\AttributesValuesController;
 
 
-Route::get("/", [Controller::class, 'index']);
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/chat', [HomeController::class, 'room'])->name('chat');
+Route::get('/product', [HomeController::class, 'products'])->name('product');
+
+
+// admin
 Route::prefix('admin/')
     ->group(function () {
+        Route::get("/", [Controller::class, 'index'])->name("admin");
         Route::resource('products', ProductController::class);
         Route::resource("category", CategoryController::class);
         Route::resource('attributes', AttributesNameController::class);

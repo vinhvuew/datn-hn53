@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\Controller;
 
 use App\Models\Comment;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -23,7 +22,7 @@ class CommentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    
+
 
     public function create()
     {
@@ -64,18 +63,18 @@ class CommentController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     */  
- 
+     */
+
     public function destroy($id)
 {
     try {
-     
-        $comment = Comment::findOrFail($id); 
-        $comment->delete(); 
+
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
 
         return redirect()->route('comment.index')->with('success', 'Xóa Bình Luận Vi Phạm Cộng Đồng Thành Công!');
     } catch (\Exception $e) {
-        
+
         return redirect()->route('comment.index')->with('error', 'Xóa Bình Luận Vi Phạm Cộng Đồng Thất Bại!');
     }
 }
