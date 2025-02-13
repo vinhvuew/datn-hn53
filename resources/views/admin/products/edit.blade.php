@@ -90,12 +90,18 @@
                                 <div class="card-body">
                                     <div class="row gy-3" id="gallery-container">
                                         @foreach ($product->images as $item)
-                                            <div id="gallery_{{ $loop->iteration }}">
+                                            <div class="d-flex align-content-center gap-2"
+                                                id="gallery_{{ $loop->iteration }}">
                                                 <input type="file" class="form-control"
                                                     name="product_galleries[{{ $item->id }}]"
                                                     id="gallery_input_{{ $item->id }}">
+
+                                                <button type="button" class="btn btn-danger remove-gallery"
+                                                    data-id="gallery_{{ $loop->iteration }}">Xóa</button>
+                                            </div>
+                                            <div>
                                                 <img src="{{ Storage::url($item->img) }}" alt="" width="50px"
-                                                    class="rounded mt-2 mb-2">
+                                                    class="rounded mb-2">
                                             </div>
                                         @endforeach
                                         @if ($errors->has('product_galleries'))
@@ -115,30 +121,30 @@
                                     <p>Thêm mới thuộc tính giúp sản phẩm có nhiều lựa chọn, như kích cỡ hay màu sắc.</p>
                                 </div>
                                 <div class="card-body" style="margin-top: -25px">
-                                    @if (!$product->variants)
-                                        <input type="checkbox" id="hasVariants" class="form-check-input">
-                                        <label class="form-check-label mb-2" for="hasVariants">Sản phẩm này có biến
-                                            thể</label>
-                                    @endif
+                                    <input type="checkbox" id="hasVariants"
+                                        @if ($product->variants && $product->variants->count() > 0) checked @endif class="form-check-input">
+                                    <label class="form-check-label mb-2" for="hasVariants">Sản phẩm này có biến
+                                        thể</label>
+
                                     <!-- Biến thể sản phẩm (ẩn theo mặc định) -->
-                                    <div id="variantsSection">
-                                        @foreach ($product->variants as $index => $variant)
-                                            <div id="variants" class="mb-3">
-                                                <div class="variant border p-3">
+                                    <div id="variantsSection" @if ($product->variants && $product->variants->count() === 0) class="d-none" @endif>
+                                        <div id="variants" class="mb-3">
+                                            @foreach ($product->variants as $variantIndex => $variant)
+                                                <div class="variant border p-3 mb-3" id="variant[{{ $variantIndex }}]">
                                                     <h5 class="mt-3">Thuộc tính {{ $loop->iteration }}</h5>
                                                     <div class="mb-3">
-                                                        <label for="variant_sku_{{ $index }}">Mã biến thể</label>
-                                                        <input type="text" id="variant_sku_{{ $index }}"
+                                                        <label for="variant_sku_{{ $variantIndex }}">Mã biến thể</label>
+                                                        <input type="text" id="variant_sku_{{ $variantIndex }}"
                                                             name="variants[{{ $variant->id }}][sku]"
                                                             placeholder="Mã biến thể" class="form-control"
                                                             value="{{ $variant->sku }}">
                                                     </div>
 
                                                     <div class="mb-3">
-                                                        <label for="variant_selling_price_{{ $index }}">Giá điều
+                                                        <label for="variant_selling_price_{{ $variantIndex }}">Giá điều
                                                             chỉnh</label>
                                                         <input type="number"
-                                                            id="variant_selling_price_{{ $index }}"
+                                                            id="variant_selling_price_{{ $variantIndex }}"
                                                             name="variants[{{ $variant->id }}][selling_price]"
                                                             class="form-control" step="0.01"
                                                             placeholder="Giá điều chỉnh" max="99999999"
@@ -146,28 +152,28 @@
                                                     </div>
 
                                                     <div class="mb-4">
-                                                        <label for="variant_quantity_{{ $index }}">Số lượng tồn
+                                                        <label for="variant_quantity_{{ $variantIndex }}">Số lượng tồn
                                                             kho</label>
-                                                        <input type="number" id="variant_quantity_{{ $index }}"
+                                                        <input type="number" id="variant_quantity_{{ $variantIndex }}"
                                                             name="variants[{{ $variant->id }}][quantity]"
                                                             class="form-control" placeholder="Số lượng tồn kho"
                                                             value="{{ $variant->quantity }}">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <input type="file" id="variant_image_{{ $index }}"
+                                                        <input type="file" id="variant_image_{{ $variantIndex }}"
                                                             name="variants[{{ $variant->id }}][image]"
                                                             class="form-control">
                                                         <img src="{{ Storage::url($variant->image) }}" alt=""
                                                             srcset="" width="50px" class="rounded mt-2">
                                                     </div>
                                                     <!-- Thuộc tính của biến thể -->
-                                                    <div id="attributesSection_{{ $index }} mb-3">
+                                                    <div id="attributesSection_{{ $variantIndex }} mb-3">
                                                         @foreach ($attributes as $attribute)
                                                             <div class="mt-3">
                                                                 <label
-                                                                    for="variant_attribute_{{ $attribute->id }}_{{ $index }}">{{ $attribute->name }}</label>
+                                                                    for="variant_attribute_{{ $attribute->id }}_{{ $variantIndex }}">{{ $attribute->name }}</label>
                                                                 <select class="select2 form-select"
-                                                                    id="variant_attribute_{{ $attribute->id }}_{{ $index }}"
+                                                                    id="variant_attribute_{{ $attribute->id }}_{{ $variantIndex }}"
                                                                     name="variants[{{ $variant->id }}][attributes][{{ $attribute->id }}]"
                                                                     class="form-control">
                                                                     <option value="">Chọn {{ $attribute->name }}
@@ -183,8 +189,8 @@
                                                         @endforeach
                                                     </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
+                                            @endforeach
+                                        </div>
                                         <button type="button" id="add-variant" class="btn btn-primary "><i
                                                 class="mdi mdi-plus me-0 me-sm-1"></i>Thêm Thuộc
                                             Tính</button>
@@ -268,4 +274,112 @@
 @section('style-libs')
 @endsection
 @section('script-libs')
+    <script>
+        let galleryIndex = {{ count($product->images) }};
+        document.addEventListener('DOMContentLoaded', function() {
+            const galleryContainer = document.getElementById('gallery-container');
+            const addGalleryButton = document.getElementById('add-gallery');
+
+            addGalleryButton.addEventListener('click', function() {
+                galleryIndex++;
+                const newGalleryDiv = document.createElement('div');
+                newGalleryDiv.classList.add('d-flex', 'align-items-center', 'gap-2', 'mb-2');
+                newGalleryDiv.id = `gallery_${galleryIndex}`;
+                newGalleryDiv.innerHTML = `
+            <input type="file" class="form-control" name="product_galleries[new_${galleryIndex}]" id="gallery_input_${galleryIndex}">
+            <button type="button" class="btn btn-danger remove-gallery" data-id="gallery_${galleryIndex}">Xóa</button>
+        `;
+                galleryContainer.appendChild(newGalleryDiv);
+            });
+
+            galleryContainer.addEventListener('click', function(event) {
+                if (event.target.classList.contains('remove-gallery')) {
+                    const galleryId = event.target.getAttribute('data-id');
+                    const galleryElement = document.getElementById(galleryId);
+                    if (galleryElement) {
+                        galleryElement.remove();
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        // JSON cho dữ liệu thuộc tính và các giá trị của chúng
+        const attributesData = @json($attributes);
+        let variantIndex = {{ $product->variants ? $product->variants->count() : 0 }};
+
+        document.getElementById('hasVariants').addEventListener('change', function() {
+            const variantsSection = document.getElementById('variantsSection');
+            variantsSection.style.display = this.checked ? 'block' : 'none';
+        });
+
+        document.getElementById('add-variant').addEventListener('click', function() {
+            let variantsDiv = document.getElementById('variants');
+            let newVariantDiv = document.createElement('div');
+            newVariantDiv.classList.add('variant', 'border', 'p-3', 'mt-3');
+            newVariantDiv.id = `variant[${variantIndex}]`;
+            newVariantDiv.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mt-3">Thuộc Tính ${variantIndex + 1}</h5>
+            <button type="button" class="btn btn-danger remove-variant" data-id="variant_${variantIndex}">Xóa</button>
+        </div>
+
+        <div class="mb-3">
+            <label for="variant_sku_${variantIndex}">Mã biến thể</label>
+            <input type="text" id="variant_sku_${variantIndex}" name="variants[new_${variantIndex}][sku]" placeholder="Mã biến thể" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="variant_selling_price_${variantIndex}">Giá điều chỉnh</label>
+            <input type="number" id="variant_selling_price_${variantIndex}" name="variants[new_${variantIndex}][selling_price]" max="99999999" class="form-control" step="0.01" placeholder="Giá điều chỉnh">
+        </div>
+
+        <div class="mb-4">
+            <label for="variant_quantity_${variantIndex}">Số lượng tồn kho</label>
+            <input type="number" id="variant_quantity_${variantIndex}" name="variants[new_${variantIndex}][quantity]" class="form-control" placeholder="Số lượng tồn kho">
+        </div>
+
+        <div class="mb-3">
+            <input type="file" id="variant_image_${variantIndex}" name="variants[new_${variantIndex}][image]" class="form-control">
+        </div>
+
+        ${generateAttributeFields(variantIndex)}
+    `;
+
+            variantsDiv.appendChild(newVariantDiv);
+            variantIndex++;
+        });
+
+        function generateAttributeFields(index) {
+            let fieldsHTML = '';
+            attributesData.forEach(attribute => {
+                let optionsHTML = `<option value="">Chọn ${attribute.name}</option>`;
+
+                attribute.values.forEach(value => {
+                    optionsHTML += `<option value="${value.id}">${value.value}</option>`;
+                });
+
+                fieldsHTML += `
+        <div class="mb-3">
+            <label for="variant_attribute_${attribute.id}_${index}">${attribute.name}</label>
+            <select id="variant_attribute_${attribute.id}_${index}" name="variants[new_${index}][attributes][${attribute.id}]" class="form-control">
+                ${optionsHTML}
+            </select>
+        </div>
+    `;
+            });
+            return fieldsHTML;
+        }
+
+        // Lắng nghe sự kiện click để xóa biến thể
+        document.getElementById('variants').addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-variant')) {
+                const variantId = event.target.getAttribute('data-id');
+                const variantElement = document.getElementById(variantId);
+                if (variantElement) {
+                    variantElement.remove();
+                }
+            }
+        });
+    </script>
 @endsection
