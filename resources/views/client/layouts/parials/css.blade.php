@@ -74,9 +74,12 @@
 
     {{-- cart --}}
     <link href="client/css/cart.css" rel="stylesheet">
+    <link href="client/css/checkout.css" rel="stylesheet">
 
-
-	<!-- SPECIFIC CSS -->
+    <!-- SPECIFIC CSS -->
     <link href="client/css/product_page.css" rel="stylesheet">
+    {{-- để lại bình luận --}}
+    <link href="css/leave_review.css" rel="stylesheet">
+
 
 </head>

@@ -1,5 +1,7 @@
 @extends('admin.layouts.master')
+@section('item-atribute', 'open')
 
+@section('item-atribute-value', 'active')
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4">

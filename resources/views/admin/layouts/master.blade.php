@@ -8,7 +8,7 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>
-        Legend Shoes
+        𝕷𝖊𝖌𝖊𝖓𝖉 𝕾𝖍𝖔𝖕
     </title>
 
     <meta name="description"

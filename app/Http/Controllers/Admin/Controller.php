@@ -34,13 +34,6 @@ class Controller extends BaseController
     {
         return view("admin.Vouchers.add");
     }
-
-    public function image()
-    {
-        return view("admin.image.index");
-    }
-        return view("admin.Vouchers.view");
-    }
     public function brands()
     {
         return view("admin.Brands.index");
@@ -49,8 +42,4 @@ class Controller extends BaseController
     {
         return view("admin.users.create");
     }
-    // public function donhang()
-    // {
-    //     return view("admin.orders.index");
-    // }
 }

@@ -54,7 +54,7 @@ class Product extends Model
 
     public function images()
     {
-        return $this->belongsTo(image_gallery::class);
+        return $this->hasMany(image_gallery::class);
     }
 
      /**

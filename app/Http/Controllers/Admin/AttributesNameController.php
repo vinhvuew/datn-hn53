@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Controller;
 use App\Models\Attribute;
-use App\Models\attributes_name;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
