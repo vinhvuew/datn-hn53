@@ -5,13 +5,13 @@
 @section('content')
     <div class="container mt-5">
         <h1>Danh Sách Thương Hiệu</h1>
-        <a href="{{ route('brands.create') }}">Thêm Thương Hiệu</a>
+        <a class="btn btn-primary mb-3" href="{{ route('brands.create') }}">Thêm Thương Hiệu</a>
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <table class="table">
-            <thead>
+        <table class="table table-bordered table-hover shadow-sm">
+            <thead class="table-primary text-center">
                 <tr>
                     <th>ID</th>
                     <th>Tên</th>
@@ -22,22 +22,27 @@
             <tbody>
                 @foreach ($brands as $brand)
                     <tr>
-                        <td>{{ $brand->id }}</td>
-                        <td>{{ $brand->name }}</td>
-                        <td>{{ $brand->text }}</td>
-                        <td>
-                            <a href="{{ route('brands.edit', $brand) }}">Sửa</a>
+                        <td class="text-center align-middle">{{ $brand->id }}</td>
+                        <td class="align-middle">{{ $brand->name }}</td>
+                        <td class="align-middle">{{ $brand->text }}</td>
+                        <td class="text-center align-middle">
+                            <a href="{{ route('brands.edit', $brand) }}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> Sửa
+                            </a>
                             <form action="{{ route('brands.destroy', $brand) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</button>
+                                    onclick="return confirm('Bạn có chắc muốn xóa?')">
+                                    <i class="fas fa-trash-alt"></i> Xóa
+                                </button>
                             </form>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
     </div>
 @endsection
 @section('style-libs')

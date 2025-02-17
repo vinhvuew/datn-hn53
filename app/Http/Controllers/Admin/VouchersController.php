@@ -37,7 +37,7 @@ class VouchersController extends Controller
         ], [
             'voucher.unique' => 'Voucher này đã tồn tại, vui lòng chọn mã khác.', // Thông báo lỗi tùy chỉnh
         ]);
-    
+
         try {
             // Lưu voucher vào cơ sở dữ liệu
             Voucher::create([
@@ -46,16 +46,16 @@ class VouchersController extends Controller
                 'valid_from' => $request->valid_from,
                 'valid_to' => $request->valid_to,
             ]);
-    
+
             // Sau khi lưu thành công, quay lại trang view của vouchers
             return redirect()->route('vouchers.view')->with('success', 'them thanh cong!');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'them that bai ' . $e->getMessage()]);
         }
     }
-    
-    
-    
+
+
+
 
     /**
      * Display the specified resource.
@@ -70,11 +70,11 @@ class VouchersController extends Controller
      */
     public function edit($id)
     {
-         // Tìm voucher theo ID
-    $voucher = Voucher::findOrFail($id);
-    
-    // Trả về form chỉnh sửa
-    return view('admin.vouchers.edit', compact('voucher'));
+        // Tìm voucher theo ID
+        $voucher = Voucher::findOrFail($id);
+
+        // Trả về form chỉnh sửa
+        return view('admin.vouchers.edit', compact('voucher'));
     }
 
     /**
@@ -88,7 +88,7 @@ class VouchersController extends Controller
             'valid_from' => 'required|date|before_or_equal:valid_to',
             'valid_to' => 'required|date|after_or_equal:valid_from',
         ]);
-    
+
         try {
             // Tìm voucher theo ID và cập nhật
             $voucher = Voucher::findOrFail($id);
@@ -98,7 +98,7 @@ class VouchersController extends Controller
                 'valid_from' => $request->valid_from,
                 'valid_to' => $request->valid_to,
             ]);
-    
+
             return redirect()->route('vouchers.view')->with('success', 'Voucher updated successfully!');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'An error occurred while updating the voucher: ' . $e->getMessage()]);
@@ -113,7 +113,7 @@ class VouchersController extends Controller
         try {
             // Tìm đơn hàng theo ID và xóa
             DB::table('vouchers')->where('id', $id)->delete();
-    
+
             // Redirect với thông báo thành công
             return redirect()->route('vouchers.view')->with('success', 'Xóa đơn hàng thành công!');
         } catch (\Exception $e) {

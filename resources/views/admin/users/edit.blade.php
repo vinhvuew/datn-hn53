@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mt-5">
         <div class="card shadow">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header text-white">
                 <h3>Chỉnh sửa thông tin người dùng</h3>
             </div>
 
