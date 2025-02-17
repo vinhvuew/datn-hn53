@@ -16,19 +16,19 @@
                         <!-- Product Information -->
                         <div class="card mb-4">
                             <div class="card-header">
-                                <h5 class="card-tile mb-0">Product information</h5>
+                                <h5 class="card-tile mb-0">Thông tin sản phẩm</h5>
                             </div>
                             <div class="card-body">
                                 <div class="mb-3">
-                                    <label class="form-label" for="ecommerce-product-name">Name</label>
+                                    <label class="form-label" for="ecommerce-product-name">Tên sp</label>
                                     <input type="text" class="form-control" value="{{ $product->name }}" disabled>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col"><label class="form-label" for="ecommerce-product-sku">SKU</label>
-                                        <input type="number" class="form-control" value="{{ $product->sku }}" disabled>
+                                    <div class="col"><label class="form-label" for="ecommerce-product-sku">Mã sp</label>
+                                        <input type="text" class="form-control" value="{{ $product->sku }}" disabled>
                                     </div>
-                                    <div class="col"><label class="form-label"
-                                            for="ecommerce-product-sku">Quantity</label>
+                                    <div class="col"><label class="form-label" for="ecommerce-product-sku">Số
+                                            lượng</label>
                                         <input type="number" class="form-control" value="{{ $product->quantity }}"
                                             disabled>
                                     </div>
@@ -36,19 +36,19 @@
 
                                 <!-- Description -->
                                 <div class="mb-3">
-                                    <label class="form-label" for="ecommerce-product-name">Description</label>
+                                    <label class="form-label" for="ecommerce-product-name">Mô tả</label>
                                     <textarea type="text" class="form-control" disabled>{{ $product->description }}</textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label" for="content">Content</label>
+                                    <label class="form-label" for="content">Nội dung</label>
                                     <textarea type="text" class="form-control" disabled>{{ $product->content }}</textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label" for="content">Image</label>
+                                    <label class="form-label" for="content">Hình ảnh</label>
                                     <img src="{{ Storage::url($product->img_thumbnail) }}" width="50px" class="rounded">
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label" for="content">User manual</label>
+                                    <label class="form-label" for="content">Hướng dẫn sử dụng</label>
                                     <input type="text" class="form-control" value="{{ $product->user_manual }}" disabled>
                                 </div>
                             </div>
@@ -83,7 +83,8 @@
                                         <thead>
                                             <tr>
                                                 <th>Sku</th>
-                                                <th>Giá</th>
+                                                <th>Giá nhập</th>
+                                                <th>Giá bán</th>
                                                 <th>Tồn Kho</th>
                                                 <th>Ảnh biến thể</th>
                                                 <th>Thuộc Tính</th>
@@ -93,6 +94,8 @@
                                             @foreach ($product->variants as $variant)
                                                 <tr>
                                                     <td>{{ $variant->sku }}</td>
+                                                    <td>{{ number_format($variant->wholesale_price, 0, ',', '.') }} VND
+                                                    </td>
                                                     <td>{{ number_format($variant->selling_price, 0, ',', '.') }} VND
                                                     </td>
                                                     <td>{{ $variant->quantity }}</td>
@@ -129,7 +132,7 @@
                         <!-- /danh mục -->
                         <div class="card mb-4">
                             <div class="card-header">
-                                <h5 class="card-title mb-0">Pricing</h5>
+                                <h5 class="card-title mb-0">Danh mục & Thương hiệu</h5>
                             </div>
                             <div class="card-body">
                                 {{-- danh mục --}}
@@ -151,20 +154,19 @@
                         <!-- Pricing Card -->
                         <div class="card mb-4">
                             <div class="card-header">
-                                <h5 class="card-title mb-0">Pricing</h5>
+                                <h5 class="card-title mb-0">Giá tiền</h5>
                             </div>
                             <div class="card-body">
                                 <!-- Base Price -->
                                 <div class="mb-3">
-                                    <label class="form-label" for="base_price">Base Price</label>
+                                    <label class="form-label" for="base_price">Giá cơ bản</label>
                                     <input type="text" class="form-control"
                                         value="{{ number_format($product->base_price, 0, ',', '.') }} VND" disabled>
 
                                 </div>
                                 <!-- Discounted Price -->
                                 <div class="mb-3">
-                                    <label class="form-label" for="ecommerce-product-discount-price">Price
-                                        sale</label>
+                                    <label class="form-label" for="ecommerce-product-discount-price">Giá bán</label>
                                     <input type="text" class="form-control"
                                         value="{{ number_format($product->price_sale, 0, ',', '.') }} VNĐ" disabled>
                                 </div>

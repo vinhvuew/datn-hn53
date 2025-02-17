@@ -86,7 +86,11 @@
                 </div>
             </div>
         </div>
-
+        @if (session()->has('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="card">
             <!-- Search Bar and Add Product Button -->
             <div class="card-header d-flex justify-content-end align-items-center">
@@ -102,14 +106,15 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Category</th>
-                            <th>Brand</th>
-                            <th>Name</th>
-                            <th>Image</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Varriant</th>
-                            <th>Actions</th>
+                            <th>Danh mục</th>
+                            <th>Thương hiệu</th>
+                            <th>Tên sp</th>
+                            <th>Hình ảnh</th>
+                            <th>Số lượng</th>
+                            <th>Giá cơ bản</th>
+                            <th>Giá bán</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,25 +127,31 @@
                                 <td><img src="{{ Storage::url($item->img_thumbnail) }}" width="50px"></td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>{{ number_format($item->base_price, 0, ',', '.') }} VND</td>
+                                <td>{{ number_format($item->price_sale, 0, ',', '.') }} VND</td>
                                 <td>
                                     @if ($item->variants->isEmpty())
                                         <em>Không có biến thể</em>
                                     @else
+                                        <h4>Biến thể sản phẩm</h4>
                                         <table class="table table-sm">
                                             <thead>
                                                 <tr>
                                                     <th>Sku</th>
-                                                    <th>Giá</th>
+                                                    <th>Giá nhập</th>
+                                                    <th>Giá bán</th>
                                                     <th>Tồn Kho</th>
                                                     <th>Ảnh biến thể</th>
                                                     <th>Thuộc Tính</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+
                                                 @foreach ($item->variants as $variant)
                                                     <tr>
                                                         <td>{{ $variant->sku }}</td>
-                                                        <td>{{ number_format($variant->price_modifier, 0, ',', '.') }} VND
+                                                        <td>{{ number_format($variant->wholesale_price, 0, ',', '.') }} VND
+                                                        </td>
+                                                        <td>{{ number_format($variant->selling_price, 0, ',', '.') }} VND
                                                         </td>
                                                         <td>{{ $variant->quantity }}</td>
                                                         <td>
