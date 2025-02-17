@@ -161,7 +161,7 @@
         </li>
 
         <li class="menu-item">
-            <a href="{{ route('comment.index') }}" class="menu-link menu-toggle">
+            <a href="{{ route('comment.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-chart"></i>
                     <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>  
             </a>
