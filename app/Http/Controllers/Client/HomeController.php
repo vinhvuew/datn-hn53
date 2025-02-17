@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
 
-    const PATH_VIEW = 'client.chat.';
+    const PATH_VIEW = 'Client.';
 
-    public function index()
+    public function home()
     {
         return view(self::PATH_VIEW . __FUNCTION__);
     }
