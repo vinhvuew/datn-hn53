@@ -1,52 +1,57 @@
 @extends('admin.layouts.master')
 
 @section('content')
-<div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4">
-        <span class="text-muted fw-light">Vouchers</span> 
-    </h4>
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="py-3 mb-4">
+            <span class="text-muted fw-light">Vouchers</span>
+        </h4>
 
-    <div class="app-ecommerce-category">
-        <div class="card">
-            <div class="d-flex justify-content-between align-items-center p-3">
-                <h5 class="card-title mb-0">Danh sách Vouchers</h5>
-               
-            </div>
-            <div class="card-datatable table-responsive">
-                <table class="datatables-category-list table border-top">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Mã Voucher</th>
-                            <th>Tên Voucher</th>
-                            <th>Ngày Bắt Đầu</th>
-                            <th>Ngày Kết Thúc</th>
-                            <th class="text-center">Hành Động</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($vouchers as $voucher)
+        <div class="app-ecommerce-category">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="d-flex justify-content-between align-items-center p-3 text-white rounded-top">
+                    <h5 class="card-title mb-0">Danh sách Vouchers</h5>
+                </div>
+
+                <div class="card-datatable table-responsive p-3">
+                    <table class="table table-bordered table-hover shadow-sm">
+                        <thead class="table-primary text-center">
                             <tr>
-                                <td>{{ $voucher->id }}</td>
-                                <td>{{ $voucher->voucher }}</td>
-                                <td>{{ $voucher->name }}</td>
-                                <td>{{ $voucher->valid_from }}</td>
-                                <td>{{ $voucher->valid_to }}</td>
-                                <td class="text-center">
-                                    <a href="{{ route('vouchers.edit', $voucher->id) }}" class="btn btn-warning btn-sm">Sửa</a>
-                                    <form action="{{ route('voucher.destroy', $voucher->id) }}" method="POST" style="display: inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">Xóa</button>
-                                    </form>
-                                    
-                                </td>
+                                <th>ID</th>
+                                <th>Mã Voucher</th>
+                                <th>Tên Voucher</th>
+                                <th>Ngày Bắt Đầu</th>
+                                <th>Ngày Kết Thúc</th>
+                                <th class="text-center">Hành Động</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($vouchers as $voucher)
+                                <tr>
+                                    <td class="text-center align-middle">{{ $voucher->id }}</td>
+                                    <td class="align-middle">{{ $voucher->voucher }}</td>
+                                    <td class="align-middle">{{ $voucher->name }}</td>
+                                    <td class="align-middle">{{ $voucher->valid_from }}</td>
+                                    <td class="align-middle">{{ $voucher->valid_to }}</td>
+                                    <td class="text-center align-middle">
+                                        <a href="{{ route('vouchers.edit', $voucher->id) }}" class="btn btn-warning btn-sm">
+                                            <i class="fas fa-edit"></i> Sửa
+                                        </a>
+                                        <form action="{{ route('voucher.destroy', $voucher->id) }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">
+                                                <i class="fas fa-trash-alt"></i> Xóa
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 @endsection

@@ -2,67 +2,81 @@
 
 @section('content')
 
-<div class="container">
-    <h1>Quản Lý User</h1>
+    <div class="container mt-4">
+        <div class="card shadow-sm border-0 rounded">
+            <div class="card-header text-white">
+                <h5 class="mb-0">Quản Lý Người Dùng</h5>
+            </div>
+            <div class="card-body">
 
-    <!-- Hiển thị thông báo thành công nếu có -->
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+                <!-- Hiển thị thông báo thành công -->
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
+                <!-- Hiển thị lỗi nếu có -->
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-primary text-center">
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên</th>
+                                <th>Email</th>
+                                <th>Số Điện Thoại</th>
+                                <th>Vai Trò</th>
+                                <th class="text-center">Chức Năng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td class="text-center align-middle">{{ $user->id }}</td>
+                                    <td class="align-middle">{{ $user->name }}</td>
+                                    <td class="align-middle">{{ $user->email }}</td>
+                                    <td class="align-middle">{{ $user->phone }}</td>
+                                    <td class="align-middle">{{ $user->role }}</td>
+                                    <td class="text-center align-middle">
+                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">
+                                            <i class="fas fa-edit"></i> Sửa
+                                        </a>
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                            class="d-inline" onsubmit="return confirmDelete()">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash-alt"></i> Xóa
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
         </div>
-    @endif
-
-    <!-- Hiển thị lỗi nếu có -->
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
     </div>
-    @endif
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Tên</th>
-                <th>Email</th>
-                <th>Mật Khẩu</th>
-                <th>Số Điện Thoại</th>
-                <th>Vai Trò</th>
-                <th>Chức Năng</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($users as $user)
-                <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->password }}</td>
-                    <td>{{ $user->phone }}</td>
-                    <td>{{ $user->role }}</td>
-                    <td>
-                        <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning">Sửa</a>
-                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirmDelete()">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Xóa</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+    <script>
+        function confirmDelete() {
+            return confirm('Bạn có chắc chắn muốn xóa người dùng này?');
+        }
+    </script>
 
-<script>
-    // JavaScript function for confirmation before deleting
-    function confirmDelete() {
-        return confirm("Bạn có chắc chắn muốn xóa không?");
-    }
-</script>
 
 @endsection
