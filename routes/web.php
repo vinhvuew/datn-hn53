@@ -20,7 +20,6 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/chat', [HomeController::class, 'room'])->name('chat');
 Route::get('/product', [HomeController::class, 'products'])->name('product');
 
-
 Route::prefix('admin/')
     ->group(function () {
         Route::get("/", [Controller::class, 'index'])->name("admin");
