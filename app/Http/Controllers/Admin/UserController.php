@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Controller;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -30,15 +31,8 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email|max:255',
-            'password' => 'required|string|min:6|confirmed',
-            'phone' => 'nullable|max:10',
-            'role' => 'required|in:admin,user',
-        ]);
 
         User::create([
             'name' => $request->name,
@@ -63,28 +57,40 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
+ 
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'nullable|string|min:6',
-            'phone' => 'nullable|string|max:10',
-            'role' => 'required|in:admin,user',
-        ]);
 
-        $data = $request->only(['name', 'email', 'phone', 'role']);
+public function update(Request $request, $id)
+{
+    
+    $user = User::findOrFail($id);
 
-        if ($request->filled('password')) {
-            $data['password'] = $request->password;
-        }
+   
+    $validatedData = $request->validate([
+        'email' => 'required|email|max:255|unique:users,email,' . $user->id, 
+        'phone' => 'nullable|numeric|unique:users,phone,' . $user->id, 
+        'role' => 'required|in:admin,user', 
+        'password' => 'nullable|string|min:6|confirmed', 
+    ]);
 
-        $user->update($data);
-
-        return redirect()->route('users.index')->with('success', 'Sửa tài khoản thành công.');
+    
+    if ($request->filled('password')) {
+        $user->password = bcrypt($request->password);
     }
+
+    $user->name = $request->name;
+    $user->email = $validatedData['email'];
+    $user->phone = $validatedData['phone'];
+    $user->role = $validatedData['role'];
+
+   
+    $user->save();
+
+   
+    return redirect()->route('users.index')->with('success', 'Cập nhật người dùng thành công.');
+}
+
+
 
     /**
      * Remove the specified resource from storage.

@@ -162,7 +162,7 @@
                         <ul class="top_tools">
                             <li>
                                 <div class="dropdown dropdown-cart">
-                                    <a href="cart.html" class="cart_bt"><strong>2</strong></a>
+                                    <a href="{{ route('listCart') }}" class="cart_bt"><strong>2</strong></a>
                                     <div class="dropdown-menu">
                                         <ul>
                                             <li>
