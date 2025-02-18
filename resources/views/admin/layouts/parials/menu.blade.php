@@ -114,24 +114,22 @@
                 </div>
             </a>
             <ul class="menu-sub">
-
                 <li class="menu-item">
-                    <a href="{{ route('vouchers.view') }}" class="menu-link">
+                    <a href="{{ route('vouchers.index') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="danh sach">
-                            danh sách
+                            Danh sách
                         </div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('voucher.create') }}" class="menu-link">
+                    <a href="{{ route('vouchers.create') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="them">
                             Thêm
                         </div>
                     </a>
                 </li>
-
-
             </ul>
+            
         </li>
         <li class="menu-item">
             <a href="{{ route('orders') }}" class="menu-link">
@@ -161,48 +159,10 @@
         </li>
 
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-chart"></i>
-                <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>
-                <div class="text-truncate" data-i18n="View">View</div>
+            <a href="{{ route('comment.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-chart"></i>
+                    <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>  
             </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="app-user-view-account.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Account">
-                            Account
-                        </div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-user-view-security.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Security">
-                            Security
-                        </div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-user-view-billing.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Billing & Plans">
-                            Billing & Plans
-                        </div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-user-view-notifications.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Notifications">
-                            Notifications
-                        </div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-user-view-connections.html" class="menu-link">
-                        <div class="text-truncate" data-i18n="Connections">
-                            Connections
-                        </div>
-                    </a>
-                </li>
-            </ul>
         </li>
     </ul>
 </aside>

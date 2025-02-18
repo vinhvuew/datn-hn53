@@ -31,13 +31,16 @@ Route::prefix('admin/')
         Route::resource('users', UserController::class);
 
         // voucher
-        Route::get('/voucher', [VouchersController::class, 'index'])->name('vouchers.view');
-        Route::get('/vouchers/create', [VouchersController::class, 'create'])->name('voucher.create');
-        Route::post('/vouchers', [VouchersController::class, 'store'])->name('voucher.store');
+        Route::get('/vouchers', [VouchersController::class, 'index'])->name('vouchers.index');
+        // Tạo voucher mới
+        Route::get('/vouchers/create', [VouchersController::class, 'create'])->name('vouchers.create');
+        Route::post('/vouchers', [VouchersController::class, 'store'])->name('vouchers.store');
+        // Chỉnh sửa voucher
         Route::get('/vouchers/{id}/edit', [VouchersController::class, 'edit'])->name('vouchers.edit');
         Route::put('/vouchers/{id}', [VouchersController::class, 'update'])->name('vouchers.update');
-        Route::delete('/vouchers/{id}', [VouchersController::class, 'destroy'])->name('voucher.destroy');
-
+        // Xóa voucher
+        Route::delete('/vouchers/{id}', [VouchersController::class, 'destroy'])->name('vouchers.destroy');
+        
         // Bình luận
         Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
         Route::get('/comment/create', [CommentController::class, 'create'])->name('comment.create');
