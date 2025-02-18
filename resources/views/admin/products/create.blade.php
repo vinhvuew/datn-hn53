@@ -30,22 +30,31 @@
                             <!-- Product Information -->
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <h5 class="card-tile mb-0">Product information</h5>
+                                    <h5 class="card-tile mb-0">Thông tin sản phẩm</h5>
                                 </div>
                                 <div class="card-body">
                                     <div class="mb-3">
-                                        <label class="form-label" for="ecommerce-product-name">Name</label>
+                                        <label class="form-label" for="ecommerce-product-name">Tên sp</label>
+                                        @error('name')
+                                            <div class="text-danger mt-1">{{ $message }}</div>
+                                        @enderror
                                         <input type="text" class="form-control" id="ecommerce-product-name"
-                                            placeholder="Product Name" name="name" aria-label="name">
+                                            placeholder="Product Name" name="name" aria-label="name"
+                                            value="{{ old('name') }}">
+
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="col"><label class="form-label"
-                                                for="ecommerce-product-sku">SKU</label>
-                                            <input type="number" class="form-control" id="ecommerce-product-sku"
-                                                placeholder="sku" name="sku" aria-label="Product sku">
+                                        <div class="col"><label class="form-label" for="ecommerce-product-sku">Mã
+                                                sp</label>
+                                            @error('sku')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                            @enderror
+                                            <input type="text" class="form-control" id="ecommerce-product-sku"
+                                                placeholder="sku" name="sku" aria-label="Product sku"
+                                                value="{{ old('sku') }}">
                                         </div>
-                                        <div class="col"><label class="form-label"
-                                                for="ecommerce-product-sku">Quantity</label>
+                                        <div class="col"><label class="form-label" for="ecommerce-product-sku">Số
+                                                lượng</label>
                                             <input type="number" class="form-control" id="ecommerce-product-quantity"
                                                 placeholder="quantity" name="quantity">
                                         </div>
@@ -53,21 +62,24 @@
 
                                     <!-- Description -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="ecommerce-product-name">Description</label>
+                                        <label class="form-label" for="ecommerce-product-name">Mô tả</label>
                                         <textarea type="text" class="form-control" id="ecommerce-product-name" placeholder="description" name="description"
                                             aria-label="description"></textarea>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="content">Content</label>
+                                        <label class="form-label" for="content">Nội dung</label>
                                         <textarea type="text" class="form-control" id="content" placeholder="content" name="content" aria-label="content"></textarea>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="content">Image</label>
+                                        <label class="form-label" for="content">Hình ảnh</label>
+                                        @error('img_thumbnail')
+                                            <div class="text-danger mt-1">{{ $message }}</div>
+                                        @enderror
                                         <input type="file" class="form-control" name="img_thumbnail">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="content">User manual</label>
-                                        <input type="text" class="form-control" name="user_manual">
+                                        <label class="form-label" for="content">Hướng dẫn sử dụng</label>
+                                        <textarea type="text" class="form-control" name="user_manual"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -109,21 +121,39 @@
                                                 <h5 class="mt-3">Thuộc Tính 1</h5>
                                                 <div class="mb-3">
                                                     <label for="variant_sku_0">Mã biến thể</label>
+                                                    {{-- @error('sku')
+                                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror --}}
                                                     <input type="text" id="variant_sku_0" name="variants[0][sku]"
                                                         placeholder="Mã biến thể" class="form-control"
                                                         value="{{ old('variant_sku_0') }}">
                                                 </div>
 
                                                 <div class="mb-3">
+                                                    <label for="variant_wholesale_price_0">Giá nhập sỉ</label>
+                                                    {{-- @error('wholesale_price')
+                                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror --}}
+                                                    <input type="number" id="variant_wholesale_price_0"
+                                                        name="variants[0][wholesale_price]" class="form-control"
+                                                        step="0.01" placeholder="Giá nhập" max="99999999"
+                                                        value="{{ old('variants[0][wholesale_price]') }}">
+                                                </div>
+                                                <div class="mb-3">
                                                     <label for="variant_selling_price_0">Giá điều chỉnh</label>
+                                                    {{-- @error('selling_price')
+                                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror --}}
                                                     <input type="number" id="variant_selling_price_0"
                                                         name="variants[0][selling_price]" class="form-control"
                                                         step="0.01" placeholder="Giá điều chỉnh" max="99999999"
                                                         value="{{ old('variants[0][selling_price]') }}">
                                                 </div>
-
                                                 <div class="mb-4">
                                                     <label for="variant_quantity_0">Số lượng tồn kho</label>
+                                                    {{-- @error('quantity')
+                                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror --}}
                                                     <input type="number" id="variant_quantity_0"
                                                         name="variants[0][quantity]" class="form-control"
                                                         placeholder="Số lượng tồn kho"
@@ -169,7 +199,7 @@
                             <!-- /danh mục -->
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Pricing</h5>
+                                    <h5 class="card-title mb-0">Danh mục & thương hiệu/h5>
                                 </div>
                                 <div class="card-body">
                                     {{-- danh mục --}}
@@ -203,19 +233,18 @@
                             <!-- Pricing Card -->
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Pricing</h5>
+                                    <h5 class="card-title mb-0">Giá tiền</h5>
                                 </div>
                                 <div class="card-body">
                                     <!-- Base Price -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="base_price">Base Price</label>
+                                        <label class="form-label" for="base_price">giá cơ bản</label>
                                         <input type="number" class="form-control" id="base_price"
                                             placeholder="base_price" name="base_price" aria-label="base_price">
                                     </div>
                                     <!-- Discounted Price -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="ecommerce-product-discount-price">Price
-                                            sale</label>
+                                        <label class="form-label" for="ecommerce-product-discount-price">giá bán</label>
                                         <input type="number" class="form-control" id="price_sale"
                                             placeholder="price_sale" name="price_sale" aria-label="price_sale">
                                     </div>
