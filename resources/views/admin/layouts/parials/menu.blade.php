@@ -114,24 +114,22 @@
                 </div>
             </a>
             <ul class="menu-sub">
-
                 <li class="menu-item">
-                    <a href="{{ route('vouchers.view') }}" class="menu-link">
+                    <a href="{{ route('vouchers.index') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="danh sach">
-                            danh sách
+                            Danh sách
                         </div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('voucher.create') }}" class="menu-link">
+                    <a href="{{ route('vouchers.create') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="them">
                             Thêm
                         </div>
                     </a>
                 </li>
-
-
             </ul>
+            
         </li>
         <li class="menu-item">
             <a href="{{ route('orders') }}" class="menu-link">
