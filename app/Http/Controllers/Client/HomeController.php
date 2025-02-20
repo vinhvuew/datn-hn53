@@ -14,12 +14,4 @@ class HomeController extends Controller
     {
         return view(self::PATH_VIEW . __FUNCTION__);
     }
-    public function room()
-    {
-        return view(self::PATH_VIEW . __FUNCTION__);
-    }
-    public function products()
-    {
-        return view(self::PATH_VIEW . __FUNCTION__);
-    }
 }
