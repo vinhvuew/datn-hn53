@@ -4,6 +4,7 @@
 use Illuminate\Support\Facades\Route;
 // client
 use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\CartController;
 // admin
 use App\Http\Controllers\Admin\Controller;
 use App\Http\Controllers\Admin\CommentController;
@@ -19,7 +20,8 @@ use App\Http\Controllers\Admin\ProductController;
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/chat', [HomeController::class, 'room'])->name('chat');
 Route::get('/product', [HomeController::class, 'products'])->name('product');
-
+Route::get('/cart', [HomeController::class, 'index'])->name('index'); 
+Route::get('/cart', [CartController::class, 'index'])->name('index');
 
 Route::prefix('admin/')
     ->group(function () {
@@ -32,13 +34,16 @@ Route::prefix('admin/')
         Route::resource('users', UserController::class);
 
         // voucher
-        Route::get('/voucher', [VouchersController::class, 'index'])->name('vouchers.view');
-        Route::get('/vouchers/create', [VouchersController::class, 'create'])->name('voucher.create');
-        Route::post('/vouchers', [VouchersController::class, 'store'])->name('voucher.store');
+        Route::get('/vouchers', [VouchersController::class, 'index'])->name('vouchers.index');
+        // Tạo voucher mới
+        Route::get('/vouchers/create', [VouchersController::class, 'create'])->name('vouchers.create');
+        Route::post('/vouchers', [VouchersController::class, 'store'])->name('vouchers.store');
+        // Chỉnh sửa voucher
         Route::get('/vouchers/{id}/edit', [VouchersController::class, 'edit'])->name('vouchers.edit');
         Route::put('/vouchers/{id}', [VouchersController::class, 'update'])->name('vouchers.update');
-        Route::delete('/vouchers/{id}', [VouchersController::class, 'destroy'])->name('voucher.destroy');
-
+        // Xóa voucher
+        Route::delete('/vouchers/{id}', [VouchersController::class, 'destroy'])->name('vouchers.destroy');
+        
         // Bình luận
         Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
         Route::get('/comment/create', [CommentController::class, 'create'])->name('comment.create');

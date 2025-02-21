@@ -6,7 +6,7 @@
                 <div class="row small-gutters">
                     <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                         <div id="logo">
-                            <a href="index.html"><img src="client/img/logo.svg" alt="" width="100"
+                            <a href="{{ route('home')}}"><img src="client/img/logo.svg" alt="" width="100"
                                     height="35"></a>
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                         <ul class="top_tools">
                             <li>
                                 <div class="dropdown dropdown-cart">
-                                    <a href="{{ route('listCart') }}" class="cart_bt"><strong>2</strong></a>
+                                    <a href="{{ route('index') }}" class="cart_bt"><strong>2</strong></a>
                                     <div class="dropdown-menu">
                                         <ul>
                                             <li>
@@ -189,7 +189,7 @@
                                         </ul>
                                         <div class="total_drop">
                                             <div class="clearfix"><strong>Total</strong><span>$200.00</span></div>
-                                            <a href="cart.html" class="btn_1 outline">View Cart</a><a
+                                            <a href="{{ route('index') }}" class="btn_1 outline">View Cart</a><a
                                                 href="checkout.html" class="btn_1">Checkout</a>
                                         </div>
                                     </div>

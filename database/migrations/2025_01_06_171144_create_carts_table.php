@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cart', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->id(); // Cột id tự động tăng
             $table->foreignIdFor(Variant::class)->constrained();
             $table->foreignIdFor(Product::class)->constrained();// Khóa ngoại liên kết với bảng variants
