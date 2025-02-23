@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AttributesNameController;
 use App\Http\Controllers\Admin\AttributesValuesController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ThongKeController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/chat', [HomeController::class, 'room'])->name('chat');
@@ -53,4 +54,10 @@ Route::prefix('admin/')
         Route::get('orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
         Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
         Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
+
+        //Thống Kê
+       Route::get('/thongke', [ThongKeController::class, 'index'])->name('thongke.index');
+
+
+       
     });
