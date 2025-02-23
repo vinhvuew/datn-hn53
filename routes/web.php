@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 // client
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductsController;
+use App\Http\Controllers\Client\LoginRegisterController;
 
 // admin
 use App\Http\Controllers\Admin\Controller;
@@ -29,8 +30,25 @@ Route::get('/checkout',[HomeController::class,'checkout'])->name('checkout.view'
 Route::post('/checkout/store',[HomeController::class,'checkout'])->name('checkout.store');
 
 
+// Trang hiển thị form đăng nhập & đăng ký chung.
+Route::get('login-register', [LoginRegisterController::class, 'showForm'])->name('login.register');
 
-Route::prefix('admin')
+// Xử lý đăng nhập.
+Route::post('login-process', [LoginRegisterController::class, 'login'])->name('login.process');
+
+// Xử lý đăng ký.
+Route::post('register-process', [LoginRegisterController::class, 'register'])->name('register.process');
+
+// Xử lý đăng xuất.
+Route::post('logout', [LoginRegisterController::class, 'logout'])->name('logout');
+
+// Trang dashboard (hoặc trang sau khi đăng nhập thành công)
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard')->middleware('auth');
+
+
+Route::prefix('admin/')
     ->group(function () {
         Route::get("/", [Controller::class, 'index'])->name("admin");
         Route::resource('products', ProductController::class);
