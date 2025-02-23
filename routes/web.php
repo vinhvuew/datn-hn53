@@ -27,9 +27,9 @@ Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('produ
 
 
 
-Route::prefix('admin/')
+Route::prefix('admin')
     ->group(function () {
-        Route::get("/", [Controller::class, 'index'])->name("admin");
+        Route::get("/home", [Controller::class, 'index'])->name("admin");
         Route::resource('products', ProductController::class);
         Route::resource("category", CategoryController::class);
         Route::resource('attributes', AttributesNameController::class);
