@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Client;
-
+use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -10,16 +10,11 @@ class HomeController extends Controller
 
     const PATH_VIEW = 'Client.';
 
-    public function home()
+    public function index()
     {
-        return view(self::PATH_VIEW . __FUNCTION__);
-    }
-    public function room()
-    {
-        return view(self::PATH_VIEW . __FUNCTION__);
-    }
-    public function products()
-    {
-        return view(self::PATH_VIEW . __FUNCTION__);
+        $newProducts = Product::latest()->take(8)->get(); // 8 sản phẩm mới nhất
+        $bestSellingProducts = Product::orderBy('sold', 'desc')->take(8)->get(); // 8 sản phẩm bán chạy nhất
+
+        return view('home', compact('newProducts', 'bestSellingProducts'));
     }
 }
