@@ -25,11 +25,14 @@ Route::get('/product', [HomeController::class, 'products'])->name('product');
 Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
 Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('productDetail');
 
+Route::get('/checkout',[HomeController::class,'checkout'])->name('checkout.view');
+Route::post('/checkout/store',[HomeController::class,'checkout'])->name('checkout.store');
+
 
 
 Route::prefix('admin')
     ->group(function () {
-        Route::get("/home", [Controller::class, 'index'])->name("admin");
+        Route::get("/", [Controller::class, 'index'])->name("admin");
         Route::resource('products', ProductController::class);
         Route::resource("category", CategoryController::class);
         Route::resource('attributes', AttributesNameController::class);
@@ -62,4 +65,6 @@ Route::prefix('admin')
         Route::get('orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
         Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
         Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
+
+        
     });

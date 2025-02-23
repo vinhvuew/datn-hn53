@@ -14,4 +14,8 @@ class HomeController extends Controller
     {
         return view(self::PATH_VIEW . __FUNCTION__);
     }
+    public function checkout()
+    {
+        return view(self::PATH_VIEW.__FUNCTION__.".order");
+    }
 }
