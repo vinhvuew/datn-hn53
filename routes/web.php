@@ -4,6 +4,9 @@
 use Illuminate\Support\Facades\Route;
 // client
 use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\ProductsController;
+use App\Http\Controllers\Client\LoginRegisterController;
+
 // admin
 use App\Http\Controllers\Admin\Controller;
 use App\Http\Controllers\Admin\CommentController;
@@ -16,9 +19,33 @@ use App\Http\Controllers\Admin\AttributesNameController;
 use App\Http\Controllers\Admin\AttributesValuesController;
 use App\Http\Controllers\Admin\ProductController;
 
+
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/chat', [HomeController::class, 'room'])->name('chat');
 Route::get('/product', [HomeController::class, 'products'])->name('product');
+Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
+Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('productDetail');
+
+Route::get('/checkout',[HomeController::class,'checkout'])->name('checkout.view');
+Route::post('/checkout/store',[HomeController::class,'checkout'])->name('checkout.store');
+
+
+// Trang hiển thị form đăng nhập & đăng ký chung.
+Route::get('login-register', [LoginRegisterController::class, 'showForm'])->name('login.register');
+
+// Xử lý đăng nhập.
+Route::post('login-process', [LoginRegisterController::class, 'login'])->name('login.process');
+
+// Xử lý đăng ký.
+Route::post('register-process', [LoginRegisterController::class, 'register'])->name('register.process');
+
+// Xử lý đăng xuất.
+Route::post('logout', [LoginRegisterController::class, 'logout'])->name('logout');
+
+// Trang dashboard (hoặc trang sau khi đăng nhập thành công)
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard')->middleware('auth');
 
 
 Route::prefix('admin/')
@@ -41,7 +68,7 @@ Route::prefix('admin/')
         Route::put('/vouchers/{id}', [VouchersController::class, 'update'])->name('vouchers.update');
         // Xóa voucher
         Route::delete('/vouchers/{id}', [VouchersController::class, 'destroy'])->name('vouchers.destroy');
-        
+
         // Bình luận
         Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
         Route::get('/comment/create', [CommentController::class, 'create'])->name('comment.create');
@@ -56,4 +83,6 @@ Route::prefix('admin/')
         Route::get('orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
         Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
         Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
+
+        
     });

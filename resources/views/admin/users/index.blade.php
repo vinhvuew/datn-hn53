@@ -50,9 +50,7 @@
                                     <td class="align-middle">{{ $user->phone }}</td>
                                     <td class="align-middle">{{ $user->role }}</td>
                                     <td class="text-center align-middle">
-                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i> Sửa
-                                        </a>
+
                                         <form action="{{ route('users.destroy', $user->id) }}" method="POST"
                                             class="d-inline" onsubmit="return confirmDelete()">
                                             @csrf

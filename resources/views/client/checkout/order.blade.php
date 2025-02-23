@@ -19,7 +19,7 @@
             <div class="row">
                 <!-- Form Column -->
                 <div class="form-column col-lg-8 col-md-12 col-sm-12">
-                    <form action="{{ route('checkout') }}" method="post" class="p-4 border rounded shadow">
+                    <form action="{{ route('checkout.store') }}" method="post" class="p-4 border rounded shadow">
                         @csrf
                         <h4 class="mb-4">Thông tin cá nhân</h4>
                         <!-- Shipping Form -->
@@ -29,12 +29,14 @@
                                 <div class="col-md-6 mt-3">
                                     <label for="user_name" class="form-label">Họ và tên</label>
                                     <input type="text" name="user_name" class="form-control"
-                                        value="{{ Auth::user()->name }}" placeholder="Vui lòng nhập họ và tên">
+                                        {{-- value="{{ Auth::user()->name }}" placeholder="Vui lòng nhập họ và tên"> --}}
+                                        >
                                 </div>
                                 <div class="col-md-6 mt-3">
                                     <label for="user_email" class="form-label">Địa chỉ email</label>
                                     <input type="text" name="user_email" class="form-control"
-                                        value="{{ Auth::user()->email }}" placeholder="Vui lòng nhập địa chỉ email">
+                                        {{-- value="{{ Auth::user()->email }}" placeholder="Vui lòng nhập địa chỉ email"> --}}
+                                        >
                                 </div>
                             </div>
 
@@ -43,12 +45,14 @@
                                 <div class="col-md-6 mt-3">
                                     <label for="user_phone" class="form-label">Số điện thoại</label>
                                     <input type="text" name="user_phone" class="form-control"
-                                        value="{{ Auth::user()->phone }}" placeholder="Vui lòng nhập số điện thoại">
+                                        {{-- value="{{ Auth::user()->phone }}" placeholder="Vui lòng nhập số điện thoại"> --}}
+                                        >
                                 </div>
                                 <div class="col-md-6 mt-3">
                                     <label for="user_address" class="form-label">Địa chỉ</label>
                                     <input type="text" name="user_address" class="form-control"
-                                        value="{{ Auth::user()->address }}" placeholder="Vui lòng nhập địa chỉ">
+                                        {{-- value="{{ Auth::user()->address }}" placeholder="Vui lòng nhập địa chỉ"> --}}
+                                        >
                                 </div>
                             </div>
 

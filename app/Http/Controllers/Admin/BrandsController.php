@@ -27,7 +27,7 @@ class BrandsController extends Controller
     // Lưu thương hiệu mới vào DB (CÓ VALIDATE)
     public function store(BrandRequest $request) // Dùng BrandRequest thay vì Request
     {
-        dd($request->validated()); 
+        // dd($request->validated());
         Brand::create($request->validated()); // Validate tự động trước khi lưu
         return redirect()->route('brands.index')->with('success', 'Thương hiệu đã được thêm thành công.');
     }

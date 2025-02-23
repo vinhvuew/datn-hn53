@@ -3,32 +3,35 @@
 @section('content')
     <main>
         <div class="container margin_30">
-            <div class="countdown_inner">-20% This offer ends in <div data-countdown="2019/05/15" class="countdown"></div>
+            <div class="countdown_inner">-20% This offer ends in <div data-countdown="2025/05/15" class="countdown"></div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="all">
                         <div class="slider">
                             <div class="owl-carousel owl-theme main">
-                                <div style="background-image: url(client/img/products/shoes/1.jpg);" class="item-box"></div>
-                                <div style="background-image: url(client/img/products/shoes/2.jpg);" class="item-box"></div>
-                                <div style="background-image: url(client/img/products/shoes/3.jpg);" class="item-box"></div>
-                                <div style="background-image: url(client/img/products/shoes/4.jpg);" class="item-box"></div>
-                                <div style="background-image: url(client/img/products/shoes/5.jpg);" class="item-box"></div>
-                                <div style="background-image: url(client/img/products/shoes/6.jpg);" class="item-box"></div>
+                                @foreach ($product->images as $image)
+                                    <div style="background-image: url({{ Storage::url($image->img) }})" class="item-box">
+                                    </div>
+                                @endforeach
                             </div>
                             <div class="left nonl"><i class="ti-angle-left"></i></div>
                             <div class="right"><i class="ti-angle-right"></i></div>
                         </div>
                         <div class="slider-two">
                             <div class="owl-carousel owl-theme thumbs">
-                                <div style="background-image: url(client/img/products/shoes/1.jpg);" class="item active">
-                                </div>
-                                <div style="background-image: url(client/img/products/shoes/2.jpg);" class="item"></div>
-                                <div style="background-image: url(client/img/products/shoes/3.jpg);" class="item"></div>
-                                <div style="background-image: url(client/img/products/shoes/4.jpg);" class="item"></div>
-                                <div style="background-image: url(client/img/products/shoes/5.jpg);" class="item"></div>
-                                <div style="background-image: url(client/img/products/shoes/6.jpg);" class="item"></div>
+                                <div style="background-image: url({{ asset('client') }}/img/products/shoes/1.jpg);"
+                                    class="item active"></div>
+                                <div style="background-image: url({{ asset('client') }}/img/products/shoes/2.jpg);"
+                                    class="item"></div>
+                                <div style="background-image: url({{ asset('client') }}/img/products/shoes/3.jpg);"
+                                    class="item"></div>
+                                <div style="background-image: url({{ asset('client') }}/img/products/shoes/4.jpg);"
+                                    class="item"></div>
+                                <div style="background-image: url({{ asset('client') }}/img/products/shoes/5.jpg);"
+                                    class="item"></div>
+                                <div style="background-image: url({{ asset('client') }}/img/products/shoes/6.jpg);"
+                                    class="item"></div>
                             </div>
                             <div class="left-t nonl-t"></div>
                             <div class="right-t"></div>
@@ -36,71 +39,125 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-
                     <div class="breadcrumbs">
                         <ul>
-
                             <li><a href="#">Home</a></li>
                             <li><a href="#">Category</a></li>
                             <li>Page active</li>
                         </ul>
                     </div>
                     <!-- /page_header -->
-                    <div class="prod_info">
-                        <h1>Armor Air X Fear</h1>
-                        <span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i><em>4
-                                reviews</em></span>
-                        <p><small>SKU: MTKRY-001</small><br>Sed ex labitur adolescens scriptorem. Te saepe verear tibique
-                            sed. Et wisi ridens vix, lorem iudico blandit mel cu. Ex vel sint zril oportere, amet wisi
-                            aperiri te cum.</p>
-                        <div class="prod_options">
-                            <div class="row">
-                                <label class="col-xl-5 col-lg-5  col-md-6 col-6 pt-0"><strong>Color</strong></label>
-                                <div class="col-xl-4 col-lg-5 col-md-6 col-6 colors">
-                                    <ul>
-                                        <li><a href="#0" class="color color_1 active"></a></li>
-                                        <li><a href="#0" class="color color_2"></a></li>
-                                        <li><a href="#0" class="color color_3"></a></li>
-                                        <li><a href="#0" class="color color_4"></a></li>
-                                    </ul>
+                    <form action="{{ route('addToCart') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="prod_info">
+                            <h1>{{ $product->name }}</h1>
+                            <span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
+                                    class="icon-star voted"></i><i class="icon-star voted"></i><i
+                                    class="icon-star"></i><em>4
+                                    reviews</em></span>
+                            <p><small>SKU: {{ $product->sku }}</small><br>{{ $product->description }}</p>
+                            <div class="prod_options">
+                                <div class="row">
+                                    @php
+                                        $groupAttribute = [];
+                                        $arr = [];
+                                    @endphp
+
+                                    @foreach ($product->variants as $variant)
+                                        @foreach ($variant->attributes as $attribute)
+                                            @php
+                                                $data = [
+                                                    'id' => $attribute->attributeValue->id,
+                                                    'name' => $attribute->attributeValue->value,
+                                                ];
+
+                                                if (!in_array($data, $arr)) {
+                                                    $arr[] = $data;
+                                                }
+
+                                                $attributeName = $attribute->attribute->name;
+                                                if (!isset($groupAttribute[$attributeName])) {
+                                                    $groupAttribute[$attributeName] = [];
+                                                }
+
+                                                if (!in_array($data, $groupAttribute[$attributeName])) {
+                                                    $groupAttribute[$attributeName][] = $data;
+                                                }
+                                            @endphp
+                                        @endforeach
+                                    @endforeach
+
+                                    @foreach ($groupAttribute as $attributeName => $values)
+                                        <label
+                                            class="col-xl-5 col-lg-5  col-md-6 col-6 pt-0"><strong>{{ $attributeName }}</strong></label>
+                                        <div class="col-xl-4 col-lg-5 col-md-6 col-6 mb-2">
+                                            <select name="variant_attributes[attribute_value_id][]"
+                                                class="form-select attribute-select mb-1"
+                                                data-attribute-name="{{ $attributeName }}">
+                                                @foreach ($values as $value)
+                                                    @php
+                                                        // Lấy variant có thuộc tính tương ứng
+                                                        $variant = $product->variants->firstWhere(function (
+                                                            $variant,
+                                                        ) use ($value) {
+                                                            return $variant->attributes->firstWhere(
+                                                                'attributeValue.id',
+                                                                $value['id'],
+                                                            );
+                                                        });
+
+                                                        $stock = $variant ? $variant->quantity : 0;
+                                                    @endphp
+
+                                                    {{-- Gắn giá trị stock chính xác vào data-stock --}}
+                                                    <option value="{{ $value['id'] }}" data-stock="{{ $stock }}">
+                                                        {{ Str::limit($value['name'], 30) }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+
+                                        </div>
+                                    @endforeach
                                 </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Size</strong> - Size Guide <a
-                                        href="#0" data-bs-toggle="modal" data-bs-target="#size-modal"><i
-                                            class="ti-help-alt"></i></a></label>
-                                <div class="col-xl-4 col-lg-5 col-md-6 col-6">
-                                    <div class="custom-select-form">
-                                        <select class="wide">
-                                            <option value="" selected>Small (S)</option>
-                                            <option value="">M</option>
-                                            <option value=" ">L</option>
-                                            <option value=" ">XL</option>
-                                        </select>
+
+                                <div class="row">
+                                    <label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>Số lượng</strong></label>
+                                    <div class="col-xl-4 col-lg-5 col-md-6 col-6">
+                                        <div class="numbers-row">
+                                            <input type="text" value="1" id="quantity" class="qty2"
+                                                name="quantity">
+                                        </div>
                                     </div>
                                 </div>
+
+                                <div class="quantity mt-2">
+                                    <label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>Tồn kho</strong></label>
+                                    <span id="variant-stock"
+                                        style="margin-left: 87px">{{ $product->variants->first()->quantity }}</span>
+                                </div>
+
                             </div>
                             <div class="row">
-                                <label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>Quantity</strong></label>
-                                <div class="col-xl-4 col-lg-5 col-md-6 col-6">
-                                    <div class="numbers-row">
-                                        <input type="text" value="1" id="quantity_1" class="qty2"
-                                            name="quantity_1">
-                                    </div>
+                                <div class="col-lg-5 col-md-6">
+                                    <div class="price_main"><span
+                                            class="new_price">{{ number_format($product->price_sale, 0, ',', '.') }}
+                                            VND</span><span class="percentage">-20%</span> <span
+                                            class="old_price">$160.00</span></div>
+                                </div>
+                                <div class="col-lg-5 col-md-6">
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    @if ($product->price_sale)
+                                        <input type="hidden" name="total_amount"
+                                            value="{{ isset($finalPrice) ? $finalPrice : $product->price_sale }}">
+                                    @elseif ($product->base_price)
+                                        <input type="hidden" name="total_amount"
+                                            value="{{ isset($finalPrice) ? $finalPrice : $product->base_price }}">
+                                    @endif
+                                    <button class="btn_1">THÊM VÀO GIỎ HÀNG</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-5 col-md-6">
-                                <div class="price_main"><span class="new_price">$148.00</span><span
-                                        class="percentage">-20%</span> <span class="old_price">$160.00</span></div>
-                            </div>
-                            <div class="col-lg-4 col-md-6">
-                                <div class="btn_add_to_cart"><a href="#0" class="btn_1">Add to Cart</a></div>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                     <!-- /prod_info -->
                     <div class="product_actions">
                         <ul>
@@ -293,8 +350,9 @@
                         <span class="ribbon new">New</span>
                         <figure>
                             <a href="product-detail-1.html">
-                                <img class="owl-lazy" src="client/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="client/img/products/shoes/4.jpg" alt="">
+                                <img class="owl-lazy"
+                                    src="{{ asset('client') }}/img/products/product_placeholder_square_medium.jpg"
+                                    data-src="{{ asset('client') }}/img/products/shoes/4.jpg" alt="">
                             </a>
                         </figure>
                         <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
@@ -325,8 +383,9 @@
                         <span class="ribbon new">New</span>
                         <figure>
                             <a href="product-detail-1.html">
-                                <img class="owl-lazy" src="client/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="client/img/products/shoes/5.jpg" alt="">
+                                <img class="owl-lazy"
+                                    src="{{ asset('client') }}/img/products/product_placeholder_square_medium.jpg"
+                                    data-src="{{ asset('client') }}/img/products/shoes/5.jpg" alt="">
                             </a>
                         </figure>
                         <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
@@ -354,21 +413,22 @@
                 <!-- /item -->
                 <div class="item">
                     <div class="grid_item">
-                        <span class="ribbon new">New</span>
+                        <span class="ribbon hot">Hot</span>
                         <figure>
                             <a href="product-detail-1.html">
-                                <img class="owl-lazy" src="client/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="client/img/products/shoes/5.jpg" alt="">
+                                <img class="owl-lazy"
+                                    src="{{ asset('client') }}/img/products/product_placeholder_square_medium.jpg"
+                                    data-src="{{ asset('client') }}/img/products/shoes/8.jpg" alt="">
                             </a>
                         </figure>
                         <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
                                 class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
                         </div>
                         <a href="product-detail-1.html">
-                            <h3>Air Zoom Alpha</h3>
+                            <h3>Air Color 720</h3>
                         </a>
                         <div class="price_box">
-                            <span class="new_price">$140.00</span>
+                            <span class="new_price">$120.00</span>
                         </div>
                         <ul>
                             <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
@@ -386,21 +446,23 @@
                 <!-- /item -->
                 <div class="item">
                     <div class="grid_item">
-                        <span class="ribbon new">New</span>
+                        <span class="ribbon off">-30%</span>
                         <figure>
                             <a href="product-detail-1.html">
-                                <img class="owl-lazy" src="client/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="client/img/products/shoes/5.jpg" alt="">
+                                <img class="owl-lazy"
+                                    src="{{ asset('client') }}/img/products/product_placeholder_square_medium.jpg"
+                                    data-src="{{ asset('client') }}/img/products/shoes/2.jpg" alt="">
                             </a>
                         </figure>
                         <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
                                 class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
                         </div>
                         <a href="product-detail-1.html">
-                            <h3>Air Zoom Alpha</h3>
+                            <h3>Okwahn II</h3>
                         </a>
                         <div class="price_box">
-                            <span class="new_price">$140.00</span>
+                            <span class="new_price">$90.00</span>
+                            <span class="old_price">$170.00</span>
                         </div>
                         <ul>
                             <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
@@ -418,21 +480,23 @@
                 <!-- /item -->
                 <div class="item">
                     <div class="grid_item">
-                        <span class="ribbon new">New</span>
+                        <span class="ribbon off">-50%</span>
                         <figure>
                             <a href="product-detail-1.html">
-                                <img class="owl-lazy" src="client/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="client/img/products/shoes/5.jpg" alt="">
+                                <img class="owl-lazy"
+                                    src="{{ asset('client') }}/img/products/product_placeholder_square_medium.jpg"
+                                    data-src="{{ asset('client') }}/img/products/shoes/3.jpg" alt="">
                             </a>
                         </figure>
                         <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
                                 class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
                         </div>
                         <a href="product-detail-1.html">
-                            <h3>Air Zoom Alpha</h3>
+                            <h3>Air Wildwood ACG</h3>
                         </a>
                         <div class="price_box">
-                            <span class="new_price">$140.00</span>
+                            <span class="new_price">$75.00</span>
+                            <span class="old_price">$155.00</span>
                         </div>
                         <ul>
                             <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
@@ -447,7 +511,7 @@
                     </div>
                     <!-- /grid_item -->
                 </div>
-
+                <!-- /item -->
             </div>
             <!-- /products_carousel -->
         </div>
@@ -489,4 +553,48 @@
         <!--/feat-->
 
     </main>
+@endsection
+
+@section('style-libs')
+    <link href="client/css/product_page.css" rel="stylesheet">
+    <link href="{{ asset('client') }}/css/product_page.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+@endsection
+
+@section('script-libs')
+    <script src="{{ asset('client') }}/js/carousel_with_thumbs.js"></script>
+    <script>
+        document.getElementById("increaseQty").addEventListener("click", function() {
+            let qtyInput = document.getElementById("quantityInput");
+            qtyInput.value = parseInt(qtyInput.value) + 1;
+        });
+
+        document.getElementById("decreaseQty").addEventListener("click", function() {
+            let qtyInput = document.getElementById("quantityInput");
+            if (qtyInput.value > 1) {
+                qtyInput.value = parseInt(qtyInput.value) - 1;
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lấy tất cả các dropdown attribute
+            const attributeSelects = document.querySelectorAll('.attribute-select');
+
+            // Lấy phần tử hiển thị số lượng
+            const stockDisplay = document.getElementById('variant-stock');
+
+            // Lắng nghe sự kiện thay đổi trên mỗi dropdown
+            attributeSelects.forEach(select => {
+                select.addEventListener('change', function() {
+                    // Lấy stock từ option được chọn
+                    const selectedOption = this.options[this.selectedIndex];
+                    const stock = selectedOption.getAttribute('data-stock') || 0;
+
+                    // Cập nhật số lượng hiển thị
+                    stockDisplay.textContent = stock;
+                });
+            });
+        });
+    </script>
 @endsection
