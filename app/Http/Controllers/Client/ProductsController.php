@@ -15,8 +15,68 @@ use Illuminate\Support\Facades\Log;
 class ProductsController extends Controller
 {
     //
+    // public function detail($slug)
+    // {
+    //     $product = Product::where('slug', $slug)
+    //         ->with([
+    //             'brand',
+    //             'category',
+    //             'images',
+    //             'variants.attributes.attribute',
+    //             'variants.attributes.attributeValue',
+    //         ])
+    //         ->firstOrFail();
+
+    //     // // Nhóm các thuộc tính theo loại
+    //     // $groupAttribute = [];
+    //     // foreach ($product->variants as $variant) {
+    //     //     foreach ($variant->attributes as $attribute) {
+    //     //         $attributeName = $attribute->attribute->name;
+    //     //         $attributeValue = [
+    //     //             'id' => $attribute->attributeValue->id,
+    //     //             'name' => $attribute->attributeValue->value,
+    //     //         ];
+
+    //     //         // Thêm vào nhóm nếu chưa có
+    //     //         if (!isset($groupAttribute[$attributeName])) {
+    //     //             $groupAttribute[$attributeName] = [];
+    //     //         }
+
+    //     //         if (!in_array($attributeValue, $groupAttribute[$attributeName])) {
+    //     //             $groupAttribute[$attributeName][] = $attributeValue;
+    //     //         }
+    //     //     }
+    //     // }
+
+
+    //     return view('client.product.productDetail', compact('product',));
+    // }
+
+    //     public function detail($slug)
+    // {
+    //     // Lấy sản phẩm theo slug và load quan hệ cần thiết
+    //     $product = Product::where('slug', $slug)
+    //         ->with([
+    //             'brand',
+    //             'category',
+    //             'images',
+    //             'variants.attributes.attribute',
+    //             'variants.attributes.attributeValue',
+    //         ])
+    //         ->firstOrFail();
+
+    //     // Lấy danh sách sản phẩm cùng danh mục (trừ sản phẩm hiện tại)
+    //     $relatedProducts = Product::where('category_id', $product->category_id)
+    //         ->where('id', '!=', $product->id)
+    //         ->limit(4)
+    //         ->get();
+
+    //     // Trả dữ liệu ra view
+    //     return view('client.product.productDetail', compact('product', 'relatedProducts'));
+    // }
     public function detail($slug)
     {
+        // Lấy sản phẩm theo slug và load quan hệ cần thiết
         $product = Product::where('slug', $slug)
             ->with([
                 'brand',
@@ -27,57 +87,49 @@ class ProductsController extends Controller
             ])
             ->firstOrFail();
 
-        // Nhóm các thuộc tính theo loại
-        $groupAttribute = [];
-        foreach ($product->variants as $variant) {
-            foreach ($variant->attributes as $attribute) {
-                $attributeName = $attribute->attribute->name;
-                $attributeValue = [
-                    'id' => $attribute->attributeValue->id,
-                    'name' => $attribute->attributeValue->value,
-                ];
-
-                // Thêm vào nhóm nếu chưa có
-                if (!isset($groupAttribute[$attributeName])) {
-                    $groupAttribute[$attributeName] = [];
-                }
-
-                if (!in_array($attributeValue, $groupAttribute[$attributeName])) {
-                    $groupAttribute[$attributeName][] = $attributeValue;
-                }
-            }
+        // Kiểm tra số lượng tồn kho
+        if ($product->variants->isNotEmpty()) {
+            // Nếu sản phẩm có biến thể, kiểm tra số lượng của từng biến thể
+            $totalStock = $product->variants->sum('quantity');
+        } else {
+            // Nếu không có biến thể, lấy số lượng của sản phẩm chính
+            $totalStock = $product->quantity;
         }
 
-        return view('client.product.productDetail', compact('product', 'groupAttribute'));
+        // Lấy danh sách sản phẩm cùng danh mục (trừ sản phẩm hiện tại)
+        $relatedProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->limit(4)
+            ->get();
+
+        // Trả dữ liệu ra view
+        return view('client.product.productDetail', compact('product', 'relatedProducts', 'totalStock'));
     }
+
 
     public function addToCart(Request $request)
     {
         try {
-            // dd($request->all());
-            // $user = Auth::user();
+            // Lấy giỏ hàng của user (giả sử user_id = 1)
             $cart = Cart::firstOrCreate(['user_id' => 1]);
 
             $productId = $request->input('product_id');
             $variantAttributeIds = $request->input('variant_attributes.attribute_value_id', []);
-            $quantity = $request->input('quantity', 1);
+            $quantity = (int) $request->input('quantity', 1);
 
             // Lấy sản phẩm từ cơ sở dữ liệu
-            $product = Product::find($productId);
+            $product = Product::with('variants')->findOrFail($productId);
 
-            // Kiểm tra giá sale từ session
-            // $productsOnSale = session('productsOnSale', []);
-            // $saleProduct = collect($productsOnSale)->firstWhere('id', $product->id);
-
-            // Lấy giá sale nếu có, nếu không thì dùng giá gốc
+            // Kiểm tra giá sale từ session hoặc giá gốc
+            $saleProduct = session('productsOnSale', collect([]))->firstWhere('id', $product->id);
             if ($product->price_sale) {
                 $price = $saleProduct['price_sale'] ?? $product->price_sale;
-            } elseif ($product->base_price) {
-                $price = $saleProduct['price_sale'] ?? $product->base_price;
+            } else {
+                $price = $product->base_price;
             }
 
-
             if (!empty($variantAttributeIds)) {
+                // Nếu có biến thể, kiểm tra tồn kho của biến thể
                 $attributeCount = count($variantAttributeIds);
                 $variants = Variant::where('product_id', $productId)
                     ->whereHas('attributes', function ($query) use ($variantAttributeIds) {
@@ -98,69 +150,70 @@ class ProductsController extends Controller
                 }
 
                 if (!$matchingVariant) {
-                    return back()->with('error', 'Sản phẩm không còn hàng đó, vui lòng chọn sản phẩm khác!');
+                    return back()->with('error', 'Sản phẩm không còn hàng, vui lòng chọn sản phẩm khác!');
                 }
 
+                // Kiểm tra và cập nhật giỏ hàng
                 $cartDetail = CartDetail::where('cart_id', $cart->id)
                     ->where('variant_id', $matchingVariant->id)
                     ->first();
                 $priceMod = $matchingVariant->price_modifier;
+
                 if ($cartDetail) {
                     $newQuantity = $cartDetail->quantity + $quantity;
                     if ($matchingVariant->quantity < $newQuantity) {
-                        return back()->with('error', 'Số lượng yêu cầu vượt quá số lượng tồn kho của sản phẩm.');
+                        return back()->with('error', 'Số lượng vượt quá tồn kho.');
                     }
 
                     $cartDetail->quantity = $newQuantity;
-                    $cartDetail->total_amount += $priceMod * $quantity; // Sử dụng price đã tính toán
+                    $cartDetail->total_amount += $priceMod * $quantity;
                     $cartDetail->save();
                 } else {
                     if ($matchingVariant->quantity < $quantity) {
-                        return back()->with('error', 'Số lượng yêu cầu vượt quá số lượng tồn kho của sản phẩm.');
+                        return back()->with('error', 'Số lượng vượt quá tồn kho.');
                     }
 
                     CartDetail::create([
                         'cart_id' => $cart->id,
                         'variant_id' => $matchingVariant->id,
                         'quantity' => $quantity,
-                        'total_amount' => $priceMod * $quantity, // Sử dụng price đã tính toán
+                        'total_amount' => $priceMod * $quantity,
                     ]);
                 }
+
+                // ✅ Trừ tồn kho biến thể
+                $matchingVariant->decrement('quantity', $quantity);
             } else {
+                // ❗ Xử lý sản phẩm KHÔNG có biến thể
+                if ($product->quantity < $quantity) {
+                    return back()->with('error', 'Số lượng vượt quá tồn kho.');
+                }
+
                 $cartDetail = CartDetail::where('cart_id', $cart->id)
                     ->where('product_id', $productId)
                     ->first();
 
                 if ($cartDetail) {
-                    $newQuantity = $cartDetail->quantity + $quantity;
-                    foreach ($product->variants as $variant) {
-                        if ($variant->stock < $newQuantity) {
-                            return back()->with('error', 'Số lượng yêu cầu vượt quá số lượng tồn kho của sản phẩm.');
-                        }
-                    }
-
-                    $cartDetail->quantity = $newQuantity;
-                    $cartDetail->total_amount += $price * $quantity; // Sử dụng price đã tính toán
+                    $cartDetail->quantity += $quantity;
+                    $cartDetail->total_amount += $price * $quantity;
                     $cartDetail->save();
                 } else {
-                    foreach ($product->variants as $variant) {
-                        if ($variant->stock < $quantity) {
-                            return back()->with('error', 'Số lượng yêu cầu vượt quá số lượng tồn kho của sản phẩm.');
-                        }
-                    }
-
                     CartDetail::create([
                         'cart_id' => $cart->id,
                         'product_id' => $productId,
                         'quantity' => $quantity,
-                        'total_amount' => $price * $quantity, // Sử dụng price đã tính toán
+                        'total_amount' => $price * $quantity,
                     ]);
                 }
+
+                // ✅ Trừ tồn kho sản phẩm chính
+                $product->decrement('quantity', $quantity);
             }
 
             return back()->with('success', 'Sản phẩm đã được thêm vào giỏ hàng!');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
+            return back()->with('error', 'Đã xảy ra lỗi.');
         }
     }
 }
