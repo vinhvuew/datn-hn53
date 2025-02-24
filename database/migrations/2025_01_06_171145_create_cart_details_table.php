@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(Product::class)->nullable()->constrained();
             $table->foreignIdFor(Variant::class)->nullable()->constrained();
             $table->integer('quantity')->default(1);
-            $table->decimal('total_amount');
+            $table->decimal('total_amount', 15, 2);
             $table->timestamps();
         });
     }
