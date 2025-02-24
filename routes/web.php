@@ -4,7 +4,10 @@
 use Illuminate\Support\Facades\Route;
 // client
 use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\ProductsController;
 use App\Http\Controllers\Client\CartController;
+
+
 // admin
 use App\Http\Controllers\Admin\Controller;
 use App\Http\Controllers\Admin\CommentController;
@@ -17,11 +20,16 @@ use App\Http\Controllers\Admin\AttributesNameController;
 use App\Http\Controllers\Admin\AttributesValuesController;
 use App\Http\Controllers\Admin\ProductController;
 
+
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/chat', [HomeController::class, 'room'])->name('chat');
 Route::get('/product', [HomeController::class, 'products'])->name('product');
-Route::get('/cart', [HomeController::class, 'index'])->name('index'); 
-Route::get('/cart', [CartController::class, 'index'])->name('index');
+Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
+Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('productDetail');
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+
+
 
 Route::prefix('admin/')
     ->group(function () {
@@ -43,7 +51,7 @@ Route::prefix('admin/')
         Route::put('/vouchers/{id}', [VouchersController::class, 'update'])->name('vouchers.update');
         // Xóa voucher
         Route::delete('/vouchers/{id}', [VouchersController::class, 'destroy'])->name('vouchers.destroy');
-        
+
         // Bình luận
         Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
         Route::get('/comment/create', [CommentController::class, 'create'])->name('comment.create');

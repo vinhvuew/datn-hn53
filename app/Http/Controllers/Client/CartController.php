@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\cart;
+use App\Models\CartDetail;
 
 class CartController extends Controller
 {
@@ -14,7 +15,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $listCart = cart::with('products')->where('user_id', Auth::id())->get();
+        $listCart = Cart::where('user_id', Auth::id())->get();
         return view('client.cart.index', compact('listCart'));
     }
 
@@ -61,8 +62,10 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+    public function destroy($id)
+{
+    CartDetail::findOrFail($id)->delete();
+    return redirect()->route('cart.index')->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng.');
+}
+
 }

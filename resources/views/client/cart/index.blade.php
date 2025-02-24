@@ -24,23 +24,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($listCart as $item)
-                    <tr>
-                        <td>
-                            <img src="{{ asset('storage/' . $item->product->image) }}" alt="{{ $item->product->name }}" width="50">
-                        </td>
-                        <td>{{ $item->product->name }}</td>
-                        <td>{{ $item->product->variant ?? 'N/A' }}</td>
-                        <td>
-                            <input type="number" value="{{ $item->quantity }}" min="1" class="form-control update-cart" data-id="{{ $item->id }}">
-                        </td>
-                        <td>${{ number_format($item->product->price * $item->quantity, 2) }}</td>
-                        <td>
-                            <a href="{{ route('cart.remove', $item->id) }}" class="btn btn-danger btn-sm">Remove</a>
-                        </td>
-                    </tr>
+                    @foreach ($listCart as $cart)
+                        @foreach ($cart->cartDetails as $cartDetail)
+                            <tr>
+                                <td>
+                                    <img src="{{ asset('storage/' . $cartDetail->product->image) }}" width="50">
+                                </td>
+                                <td>{{ $cartDetail->product->name }}</td>
+                                <td>{{ $cartDetail->variant ?? 'N/A' }}</td>
+                                <td>{{ $cartDetail->quantity }}</td>
+                                <td>${{ number_format($cartDetail->product->price * $cartDetail->quantity, 2) }}</td>
+                                <td>
+                                    <form action="{{ route('cart.destroy', $cartDetail->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
                     @endforeach
                 </tbody>
+                
             </table>
 
             <div class="row add_top_30 flex-sm-row-reverse cart_actions">

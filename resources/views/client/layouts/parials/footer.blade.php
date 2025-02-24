@@ -1,4 +1,4 @@
-<footer class="">
+<footer class="revealed">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-6">
@@ -84,8 +84,7 @@
                         </div>
                     </li>
                     <li><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                            data-src="client/img/cards_all.svg" alt="" width="198" height="30"
-                            class="lazy">
+                            data-src="img/cards_all.svg" alt="" width="198" height="30" class="lazy">
                     </li>
                 </ul>
             </div>
@@ -99,4 +98,4 @@
         </div>
     </div>
 </footer>
-</div>
+<!--/footer-->
