@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
+
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartDetail;
@@ -163,4 +164,6 @@ class ProductsController extends Controller
             Log::error($th->getMessage());
         }
     }
+
+    
 }

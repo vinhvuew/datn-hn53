@@ -20,7 +20,11 @@ use App\Http\Controllers\Admin\AttributesValuesController;
 use App\Http\Controllers\Admin\ProductController;
 
 
-Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/search', [HomeController::class, 'search'])->name('product.search');
+Route::get('/filter', [HomeController::class, 'filter'])->name('product.filter');
+
+
 Route::get('/chat', [HomeController::class, 'room'])->name('chat');
 Route::get('/product', [HomeController::class, 'products'])->name('product');
 Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
