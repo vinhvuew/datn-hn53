@@ -14,66 +14,6 @@ use Illuminate\Support\Facades\Log;
 
 class ProductsController extends Controller
 {
-    //
-    // public function detail($slug)
-    // {
-    //     $product = Product::where('slug', $slug)
-    //         ->with([
-    //             'brand',
-    //             'category',
-    //             'images',
-    //             'variants.attributes.attribute',
-    //             'variants.attributes.attributeValue',
-    //         ])
-    //         ->firstOrFail();
-
-    //     // // Nhóm các thuộc tính theo loại
-    //     // $groupAttribute = [];
-    //     // foreach ($product->variants as $variant) {
-    //     //     foreach ($variant->attributes as $attribute) {
-    //     //         $attributeName = $attribute->attribute->name;
-    //     //         $attributeValue = [
-    //     //             'id' => $attribute->attributeValue->id,
-    //     //             'name' => $attribute->attributeValue->value,
-    //     //         ];
-
-    //     //         // Thêm vào nhóm nếu chưa có
-    //     //         if (!isset($groupAttribute[$attributeName])) {
-    //     //             $groupAttribute[$attributeName] = [];
-    //     //         }
-
-    //     //         if (!in_array($attributeValue, $groupAttribute[$attributeName])) {
-    //     //             $groupAttribute[$attributeName][] = $attributeValue;
-    //     //         }
-    //     //     }
-    //     // }
-
-
-    //     return view('client.product.productDetail', compact('product',));
-    // }
-
-    //     public function detail($slug)
-    // {
-    //     // Lấy sản phẩm theo slug và load quan hệ cần thiết
-    //     $product = Product::where('slug', $slug)
-    //         ->with([
-    //             'brand',
-    //             'category',
-    //             'images',
-    //             'variants.attributes.attribute',
-    //             'variants.attributes.attributeValue',
-    //         ])
-    //         ->firstOrFail();
-
-    //     // Lấy danh sách sản phẩm cùng danh mục (trừ sản phẩm hiện tại)
-    //     $relatedProducts = Product::where('category_id', $product->category_id)
-    //         ->where('id', '!=', $product->id)
-    //         ->limit(4)
-    //         ->get();
-
-    //     // Trả dữ liệu ra view
-    //     return view('client.product.productDetail', compact('product', 'relatedProducts'));
-    // }
     public function detail($slug)
     {
         // Lấy sản phẩm theo slug và load quan hệ cần thiết
