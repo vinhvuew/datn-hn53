@@ -4,7 +4,7 @@
 
     <div class="container mt-4">
         <div class="card shadow-sm border-0 rounded">
-            <div class="card-header text-white">
+            <div class="card-header bg-primary text-white"> <!-- Thêm màu nền -->
                 <h5 class="mb-0">Quản Lý Người Dùng</h5>
             </div>
             <div class="card-body">
@@ -46,13 +46,22 @@
                                 <tr>
                                     <td class="text-center align-middle">{{ $user->id }}</td>
                                     <td class="align-middle">{{ $user->name }}</td>
-                                    <td class="align-middle">{{ $user->email }}</td>
-                                    <td class="align-middle">{{ $user->phone }}</td>
-                                    <td class="align-middle">{{ $user->role }}</td>
+                                    <td class="align-middle">{{ $user->email ?? '-' }}</td>
+                                    <td class="align-middle">{{ $user->phone ?? '-' }}</td>
+                                    <td class="align-middle">
+                                        <form action="{{ route('users.update', $user->id) }}" method="POST" class="d-inline role-form">
+                                            @csrf
+                                            @method('PUT')
+                                            <select name="role" class="form-select form-select-sm role-select">
+                                                <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                                                <option value="moderator" {{ $user->role == 'moderator' ? 'selected' : '' }}>Moderator</option>
+                                                <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                            </select>
+                                        </form>
+                                    </td>
                                     <td class="text-center align-middle">
-
                                         <form action="{{ route('users.destroy', $user->id) }}" method="POST"
-                                            class="d-inline" onsubmit="return confirmDelete()">
+                                            class="d-inline" onsubmit="return confirmDelete(event, '{{ $user->name }}')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm">
@@ -71,10 +80,22 @@
     </div>
 
     <script>
-        function confirmDelete() {
-            return confirm('Bạn có chắc chắn muốn xóa người dùng này?');
+       
+        function confirmDelete(event, userName) {
+            if (!confirm('Bạn có chắc chắn muốn xóa người dùng "' + userName + '"?')) {
+                event.preventDefault();
+            }
         }
-    </script>
 
+       
+        document.querySelectorAll('.role-select').forEach(select => {
+            select.addEventListener('change', function () {
+                let form = this.closest('.role-form');
+                if (confirm('Bạn có chắc chắn muốn thay đổi vai trò?')) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
 
 @endsection

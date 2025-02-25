@@ -1,8 +1,6 @@
 @extends('client.layouts.master')
 
 @section('content')
-
-
 <!-- Lớp phủ mờ -->
 <div class="overlay"></div>
 
@@ -42,7 +40,7 @@
                 </div>
               @endif
 
-              <form action="{{ route('login.process') }}" method="POST">
+              <form action="{{ route('login.post') }}" method="POST">
                 @csrf
                 <div class="mb-3">
                   <label for="login_input" class="form-label">Email hoặc SĐT</label>
@@ -68,7 +66,7 @@
                 </div>
               @endif
 
-              <form action="{{ route('register.process') }}" method="POST">
+              <form action="{{ route('register.post') }}" method="POST">
                 @csrf
                 <div class="mb-3">
                   <label for="register_name" class="form-label">Họ và Tên</label>
