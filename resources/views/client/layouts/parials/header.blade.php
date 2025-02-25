@@ -43,35 +43,24 @@
                                             <h3>Listing grid</h3>
                                             <ul>
                                                 <li><a href="listing-grid-1-full.html">Grid Full Width</a></li>
-                                                <li><a href="listing-grid-2-full.html">Grid Full Width 2</a>
-                                                </li>
+                                                <li><a href="listing-grid-2-full.html">Grid Full Width 2</a></li>
                                                 <li><a href="listing-grid-3.html">Grid Boxed</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Grid Sidebar
-                                                        Left</a></li>
-                                                <li><a href="listing-grid-5-sidebar-right.html">Grid Sidebar
-                                                        Right</a></li>
-                                                <li><a href="listing-grid-6-sidebar-left.html">Grid Sidebar
-                                                        Left 2</a></li>
-                                                <li><a href="listing-grid-7-sidebar-right.html">Grid Sidebar
-                                                        Right 2</a></li>
+                                                <li><a href="listing-grid-4-sidebar-left.html">Grid Sidebar Left</a></li>
+                                                <li><a href="listing-grid-5-sidebar-right.html">Grid Sidebar Right</a></li>
+                                                <li><a href="listing-grid-6-sidebar-left.html">Grid Sidebar Left 2</a></li>
+                                                <li><a href="listing-grid-7-sidebar-right.html">Grid Sidebar Right 2</a></li>
                                             </ul>
                                         </div>
                                         <div class="col-lg-3">
                                             <h3>Listing row &amp; Product</h3>
                                             <ul>
-                                                <li><a href="listing-row-1-sidebar-left.html">Row Sidebar
-                                                        Left</a></li>
-                                                <li><a href="listing-row-2-sidebar-right.html">Row Sidebar
-                                                        Right</a></li>
-                                                <li><a href="listing-row-3-sidebar-left.html">Row Sidebar Left
-                                                        2</a></li>
-                                                <li><a href="listing-row-4-sidebar-extended.html">Row Sidebar
-                                                        Extended</a></li>
-                                                <li><a href="product-detail-1.html">Product Large Image</a>
-                                                </li>
+                                                <li><a href="listing-row-1-sidebar-left.html">Row Sidebar Left</a></li>
+                                                <li><a href="listing-row-2-sidebar-right.html">Row Sidebar Right</a></li>
+                                                <li><a href="listing-row-3-sidebar-left.html">Row Sidebar Left 2</a></li>
+                                                <li><a href="listing-row-4-sidebar-extended.html">Row Sidebar Extended</a></li>
+                                                <li><a href="product-detail-1.html">Product Large Image</a></li>
                                                 <li><a href="product-detail-2.html">Product Carousel</a></li>
-                                                <li><a href="product-detail-3.html">Product Sticky Info</a>
-                                                </li>
+                                                <li><a href="product-detail-3.html">Product Sticky Info</a></li>
                                             </ul>
                                         </div>
                                         <div class="col-lg-3">
@@ -130,8 +119,7 @@
                     <!--/main-menu -->
                 </nav>
                 <div class="col-xl-3 col-lg-2 d-lg-flex align-items-center justify-content-end text-end">
-                    <a class="phone_top" href="tel://9438843343"><strong><span>Need Help?</span>+94
-                            423-23-221</strong></a>
+                    <a class="phone_top" href="tel://9438843343"><strong><span>Need Help?</span>+94 423-23-221</strong></a>
                 </div>
             </div>
             <!-- /row -->
@@ -162,10 +150,8 @@
                                                 <li><a href="listing-grid-1-full.html">Trending</a></li>
                                                 <li><a href="listing-grid-2-full.html">Life style</a></li>
                                                 <li><a href="listing-grid-3.html">Running</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Training</a>
-                                                </li>
-                                                <li><a href="listing-grid-5-sidebar-right.html">View all
-                                                        Collections</a></li>
+                                                <li><a href="listing-grid-4-sidebar-left.html">Training</a></li>
+                                                <li><a href="listing-grid-5-sidebar-right.html">View all Collections</a></li>
                                             </ul>
                                         </li>
                                         <li><span><a href="#">Men</a></span>
@@ -173,10 +159,8 @@
                                                 <li><a href="listing-grid-6-sidebar-left.html">Offers</a></li>
                                                 <li><a href="listing-grid-7-sidebar-right.html">Shoes</a></li>
                                                 <li><a href="listing-row-1-sidebar-left.html">Clothing</a></li>
-                                                <li><a href="listing-row-3-sidebar-left.html">Accessories</a>
-                                                </li>
-                                                <li><a href="listing-row-4-sidebar-extended.html">Equipment</a>
-                                                </li>
+                                                <li><a href="listing-row-3-sidebar-left.html">Accessories</a></li>
+                                                <li><a href="listing-row-4-sidebar-extended.html">Equipment</a></li>
                                             </ul>
                                         </li>
                                         <li><span><a href="#">Women</a></span>
@@ -189,14 +173,10 @@
                                         </li>
                                         <li><span><a href="#">Boys</a></span>
                                             <ul>
-                                                <li><a href="listing-grid-6-sidebar-left.html">Easy On
-                                                        Shoes</a></li>
-                                                <li><a href="listing-grid-7-sidebar-right.html">Clothing</a>
-                                                </li>
-                                                <li><a href="listing-row-3-sidebar-left.html">Must Have</a>
-                                                </li>
-                                                <li><a href="listing-row-4-sidebar-extended.html">All Boys</a>
-                                                </li>
+                                                <li><a href="listing-grid-6-sidebar-left.html">Easy On Shoes</a></li>
+                                                <li><a href="listing-grid-7-sidebar-right.html">Clothing</a></li>
+                                                <li><a href="listing-row-3-sidebar-left.html">Must Have</a></li>
+                                                <li><a href="listing-row-4-sidebar-extended.html">All Boys</a></li>
                                             </ul>
                                         </li>
                                         <li><span><a href="#">Girls</a></span>
@@ -204,17 +184,14 @@
                                                 <li><a href="listing-grid-1-full.html">New Releases</a></li>
                                                 <li><a href="listing-grid-2-full.html">Clothing</a></li>
                                                 <li><a href="listing-grid-3.html">Sale</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Best Sellers</a>
-                                                </li>
+                                                <li><a href="listing-grid-4-sidebar-left.html">Best Sellers</a></li>
                                             </ul>
                                         </li>
                                         <li><span><a href="#">Customize</a></span>
                                             <ul>
                                                 <li><a href="listing-row-1-sidebar-left.html">For Men</a></li>
-                                                <li><a href="listing-row-2-sidebar-right.html">For Women</a>
-                                                </li>
-                                                <li><a href="listing-row-4-sidebar-extended.html">For Boys</a>
-                                                </li>
+                                                <li><a href="listing-row-2-sidebar-right.html">For Women</a></li>
+                                                <li><a href="listing-row-4-sidebar-extended.html">For Boys</a></li>
                                                 <li><a href="listing-grid-1-full.html">For Girls</a></li>
                                             </ul>
                                         </li>
@@ -257,14 +234,13 @@
                                                 </figure>
                                                 <strong><span>1x Armor Okwahn II</span>$110.00</strong>
                                             </a>
-                                            <a href="https://ansonika.com/allaia/0" class="action"><i
-                                                    class="ti-trash"></i></a>
+                                            <a href="https://ansonika.com/allaia/0" class="action"><i class="ti-trash"></i></a>
                                         </li>
                                     </ul>
                                     <div class="total_drop">
                                         <div class="clearfix"><strong>Total</strong><span>$200.00</span></div>
-                                        <a href="cart.html" class="btn_1 outline">View Cart</a><a
-                                            href="checkout.html" class="btn_1">Checkout</a>
+                                        <a href="cart.html" class="btn_1 outline">View Cart</a>
+                                        <a href="checkout.html" class="btn_1">Checkout</a>
                                     </div>
                                 </div>
                             </div>
@@ -275,25 +251,34 @@
                         </li>
                         <li>
                             <div class="dropdown dropdown-access">
-                                <a href="" class="access_link"><span>Account</span></a>
-                                <div class="dropdown-menu">
-                                    <a href= "{{ route('login.register') }}" class="btn_1">Sign In or Sign Up</a>
-                                    <ul>
-                                        <li>
-                                            <a href="track-order.html"><i class="ti-truck"></i>Track your
-                                                Order</a>
-                                        </li>
-                                        <li>
-                                            <a href="my-orders.html"><i class="ti-package"></i>My Orders</a>
-                                        </li>
-                                        <li>
-                                            <a href="profile-page.html"><i class="ti-user"></i>My Profile</a>
-                                        </li>
-                                        <li>
-                                            <a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                @if(Auth::check())
+                                    <a href="#" class="access_link">
+                                        <i>{{ Auth::user()->name }}</i>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <ul>
+                                            <li>
+                                                <a href="track-order.html"><i class="ti-truck"></i>Track your Order</a>
+                                            </li>
+                                            <li>
+                                                <a href="my-orders.html"><i class="ti-package"></i>My Orders</a>
+                                            </li>
+                                            <li>
+                                                <a href="profile-page.html"><i class="ti-user"></i>My Profile</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('logout') }}"><i class="ti-user"></i>Log Out</a>
+                                            </li>
+                                            <li>
+                                                <a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                @else
+                                    <a href="{{ route('login.post') }}" class="access_link">
+                                        <i>Sign in/ Sign up</i>
+                                    </a>
+                                @endif
                             </div>
                             <!-- /dropdown-access-->
                         </li>

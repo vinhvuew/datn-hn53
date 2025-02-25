@@ -6,13 +6,50 @@ use App\Http\Controllers\Admin\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash; // Import Hash facade
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     const PATH_VIEW = 'admin.users.';
+
+    
+    public function showAdminLoginForm()
+    {
+        return view(self::PATH_VIEW . 'logad');
+    }
+
+   
+    public function adminLogin(Request $request)
+{
+    $request->validate([
+        'login'    => 'required',
+        'password' => 'required',
+    ]);
+
+    $login    = $request->input('login');
+    $password = $request->input('password');
+
+  
+    $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+
+   
+    $user = User::where($field, $login)->whereIn('role', ['admin', 'moderator'])->first();
+
+    
+    if ($user && Auth::attempt([$field => $login, 'password' => $password])) {
+        return redirect()->route('admin.dashboard')->with('success', 'Đăng nhập thành công!');
+    }
+
+    return back()->withInput()->with('error', 'Thông tin đăng nhập không đúng hoặc bạn không có quyền truy cập.');
+}
+
+  
+    public function adminLogout()
+    {
+        Auth::logout();
+        return redirect('/')->with('success', 'Đăng xuất thành công.');
+    }
 
     public function index()
     {
@@ -20,81 +57,36 @@ class UserController extends Controller
         return view(self::PATH_VIEW . __FUNCTION__, compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view(self::PATH_VIEW . __FUNCTION__);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreUserRequest $request)
-    {
-
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
-            'phone' => $request->phone,
-            'role' => $request->role,
-        ]);
-
-        return redirect()->route('users.index')->with('success', 'Tạo tài khoản thành công.');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
+  
     public function edit($id)
     {
         $user = User::findOrFail($id);
         return view(self::PATH_VIEW . __FUNCTION__, compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
- 
-
-
-public function update(Request $request, $id)
-{
     
-    $user = User::findOrFail($id);
-
-   
-    $validatedData = $request->validate([
-        'email' => 'required|email|max:255|unique:users,email,' . $user->id, 
-        'phone' => 'nullable|numeric|unique:users,phone,' . $user->id, 
-        'role' => 'required|in:admin,user', 
-        'password' => 'nullable|string|min:6|confirmed', 
-    ]);
-
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
     
-    if ($request->filled('password')) {
-        $user->password = bcrypt($request->password);
+        
+        $user->name  = $request->name ?? $user->name;
+        $user->email = $request->email ?? $user->email;
+        $user->phone = $request->phone ?? $user->phone;
+        $user->role  = $request->role ?? $user->role;
+    
+        
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+    
+        $user->save();
+    
+        return redirect()->route('users.index')->with('success', 'Cập nhật người dùng thành công.');
     }
+    
 
-    $user->name = $request->name;
-    $user->email = $validatedData['email'];
-    $user->phone = $validatedData['phone'];
-    $user->role = $validatedData['role'];
-
-   
-    $user->save();
-
-   
-    return redirect()->route('users.index')->with('success', 'Cập nhật người dùng thành công.');
-}
-
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy($id)
     {
         $user = User::findOrFail($id);
