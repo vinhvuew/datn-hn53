@@ -15,8 +15,15 @@ class CartController extends Controller
      */
     public function index()
     {
-        $listCart = Cart::where('user_id', Auth::id())->get();
-        return view('client.cart.index', compact('listCart'));
+        // $cart = Auth::check() ? Cart::where('user_id', Auth::id())->first() : null;
+        // dd($cart);
+        $cart = Auth::check()
+            ? Cart::where('user_id', Auth::id())->first()
+            : session()->get('guest_cart', null);
+
+        $carts = $cart ? ($cart instanceof Cart ? $cart->cartDetails()->with(['product', 'variant'])->get() : $cart) : [];
+        dd($carts);
+        return view('client.cart.index', compact('carts'));
     }
 
     /**
@@ -63,9 +70,8 @@ class CartController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id)
-{
-    CartDetail::findOrFail($id)->delete();
-    return redirect()->route('cart.index')->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng.');
-}
-
+    {
+        CartDetail::findOrFail($id)->delete();
+        return redirect()->route('cart.index')->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng.');
+    }
 }

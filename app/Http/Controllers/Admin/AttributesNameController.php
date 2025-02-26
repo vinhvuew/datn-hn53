@@ -78,12 +78,11 @@ class AttributesNameController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required|string|max:255|unique:attributes,name',
+                'name' => 'required|string|max:255',
                 // 'data_type' => 'required|string|max:255',
             ],
             [
                 'name.required' => 'Thuộc tính này không được bỏ trống.',
-                'name.unique' => 'Thuộc tính này đã tồn tại.',
                 'name.max' => 'không được quá 255 kí tự',
 
             ]

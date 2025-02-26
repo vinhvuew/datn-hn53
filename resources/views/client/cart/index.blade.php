@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($listCart as $cart)
+                    @foreach ($carts as $cart)
                         @foreach ($cart->cartDetails as $cartDetail)
                             <tr>
                                 <td>

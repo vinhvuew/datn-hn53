@@ -22,6 +22,7 @@
 
         @yield('content')
 
+        
         @include('client.layouts.parials.footer')
 
     </div>

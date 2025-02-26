@@ -147,12 +147,7 @@
             <ul class="menu-sub">
                 <li class="menu-item">
                     <a href="{{ route('users.index') }}" class="menu-link">
-                        <div class="text-truncate" data-i18n="List">List</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="{{ route('users.create') }}" class="menu-link">
-                        <div class="text-truncate" data-i18n="Create">Add</div>
+                        <div class="text-truncate" data-i18n="Danh Sách Tài Khoản">Danh Sách Tài Khoản</div>
                     </a>
                 </li>
             </ul>
