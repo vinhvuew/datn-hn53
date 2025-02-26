@@ -32,7 +32,7 @@ Route::get('/checkout',[HomeController::class,'checkout'])->name('checkout.view'
 Route::post('/checkout/store',[HomeController::class,'checkout'])->name('checkout.store');
 
 // đăng nhập, đăng ký, đăng xuất user
-Route::get('login', [LoginRegisterController::class, 'showForm'])->name('login.register');
+Route::get('login', [LoginRegisterController::class, 'showForm'])->name('login.show');
 Route::post('login', [LoginRegisterController::class, 'login'])->name('login.post');
 Route::post('register', [LoginRegisterController::class, 'register'])->name('register.post');
 Route::get('logout', [LoginRegisterController::class, 'logout'])->name('logout');
