@@ -8,9 +8,6 @@
     <style>
         .error { color: red; font-size: 14px; margin-top: 5px; }
         .alert { padding: 10px; background: lightcoral; color: white; margin-bottom: 10px; }
-        .password-container { display: flex; align-items: center; }
-        .password-container input { flex: 1; }
-        .password-container button { border: none; background: none; cursor: pointer; font-size: 18px; }
     </style>
 </head>
 <body>
@@ -33,22 +30,16 @@
         <form action="{{ route('register.post') }}" method="POST" id="registerForm">
             @csrf
             <h1>Đăng Ký</h1>
-            <input type="text" name="name" id="name" placeholder="Họ và Tên" required>
+            <input type="text" name="name" id="name" placeholder="Họ và Tên">
             <span class="error" id="nameError"></span>
 
-            <input type="text" name="login" id="registerLogin" placeholder="Email hoặc Số điện thoại" required>
+            <input type="text" name="login" id="registerLogin" placeholder="Email hoặc Số điện thoại">
             <span class="error" id="registerLoginError"></span>
 
-            <div class="password-container">
-                <input type="password" name="password" id="registerPassword" placeholder="Mật khẩu" required>
-                <button type="button" onclick="togglePassword('registerPassword')">👁️</button>
-            </div>
+            <input type="password" name="password" id="registerPassword" placeholder="Mật khẩu">
             <span class="error" id="registerPasswordError"></span>
 
-            <div class="password-container">
-                <input type="password" name="password_confirmation" id="confirmPassword" placeholder="Xác nhận mật khẩu" required>
-                <button type="button" onclick="togglePassword('confirmPassword')">👁️</button>
-            </div>
+            <input type="password" name="password_confirmation" id="confirmPassword" placeholder="Xác nhận mật khẩu">
             <span class="error" id="confirmPasswordError"></span>
 
             <button type="submit">Đăng Ký</button>
@@ -60,13 +51,10 @@
         <form action="{{ route('login.post') }}" method="POST" id="loginForm">
             @csrf
             <h1>Đăng Nhập</h1>
-            <input type="text" name="login" id="loginEmail" placeholder="Email hoặc Số điện thoại" required>
+            <input type="text" name="login" id="loginEmail" placeholder="Email hoặc Số điện thoại">
             <span class="error" id="loginEmailError"></span>
 
-            <div class="password-container">
-                <input type="password" name="password" id="loginPassword" placeholder="Mật khẩu" required>
-                <button type="button" onclick="togglePassword('loginPassword')">👁️</button>
-            </div>
+            <input type="password" name="password" id="loginPassword" placeholder="Mật khẩu">
             <span class="error" id="loginPasswordError"></span>
 
             <button type="submit">Đăng Nhập</button>
@@ -103,35 +91,36 @@
         container.classList.remove("right-panel-active");
     });
 
+    
     document.getElementById('registerForm').addEventListener('submit', function(e) {
         let valid = true;
 
-        let name = document.getElementById('name').value;
-        if (name.length < 3) {
+        let name = document.getElementById('name').value.trim();
+        if (name !== "" && name.length < 3) {
             document.getElementById('nameError').innerText = "Tên phải có ít nhất 3 ký tự.";
             valid = false;
         } else {
             document.getElementById('nameError').innerText = "";
         }
 
-        let login = document.getElementById('registerLogin').value;
-        if (!login.includes('@') && !/^\d{10,11}$/.test(login)) {
-            document.getElementById('registerLoginError').innerText = "Nhập email hợp lệ hoặc số điện thoại.";
+        let login = document.getElementById('registerLogin').value.trim();
+        if (login !== "" && !login.includes('@') && !/^\d{10,11}$/.test(login)) {
+            document.getElementById('registerLoginError').innerText = "Email hoặc số điện thoại không hợp lệ.";
             valid = false;
         } else {
             document.getElementById('registerLoginError').innerText = "";
         }
 
-        let password = document.getElementById('registerPassword').value;
-        if (password.length < 6) {
+        let password = document.getElementById('registerPassword').value.trim();
+        if (password !== "" && password.length < 6) {
             document.getElementById('registerPasswordError').innerText = "Mật khẩu ít nhất 6 ký tự.";
             valid = false;
         } else {
             document.getElementById('registerPasswordError').innerText = "";
         }
 
-        let confirmPassword = document.getElementById('confirmPassword').value;
-        if (confirmPassword !== password) {
+        let confirmPassword = document.getElementById('confirmPassword').value.trim();
+        if (confirmPassword !== "" && confirmPassword !== password) {
             document.getElementById('confirmPasswordError').innerText = "Mật khẩu xác nhận không khớp.";
             valid = false;
         } else {
@@ -141,21 +130,28 @@
         if (!valid) e.preventDefault();
     });
 
+    
     document.getElementById('loginForm').addEventListener('submit', function(e) {
-        if (document.getElementById('loginEmail').value.trim() === '') {
-            document.getElementById('loginEmailError').innerText = "Vui lòng nhập email hoặc số điện thoại.";
-            e.preventDefault();
-        }
-    });
+        let valid = true;
 
-    function togglePassword(id) {
-        let input = document.getElementById(id);
-        if (input.type === "password") {
-            input.type = "text";
+        let login = document.getElementById('loginEmail').value.trim();
+        if (login !== "" && !login.includes('@') && !/^\d{10,11}$/.test(login)) {
+            document.getElementById('loginEmailError').innerText = "Email hoặc số điện thoại không hợp lệ.";
+            valid = false;
         } else {
-            input.type = "password";
+            document.getElementById('loginEmailError').innerText = "";
         }
-    }
+
+        let password = document.getElementById('loginPassword').value.trim();
+        if (password !== "" && password.length < 6) {
+            document.getElementById('loginPasswordError').innerText = "Mật khẩu ít nhất 6 ký tự.";
+            valid = false;
+        } else {
+            document.getElementById('loginPasswordError').innerText = "";
+        }
+
+        if (!valid) e.preventDefault();
+    });
 </script>
 
 </body>
