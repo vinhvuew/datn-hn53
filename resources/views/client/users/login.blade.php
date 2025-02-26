@@ -1,111 +1,162 @@
-@extends('client.layouts.master')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập & Đăng Ký</title>
+    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/pages/login.css') }}">
+    <style>
+        .error { color: red; font-size: 14px; margin-top: 5px; }
+        .alert { padding: 10px; background: lightcoral; color: white; margin-bottom: 10px; }
+        .password-container { display: flex; align-items: center; }
+        .password-container input { flex: 1; }
+        .password-container button { border: none; background: none; cursor: pointer; font-size: 18px; }
+    </style>
+</head>
+<body>
 
-@section('content')
-<!-- Lớp phủ mờ -->
-<div class="overlay"></div>
+@if (session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
 
-<!-- Khu vực Đăng nhập & Đăng ký -->
-<div class="auth-container">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-6">
-        <div class="card p-3">
-          <!-- Tab -->
-          <ul class="nav nav-tabs mb-4" id="authTab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login"
-                      type="button" role="tab" aria-controls="login" aria-selected="true">
-                Đăng Nhập
-              </button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register"
-                      type="button" role="tab" aria-controls="register" aria-selected="false">
-                Đăng Ký
-              </button>
-            </li>
-          </ul>
-
-          <!-- Nội dung Tab -->
-          <div class="tab-content" id="authTabContent">
-            <!-- Tab Đăng Nhập -->
-            <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-              <h4 class="mb-4 text-center">Đăng Nhập</h4>
-
-              @if ($errors->any() && session('auth_type') === 'login')
-                <div class="alert alert-danger">
-                  @foreach ($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                  @endforeach
-                </div>
-              @endif
-
-              <form action="{{ route('login.post') }}" method="POST">
-                @csrf
-                <div class="mb-3">
-                  <label for="login_input" class="form-label">Email hoặc SĐT</label>
-                  <input type="text" class="form-control" id="login_input" name="login" required>
-                </div>
-                <div class="mb-3">
-                  <label for="login_password" class="form-label">Mật khẩu</label>
-                  <input type="password" class="form-control" id="login_password" name="password" required>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Đăng Nhập</button>
-              </form>
-            </div>
-
-            <!-- Tab Đăng Ký -->
-            <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-              <h4 class="mb-4 text-center">Đăng Ký</h4>
-
-              @if ($errors->any() && session('auth_type') === 'register')
-                <div class="alert alert-danger">
-                  @foreach ($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                  @endforeach
-                </div>
-              @endif
-
-              <form action="{{ route('register.post') }}" method="POST">
-                @csrf
-                <div class="mb-3">
-                  <label for="register_name" class="form-label">Họ và Tên</label>
-                  <input type="text" class="form-control" id="register_name" name="name" required>
-                </div>
-                <div class="mb-3">
-                  <label for="register_login" class="form-label">Email hoặc SĐT</label>
-                  <input type="text" class="form-control" id="register_login" name="login" required>
-                </div>
-                <div class="mb-3">
-                  <label for="register_password" class="form-label">Mật khẩu</label>
-                  <input type="password" class="form-control" id="register_password" name="password" required>
-                </div>
-                <div class="mb-3">
-                  <label for="register_password_confirmation" class="form-label">Xác nhận mật khẩu</label>
-                  <input type="password" class="form-control" id="register_password_confirmation" name="password_confirmation" required>
-                </div>
-                <button type="submit" class="btn btn-success w-100">Đăng Ký</button>
-              </form>
-            </div>
-          </div>
-        
-        </div>
-      </div>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
     </div>
-  </div>
+@endif
+
+<div class="container" id="container">
+    <!-- Form Đăng Ký -->
+    <div class="form-container sign-up-container">
+        <form action="{{ route('register.post') }}" method="POST" id="registerForm">
+            @csrf
+            <h1>Đăng Ký</h1>
+            <input type="text" name="name" id="name" placeholder="Họ và Tên" required>
+            <span class="error" id="nameError"></span>
+
+            <input type="text" name="login" id="registerLogin" placeholder="Email hoặc Số điện thoại" required>
+            <span class="error" id="registerLoginError"></span>
+
+            <div class="password-container">
+                <input type="password" name="password" id="registerPassword" placeholder="Mật khẩu" required>
+                <button type="button" onclick="togglePassword('registerPassword')">👁️</button>
+            </div>
+            <span class="error" id="registerPasswordError"></span>
+
+            <div class="password-container">
+                <input type="password" name="password_confirmation" id="confirmPassword" placeholder="Xác nhận mật khẩu" required>
+                <button type="button" onclick="togglePassword('confirmPassword')">👁️</button>
+            </div>
+            <span class="error" id="confirmPasswordError"></span>
+
+            <button type="submit">Đăng Ký</button>
+        </form>
+    </div>
+
+    <!-- Form Đăng Nhập -->
+    <div class="form-container sign-in-container">
+        <form action="{{ route('login.post') }}" method="POST" id="loginForm">
+            @csrf
+            <h1>Đăng Nhập</h1>
+            <input type="text" name="login" id="loginEmail" placeholder="Email hoặc Số điện thoại" required>
+            <span class="error" id="loginEmailError"></span>
+
+            <div class="password-container">
+                <input type="password" name="password" id="loginPassword" placeholder="Mật khẩu" required>
+                <button type="button" onclick="togglePassword('loginPassword')">👁️</button>
+            </div>
+            <span class="error" id="loginPasswordError"></span>
+
+            <button type="submit">Đăng Nhập</button>
+        </form>
+    </div>
+
+    <!-- Chuyển Đổi Giữa Đăng Nhập & Đăng Ký -->
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Chào Mừng Trở Lại!</h1>
+                <p>Để kết nối với chúng tôi, vui lòng đăng nhập</p>
+                <button class="ghost" id="signIn">Đăng Nhập</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Xin Chào!</h1>
+                <p>Nhập thông tin cá nhân để đăng ký</p>
+                <button class="ghost" id="signUp">Đăng Ký</button>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
-  // Nếu session('auth_type') == 'register', hiển thị tab đăng ký
-  @if(session('auth_type') === 'register')
-    let registerTab = new bootstrap.Tab(document.querySelector('#register-tab'));
-    registerTab.show();
-  @elseif(session('auth_type') === 'login')
-    let loginTab = new bootstrap.Tab(document.querySelector('#login-tab'));
-    loginTab.show();
-  @endif
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+        let valid = true;
+
+        let name = document.getElementById('name').value;
+        if (name.length < 3) {
+            document.getElementById('nameError').innerText = "Tên phải có ít nhất 3 ký tự.";
+            valid = false;
+        } else {
+            document.getElementById('nameError').innerText = "";
+        }
+
+        let login = document.getElementById('registerLogin').value;
+        if (!login.includes('@') && !/^\d{10,11}$/.test(login)) {
+            document.getElementById('registerLoginError').innerText = "Nhập email hợp lệ hoặc số điện thoại.";
+            valid = false;
+        } else {
+            document.getElementById('registerLoginError').innerText = "";
+        }
+
+        let password = document.getElementById('registerPassword').value;
+        if (password.length < 6) {
+            document.getElementById('registerPasswordError').innerText = "Mật khẩu ít nhất 6 ký tự.";
+            valid = false;
+        } else {
+            document.getElementById('registerPasswordError').innerText = "";
+        }
+
+        let confirmPassword = document.getElementById('confirmPassword').value;
+        if (confirmPassword !== password) {
+            document.getElementById('confirmPasswordError').innerText = "Mật khẩu xác nhận không khớp.";
+            valid = false;
+        } else {
+            document.getElementById('confirmPasswordError').innerText = "";
+        }
+
+        if (!valid) e.preventDefault();
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        if (document.getElementById('loginEmail').value.trim() === '') {
+            document.getElementById('loginEmailError').innerText = "Vui lòng nhập email hoặc số điện thoại.";
+            e.preventDefault();
+        }
+    });
+
+    function togglePassword(id) {
+        let input = document.getElementById(id);
+        if (input.type === "password") {
+            input.type = "text";
+        } else {
+            input.type = "password";
+        }
+    }
 </script>
-@endsection
+
+</body>
+</html>
