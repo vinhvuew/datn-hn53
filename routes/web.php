@@ -28,18 +28,17 @@ Route::get('/chat', [HomeController::class, 'room'])->name('chat');
 Route::get('/product', [HomeController::class, 'products'])->name('product');
 Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
 Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('productDetail');
-Route::get('/cart', [CartController::class, 'cart'])->name('cart');
-Route::put('/cart/updateQuantity/{id}', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
-Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 
-Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
-Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::post('/add-comment', [ProductsController::class, 'storeCommet'])->name('add.comment');
+Route::post('/add-reply', [ProductsController::class, 'storeReply'])->name('add.reply');
+Route::get('/comments/{productId}', [ProductsController::class, 'showComments']);
 
-Route::get('/checkout',[HomeController::class,'checkout'])->name('checkout.view');
-// Route::post('/checkout/store',[HomeController::class,'checkout'])->name('checkout.store');
+
+Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
+Route::post('/checkout/store', [HomeController::class, 'checkout'])->name('checkout.store');
 
 // đăng nhập, đăng ký, đăng xuất user
-Route::get('login', [LoginRegisterController::class, 'showForm'])->name('login.register');
+Route::get('login', [LoginRegisterController::class, 'showForm'])->name('login.show');
 Route::post('login', [LoginRegisterController::class, 'login'])->name('login.post');
 Route::post('register', [LoginRegisterController::class, 'register'])->name('register.post');
 Route::get('logout', [LoginRegisterController::class, 'logout'])->name('logout');
@@ -85,6 +84,4 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::get('orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
         Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
         Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
-
-        
     });
