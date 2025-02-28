@@ -50,7 +50,9 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::resource('attribute-values', AttributesValuesController::class);
         Route::resource('brands', BrandsController::class);
         Route::resource('users', UserController::class);
-        Route::put('users/{id}/role', [UserController::class, 'updateRole'])->name('users.updateRole');
+        Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
+
+        
 
 
         // voucher

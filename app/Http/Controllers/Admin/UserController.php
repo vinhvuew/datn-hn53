@@ -84,6 +84,32 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Cập nhật người dùng thành công.');
     }
 
+    public function updateRole(Request $request)
+{
+    $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'role' => 'required|in:admin,moderator,user',
+    ]);
+
+    $user = User::findOrFail($request->user_id);
+    $currentUser = Auth::user(); 
+
+   
+    if ($currentUser->role !== 'admin') {
+        return response()->json(['message' => 'Bạn không có quyền thay đổi vai trò!'], 403);
+    }
+
+   
+    if ($currentUser->id == $user->id) {
+        return response()->json(['message' => 'Bạn không thể thay đổi vai trò của chính mình!'], 403);
+    }
+
+   
+    $user->role = $request->role;
+    $user->save();
+
+    return response()->json(['message' => 'Cập nhật vai trò thành công!']);
+}
     public function destroy($id)
     {
         $user = User::findOrFail($id);
