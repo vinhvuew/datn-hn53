@@ -55,3 +55,4 @@
 <!-- SPECIFIC CSS -->
 <link rel="preload" href="{{ asset('client') }}/css/home_1.css" as="style">
 <link rel="stylesheet" href="{{ asset('client') }}/css/home_1.css">
+
