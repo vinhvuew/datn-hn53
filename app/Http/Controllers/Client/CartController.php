@@ -5,70 +5,43 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\cart;
+use App\Models\Cart;
 use App\Models\CartDetail;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function cart()
     {
-        // $cart = Auth::check() ? Cart::where('user_id', Auth::id())->first() : null;
-        // dd($cart);
-        $cart = Auth::check()
-            ? Cart::where('user_id', Auth::id())->first()
-            : session()->get('guest_cart', null);
+        $carts = CartDetail::whereHas('cart', function ($query) {
+            $query->where('user_id', Auth::id());
+        })->with(['product', 'variant'])->get();
 
-        $carts = $cart ? ($cart instanceof Cart ? $cart->cartDetails()->with(['product', 'variant'])->get() : $cart) : [];
-        dd($carts);
-        return view('client.cart.index', compact('carts'));
+        return view('client.cart.listCart', compact('carts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    public function updateCart(Request $request)
+{
+    $cartDetail = CartDetail::findOrFail($request->cart_id);
+    $cartDetail->quantity = $request->quantity;
+    $cartDetail->save();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    // Tính lại subtotal cho từng sản phẩm
+    $newSubtotal = number_format($cartDetail->quantity * ($cartDetail->product->price ?? 0));
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+    // Tính lại tổng tiền của toàn bộ giỏ hàng
+    $newTotal = number_format(
+        CartDetail::whereHas('cart', function ($query) {
+            $query->where('user_id', Auth::id());
+        })->get()->sum(fn($cart) => $cart->quantity * ($cart->product->price ?? 0))
+    );
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+    return response()->json([
+        'newSubtotal' => $newSubtotal,
+        'newTotal' => $newTotal
+    ]);
+}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         CartDetail::findOrFail($id)->delete();

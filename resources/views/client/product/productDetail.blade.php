@@ -20,18 +20,12 @@
                         </div>
                         <div class="slider-two">
                             <div class="owl-carousel owl-theme thumbs">
-                                <div style="background-image: url({{ asset('client') }}/img/products/shoes/1.jpg);"
-                                    class="item active"></div>
-                                <div style="background-image: url({{ asset('client') }}/img/products/shoes/2.jpg);"
-                                    class="item"></div>
-                                <div style="background-image: url({{ asset('client') }}/img/products/shoes/3.jpg);"
-                                    class="item"></div>
-                                <div style="background-image: url({{ asset('client') }}/img/products/shoes/4.jpg);"
-                                    class="item"></div>
-                                <div style="background-image: url({{ asset('client') }}/img/products/shoes/5.jpg);"
-                                    class="item"></div>
-                                <div style="background-image: url({{ asset('client') }}/img/products/shoes/6.jpg);"
-                                    class="item"></div>
+                                @foreach ($product->images as $image)
+                                    <div style="background-image: url({{ Storage::url($image->img) }})" class="item active">
+                                    </div>
+                                @endforeach
+
+
                             </div>
                             <div class="left-t nonl-t"></div>
                             <div class="right-t"></div>
@@ -41,9 +35,9 @@
                 <div class="col-md-6">
                     <div class="breadcrumbs">
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Category</a></li>
-                            <li>Page active</li>
+                            <li><a href="#">Trang chủ</a></li>
+                            <li><a href="#">Sản phẩm</a></li>
+                            <li>Chi tiết sản phẩm</li>
                         </ul>
                     </div>
                     <!-- /page_header -->
@@ -51,77 +45,98 @@
                         @csrf
                         <div class="prod_info">
                             <h1>{{ $product->name }}</h1>
-                            <span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                    class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                    class="icon-star"></i><em>4
-                                    reviews</em></span>
+                            <span class="rating">
+                                <i class="icon-star voted"></i><i class="icon-star voted"></i>
+                                <i class="icon-star voted"></i><i class="icon-star voted"></i>
+                                <i class="icon-star"></i><em>4 reviews</em>
+                            </span>
                             <p><small>SKU: {{ $product->sku }}</small><br>{{ $product->description }}</p>
-                            <div class="prod_options">
-                                <div class="row">
-                                    @php
-                                        $groupAttribute = [];
-                                        $arr = [];
-                                    @endphp
 
-                                    @foreach ($product->variants as $variant)
-                                        @foreach ($variant->attributes as $attribute)
-                                            @php
-                                                $data = [
-                                                    'id' => $attribute->attributeValue->id,
-                                                    'name' => $attribute->attributeValue->value,
-                                                ];
+                            @if ($product->variants->isNotEmpty())
+                                {{-- Nếu có biến thể --}}
+                                <div class="prod_options">
+                                    <div class="row">
+                                        @php
+                                            $groupAttribute = [];
+                                            $arr = [];
+                                        @endphp
+                                        @foreach ($product->variants as $variant)
+                                            @foreach ($variant->attributes as $attribute)
+                                                @php
+                                                    $data = [
+                                                        'id' => $attribute->attributeValue->id,
+                                                        'name' => $attribute->attributeValue->value,
+                                                    ];
 
-                                                if (!in_array($data, $arr)) {
-                                                    $arr[] = $data;
-                                                }
+                                                    if (!in_array($data, $arr)) {
+                                                        $arr[] = $data;
+                                                    }
 
-                                                $attributeName = $attribute->attribute->name;
-                                                if (!isset($groupAttribute[$attributeName])) {
-                                                    $groupAttribute[$attributeName] = [];
-                                                }
+                                                    $attributeName = $attribute->attribute->name;
+                                                    if (!isset($groupAttribute[$attributeName])) {
+                                                        $groupAttribute[$attributeName] = [];
+                                                    }
 
-                                                if (!in_array($data, $groupAttribute[$attributeName])) {
-                                                    $groupAttribute[$attributeName][] = $data;
-                                                }
-                                            @endphp
+                                                    if (!in_array($data, $groupAttribute[$attributeName])) {
+                                                        $groupAttribute[$attributeName][] = $data;
+                                                    }
+                                                @endphp
+                                            @endforeach
                                         @endforeach
-                                    @endforeach
 
-                                    @foreach ($groupAttribute as $attributeName => $values)
-                                        <label
-                                            class="col-xl-5 col-lg-5  col-md-6 col-6 pt-0"><strong>{{ $attributeName }}</strong></label>
-                                        <div class="col-xl-4 col-lg-5 col-md-6 col-6 mb-2">
-                                            <select name="variant_attributes[attribute_value_id][]"
-                                                class="form-select attribute-select mb-1"
-                                                data-attribute-name="{{ $attributeName }}">
-                                                @foreach ($values as $value)
-                                                    @php
-                                                        // Lấy variant có thuộc tính tương ứng
-                                                        $variant = $product->variants->firstWhere(function (
-                                                            $variant,
-                                                        ) use ($value) {
-                                                            return $variant->attributes->firstWhere(
-                                                                'attributeValue.id',
-                                                                $value['id'],
-                                                            );
-                                                        });
+                                        @foreach ($groupAttribute as $attributeName => $values)
+                                            <label class="col-xl-5 col-lg-5 col-md-6 col-6 pt-0">
+                                                <strong>{{ $attributeName }}</strong>
+                                            </label>
+                                            <div class="col-xl-4 col-lg-5 col-md-6 col-6 mb-2">
+                                                <select name="variant_attributes[attribute_value_id][]"
+                                                    class="form-select attribute-select mb-1"
+                                                    data-attribute-name="{{ $attributeName }}">
+                                                    @foreach ($values as $value)
+                                                        @php
+                                                            $variant = $product->variants->firstWhere(function (
+                                                                $variant,
+                                                            ) use ($value) {
+                                                                return $variant->attributes->firstWhere(
+                                                                    'attributeValue.id',
+                                                                    $value['id'],
+                                                                );
+                                                            });
 
-                                                        $stock = $variant ? $variant->quantity : 0;
-                                                    @endphp
+                                                            $stock = $variant ? $variant->quantity : 0;
+                                                        @endphp
 
-                                                    {{-- Gắn giá trị stock chính xác vào data-stock --}}
-                                                    <option value="{{ $value['id'] }}" data-stock="{{ $stock }}">
-                                                        {{ Str::limit($value['name'], 30) }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                                        <option value="{{ $value['id'] }}"
+                                                            data-stock="{{ $stock }}">
+                                                            {{ Str::limit($value['name'], 30) }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        @endforeach
+                                    </div>
 
+                                    <div class="row">
+                                        <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Số lượng</strong></label>
+                                        <div class="col-xl-4 col-lg-5 col-md-6 col-6">
+                                            <div class="numbers-row">
+                                                <input type="text" value="1" id="quantity" class="qty2"
+                                                    name="quantity">
+                                            </div>
                                         </div>
-                                    @endforeach
-                                </div>
+                                    </div>
 
+                                    <div class="quantity mt-2">
+                                        <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Tồn kho</strong></label>
+                                        <span id="variant-stock" style="margin-left: 87px">
+                                            {{ $product->variants->first()->quantity }}
+                                        </span>
+                                    </div>
+                                </div>
+                            @else
+                                {{-- Nếu không có biến thể --}}
                                 <div class="row">
-                                    <label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>Số lượng</strong></label>
+                                    <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Số lượng</strong></label>
                                     <div class="col-xl-4 col-lg-5 col-md-6 col-6">
                                         <div class="numbers-row">
                                             <input type="text" value="1" id="quantity" class="qty2"
@@ -131,18 +146,21 @@
                                 </div>
 
                                 <div class="quantity mt-2">
-                                    <label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>Tồn kho</strong></label>
-                                    <span id="variant-stock"
-                                        style="margin-left: 87px">{{ $product->variants->first()->quantity }}</span>
+                                    <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Tồn kho</strong></label>
+                                    <span id="product-stock" style="margin-left: 87px">
+                                        {{ $product->quantity }}
+                                    </span>
                                 </div>
+                            @endif
 
-                            </div>
                             <div class="row">
                                 <div class="col-lg-5 col-md-6">
-                                    <div class="price_main"><span
-                                            class="new_price">{{ number_format($product->price_sale, 0, ',', '.') }}
-                                            VND</span><span class="percentage">-20%</span> <span
-                                            class="old_price">$160.00</span></div>
+                                    <div class="price_main">
+                                        <span class="new_price">{{ number_format($product->price_sale, 0, ',', '.') }}
+                                            VND</span>
+                                        <span class="percentage">-20%</span>
+                                        <span class="old_price">$160.00</span>
+                                    </div>
                                 </div>
                                 <div class="col-lg-5 col-md-6">
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -158,6 +176,8 @@
                             </div>
                         </div>
                     </form>
+
+
                     <!-- /prod_info -->
                     <div class="product_actions">
                         <ul>
@@ -340,177 +360,55 @@
 
         <div class="container margin_60_35">
             <div class="main_title">
-                <h2>Related</h2>
+                <h2>Sản phẩm cùng danh mục</h2>
                 <span>Products</span>
                 <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
             </div>
             <div class="owl-carousel owl-theme products_carousel">
-                <div class="item">
-                    <div class="grid_item">
-                        <span class="ribbon new">New</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="owl-lazy"
-                                    src="{{ asset('client') }}/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="{{ asset('client') }}/img/products/shoes/4.jpg" alt="">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
+
+                @if ($relatedProducts->isNotEmpty())
+                    @foreach ($relatedProducts as $related)
+                        <div class="item">
+                            <div class="grid_item">
+                                <span class="ribbon new">New</span>
+                                <figure>
+                                    <a href="{{ route('productDetail', $related->slug) }}">
+                                        <img class="owl-lazy" src="{{ Storage::url($related->img_thumbnail) }}"
+                                            data-src="{{ Storage::url($related->img_thumbnail) }}" alt="">
+                                    </a>
+                                </figure>
+                                <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
+                                        class="icon-star voted"></i><i class="icon-star voted"></i><i
+                                        class="icon-star"></i>
+                                </div>
+                                <a href="product-detail-1.html">
+                                    <h3>{{ $related->name }}</h3>
+                                </a>
+                                <div class="price_box">
+                                    <span class="new_price">{{ number_format($related->price_sale, 0, ',', '.') }}
+                                        VND</span>
+                                </div>
+                                <ul>
+                                    <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip"
+                                            data-bs-placement="left" title="Add to favorites"><i
+                                                class="ti-heart"></i><span>Add to favorites</span></a>
+                                    </li>
+                                    <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip"
+                                            data-bs-placement="left" title="Add to compare"><i
+                                                class="ti-control-shuffle"></i><span>Add to
+                                                compare</span></a></li>
+                                    <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip"
+                                            data-bs-placement="left" title="Add to cart"><i
+                                                class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
+                                </ul>
+                            </div>
+
+                            <!-- /grid_item -->
                         </div>
-                        <a href="product-detail-1.html">
-                            <h3>ACG React Terra</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$110.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /item -->
-                <div class="item">
-                    <div class="grid_item">
-                        <span class="ribbon new">New</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="owl-lazy"
-                                    src="{{ asset('client') }}/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="{{ asset('client') }}/img/products/shoes/5.jpg" alt="">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Air Zoom Alpha</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$140.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /item -->
-                <div class="item">
-                    <div class="grid_item">
-                        <span class="ribbon hot">Hot</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="owl-lazy"
-                                    src="{{ asset('client') }}/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="{{ asset('client') }}/img/products/shoes/8.jpg" alt="">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Air Color 720</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$120.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /item -->
-                <div class="item">
-                    <div class="grid_item">
-                        <span class="ribbon off">-30%</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="owl-lazy"
-                                    src="{{ asset('client') }}/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="{{ asset('client') }}/img/products/shoes/2.jpg" alt="">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Okwahn II</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$90.00</span>
-                            <span class="old_price">$170.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /item -->
-                <div class="item">
-                    <div class="grid_item">
-                        <span class="ribbon off">-50%</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="owl-lazy"
-                                    src="{{ asset('client') }}/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="{{ asset('client') }}/img/products/shoes/3.jpg" alt="">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Air Wildwood ACG</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$75.00</span>
-                            <span class="old_price">$155.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
+                    @endforeach
+                @else
+                    <p>Không có sản phẩm cùng danh mục.</p>
+                @endif
                 <!-- /item -->
             </div>
             <!-- /products_carousel -->
@@ -576,7 +474,7 @@
             }
         });
     </script>
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Lấy tất cả các dropdown attribute
             const attributeSelects = document.querySelectorAll('.attribute-select');
@@ -595,6 +493,49 @@
                     stockDisplay.textContent = stock;
                 });
             });
+        });
+    </script> --}}
+    {{-- check số lượng --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const attributeSelects = document.querySelectorAll(".attribute-select");
+            const stockDisplay = document.getElementById("variant-stock");
+
+            function updateStock() {
+                let selectedVariant = null;
+                let selectedAttributes = [];
+
+                // Lặp qua các dropdown để lấy giá trị thuộc tính được chọn
+                attributeSelects.forEach(select => {
+                    selectedAttributes.push(select.value);
+                });
+
+                // Kiểm tra biến thể phù hợp
+                @json($product->variants).forEach(variant => {
+                    let variantAttributes = variant.attributes.map(attr => attr.attribute_value_id
+                        .toString());
+
+                    if (JSON.stringify(variantAttributes.sort()) === JSON.stringify(selectedAttributes
+                            .sort())) {
+                        selectedVariant = variant;
+                    }
+                });
+
+                // Cập nhật số lượng tồn kho
+                if (selectedVariant) {
+                    stockDisplay.textContent = selectedVariant.quantity;
+                } else {
+                    stockDisplay.textContent = "Không có hàng";
+                }
+            }
+
+            // Gắn sự kiện thay đổi cho dropdown
+            attributeSelects.forEach(select => {
+                select.addEventListener("change", updateStock);
+            });
+
+            // Cập nhật số lượng khi tải trang
+            updateStock();
         });
     </script>
 @endsection
