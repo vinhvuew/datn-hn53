@@ -1,3 +1,4 @@
+
 <header class="version_1">
     <div class="layer"></div>
     <!-- Mobile menu overlay mask -->
@@ -8,6 +9,7 @@
                     <div id="logo">
                         <a href="index.html"><img src="{{ asset('client') }}/img/logo.svg" alt="" width="100"
                                 height="35"></a>
+
                     </div>
                 </div>
                 <nav class="col-xl-6 col-lg-7">
@@ -38,6 +40,7 @@
                                     <li><a href="index-4.html">GDPR Cookie Bar</a></li>
                                 </ul>
                             </li>
+
                             <li>
                                 <a href="blog.html">Chính sách đổi trả</a> 
                             </li>
@@ -144,7 +147,7 @@
                     <ul class="top_tools">
                         <li>
                             <div class="dropdown dropdown-cart">
-                                <a href="cart.html" class="cart_bt"><strong>2</strong></a>
+                                <a href="{{ route('cart')}}" class="cart_bt"><strong>2</strong></a>
                                 <div class="dropdown-menu">
                                     <ul>
                                         <li>
@@ -172,8 +175,9 @@
                                     </ul>
                                     <div class="total_drop">
                                         <div class="clearfix"><strong>Total</strong><span>$200.00</span></div>
-                                        <a href="cart.html" class="btn_1 outline">View Cart</a>
-                                        <a href="checkout.html" class="btn_1">Checkout</a>
+                                        <a href="{{ route('cart')}}" class="btn_1 outline">View Cart</a><a
+                                            href="checkout.html" class="btn_1">Checkout</a>
+
                                     </div>
                                 </div>
                             </div>

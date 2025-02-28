@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductsController;
 use App\Http\Controllers\Client\LoginRegisterController;
+use App\Http\Controllers\Client\CartController;
 
 // admin
 use App\Http\Controllers\Admin\Controller;
@@ -27,6 +28,7 @@ Route::get('/chat', [HomeController::class, 'room'])->name('chat');
 Route::get('/product', [HomeController::class, 'products'])->name('product');
 Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
 Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('productDetail');
+
 Route::post('/add-comment', [ProductsController::class, 'storeCommet'])->name('add.comment');
 Route::post('/add-reply', [ProductsController::class, 'storeReply'])->name('add.reply');
 Route::get('/comments/{productId}', [ProductsController::class, 'showComments']);
