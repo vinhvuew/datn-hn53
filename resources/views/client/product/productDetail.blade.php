@@ -121,7 +121,7 @@
                                         <div class="col-xl-4 col-lg-5 col-md-6 col-6">
                                             <div class="numbers-row">
                                                 <input type="text" value="1" id="quantity" class="qty2"
-                                                    name="quantity">
+                                                    min="1" name="quantity">
                                             </div>
                                         </div>
                                     </div>
@@ -140,11 +140,10 @@
                                     <div class="col-xl-4 col-lg-5 col-md-6 col-6">
                                         <div class="numbers-row">
                                             <input type="text" value="1" id="quantity" class="qty2"
-                                                name="quantity">
+                                                min="1" name="quantity">
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="quantity mt-2">
                                     <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Tồn kho</strong></label>
                                     <span id="product-stock" style="margin-left: 87px">
@@ -177,8 +176,6 @@
                             </div>
                         </div>
                     </form>
-
-
                     <!-- /prod_info -->
                     <div class="product_actions">
                         <ul>
@@ -201,7 +198,8 @@
             <div class="container">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab" role="tab">Bình
+                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab"
+                            role="tab">Bình
                             luận</a>
                     </li>
                     <li class="nav-item">
@@ -442,27 +440,8 @@
             }
         });
     </script>
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Lấy tất cả các dropdown attribute
-            const attributeSelects = document.querySelectorAll('.attribute-select');
 
-            // Lấy phần tử hiển thị số lượng
-            const stockDisplay = document.getElementById('variant-stock');
 
-            // Lắng nghe sự kiện thay đổi trên mỗi dropdown
-            attributeSelects.forEach(select => {
-                select.addEventListener('change', function() {
-                    // Lấy stock từ option được chọn
-                    const selectedOption = this.options[this.selectedIndex];
-                    const stock = selectedOption.getAttribute('data-stock') || 0;
-
-                    // Cập nhật số lượng hiển thị
-                    stockDisplay.textContent = stock;
-                });
-            });
-        });
-    </script> --}}
     {{-- check số lượng --}}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
