@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\AttributeValue;
+use App\Models\Brand;
 use App\Models\Cart;
 use App\Models\CartDetail;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Variant;
 use App\Models\VariantAttribute;
+use Attribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -155,5 +159,40 @@ class ProductsController extends Controller
             Log::error($th->getMessage());
             return back()->with('error', 'Đã xảy ra lỗi.');
         }
+    }
+
+    // tùng bún
+    public function index(Request $request)
+    {
+        // Lấy danh sách danh mục và thương hiệu
+        $categories = Category::all();
+        $brands = Brand::all();
+
+        // Khởi tạo query
+        $query = Product::query();
+
+        // Lọc theo danh mục (nếu có)
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category_id', $request->category);
+        }
+
+        // Lọc theo thương hiệu (nếu có)
+        if ($request->has('brand') && $request->brand != '') {
+            $query->where('brand_id', $request->brand);
+        }
+
+        // Lọc theo giá sale (nếu có)
+        if ($request->has('price_sale') && $request->price_sale != '') {
+            // Chỉ lọc nếu price_sale > 0
+            if ($request->price_sale > 0) {
+                $query->where('price_sale', '<=', $request->price_sale);
+            }
+        }
+
+        // Phân trang
+        $products = $query->paginate(12);
+
+        // Trả về view với dữ liệu
+        return view('client.product.products', compact('products', 'categories', 'brands'));
     }
 }
