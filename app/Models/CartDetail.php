@@ -36,6 +36,13 @@ class CartDetail extends Model
             }
         });
     }
+    public function getTotalPriceAttribute()
+    {
+        return $this->quantity * ($this->variant->price_sale ?? $this->product->price_sale ?? 0);
+    }
+
+
+
 
     public function cart()
     {
@@ -44,7 +51,7 @@ class CartDetail extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 
     public function variant()

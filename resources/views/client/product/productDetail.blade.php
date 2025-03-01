@@ -156,10 +156,11 @@
                             <div class="row">
                                 <div class="col-lg-5 col-md-6">
                                     <div class="price_main">
-                                        <span class="new_price">{{ number_format($product->price_sale, 0, ',', '.') }}
+                                        <label for=""> <strong>Đơn giá:</strong> </label>
+                                        <span class="new_price ">{{ number_format($product->price_sale, 0, ',', '.') }}
                                             VND</span>
-                                        <span class="percentage">-20%</span>
-                                        <span class="old_price">$160.00</span>
+                                        {{-- <span class="percentage">-20%</span>
+                                        <span class="old_price">$160.00</span> --}}
                                     </div>
                                 </div>
                                 <div class="col-lg-5 col-md-6">
@@ -200,12 +201,11 @@
             <div class="container">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab"
-                            role="tab">Description</a>
+                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab" role="tab">Bình
+                            luận</a>
                     </li>
                     <li class="nav-item">
-                        <a id="tab-B" href="#pane-B" class="nav-link" data-bs-toggle="tab"
-                            role="tab">Reviews</a>
+                        <a id="tab-B" href="#pane-B" class="nav-link" data-bs-toggle="tab" role="tab">Mô tả</a>
                     </li>
                 </ul>
             </div>
@@ -219,55 +219,71 @@
                             <h5 class="mb-0">
                                 <a class="collapsed" data-bs-toggle="collapse" href="#collapse-A" aria-expanded="false"
                                     aria-controls="collapse-A">
-                                    Description
+                                    Bình luận
                                 </a>
                             </h5>
                         </div>
                         <div id="collapse-A" class="collapse" role="tabpanel" aria-labelledby="heading-A">
                             <div class="card-body">
-                                <div class="row justify-content-between">
-                                    <div class="col-lg-6">
-                                        <h3>Details</h3>
-                                        <p>Lorem ipsum dolor sit amet, in eleifend <strong>inimicus elaboraret</strong> his,
-                                            harum efficiendi mel ne. Sale percipit vituperata ex mel, sea ne essent aeterno
-                                            sanctus, nam ea laoreet civibus electram. Ea vis eius explicari. Quot iuvaret ad
-                                            has.</p>
-                                        <p>Vis ei ipsum conclusionemque. Te enim suscipit recusabo mea, ne vis mazim
-                                            aliquando, everti insolens at sit. Cu vel modo unum quaestio, in vide dicta has.
-                                            Ut his laudem explicari adversarium, nisl <strong>laboramus hendrerit</strong>
-                                            te his, alia lobortis vis ea.</p>
-                                        <p>Perfecto eleifend sea no, cu audire voluptatibus eam. An alii praesent sit, nobis
-                                            numquam principes ea eos, cu autem constituto suscipiantur eam. Ex graeci
-                                            elaboraret pro. Mei te omnis tantas, nobis viderer vivendo ex has.</p>
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <h3>Specifications</h3>
-                                        <div class="table-responsive">
-                                            <table class="table table-sm table-striped">
-                                                <tbody>
-                                                    <tr>
-                                                        <td><strong>Color</strong></td>
-                                                        <td>Blue, Purple</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>Size</strong></td>
-                                                        <td>150x100x100</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>Weight</strong></td>
-                                                        <td>0.6kg</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>Manifacturer</strong></td>
-                                                        <td>Manifacturer</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                <h3>Bình luận</h3>
+                                <div id="comments-container">
+                                    @foreach ($comments as $comment)
+                                        <div class="comment mb-3 p-3 border rounded">
+                                            <div class="d-flex justify-content-between">
+                                                <strong>{{ $comment->user->name }}</strong>
+                                                <span class="text-muted">{{ $comment->created_at }}</span>
+                                            </div>
+                                            <p class="mt-1">{{ $comment->content }}</p>
+
+                                            <!-- Nút mở form trả lời -->
+                                            <button class="btn btn-sm btn-outline-primary reply-toggle">Trả lời</button>
+
+                                            <!-- Danh sách phản hồi -->
+                                            @if ($comment->replies->count() > 0)
+                                                <div class="replies ms-4 mt-2 border-start ps-3">
+                                                    @foreach ($comment->replies as $reply)
+                                                        <div class="reply mb-2">
+                                                            <strong>{{ $reply->user->name }}</strong>
+                                                            <p class="mb-1">{{ $reply->content }}</p>
+                                                            <small class="text-muted">{{ $reply->created_at }}</small>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+
+                                            <!-- Form trả lời (ẩn mặc định) -->
+                                            <div class="reply-form mt-2 ms-4" style="display: none;">
+                                                <form action="{{ route('add.reply') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                    <input type="hidden" name="parent_id" value="{{ $comment->id }}">
+                                                    <textarea name="content" class="form-control" rows="2" required></textarea>
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-success mt-2">Gửi</button>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-secondary mt-2 cancel-reply">Hủy</button>
+                                                </form>
+                                            </div>
                                         </div>
-                                        <!-- /table-responsive -->
-                                    </div>
+                                    @endforeach
                                 </div>
+
+                                <!-- Form bình luận chính -->
+                                <h4>Để lại bình luận</h4>
+                                <form action="{{ route('add.comment') }}" id="commentForm" method="POST">
+                                    @csrf
+                                    <input type="hidden" id="product_id" name="product_id"
+                                        value="{{ $product->id }}">
+                                    <div class="mb-3">
+                                        <label for="comment" class="form-label">Bình luận</label>
+                                        <textarea class="form-control" id="comment" name="content" rows="3"></textarea>
+                                    </div>
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-primary">Gửi bình luận</button>
+                                    </div>
+                                </form>
                             </div>
+
                         </div>
                     </div>
                     <!-- /TAB A -->
@@ -276,79 +292,31 @@
                             <h5 class="mb-0">
                                 <a class="collapsed" data-bs-toggle="collapse" href="#collapse-B" aria-expanded="false"
                                     aria-controls="collapse-B">
-                                    Reviews
+                                    Mô tả
                                 </a>
                             </h5>
                         </div>
                         <div id="collapse-B" class="collapse" role="tabpanel" aria-labelledby="heading-B">
                             <div class="card-body">
-                                <div class="row justify-content-between">
+                                <div class="row">
                                     <div class="col-lg-6">
-                                        <div class="review_content">
-                                            <div class="clearfix add_bottom_10">
-                                                <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i
-                                                        class="icon-star"></i><i class="icon-star"></i><i
-                                                        class="icon-star"></i><em>5.0/5.0</em></span>
-                                                <em>Published 54 minutes ago</em>
-                                            </div>
-                                            <h4>"Commpletely satisfied"</h4>
-                                            <p>Eos tollit ancillae ea, lorem consulatu qui ne, eu eros eirmod scaevola sea.
-                                                Et nec tantas accusamus salutatus, sit commodo veritus te, erat legere
-                                                fabulas has ut. Rebum laudem cum ea, ius essent fuisset ut. Viderer
-                                                petentium cu his.</p>
+                                        <div class="product-description">
+                                            <h4>Thông tin sản phẩm: {{ $product->name }}</h4>
+                                            <p>Mô tả: <strong>{{ $product->description }}</strong>
+                                            <p>
+
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <div class="review_content">
-                                            <div class="clearfix add_bottom_10">
-                                                <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i
-                                                        class="icon-star"></i><i class="icon-star empty"></i><i
-                                                        class="icon-star empty"></i><em>4.0/5.0</em></span>
-                                                <em>Published 1 day ago</em>
-                                            </div>
-                                            <h4>"Always the best"</h4>
-                                            <p>Et nec tantas accusamus salutatus, sit commodo veritus te, erat legere
-                                                fabulas has ut. Rebum laudem cum ea, ius essent fuisset ut. Viderer
-                                                petentium cu his.</p>
+                                        <div class="product-specs">
+                                            <h4>Hướng dẫn sử dụng</h4>
+                                            <p>{{ $product->user_manual }}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- /row -->
-                                <div class="row justify-content-between">
-                                    <div class="col-lg-6">
-                                        <div class="review_content">
-                                            <div class="clearfix add_bottom_10">
-                                                <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i
-                                                        class="icon-star"></i><i class="icon-star"></i><i
-                                                        class="icon-star empty"></i><em>4.5/5.0</em></span>
-                                                <em>Published 3 days ago</em>
-                                            </div>
-                                            <h4>"Outstanding"</h4>
-                                            <p>Eos tollit ancillae ea, lorem consulatu qui ne, eu eros eirmod scaevola sea.
-                                                Et nec tantas accusamus salutatus, sit commodo veritus te, erat legere
-                                                fabulas has ut. Rebum laudem cum ea, ius essent fuisset ut. Viderer
-                                                petentium cu his.</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="review_content">
-                                            <div class="clearfix add_bottom_10">
-                                                <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i
-                                                        class="icon-star"></i><i class="icon-star"></i><i
-                                                        class="icon-star"></i><em>5.0/5.0</em></span>
-                                                <em>Published 4 days ago</em>
-                                            </div>
-                                            <h4>"Excellent"</h4>
-                                            <p>Sit commodo veritus te, erat legere fabulas has ut. Rebum laudem cum ea, ius
-                                                essent fuisset ut. Viderer petentium cu his.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /row -->
-                                <p class="text-end"><a href="leave-review.html" class="btn_1">Leave a review</a></p>
                             </div>
-                            <!-- /card-body -->
                         </div>
+
                     </div>
                     <!-- /tab B -->
                 </div>
@@ -536,6 +504,29 @@
 
             // Cập nhật số lượng khi tải trang
             updateStock();
+        });
+    </script>
+    {{-- comment --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".reply-toggle").forEach(button => {
+                button.addEventListener("click", function() {
+                    let commentContainer = this.closest(".comment");
+                    let replyForm = commentContainer.querySelector(".reply-form");
+                    if (replyForm.style.display === "none" || replyForm.style.display === "") {
+                        replyForm.style.display = "block";
+                    } else {
+                        replyForm.style.display = "none";
+                    }
+                });
+            });
+
+            document.querySelectorAll(".cancel-reply").forEach(button => {
+                button.addEventListener("click", function() {
+                    let replyForm = this.closest(".reply-form");
+                    replyForm.style.display = "none";
+                });
+            });
         });
     </script>
 @endsection
