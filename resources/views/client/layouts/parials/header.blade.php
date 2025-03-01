@@ -1,4 +1,3 @@
-
 <header class="version_1">
     <div class="layer"></div>
     <!-- Mobile menu overlay mask -->
@@ -42,7 +41,7 @@
                             </li>
 
                             <li>
-                                <a href="blog.html">Chính sách đổi trả</a> 
+                                <a href="blog.html">Chính sách đổi trả</a>
                             </li>
                             <li>
                                 <a href="blog.html">Bài viết</a>
@@ -55,7 +54,8 @@
                     <!--/main-menu -->
                 </nav>
                 <div class="col-xl-3 col-lg-2 d-lg-flex align-items-center justify-content-end text-end">
-                    <a class="phone_top" href="tel://9438843343"><strong><span>Need Help?</span>+94 423-23-221</strong></a>
+                    <a class="phone_top" href="tel://9438843343"><strong><span>Need Help?</span>+94
+                            423-23-221</strong></a>
                 </div>
             </div>
             <!-- /row -->
@@ -87,7 +87,8 @@
                                                 <li><a href="listing-grid-2-full.html">Life style</a></li>
                                                 <li><a href="listing-grid-3.html">Running</a></li>
                                                 <li><a href="listing-grid-4-sidebar-left.html">Training</a></li>
-                                                <li><a href="listing-grid-5-sidebar-right.html">View all Collections</a></li>
+                                                <li><a href="listing-grid-5-sidebar-right.html">View all Collections</a>
+                                                </li>
                                             </ul>
                                         </li>
                                         <li><span><a href="#">Men</a></span>
@@ -147,7 +148,7 @@
                     <ul class="top_tools">
                         <li>
                             <div class="dropdown dropdown-cart">
-                                <a href="" class="cart_bt"><strong>2</strong></a>
+
                                 <div class="dropdown-menu">
                                     <ul>
                                         <li>
@@ -170,13 +171,19 @@
                                                 </figure>
                                                 <strong><span>1x Armor Okwahn II</span>$110.00</strong>
                                             </a>
-                                            <a href="https://ansonika.com/allaia/0" class="action"><i class="ti-trash"></i></a>
+                                            <a href="https://ansonika.com/allaia/0" class="action"><i
+                                                    class="ti-trash"></i></a>
                                         </li>
                                     </ul>
                                     <div class="total_drop">
                                         <div class="clearfix"><strong>Total</strong><span>$200.00</span></div>
-                                        <a href="" class="btn_1 outline">View Cart</a><a
+
+                                        <a href="" class="btn_1 outline">View Cart</a><a href="checkout.html"
+                                            class="btn_1">Checkout</a>
+
+                                        <a href="{{ route('cart.view')}}" class="btn_1 outline">View Cart</a><a
                                             href="checkout.html" class="btn_1">Checkout</a>
+
 
                                     </div>
                                 </div>
@@ -188,14 +195,15 @@
                         </li>
                         <li>
                             <div class="dropdown dropdown-access">
-                                @if(Auth::check())
+                                @if (Auth::check())
                                     <a href="#" class="access_link">
                                         <i>{{ Auth::user()->name }}</i>
                                     </a>
                                     <div class="dropdown-menu">
                                         <ul>
                                             <li>
-                                                <a href="track-order.html"><i class="ti-truck"></i>Track your Order</a>
+                                                <a href="track-order.html"><i class="ti-truck"></i>Track your
+                                                    Order</a>
                                             </li>
                                             <li>
                                                 <a href="my-orders.html"><i class="ti-package"></i>My Orders</a>
@@ -204,7 +212,8 @@
                                                 <a href="profile-page.html"><i class="ti-user"></i>My Profile</a>
                                             </li>
                                             <li>
-                                                <a href="{{ route('logout') }}"><i class="ti-user"></i>Log Out</a>
+                                                <a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i>
+                                                    Log Out</a>
                                             </li>
                                             <li>
                                                 <a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>

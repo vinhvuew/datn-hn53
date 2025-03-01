@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     public function placeOrder(Request $request){
-       
+        
     }
     private function orderItems($items){
 

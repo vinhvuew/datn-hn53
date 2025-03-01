@@ -53,8 +53,12 @@
                                                 placeholder="sku" name="sku" aria-label="Product sku"
                                                 value="{{ old('sku') }}">
                                         </div>
+
                                         <div class="col"><label class="form-label" for="ecommerce-product-sku">Số
                                                 lượng</label>
+                                            @error('quantity')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                            @enderror
                                             <input type="number" class="form-control" id="ecommerce-product-quantity"
                                                 placeholder="quantity" name="quantity">
                                         </div>
@@ -62,11 +66,18 @@
 
                                     <!-- Description -->
                                     <div class="mb-3">
+
                                         <label class="form-label" for="ecommerce-product-name">Mô tả</label>
+                                        @error('description')
+                                            <div class="text-danger mt-1">{{ $message }}</div>
+                                        @enderror
                                         <textarea type="text" class="form-control" id="ecommerce-product-name" placeholder="description" name="description"
                                             aria-label="description"></textarea>
                                     </div>
                                     <div class="mb-3">
+                                        @error('content')
+                                            <div class="text-danger mt-1">{{ $message }}</div>
+                                        @enderror
                                         <label class="form-label" for="content">Nội dung</label>
                                         <textarea type="text" class="form-control" id="content" placeholder="content" name="content" aria-label="content"></textarea>
                                     </div>
@@ -78,6 +89,9 @@
                                         <input type="file" class="form-control" name="img_thumbnail">
                                     </div>
                                     <div class="mb-3">
+                                        @error('user_manual')
+                                            <div class="text-danger mt-1">{{ $message }}</div>
+                                        @enderror
                                         <label class="form-label" for="content">Hướng dẫn sử dụng</label>
                                         <textarea type="text" class="form-control" name="user_manual"></textarea>
                                     </div>
@@ -90,6 +104,9 @@
                                 <div class="card-body">
                                     <div class="row gy-3" id="gallery-container">
                                         <div id="gallery_1">
+                                            @foreach ($errors->get('product_galleries.*') as $error)
+                                                <div class="text-red-500">{{ $error[0] }}</div>
+                                            @endforeach
                                             <input type="file" class="form-control" name="product_galleries[]"
                                                 id="gallery_input_1" multiple>
                                             @if ($errors->has('product_galleries'))
@@ -205,6 +222,7 @@
                                     {{-- danh mục --}}
                                     <div class="mb-3">
                                         <label for="category_id" class="form-label">Danh mục</label>
+
                                         <select name="category_id" class="form-select">
                                             <option value="" disabled selected>Chọn danh mục</option>
                                             @foreach ($category as $categori)
@@ -241,12 +259,18 @@
                                         <label class="form-label" for="base_price">giá cơ bản</label>
                                         <input type="number" class="form-control" id="base_price"
                                             placeholder="base_price" name="base_price" aria-label="base_price">
+                                        @error('base_price')
+                                            <div class="text-danger mt-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <!-- Discounted Price -->
                                     <div class="mb-3">
                                         <label class="form-label" for="ecommerce-product-discount-price">giá bán</label>
                                         <input type="number" class="form-control" id="price_sale"
                                             placeholder="price_sale" name="price_sale" aria-label="price_sale">
+                                        @error('price_sale')
+                                            <div class="text-danger mt-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
