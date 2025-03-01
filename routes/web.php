@@ -40,7 +40,7 @@ Route::get('logout', [LoginRegisterController::class, 'logout'])->name('logout')
 // đăng nhập admin
 Route::get('/logad',[UserController::class, 'showAdminLoginForm'])->name('logad');
 Route::post('/logad',[UserController::class, 'adminLogin'])->name('admin.logad');
-
+Route::post('/logad/logout', [UserController::class, 'adminLogout'])->name('admin.logout');
 
 Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');

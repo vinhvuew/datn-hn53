@@ -267,7 +267,8 @@
                                                 <a href="profile-page.html"><i class="ti-user"></i>My Profile</a>
                                             </li>
                                             <li>
-                                                <a href="{{ route('logout') }}"><i class="ti-user"></i>Log Out</a>
+                                                <a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i>
+                                                    Log Out</a>
                                             </li>
                                             <li>
                                                 <a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>

@@ -59,6 +59,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        
         function confirmDelete(event, userName) {
             if (!confirm('Bạn có chắc chắn muốn xóa người dùng "' + userName + '"?')) {
                 event.preventDefault();

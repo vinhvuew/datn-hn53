@@ -44,10 +44,12 @@ class UserController extends Controller
     }
 
     public function adminLogout()
-    {
-        Auth::logout();
-        return redirect('/')->with('success', 'Đăng xuất thành công.');
-    }
+{
+    session()->forget('admin_authenticated'); 
+    Auth::logout(); 
+    return redirect()->route('admin.login')->with('success', 'Đăng xuất thành công.');
+}
+
 
     public function index()
     {
