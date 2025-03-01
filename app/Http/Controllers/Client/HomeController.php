@@ -17,7 +17,9 @@ class HomeController extends Controller
 
     public function checkout()
     {
-        return view(self::PATH_VIEW.__FUNCTION__.".order");
+        $totalAmount = 1;
+        return view(self::PATH_VIEW.__FUNCTION__.".order",compact('totalAmount'));
+
     }
 
 }

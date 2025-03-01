@@ -147,7 +147,7 @@
                     <ul class="top_tools">
                         <li>
                             <div class="dropdown dropdown-cart">
-                                <a href="{{ route('cart')}}" class="cart_bt"><strong>2</strong></a>
+                                <a href="" class="cart_bt"><strong>2</strong></a>
                                 <div class="dropdown-menu">
                                     <ul>
                                         <li>
@@ -175,7 +175,7 @@
                                     </ul>
                                     <div class="total_drop">
                                         <div class="clearfix"><strong>Total</strong><span>$200.00</span></div>
-                                        <a href="{{ route('cart')}}" class="btn_1 outline">View Cart</a><a
+                                        <a href="" class="btn_1 outline">View Cart</a><a
                                             href="checkout.html" class="btn_1">Checkout</a>
 
                                     </div>

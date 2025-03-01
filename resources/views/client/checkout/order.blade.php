@@ -29,14 +29,14 @@
                                 <div class="col-md-6 mt-3">
                                     <label for="user_name" class="form-label">Họ và tên</label>
                                     <input type="text" name="user_name" class="form-control"
-                                        {{-- value="{{ Auth::user()->name }}" placeholder="Vui lòng nhập họ và tên"> --}}
-                                        >
+                                        value="{{ Auth::user()->name }}" placeholder="Vui lòng nhập họ và tên">
+                                        
                                 </div>
                                 <div class="col-md-6 mt-3">
                                     <label for="user_email" class="form-label">Địa chỉ email</label>
                                     <input type="text" name="user_email" class="form-control"
-                                        {{-- value="{{ Auth::user()->email }}" placeholder="Vui lòng nhập địa chỉ email"> --}}
-                                        >
+                                        value="{{ Auth::user()->email }}" placeholder="Vui lòng nhập địa chỉ email">
+                                        
                                 </div>
                             </div>
 
@@ -45,14 +45,14 @@
                                 <div class="col-md-6 mt-3">
                                     <label for="user_phone" class="form-label">Số điện thoại</label>
                                     <input type="text" name="user_phone" class="form-control"
-                                        {{-- value="{{ Auth::user()->phone }}" placeholder="Vui lòng nhập số điện thoại"> --}}
-                                        >
+                                        value="{{ Auth::user()->phone }}" placeholder="Vui lòng nhập số điện thoại">
+                                        
                                 </div>
                                 <div class="col-md-6 mt-3">
                                     <label for="user_address" class="form-label">Địa chỉ</label>
                                     <input type="text" name="user_address" class="form-control"
-                                        {{-- value="{{ Auth::user()->address }}" placeholder="Vui lòng nhập địa chỉ"> --}}
-                                        >
+                                        value="{{ Auth::user()->address }}" placeholder="Vui lòng nhập địa chỉ">
+                                        
                                 </div>
                             </div>
 
@@ -143,7 +143,7 @@
                                     <span>{{ number_format(session('totalAmount', $totalAmount), 0, ',', '.') }} VNĐ</span>
                                 </li>
                             </ul>
-                            <form method="post" action="{{ route('order.applyVoucher') }}" class="d-flex mb-3">
+                            <form method="post" action="" class="d-flex mb-3">
                                 @csrf
                                 <input type="text" name="voucher_code" class="form-control me-2" placeholder="Nhập mã voucher">
                                 <button type="submit" class="btn btn-success">Áp dụng</button>
