@@ -19,12 +19,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('parent_id')->nullable()->constrained('comments')->onDelete('cascade'); // Quan hệ tự tham chiếu
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete(); // Người dùng
-            $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete(); // Sản phẩm
+            $table->foreignIdFor(Product::class)->nullable()->constrained()->cascadeOnDelete(); // Sản phẩm
             $table->foreignIdFor(Variant::class)->nullable()->constrained()->cascadeOnDelete(); // Biến thể
             $table->text('content'); // Nội dung bình luận
             $table->timestamps(); // Thời gian tạo và cập nhật
         });
-
     }
 
     /**
