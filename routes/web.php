@@ -33,6 +33,10 @@ Route::post('/add-comment', [ProductsController::class, 'storeCommet'])->name('a
 Route::post('/add-reply', [ProductsController::class, 'storeReply'])->name('add.reply');
 Route::get('/comments/{productId}', [ProductsController::class, 'showComments']);
 
+// giỏ hàng
+Route::get('/cart', [CartController::class, 'cart'])->name('cart.view');
+Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
+Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 
 Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
 Route::post('/checkout/store', [HomeController::class, 'checkout'])->name('checkout.store');
@@ -46,7 +50,7 @@ Route::get('logout', [LoginRegisterController::class, 'logout'])->name('logout')
 // đăng nhập admin
 Route::get('/logad',[UserController::class, 'showAdminLoginForm'])->name('logad');
 Route::post('/logad',[UserController::class, 'adminLogin'])->name('admin.logad');
-
+Route::post('/logad/logout', [UserController::class, 'adminLogout'])->name('admin.logout');
 
 Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');
@@ -56,7 +60,9 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::resource('attribute-values', AttributesValuesController::class);
         Route::resource('brands', BrandsController::class);
         Route::resource('users', UserController::class);
-        Route::put('users/{id}/role', [UserController::class, 'updateRole'])->name('users.updateRole');
+        Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
+
+        
 
 
         // voucher

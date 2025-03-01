@@ -148,7 +148,7 @@
                     <ul class="top_tools">
                         <li>
                             <div class="dropdown dropdown-cart">
-                                <a href="" class="cart_bt"><strong>2</strong></a>
+
                                 <div class="dropdown-menu">
                                     <ul>
                                         <li>
@@ -177,8 +177,13 @@
                                     </ul>
                                     <div class="total_drop">
                                         <div class="clearfix"><strong>Total</strong><span>$200.00</span></div>
+
                                         <a href="" class="btn_1 outline">View Cart</a><a href="checkout.html"
                                             class="btn_1">Checkout</a>
+
+                                        <a href="{{ route('cart.view')}}" class="btn_1 outline">View Cart</a><a
+                                            href="checkout.html" class="btn_1">Checkout</a>
+
 
                                     </div>
                                 </div>
@@ -207,7 +212,8 @@
                                                 <a href="profile-page.html"><i class="ti-user"></i>My Profile</a>
                                             </li>
                                             <li>
-                                                <a href="{{ route('logout') }}"><i class="ti-user"></i>Log Out</a>
+                                                <a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i>
+                                                    Log Out</a>
                                             </li>
                                             <li>
                                                 <a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>

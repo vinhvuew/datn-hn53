@@ -112,7 +112,7 @@
                 @else
                     <div class="alert alert-info text-center">
                         <h4>Your cart is empty!</h4>
-                        <a href="{{ route('shop') }}" class="btn btn-primary">Continue Shopping</a>
+                        <a href="{{ route('home') }}" class="btn btn-primary">Continue Shopping</a>
                     </div>
                 @endif
             </div>
