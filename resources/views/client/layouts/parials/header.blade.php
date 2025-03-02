@@ -31,7 +31,7 @@
                                 <a href="{{ route('home') }}">Trang chủ</a>
                             </li>
                             <li class="submenu">
-                                <a href="{{ route('product') }}" class="show-submenu">Sản phẩm</a>
+                                <a href="{{ route('product.show') }}" class="show-submenu">Sản phẩm</a>
                                 <ul>
                                     <li><a href="index.html">Slider</a></li>
                                     <li><a href="index-2.html">Video Background</a></li>
@@ -181,16 +181,10 @@
                                         <a href="" class="btn_1 outline">View Cart</a><a href="checkout.html"
                                             class="btn_1">Checkout</a>
 
-<<<<<<< HEAD
 
-                                        {{-- <a href="{{ route('cart.view')}}" class="btn_1 outline">View Cart</a><a
-                                            href="checkout.html" class="btn_1">Checkout</a> --}}
-=======
-                                        <a href="{{ route('cart.view')}}" class="btn_1 outline">View Cart</a><a
+                                        <a href="{{ route('cart.view') }}" class="btn_1 outline">View Cart</a><a
                                             href="checkout.html" class="btn_1">Checkout</a>
 
-
->>>>>>> f191ba0a86143c3e9472bad07f41fdb446045bec
                                     </div>
                                 </div>
                             </div>

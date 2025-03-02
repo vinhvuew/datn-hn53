@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Http\Controllers\Admin\Controller as AdminController;
 use App\Http\Controllers\Controller;
+use App\Models\AttributeValue;
+use App\Models\Brand;
 use App\Models\Cart;
 use App\Models\CartDetail;
 use App\Models\Comment;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Variant;
 use App\Models\VariantAttribute;
+use Attribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -129,54 +134,38 @@ class ProductsController extends Controller
     }
 
 
-
-    public function storeCommet(Request $request)
+    // tùng bún
+    public function index(Request $request)
     {
-        // dd($request->all());
-        // $data = $request->validate([
-        //     'product_id' => 'required|exists:products,id',
-        //     'variant_id' => 'nullable|exists:variants,id',
-        //     'parent_id' => 'nullable|exists:comments,id',
-        //     'content' => 'required|string|max:500',
-        // ]);
-        // dd($data);
-        try {
-            $user = 1;
-            Comment::create([
-                'user_id' => $user,
-                'product_id' => $request->product_id,
-                'variant_id' => $request->variant_id,
-                'parent_id' => $request->parent_id,
-                'content' => $request->content,
-            ]);
-            // return view('client.product.productDetail', compact('product', 'relatedProducts', 'totalStock', 'comments'));
-            return back();
-        } catch (\Exception $e) {
-            Log::error('Lỗi lưu bình luận: ' . $e->getMessage());
-            return back();
+        // Lấy danh sách danh mục và thương hiệu
+        $categories = Category::all();
+        $brands = Brand::all();
+
+        // Khởi tạo query
+        $query = Product::query();
+
+        // Lọc theo danh mục (nếu có)
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category_id', $request->category);
         }
-    }
 
-    public function storeReply(Request $request)
-    {
-        $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'parent_id' => 'required|exists:comments,id',
-            'content' => 'required|string|max:500',
-        ]);
-
-
-        try {
-            $user = 1;
-            $reply = Comment::create([
-                'user_id' =>  $user,
-                'product_id' => $request->product_id,
-                'parent_id' => $request->parent_id,
-                'content' => $request->content,
-            ]);
-            return back();
-        } catch (\Throwable $th) {
-            //throw $th;
+        // Lọc theo thương hiệu (nếu có)
+        if ($request->has('brand') && $request->brand != '') {
+            $query->where('brand_id', $request->brand);
         }
+
+        // Lọc theo giá sale (nếu có)
+        if ($request->has('price_sale') && $request->price_sale != '') {
+            // Chỉ lọc nếu price_sale > 0
+            if ($request->price_sale > 0) {
+                $query->where('price_sale', '<=', $request->price_sale);
+            }
+        }
+
+        // Phân trang
+        $products = $query->paginate(12);
+
+        // Trả về view với dữ liệu
+        return view('client.product.products', compact('products', 'categories', 'brands'));
     }
 }
