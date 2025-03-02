@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Brand;
 class HomeController extends Controller
 {
 
@@ -23,36 +24,36 @@ class HomeController extends Controller
         return view(self::PATH_VIEW . __FUNCTION__);
     }
 
-  
 
-    public function index() {
-        // Lấy 8 sản phẩm mới nhất có cờ `is_new = true`
-        $newProducts = Product::where('is_new', true) // Lọc sản phẩm mới
-                              ->latest() // Sắp xếp theo thời gian tạo (mới nhất trước)
-                              ->take(8) // Chỉ lấy 8 sản phẩm
-                              ->get(); // Lấy dữ liệu từ database
-    
-        // Lấy 8 sản phẩm bán chạy nhất, sắp xếp theo số lượt xem (`view`) từ cao xuống thấp
-        $bestSellingProducts = Product::orderBy('view', 'desc') // Sắp xếp theo lượt xem (bán chạy nhất trước)
-                                      ->take(8) // Chỉ lấy 8 sản phẩm
-                                      ->get(); // Lấy dữ liệu từ database
-    
-        // Trả dữ liệu về view `Client.Home`, truyền biến `$newProducts` và `$bestSellingProducts`
-        return view('Client.Home', compact('newProducts', 'bestSellingProducts'));
+
+
+    public function index()
+    {
+
+        $latestProducts = Product::orderBy('created_at', 'desc')->take(8)->get();
+        $topSellingProducts = Product::orderBy('view', 'desc')->take(8)->get();
+        $brands = Brand::orderBy('created_at', 'desc')->take(4)->get();
+        $discountedProducts = Product::whereColumn('price_sale', '<', 'base_price') // Lọc sản phẩm giảm giá
+                                     ->orderBy('created_at', 'desc')
+                                     ->take(9) // Lấy 9 sản phẩm (hiển thị 3 sản phẩm mỗi slide)
+                                     ->get();
+
+
+        return view('client.home', compact('latestProducts', 'topSellingProducts', 'brands', 'discountedProducts'));
     }
-    
+
     public function search(Request $request)
     {
-        $query = $request->input('q'); // Lấy từ khóa từ thanh tìm kiếm
+        $query = $request->input('q'); // Lấy từ khóa tìm kiếm từ form
 
-        // Tìm sản phẩm theo tên hoặc mô tả chứa từ khóa tìm kiếm
-        $products = Product::where('name', 'LIKE', "%{$query}%")
-                            ->orWhere('description', 'LIKE', "%{$query}%")
+    $searchResults = Product::where('name', 'LIKE', "%{$query}%") // Tìm theo tên sản phẩm
+                            ->orWhere('description', 'LIKE', "%{$query}%") // Tìm theo mô tả
+                            ->orderBy('created_at', 'desc')
                             ->get();
 
-        return view('Client.SearchResults', compact('products', 'query'));
+    return view('client.searchResults', compact('searchResults', 'query'));
     }
-    
+
     public function filter(Request $request)
     {
         $query = Product::query();

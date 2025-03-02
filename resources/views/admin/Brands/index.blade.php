@@ -3,26 +3,7 @@
 @section('item-brand', 'open')
 @section('item-brand-index', 'active')
 @section('content')
-<<<<<<< HEAD
-<div class="container mt-5">
-    <h1>Danh Sách Thương Hiệu</h1>
-    <a href="{{ route('admin.brands.create') }}">Thêm Thương Hiệu</a>
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Tên</th>
-                <th>Mô Tả</th>
-                <th>Hành Động</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($brands as $brand)
-=======
     <div class="container mt-5">
         <h1>Danh Sách Thương Hiệu</h1>
         <a class="btn btn-primary mb-3" href="{{ route('brands.create') }}">Thêm Thương Hiệu</a>
@@ -32,7 +13,7 @@
 
         <table class="table table-bordered table-hover shadow-sm">
             <thead class="table-primary text-center">
->>>>>>> 73edc2211242ae6e934b743def6c0ebf86efdb54
+
                 <tr>
                     <th>ID</th>
                     <th>Tên</th>
@@ -66,7 +47,6 @@
 
     </div>
 @endsection
-@section('style-libs')
-@endsection
+
 @section('script-libs')
 @endsection

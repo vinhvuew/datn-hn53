@@ -55,3 +55,6 @@
 <!-- SPECIFIC CSS -->
 <link rel="preload" href="{{ asset('client') }}/css/home_1.css" as="style">
 <link rel="stylesheet" href="{{ asset('client') }}/css/home_1.css">
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

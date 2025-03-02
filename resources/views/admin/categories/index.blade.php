@@ -6,11 +6,9 @@
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-4">
-<<<<<<< HEAD
-                <span class="text-muted fw-light">eCommerce /</span> Category List
-=======
+
                 <span class="text-muted fw-light">Danh mục /</span> Danh sách danh mục
->>>>>>> 73edc2211242ae6e934b743def6c0ebf86efdb54
+
             </h4>
 
             <div class="app-ecommerce-category">
@@ -22,11 +20,9 @@
                     </div>
                     <!-- Add Category Button -->
                     <a href="{{ route('category.create') }}" class="btn btn-primary">
-<<<<<<< HEAD
-                        + Add Category
-=======
+
                         + Thêm mới danh mục
->>>>>>> 73edc2211242ae6e934b743def6c0ebf86efdb54
+
                     </a>
                 </div>
 
@@ -43,15 +39,11 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-<<<<<<< HEAD
-                                    <th>Category Name</th>
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Actions</th>
-=======
+
                                     <th>Tên danh mục</th>
                                     <th class="text-center">Trạng thái</th>
                                     <th class="text-center">Hành động</th>
->>>>>>> 73edc2211242ae6e934b743def6c0ebf86efdb54
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,26 +52,13 @@
                                         <td>{{ $item->id }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td class="text-center">
-<<<<<<< HEAD
-                                            <span class="badge bg-success">Active</span>
-                                        </td>
-                                        <td class="text-center" style="display:flex; margin-left:50px">
-                                            <a href="{{ route('category.edit', $item->id) }}"
-                                                class="btn btn-sm btn-primary">Edit</a>
-                                            <form action="{{ route('category.destroy', $item->id) }}" method="post"
-                                                id="form-{{ $item->id }}" style="margin-left: 10px">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" class="btn btn-sm btn-danger"
-                                                    data-id='{{ $item->id }}' id="submit-form">Delete</button>
-                                            </form>
-=======
+
                                             <span class="badge bg-success">Kích hoạt</span>
                                         </td>
                                         <td class="text-center">
                                             <a href="{{ route('category.edit', $item->id) }}"
                                                 class="btn btn-sm btn-primary">Chỉnh sửa</a>
->>>>>>> 73edc2211242ae6e934b743def6c0ebf86efdb54
+
                                         </td>
                                     </tr>
                                 @endforeach

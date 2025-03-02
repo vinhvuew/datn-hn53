@@ -21,8 +21,11 @@ use App\Http\Controllers\Admin\ProductController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/search', [HomeController::class, 'search'])->name('product.search');
-Route::get('/filter', [HomeController::class, 'filter'])->name('product.filter');
+Route::get('/brands', [HomeController::class, 'index_brands'])->name('brand');
+
+Route::get('/search', [HomeController::class, 'search'])->name('search');
+
+
 
 
 Route::get('/chat', [HomeController::class, 'room'])->name('chat');
@@ -88,5 +91,5 @@ Route::prefix('admin/')
         Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
         Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
 
-        
+
     });

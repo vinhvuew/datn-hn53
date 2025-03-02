@@ -22,25 +22,19 @@
                 <div class="text-truncate" data-i18n="Danh Mục">Danh Mục</div>
             </a>
             <ul class="menu-sub">
-<<<<<<< HEAD
-                <li class="menu-item">
-                    <a href="{{route('category.create')}}" class="menu-link">
-=======
+
                 <li class="menu-item @yield('item-category-create')">
                     <a href="{{ route('category.create') }}" class="menu-link">
->>>>>>> 73edc2211242ae6e934b743def6c0ebf86efdb54
+
                         <div class="text-truncate" data-i18n="Thêm Mới">
                             Thêm Mới`
                         </div>
                     </a>
                 </li>
-<<<<<<< HEAD
-                <li class="menu-item">
-                    <a href="{{route('category.index')}}" class="menu-link">
-=======
+
                 <li class="menu-item @yield('item-category-index')">
                     <a href="{{ route('category.index') }}" class="menu-link">
->>>>>>> 73edc2211242ae6e934b743def6c0ebf86efdb54
+
                         <div class="text-truncate" data-i18n="Danh Sách">
                             Danh Sách
                         </div>
@@ -139,7 +133,7 @@
                     </a>
                 </li>
             </ul>
-            
+
         </li>
         <li class="menu-item">
             <a href="{{ route('orders') }}" class="menu-link">
@@ -166,7 +160,7 @@
         <li class="menu-item">
             <a href="{{ route('comment.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-chart"></i>
-                    <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>  
+                    <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>
             </a>
         </li>
     </ul>
