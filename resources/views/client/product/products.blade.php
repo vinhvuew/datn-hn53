@@ -20,7 +20,7 @@
     </div>
     <!-- /Banner -->
 
-    <div class="container mt-5 pt-5">
+    <div class="container mt-2 pt-2">
         <div class="row">
             <!-- Bộ lọc (20%) -->
             <div class="col-lg-3" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
@@ -71,7 +71,14 @@
 
             <!-- Danh sách sản phẩm (70%) -->
             <div class="col-lg-9">
-                <!-- Đoạn code hiển thị danh sách sản phẩm -->
+                <!-- Dòng chữ chạy "Sale ngập trời" -->
+                <div class="marquee bg-warning py-2 mb-4">
+                    <marquee behavior="scroll" direction="left" scrollamount="10">
+                        <strong class="text-danger">🎉 SALE NGẬP TRỜI - GIẢM GIÁ LÊN ĐẾN 50% 🎉</strong>
+                    </marquee>
+                </div>
+
+                <!-- Danh sách sản phẩm -->
                 <div class="row small-gutters">
                     @foreach ($products as $product)
                     <div class="col-6 col-md-4 col-xl-3">
@@ -114,11 +121,35 @@
                     {{ $products->links() }}
                 </div>
             </div>
-
-            <!-- Phân trang -->
-            <div class="pagination__wrapper d-flex justify-content-center mt-4">
-                {{ $products->links() }}
-            </div>
         </div>
+    </div>
 </main>
+
+<!-- JavaScript để cập nhật giá trị range slider -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const priceRange = document.getElementById('priceRange');
+        const priceValue = document.getElementById('priceValue');
+
+        priceRange.addEventListener('input', function () {
+            priceValue.textContent = this.value + 'đ';
+        });
+
+        priceValue.textContent = priceRange.value + 'đ';
+    });
+</script>
+
+<!-- CSS cho dòng chữ chạy -->
+<style>
+    .marquee {
+        background-color: #ffc107; /* Màu nền vàng */
+        padding: 10px 0;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    .marquee strong {
+        font-size: 1.2rem;
+        color: #dc3545; /* Màu chữ đỏ */
+    }
+</style>
 @endsection
