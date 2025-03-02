@@ -181,10 +181,16 @@
                                         <a href="" class="btn_1 outline">View Cart</a><a href="checkout.html"
                                             class="btn_1">Checkout</a>
 
+<<<<<<< HEAD
+
+                                        {{-- <a href="{{ route('cart.view')}}" class="btn_1 outline">View Cart</a><a
+                                            href="checkout.html" class="btn_1">Checkout</a> --}}
+=======
                                         <a href="{{ route('cart.view')}}" class="btn_1 outline">View Cart</a><a
                                             href="checkout.html" class="btn_1">Checkout</a>
 
 
+>>>>>>> f191ba0a86143c3e9472bad07f41fdb446045bec
                                     </div>
                                 </div>
                             </div>

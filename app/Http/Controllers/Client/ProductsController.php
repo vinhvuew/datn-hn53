@@ -58,7 +58,9 @@ class ProductsController extends Controller
     public function addToCart(Request $request)
     {
         try {
-            $cart = Cart::firstOrCreate(['user_id' => 1]);
+            // $user = Auth::user();
+
+            $cart = Cart::firstOrCreate(['user_id' =>  1]);
             $productId = $request->input('product_id');
             $variantAttributeIds = $request->input('variant_attributes.attribute_value_id', []);
             $quantity = (int) $request->input('quantity', 1);
@@ -126,115 +128,7 @@ class ProductsController extends Controller
         }
     }
 
-    // public function addToCart(Request $request)
-    // {
-    //     try {
-    //         // Lấy giỏ hàng của user (giả sử user_id = 1)
-    //         $cart = Cart::firstOrCreate(['user_id' => 1]);
 
-    //         $productId = $request->input('product_id');
-    //         $variantAttributeIds = $request->input('variant_attributes.attribute_value_id', []);
-    //         $quantity = (int) $request->input('quantity', 1);
-
-    //         // Lấy sản phẩm từ cơ sở dữ liệu
-    //         $product = Product::with('variants')->findOrFail($productId);
-
-    //         // Kiểm tra giá sale từ session hoặc giá gốc
-    //         $saleProduct = session('productsOnSale', collect([]))->firstWhere('id', $product->id);
-    //         if ($product->price_sale) {
-    //             $price = $saleProduct['price_sale'] ?? $product->price_sale;
-    //         } else {
-    //             $price = $product->base_price;
-    //         }
-
-    //         if (!empty($variantAttributeIds)) {
-    //             // Nếu có biến thể, kiểm tra tồn kho của biến thể
-    //             $attributeCount = count($variantAttributeIds);
-    //             $variants = Variant::where('product_id', $productId)
-    //                 ->whereHas('attributes', function ($query) use ($variantAttributeIds) {
-    //                     $query->whereIn('attribute_value_id', $variantAttributeIds);
-    //                 })
-    //                 ->get();
-
-    //             $matchingVariant = null;
-    //             foreach ($variants as $variant) {
-    //                 $variantAttributes = VariantAttribute::where('variant_id', $variant->id)
-    //                     ->pluck('attribute_value_id')
-    //                     ->toArray();
-
-    //                 if (count(array_intersect($variantAttributes, $variantAttributeIds)) === $attributeCount) {
-    //                     $matchingVariant = $variant;
-    //                     break;
-    //                 }
-    //             }
-
-    //             if (!$matchingVariant) {
-    //                 return back()->with('error', 'Sản phẩm không còn hàng, vui lòng chọn sản phẩm khác!');
-    //             }
-
-    //             // Kiểm tra và cập nhật giỏ hàng
-    //             $cartDetail = CartDetail::where('cart_id', $cart->id)
-    //                 ->where('variant_id', $matchingVariant->id)
-    //                 ->first();
-    //             $priceMod = $matchingVariant->price_modifier;
-
-    //             if ($cartDetail) {
-    //                 $newQuantity = $cartDetail->quantity + $quantity;
-    //                 if ($matchingVariant->quantity < $newQuantity) {
-    //                     return back()->with('error', 'Số lượng vượt quá tồn kho.');
-    //                 }
-
-    //                 $cartDetail->quantity = $newQuantity;
-    //                 $cartDetail->total_amount += $priceMod * $quantity;
-    //                 $cartDetail->save();
-    //             } else {
-    //                 if ($matchingVariant->quantity < $quantity) {
-    //                     return back()->with('error', 'Số lượng vượt quá tồn kho.');
-    //                 }
-
-    //                 CartDetail::create([
-    //                     'cart_id' => $cart->id,
-    //                     'variant_id' => $matchingVariant->id,
-    //                     'quantity' => $quantity,
-    //                     'total_amount' => $priceMod * $quantity,
-    //                 ]);
-    //             }
-
-    //             // ✅ Trừ tồn kho biến thể
-    //             $matchingVariant->decrement('quantity', $quantity);
-    //         } else {
-    //             // ❗ Xử lý sản phẩm KHÔNG có biến thể
-    //             if ($product->quantity < $quantity) {
-    //                 return back()->with('error', 'Số lượng vượt quá tồn kho.');
-    //             }
-
-    //             $cartDetail = CartDetail::where('cart_id', $cart->id)
-    //                 ->where('product_id', $productId)
-    //                 ->first();
-
-    //             if ($cartDetail) {
-    //                 $cartDetail->quantity += $quantity;
-    //                 $cartDetail->total_amount += $price * $quantity;
-    //                 $cartDetail->save();
-    //             } else {
-    //                 CartDetail::create([
-    //                     'cart_id' => $cart->id,
-    //                     'product_id' => $productId,
-    //                     'quantity' => $quantity,
-    //                     'total_amount' => $price * $quantity,
-    //                 ]);
-    //             }
-
-    //             // ✅ Trừ tồn kho sản phẩm chính
-    //             $product->decrement('quantity', $quantity);
-    //         }
-
-    //         return back()->with('success', 'Sản phẩm đã được thêm vào giỏ hàng!');
-    //     } catch (\Throwable $th) {
-    //         Log::error($th->getMessage());
-    //         return back()->with('error', 'Đã xảy ra lỗi.');
-    //     }
-    // }
 
     public function storeCommet(Request $request)
     {
@@ -263,38 +157,6 @@ class ProductsController extends Controller
         }
     }
 
-    // {
-    //     // Xác thực dữ liệu đầu vào
-    //     $request->validate([
-    //         'product_id' => 'required|exists:products,id',
-    //         'variant_id' => 'nullable|exists:variants,id',
-    //         'parent_id' => 'nullable|exists:comments,id',
-    //         'content' => 'required|string|max:500',
-    //     ]);
-
-    //     try {
-    //         // Tạo bình luận mới
-    //         $user = 1;
-
-    //         Comment::create([
-    //             'user_id' => $user,
-    //             'product_id' => $request->product_id,
-    //             'variant_id' => $request->variant_id,
-    //             'parent_id' => $request->parent_id,
-    //             'content' => $request->content,
-    //         ]);
-
-    //         // Chuyển hướng về trang sản phẩm với thông báo thành công
-    //         return redirect()->back()->with('success', 'Bình luận đã được đăng!');
-    //     } catch (\Exception $e) {
-    //         // Ghi log lỗi
-    //         Log::error('Lỗi lưu bình luận: ' . $e->getMessage());
-
-    //         // Chuyển hướng lại với thông báo lỗi
-    //         return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại!');
-    //     }
-    // }
-
     public function storeReply(Request $request)
     {
         $request->validate([
@@ -305,7 +167,7 @@ class ProductsController extends Controller
 
 
         try {
-            $user =1;
+            $user = 1;
             $reply = Comment::create([
                 'user_id' =>  $user,
                 'product_id' => $request->product_id,
