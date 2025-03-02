@@ -32,7 +32,20 @@
 
     @include('client.layouts.parials.js')
     @yield('script-libs')
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const priceRange = document.getElementById('priceRange'); // Lấy thanh trượt
+        const priceValue = document.getElementById('priceValue'); // Lấy thẻ hiển thị giá trị
 
+        // Cập nhật giá trị khi thanh trượt thay đổi
+        priceRange.addEventListener('input', function () {
+            priceValue.textContent = this.value + 'đ'; // Cập nhật giá trị hiển thị
+        });
+
+        // Cập nhật giá trị ban đầu khi trang được tải
+        priceValue.textContent = priceRange.value + 'đ';
+    });
+</script>
 </body>
 
 </html>

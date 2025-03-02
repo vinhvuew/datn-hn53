@@ -31,7 +31,7 @@
                                 <a href="{{ route('home') }}">Trang chủ</a>
                             </li>
                             <li class="submenu">
-                                <a href="{{ route('product') }}" class="show-submenu">Sản phẩm</a>
+                                <a href="{{ route('product.show') }}" class="show-submenu">Sản phẩm</a>
                                 <ul>
                                     <li><a href="index.html">Slider</a></li>
                                     <li><a href="index-2.html">Video Background</a></li>

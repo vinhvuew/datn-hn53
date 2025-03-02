@@ -1,362 +1,155 @@
 @extends('client.layouts.master')
+
 @section('content')
-    <main>
-        <div class="top_banner">
-            <div class="opacity-mask d-flex align-items-center" data-opacity-mask="rgba(0, 0, 0, 0.3)">
-                <div class="container">
-                    <div class="breadcrumbs">
-                        <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Category</a></li>
-                            <li>Page active</li>
-                        </ul>
-                    </div>
-                    <h1>Shoes - Grid listing</h1>
-                </div>
-            </div>
-            <img src="client/img/bg_cat_shoes.jpg" class="img-fluid" alt="">
-        </div>
-        <!-- /top_banner -->
-        <div id="stick_here"></div>
-        <div class="toolbox elemento_stick">
+<main>
+    <!-- Banner -->
+    <div class="top_banner mb-5">
+        <div class="opacity-mask d-flex align-items-center" data-opacity-mask="rgba(0, 0, 0, 0.3)">
             <div class="container">
-                <ul class="clearfix">
-                    <li>
-                        <div class="sort_select">
-                            <select name="sort" id="sort">
-                                <option value="popularity" selected="selected">Sort by popularity</option>
-                                <option value="rating">Sort by average rating</option>
-                                <option value="date">Sort by newness</option>
-                                <option value="price">Sort by price: low to high</option>
-                                <option value="price-desc">Sort by price: high to
-                            </select>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="#0"><i class="ti-view-grid"></i></a>
-                        <a href="listing-row-1-sidebar-left.html"><i class="ti-view-list"></i></a>
-                    </li>
-                    <li>
-                        <a href="#0" class="open_filters">
-                            <i class="ti-filter"></i><span>Filters</span>
-                        </a>
-                    </li>
-                </ul>
+                <div class="breadcrumbs">
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Category</a></li>
+                        <li>Page active</li>
+                    </ul>
+                </div>
+                <h1>Shoes - Grid Listing</h1>
             </div>
         </div>
-        <!-- /toolbox -->
-        <div class="container margin_30">
-            <div class="row">
-                <aside class="col-lg-3" id="sidebar_fixed">
-                    <div class="filter_col">
-                        <div class="inner_bt"><a href="#" class="open_filters"><i class="ti-close"></i></a></div>
-                        <div class="filter_type version_2">
-                            <h4><a href="#filter_1" data-bs-toggle="collapse" class="opened">Categories</a></h4>
-                            <div class="collapse show" id="filter_1">
-                                <ul>
-                                    <li>
-                                        <label class="container_check">Men <small>12</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="container_check">Women <small>24</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="container_check">Running <small>23</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="container_check">Training <small>11</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- /filter_type -->
-                        </div>
-                        <!-- /filter_type -->
-                        <div class="filter_type version_2">
-                            <h4><a href="#filter_2" data-bs-toggle="collapse" class="opened">Color</a></h4>
-                            <div class="collapse show" id="filter_2">
-                                <ul>
-                                    <li>
-                                        <label class="container_check">Blue <small>06</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="container_check">Red <small>12</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="container_check">Orange <small>17</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="container_check">Black <small>43</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- /filter_type -->
-                        <div class="filter_type version_2">
-                            <h4><a href="#filter_3" data-bs-toggle="collapse" class="closed">Brands</a></h4>
-                            <div class="collapse" id="filter_3">
-                                <ul>
-                                    <li>
-                                        <label class="container_check">Adidas <small>11</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="container_check">Nike <small>08</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="container_check">Vans <small>05</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="container_check">Puma <small>18</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- /filter_type -->
-                        <div class="filter_type version_2">
-                            <h4><a href="#filter_4" data-bs-toggle="collapse" class="closed">Price</a></h4>
-                            <div class="collapse" id="filter_4">
-                                <ul>
-                                    <li>
-                                        <label class="container_check">$0 — $50<small>11</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="container_check">$50 — $100<small>08</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="container_check">$100 — $150<small>05</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="container_check">$150 — $200<small>18</small>
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- /filter_type -->
-                        <div class="buttons">
-                            <a href="#0" class="btn_1">Filter</a> <a href="#0" class="btn_1 gray">Reset</a>
-                        </div>
+        <img src="client/img/bg_cat_shoes.jpg" class="img-fluid w-100" alt="">
+    </div>
+    <!-- /Banner -->
+
+    <div class="container mt-2 pt-2">
+        <div class="row">
+            <!-- Bộ lọc (20%) -->
+            <div class="col-lg-3" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h6 class="mb-0">Tìm Kiếm Sản Phẩm</h6>
                     </div>
-                </aside>
-                <!-- /col -->
-                <div class="col-lg-9">
-                    <div class="row row_item">
-                        <div class="col-sm-4">
-                            <figure>
-                                <span class="ribbon off">-30%</span>
-                                <a href="product-detail-1.html">
-                                    <img class="img-fluid lazy"
-                                        src="client/img/products/product_placeholder_square_medium.jpg"
-                                        data-src="client/img/products/shoes/1.jpg" alt="">
-                                </a>
-                                <div data-countdown="2019/05/15" class="countdown"></div>
-                            </figure>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                    class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
+                    <div class="card-body">
+                        <form action="{{ route('products.filter') }}" method="GET">
+                            <!-- Danh mục -->
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Danh mục</strong></label>
+                                <select class="form-select" name="category">
+                                    <option value="">Chọn danh mục</option>
+                                    @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <a href="product-detail-1.html">
-                                <h3>Armor Air x Fear</h3>
-                            </a>
-                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                pariatur. Excepteur sint occaecat cupidatat non proident...</p>
-                            <div class="price_box">
-                                <span class="new_price">$48.00</span>
-                                <span class="old_price">$60.00</span>
+
+                            <!-- Hãng -->
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Hãng</strong></label>
+                                <select class="form-select" name="brand">
+                                    <option value="">Chọn hãng</option>
+                                    @foreach($brands as $brand)
+                                    <option value="{{ $brand->id }}" {{ request('brand') == $brand->id ? 'selected' : '' }}>{{ $brand->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <ul>
-                                <li><a href="#0" class="btn_1">Add to cart</a></li>
-                                <li><a href="#0" class="btn_1 gray tooltip-1" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="Add to favorites"><i
-                                            class="ti-heart"></i><span>Add to favorites</span></a></li>
-                                <li><a href="#0" class="btn_1 gray tooltip-1" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="Add to compare"><i
-                                            class="ti-control-shuffle"></i><span>Add to compare</span></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /row_item -->
-                    <div class="row row_item">
-                        <div class="col-sm-4">
-                            <figure>
-                                <span class="ribbon off">-30%</span>
-                                <a href="product-detail-1.html">
-                                    <img class="img-fluid lazy"
-                                        src="client/img/products/product_placeholder_square_medium.jpg"
-                                        data-src="client/img/products/shoes/2.jpg" alt="">
-                                </a>
-                                <div data-countdown="2019/05/15" class="countdown"></div>
-                            </figure>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                    class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
+
+                            <!-- Giá sale -->
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Khoảng giá</strong></label>
+                                <input type="range" class="form-range" name="price_sale" id="priceRange" min="0" max="10000" step="100" value="{{ request('price_sale', 0) }}">
+                                <div class="d-flex justify-content-between">
+                                    <span>0đ</span>
+                                    <span id="priceValue">{{ request('price_sale', 0) }}đ</span> <!-- Hiển thị giá trị hiện tại -->
+                                </div>
                             </div>
-                            <a href="product-detail-1.html">
-                                <h3>Armor Okwahn II</h3>
-                            </a>
-                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                pariatur. Excepteur sint occaecat cupidatat non proident...</p>
-                            <div class="price_box">
-                                <span class="new_price">$90.00</span>
-                                <span class="old_price">$170.00</span>
-                            </div>
-                            <ul>
-                                <li><a href="#0" class="btn_1">Add to cart</a></li>
-                                <li><a href="#0" class="btn_1 gray tooltip-1" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="Add to favorites"><i
-                                            class="ti-heart"></i><span>Add to favorites</span></a></li>
-                                <li><a href="#0" class="btn_1 gray tooltip-1" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="Add to compare"><i
-                                            class="ti-control-shuffle"></i><span>Add to compare</span></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /row_item -->
-                    <div class="row row_item">
-                        <div class="col-sm-4">
-                            <figure>
-                                <span class="ribbon off">-30%</span>
-                                <a href="product-detail-1.html">
-                                    <img class="img-fluid lazy"
-                                        src="client/img/products/product_placeholder_square_medium.jpg"
-                                        data-src="client/img/products/shoes/2.jpg" alt="">
-                                </a>
-                                <div data-countdown="2019/05/15" class="countdown"></div>
-                            </figure>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                    class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                            </div>
-                            <a href="product-detail-1.html">
-                                <h3>Armor Okwahn II</h3>
-                            </a>
-                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                pariatur. Excepteur sint occaecat cupidatat non proident...</p>
-                            <div class="price_box">
-                                <span class="new_price">$90.00</span>
-                                <span class="old_price">$170.00</span>
-                            </div>
-                            <ul>
-                                <li><a href="#0" class="btn_1">Add to cart</a></li>
-                                <li><a href="#0" class="btn_1 gray tooltip-1" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="Add to favorites"><i
-                                            class="ti-heart"></i><span>Add to favorites</span></a></li>
-                                <li><a href="#0" class="btn_1 gray tooltip-1" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="Add to compare"><i
-                                            class="ti-control-shuffle"></i><span>Add to compare</span></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /row_item -->
-                    <div class="row row_item">
-                        <div class="col-sm-4">
-                            <figure>
-                                <span class="ribbon off">-30%</span>
-                                <a href="product-detail-1.html">
-                                    <img class="img-fluid lazy"
-                                        src="client/img/products/product_placeholder_square_medium.jpg"
-                                        data-src="client/img/products/shoes/2.jpg" alt="">
-                                </a>
-                                <div data-countdown="2019/05/15" class="countdown"></div>
-                            </figure>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                    class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                            </div>
-                            <a href="product-detail-1.html">
-                                <h3>Armor Okwahn II</h3>
-                            </a>
-                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                pariatur. Excepteur sint occaecat cupidatat non proident...</p>
-                            <div class="price_box">
-                                <span class="new_price">$90.00</span>
-                                <span class="old_price">$170.00</span>
-                            </div>
-                            <ul>
-                                <li><a href="#0" class="btn_1">Add to cart</a></li>
-                                <li><a href="#0" class="btn_1 gray tooltip-1" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="Add to favorites"><i
-                                            class="ti-heart"></i><span>Add to favorites</span></a></li>
-                                <li><a href="#0" class="btn_1 gray tooltip-1" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="Add to compare"><i
-                                            class="ti-control-shuffle"></i><span>Add to compare</span></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /row_item -->
-                    <div class="pagination__wrapper">
-                        <ul class="pagination">
-                            <li><a href="#0" class="prev" title="previous page">&#10094;</a></li>
-                            <li>
-                                <a href="#0" class="active">1</a>
-                            </li>
-                            <li>
-                                <a href="#0">2</a>
-                            </li>
-                            <li>
-                                <a href="#0">3</a>
-                            </li>
-                            <li>
-                                <a href="#0">4</a>
-                            </li>
-                            <li><a href="#0" class="next" title="next page">&#10095;</a></li>
-                        </ul>
+
+                            <!-- Nút lọc -->
+                            <button type="submit" class="btn btn-primary w-100 mt-3">Áp dụng</button>
+                        </form>
                     </div>
                 </div>
-                <!-- /col -->
             </div>
-            <!-- /row -->
+
+            <!-- Danh sách sản phẩm (70%) -->
+            <div class="col-lg-9">
+                <!-- Dòng chữ chạy "Sale ngập trời" -->
+                <div class="marquee bg-warning py-2 mb-4">
+                    <marquee behavior="scroll" direction="left" scrollamount="10">
+                        <strong class="text-danger">🎉 SALE NGẬP TRỜI - GIẢM GIÁ LÊN ĐẾN 50% 🎉</strong>
+                    </marquee>
+                </div>
+
+                <!-- Danh sách sản phẩm -->
+                <div class="row small-gutters">
+                    @foreach ($products as $product)
+                    <div class="col-6 col-md-4 col-xl-3">
+                        <div class="grid_item">
+                            <figure>
+                                @if ($product->price_sale)
+                                <span class="ribbon off">-{{ round((($product->price_sale - $product->base_price) / $product->price_sale) * 100) }}%</span>
+                                @endif
+                                <a href="{{ route('product.show', $product->slug) }}">
+                                    <img class="img-fluid lazy" src="{{ asset('storage/' . $product->img_thumbnail) }}" alt="{{ $product->name }}" width="400" height="400">
+                                </a>
+                            </figure>
+                            <div class="rating">
+                                <i class="icon-star voted"></i>
+                                <i class="icon-star voted"></i>
+                                <i class="icon-star voted"></i>
+                                <i class="icon-star voted"></i>
+                                <i class="icon-star"></i>
+                            </div>
+                            <a href="{{ route('product.show', $product->slug) }}">
+                                <h3>{{ $product->name }}</h3>
+                            </a>
+                            <div class="price_box">
+                                <span class="new_price">{{ $product->base_price }}đ</span>
+                                @if ($product->price_sale)
+                                <span class="old_price">{{ $product->price_sale }}đ</span>
+                                @endif
+                            </div>
+                            <ul>
+                                <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to compare</span></a></li>
+                                <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+
+                <!-- Phân trang -->
+                <div class="pagination__wrapper d-flex justify-content-center mt-4">
+                    {{ $products->links() }}
+                </div>
+            </div>
         </div>
-        <!-- /container -->
-    </main>
+    </div>
+</main>
+
+<!-- JavaScript để cập nhật giá trị range slider -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const priceRange = document.getElementById('priceRange');
+        const priceValue = document.getElementById('priceValue');
+
+        priceRange.addEventListener('input', function () {
+            priceValue.textContent = this.value + 'đ';
+        });
+
+        priceValue.textContent = priceRange.value + 'đ';
+    });
+</script>
+
+<!-- CSS cho dòng chữ chạy -->
+<style>
+    .marquee {
+        background-color: #ffc107; /* Màu nền vàng */
+        padding: 10px 0;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    .marquee strong {
+        font-size: 1.2rem;
+        color: #dc3545; /* Màu chữ đỏ */
+    }
+</style>
 @endsection
