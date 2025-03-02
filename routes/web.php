@@ -1,6 +1,8 @@
 <?php
 
 
+
+use App\Http\Controllers\Client\AddressController;
 use Illuminate\Support\Facades\Route;
 // client
 use App\Http\Controllers\Client\HomeController;
@@ -23,6 +25,7 @@ use App\Http\Controllers\Admin\ProductController;
 
 
 
+
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/chat', [HomeController::class, 'room'])->name('chat');
 Route::get('/product', [HomeController::class, 'products'])->name('product');
@@ -32,6 +35,10 @@ Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('produ
 Route::post('/add-comment', [ProductsController::class, 'storeCommet'])->name('add.comment');
 Route::post('/add-reply', [ProductsController::class, 'storeReply'])->name('add.reply');
 Route::get('/comments/{productId}', [ProductsController::class, 'showComments']);
+
+// address
+Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store')->middleware('auth');
+
 
 // giỏ hàng
 Route::get('/cart', [CartController::class, 'cart'])->name('cart.view');
@@ -62,7 +69,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::resource('users', UserController::class);
         Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
 
-        
+
 
 
         // voucher
@@ -91,3 +98,5 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
         Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
     });
+
+    

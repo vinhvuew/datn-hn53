@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
+use Auth;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -17,7 +19,43 @@ class HomeController extends Controller
 
     public function checkout()
     {
-        return view(self::PATH_VIEW.__FUNCTION__.".order");
+       if(Auth::check()){
+        $totalAmount = 1;
+        $address = Address::where('user_id', Auth::id())->get();
+
+        $payment_method = [
+            [
+                'name' => 'VNPAY',
+                'value' => 'VNPAY_DECOD'
+            ],
+            [
+                'name' => 'MOMO',
+                'value' => 'MOMO'
+            ],
+            [
+                'name' => 'Thanh Toán Khi Nhận Hàng',
+                'value' => 'COD'
+            ],
+        ];
+        $products = [
+            [
+                'name' => 'Giày Nike ss2',
+                'total' => 120000,
+                'quantity' => 2,
+
+            ],
+            [
+                'name' => 'Giày jordan ss2',
+                'total' => 220000,
+                'quantity' => 1,
+
+            ],
+
+        ];
+        return view(self::PATH_VIEW . __FUNCTION__ . ".order", compact('totalAmount', 'payment_method', 'products','address'));
+       }
+       return view('client.home');
+
     }
 
 }
