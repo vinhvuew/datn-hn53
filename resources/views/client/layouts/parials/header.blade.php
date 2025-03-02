@@ -28,10 +28,12 @@
                         </div>
                         <ul>
                             <li>
-                                <a href="{{ route('home') }}">Trang chủ</a>
+                                <a href="{{ route('home') }}" class="show-submenu">Trang chủ</a>
                             </li>
                             <li class="submenu">
+
                                 <a href="{{ route('product.show') }}" class="show-submenu">Sản phẩm</a>
+
                                 <ul>
                                     <li><a href="index.html">Slider</a></li>
                                     <li><a href="index-2.html">Video Background</a></li>
@@ -140,10 +142,13 @@
                 </div>
                 <div class="col-xl-6 col-lg-7 col-md-6 d-none d-md-block">
                     <div class="custom-search-input">
-                        <input type="text" placeholder="Search over 10.000 products">
-                        <button type="submit"><i class="header-icon_search_custom"></i></button>
+                        <form action="{{ route('search') }}" method="GET">
+                            <input type="text" name="q" placeholder="Tìm sản phẩm..." required>
+                            <button type="submit">🔍 </button>
+                        </form>
                     </div>
                 </div>
+
                 <div class="col-xl-3 col-lg-2 col-md-3">
                     <ul class="top_tools">
                         <li>
@@ -181,16 +186,11 @@
                                         <a href="" class="btn_1 outline">View Cart</a><a href="checkout.html"
                                             class="btn_1">Checkout</a>
 
-<<<<<<< HEAD
+
 
                                         {{-- <a href="{{ route('cart.view')}}" class="btn_1 outline">View Cart</a><a
                                             href="checkout.html" class="btn_1">Checkout</a> --}}
-=======
-                                        <a href="{{ route('cart.view')}}" class="btn_1 outline">View Cart</a><a
-                                            href="checkout.html" class="btn_1">Checkout</a>
 
-
->>>>>>> f191ba0a86143c3e9472bad07f41fdb446045bec
                                     </div>
                                 </div>
                             </div>
@@ -251,13 +251,7 @@
                 </div>
             </div>
             <!-- /row -->
-        </div>
-        <div class="search_mob_wp">
-            <input type="text" class="form-control" placeholder="Search over 10.000 products">
-            <input type="submit" class="btn_1 full-width" value="Search">
-        </div>
-        <!-- /search_mobile -->
-    </div>
+
     <!-- /main_nav -->
 </header>
 <!-- /header -->

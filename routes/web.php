@@ -25,8 +25,13 @@ use App\Http\Controllers\Admin\ProductController;
 
 
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/brands', [HomeController::class, 'index_brands'])->name('brand');
 
-Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
+
+
+
 Route::get('/chat', [HomeController::class, 'room'])->name('chat');
 
 Route::get('/product', [ProductsController::class, 'index'])->name('product.show');
@@ -64,12 +69,12 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::resource('products', ProductController::class);
         Route::resource("category", CategoryController::class);
         Route::resource('attributes', AttributesNameController::class);
-        Route::resource('attribute-values', AttributesValuesController::class);
+        Route::resource('attribute-values', AttributesNameController::class);
         Route::resource('brands', BrandsController::class);
         Route::resource('users', UserController::class);
         Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
 
-        
+
 
 
         // voucher
@@ -97,4 +102,5 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::get('orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
         Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
         Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
+
     });
