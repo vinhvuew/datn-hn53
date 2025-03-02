@@ -6,8 +6,6 @@
 @section('content')
     <div class="container mt-5">
         <h1>Thêm Thương Hiệu</h1>
-
-        {{-- Hiển thị lỗi --}}
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -22,7 +20,7 @@
             @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">Tên Thương Hiệu</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                <input type="text" class="form-control @error('name') is-invalid @enderror"
                     id="name" name="name" value="{{ old('name') }}" required>
                 @error('name')
                     <div class="text-danger">{{ $message }}</div>

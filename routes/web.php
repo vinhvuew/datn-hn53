@@ -25,8 +25,13 @@ use App\Http\Controllers\Admin\ProductController;
 
 
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/brands', [HomeController::class, 'index_brands'])->name('brand');
 
-Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
+
+
+
 Route::get('/chat', [HomeController::class, 'room'])->name('chat');
 
 Route::get('/product', [ProductsController::class, 'index'])->name('product.show');
@@ -68,41 +73,43 @@ Route::post('/logad', [UserController::class, 'adminLogin'])->name('admin.logad'
 Route::post('/logad/logout', [UserController::class, 'adminLogout'])->name('admin.logout');
 
 Route::prefix('admin')->middleware(['admin'])->group(function () {
-    Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');
-    Route::resource('products', ProductController::class);
-    Route::resource("category", CategoryController::class);
-    Route::resource('attributes', AttributesNameController::class);
-    Route::resource('attribute-values', AttributesValuesController::class);
-    Route::resource('brands', BrandsController::class);
-    Route::resource('users', UserController::class);
-    Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
+
+        Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');
+        Route::resource('products', ProductController::class);
+        Route::resource("category", CategoryController::class);
+        Route::resource('attributes', AttributesNameController::class);
+        Route::resource('attribute-values', AttributesNameController::class);
+        Route::resource('brands', BrandsController::class);
+        Route::resource('users', UserController::class);
+        Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
 
 
 
 
-    // voucher
-    Route::get('/vouchers', [VouchersController::class, 'index'])->name('vouchers.index');
-    // Tạo voucher mới
-    Route::get('/vouchers/create', [VouchersController::class, 'create'])->name('vouchers.create');
-    Route::post('/vouchers', [VouchersController::class, 'store'])->name('vouchers.store');
-    // Chỉnh sửa voucher
-    Route::get('/vouchers/{id}/edit', [VouchersController::class, 'edit'])->name('vouchers.edit');
-    Route::put('/vouchers/{id}', [VouchersController::class, 'update'])->name('vouchers.update');
-    // Xóa voucher
-    Route::delete('/vouchers/{id}', [VouchersController::class, 'destroy'])->name('vouchers.destroy');
+        // voucher
+        Route::get('/vouchers', [VouchersController::class, 'index'])->name('vouchers.index');
+        // Tạo voucher mới
+        Route::get('/vouchers/create', [VouchersController::class, 'create'])->name('vouchers.create');
+        Route::post('/vouchers', [VouchersController::class, 'store'])->name('vouchers.store');
+        // Chỉnh sửa voucher
+        Route::get('/vouchers/{id}/edit', [VouchersController::class, 'edit'])->name('vouchers.edit');
+        Route::put('/vouchers/{id}', [VouchersController::class, 'update'])->name('vouchers.update');
+        // Xóa voucher
+        Route::delete('/vouchers/{id}', [VouchersController::class, 'destroy'])->name('vouchers.destroy');
 
-    // Bình luận
-    Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
-    Route::get('/comment/create', [CommentController::class, 'create'])->name('comment.create');
-    Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+        // Bình luận
+        Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
+        Route::get('/comment/create', [CommentController::class, 'create'])->name('comment.create');
+        Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
 
 
-    // Đơn hàng
-    // Route::get("/qldonhang", [Controller::class, 'donhang']);
-    Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
-    Route::delete('/orders/{id}', [OrdersController::class, 'destroy'])->name('orders.destroy');
-    Route::get('/orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
-    Route::get('orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
-    Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
-    Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
-});
+        // Đơn hàng
+        // Route::get("/qldonhang", [Controller::class, 'donhang']);
+        Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
+        Route::delete('/orders/{id}', [OrdersController::class, 'destroy'])->name('orders.destroy');
+        Route::get('/orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
+        Route::get('orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
+        Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
+        Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
+
+    });

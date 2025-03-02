@@ -3,6 +3,7 @@
 @section('item-brand', 'open')
 @section('item-brand-index', 'active')
 @section('content')
+
     <div class="container mt-5">
         <h1>Danh Sách Thương Hiệu</h1>
         <a class="btn btn-primary mb-3" href="{{ route('brands.create') }}">Thêm Thương Hiệu</a>
@@ -12,6 +13,7 @@
 
         <table class="table table-bordered table-hover shadow-sm">
             <thead class="table-primary text-center">
+
                 <tr>
                     <th>ID</th>
                     <th>Tên</th>
@@ -45,7 +47,6 @@
 
     </div>
 @endsection
-@section('style-libs')
-@endsection
+
 @section('script-libs')
 @endsection

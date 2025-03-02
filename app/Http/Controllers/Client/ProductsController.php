@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Client;
 
+
 use App\Http\Controllers\Admin\Controller as AdminController;
+
 use App\Http\Controllers\Controller;
 use App\Models\AttributeValue;
 use App\Models\Brand;
@@ -134,6 +136,7 @@ class ProductsController extends Controller
     }
 
 
+
     // tùng bún
     public function index(Request $request)
     {
@@ -168,4 +171,5 @@ class ProductsController extends Controller
         // Trả về view với dữ liệu
         return view('client.product.products', compact('products', 'categories', 'brands'));
     }
+
 }
