@@ -186,10 +186,9 @@
                                         <a href="" class="btn_1 outline">View Cart</a><a href="checkout.html"
                                             class="btn_1">Checkout</a>
 
+                                        <a href="{{ route('cart.view') }}" class="btn_1 outline">View Cart</a><a
+                                            href="checkout.html" class="btn_1">Checkout</a>
 
-
-                                        {{-- <a href="{{ route('cart.view')}}" class="btn_1 outline">View Cart</a><a
-                                            href="checkout.html" class="btn_1">Checkout</a> --}}
 
                                     </div>
                                 </div>

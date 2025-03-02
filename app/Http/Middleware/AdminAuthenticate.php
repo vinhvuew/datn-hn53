@@ -16,12 +16,12 @@ class AdminAuthenticate
      */
     public function handle(Request $request, Closure $next): Response
     {
-       
+
         if (!Auth::check() || !in_array(Auth::user()->role, ['admin', 'moderator'])) {
             return redirect()->route('logad')->with('error', 'Bạn cần đăng nhập với quyền admin.');
         }
 
-       
+
         if (!session()->has('admin_authenticated')) {
             return redirect()->route('logad')->with('error', 'Bạn cần đăng nhập lại.');
         }

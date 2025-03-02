@@ -41,8 +41,16 @@ Route::get('/products', [ProductsController::class, 'index'])->name('products.fi
 Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
 Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('productDetail');
 
-Route::get('/checkout',[HomeController::class,'checkout'])->name('checkout.view');
-Route::post('/checkout/store',[HomeController::class,'checkout'])->name('checkout.store');
+Route::post('/add-comment', [ProductsController::class, 'storeCommet'])->name('add.comment');
+Route::post('/add-reply', [ProductsController::class, 'storeReply'])->name('add.reply');
+Route::get('/comments/{productId}', [ProductsController::class, 'showComments']);
+
+// address
+Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store')->middleware('auth');
+
+Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
+Route::post('/checkout/store', [HomeController::class, 'checkout'])->name('checkout.store');
+
 
 
 // giỏ hàng
@@ -60,11 +68,12 @@ Route::post('register', [LoginRegisterController::class, 'register'])->name('reg
 Route::get('logout', [LoginRegisterController::class, 'logout'])->name('logout');
 
 // đăng nhập admin
-Route::get('/logad',[UserController::class, 'showAdminLoginForm'])->name('logad');
-Route::post('/logad',[UserController::class, 'adminLogin'])->name('admin.logad');
+Route::get('/logad', [UserController::class, 'showAdminLoginForm'])->name('logad');
+Route::post('/logad', [UserController::class, 'adminLogin'])->name('admin.logad');
 Route::post('/logad/logout', [UserController::class, 'adminLogout'])->name('admin.logout');
 
 Route::prefix('admin')->middleware(['admin'])->group(function () {
+
         Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');
         Route::resource('products', ProductController::class);
         Route::resource("category", CategoryController::class);
