@@ -12,10 +12,11 @@ class CartController extends Controller
 {
     public function cart()
     {
+
         $carts = CartDetail::whereHas('cart', function ($query) {
             $query->where('user_id', Auth::id());
         })->with(['product', 'variant'])->get();
-
+// dd($carts);
         return view('client.cart.listCart', compact('carts'));
     }
 

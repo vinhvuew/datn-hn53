@@ -31,9 +31,7 @@
                                 <a href="{{ route('home') }}" class="show-submenu">Trang chủ</a>
                             </li>
                             <li class="submenu">
-
                                 <a href="{{ route('product.show') }}" class="show-submenu">Sản phẩm</a>
-
                                 <ul>
                                     <li><a href="index.html">Slider</a></li>
                                     <li><a href="index-2.html">Video Background</a></li>
@@ -43,7 +41,7 @@
                             </li>
 
                             <li>
-                                <a href="blog.html">Chính sách đổi trả</a>
+                                <a href="blog.html">Chính sách</a>
                             </li>
                             <li>
                                 <a href="blog.html">Bài viết</a>
@@ -196,7 +194,9 @@
                             <!-- /dropdown-cart-->
                         </li>
                         <li>
-                            <a href="my-wishlist.html" class="wishlist"><span>Wishlist</span></a>
+
+                            <a href="{{ route('cart.view') }}" class="cart_bt"><strong>2</strong></a>
+
                         </li>
                         <li>
                             <div class="dropdown dropdown-access">
@@ -206,23 +206,24 @@
                                     </a>
                                     <div class="dropdown-menu">
                                         <ul>
-                                            <li>
+                                            {{-- <li>
                                                 <a href="track-order.html"><i class="ti-truck"></i>Track your
                                                     Order</a>
+                                            </li> --}}
+                                            <li>
+                                                <a href="my-orders.html"><i class="ti-package"></i>Đơn hàng của
+                                                    tôi</a>
                                             </li>
                                             <li>
-                                                <a href="my-orders.html"><i class="ti-package"></i>My Orders</a>
-                                            </li>
-                                            <li>
-                                                <a href="profile-page.html"><i class="ti-user"></i>My Profile</a>
+                                                <a href="profile-page.html"><i class="ti-user"></i>Hồ sơ</a>
                                             </li>
                                             <li>
                                                 <a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i>
-                                                    Log Out</a>
+                                                    Đăng xuất</a>
                                             </li>
-                                            <li>
+                                            {{-- <li>
                                                 <a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>
-                                            </li>
+                                            </li> --}}
                                         </ul>
                                     </div>
                                 @else
@@ -233,24 +234,12 @@
                             </div>
                             <!-- /dropdown-access-->
                         </li>
-                        <li>
-                            <a href="#0" class="btn_search_mob"><span>Search</span></a>
-                        </li>
-                        <li>
-                            <a href="#menu" class="btn_cat_mob">
-                                <div class="hamburger hamburger--spin" id="hamburger">
-                                    <div class="hamburger-box">
-                                        <div class="hamburger-inner"></div>
-                                    </div>
-                                </div>
-                                Categories
-                            </a>
-                        </li>
+
                     </ul>
                 </div>
             </div>
             <!-- /row -->
 
-    <!-- /main_nav -->
+            <!-- /main_nav -->
 </header>
 <!-- /header -->
