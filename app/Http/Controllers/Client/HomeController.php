@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Brand;
+
 class HomeController extends Controller
 {
 
@@ -21,43 +22,42 @@ class HomeController extends Controller
 
     public function checkout()
     {
-       if(Auth::check()){
-        $totalAmount = 1;
-        $address = Address::where('user_id', Auth::id())->get();
+        if (Auth::check()) {
+            $totalAmount = 1;
+            $address = Address::where('user_id', Auth::id())->get();
 
-        $payment_method = [
-            [
-                'name' => 'VNPAY',
-                'value' => 'VNPAY_DECOD'
-            ],
-            [
-                'name' => 'MOMO',
-                'value' => 'MOMO'
-            ],
-            [
-                'name' => 'Thanh Toán Khi Nhận Hàng',
-                'value' => 'COD'
-            ],
-        ];
-        $products = [
-            [
-                'name' => 'Giày Nike ss2',
-                'total' => 120000,
-                'quantity' => 2,
+            $payment_method = [
+                [
+                    'name' => 'VNPAY',
+                    'value' => 'VNPAY_DECOD'
+                ],
+                [
+                    'name' => 'MOMO',
+                    'value' => 'MOMO'
+                ],
+                [
+                    'name' => 'Thanh Toán Khi Nhận Hàng',
+                    'value' => 'COD'
+                ],
+            ];
+            $products = [
+                [
+                    'name' => 'Giày Nike ss2',
+                    'total' => 120000,
+                    'quantity' => 2,
 
-            ],
-            [
-                'name' => 'Giày jordan ss2',
-                'total' => 220000,
-                'quantity' => 1,
+                ],
+                [
+                    'name' => 'Giày jordan ss2',
+                    'total' => 220000,
+                    'quantity' => 1,
 
-            ],
+                ],
 
-        ];
-        return view(self::PATH_VIEW . __FUNCTION__ . ".order", compact('totalAmount', 'payment_method', 'products','address'));
-       }
-       return view('client.home');
-
+            ];
+            return view(self::PATH_VIEW . __FUNCTION__ . ".order", compact('totalAmount', 'payment_method', 'products', 'address'));
+        }
+        return view('client.home');
     }
     public function room()
     {
@@ -78,9 +78,9 @@ class HomeController extends Controller
         $topSellingProducts = Product::orderBy('view', 'desc')->take(8)->get();
         $brands = Brand::orderBy('created_at', 'desc')->take(4)->get();
         $discountedProducts = Product::whereColumn('price_sale', '<', 'base_price') // Lọc sản phẩm giảm giá
-                                     ->orderBy('created_at', 'desc')
-                                     ->take(9) // Lấy 9 sản phẩm (hiển thị 3 sản phẩm mỗi slide)
-                                     ->get();
+            ->orderBy('created_at', 'desc')
+            ->take(9) // Lấy 9 sản phẩm (hiển thị 3 sản phẩm mỗi slide)
+            ->get();
 
 
         return view('client.home', compact('latestProducts', 'topSellingProducts', 'brands', 'discountedProducts'));
@@ -90,12 +90,12 @@ class HomeController extends Controller
     {
         $query = $request->input('q'); // Lấy từ khóa tìm kiếm từ form
 
-    $searchResults = Product::where('name', 'LIKE', "%{$query}%") // Tìm theo tên sản phẩm
-                            ->orWhere('description', 'LIKE', "%{$query}%") // Tìm theo mô tả
-                            ->orderBy('created_at', 'desc')
-                            ->get();
+        $searchResults = Product::where('name', 'LIKE', "%{$query}%") // Tìm theo tên sản phẩm
+            ->orWhere('description', 'LIKE', "%{$query}%") // Tìm theo mô tả
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-    return view('client.searchResults', compact('searchResults', 'query'));
+        return view('client.product.searchResults', compact('searchResults', 'query'));
     }
 
     public function filter(Request $request)
@@ -126,7 +126,5 @@ class HomeController extends Controller
         $filteredProducts = $query->get();
 
         return view('client.filtered_products', compact('filteredProducts'));
-
     }
-
 }

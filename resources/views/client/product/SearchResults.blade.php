@@ -1,6 +1,5 @@
 @extends('client.layouts.master')
 @section('content')
-
     <main>
         <div class="container margin_60_35">
             <div class="main_title">
@@ -54,9 +53,11 @@
         </div>
     </main>
     <!-- /main -->
+@endsection
+@section('style-libs')
 
+@endsection
 
-
-
+@section('script-libs')
 
 @endsection

@@ -1,6 +1,5 @@
 @extends('client.layouts.master')
 @section('content')
-
     <main>
         <div id="carousel-home">
             <div class="owl-carousel owl-theme">
@@ -109,36 +108,42 @@
         <div class="container margin_60_35">
             <div class="main_title">
                 <h2>Sản phẩm mới ra</h2>
-                <span>Latest Products</span>
+                <span>Sản phẩm Mới</span>
 
             </div>
             <div class="row small-gutters">
-                @foreach($latestProducts as $product)
-                <div class="col-6 col-md-4 col-xl-3">
-                    <div class="grid_item">
-                        <figure>
+                <div class="row g-4">
+                    @foreach ($latestProducts as $product)
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="card border-0 shadow-sm rounded overflow-hidden position-relative product-card">
+                                <a href="{{ route('productDetail', $product->slug) }}" class="d-block">
+                                    <img src="{{ Storage::url($product->img_thumbnail) }}"
+                                        class="card-img-top img-fluid rounded product-image" alt="{{ $product->name }}">
+                                </a>
 
-                            <img src="{{ Storage::url($product->img_thumbnail) }}"
-                                width="300px" alt="50">
+                                <div class="card-body text-center">
+                                    <a href="{{ route('productDetail', $product->slug) }}"
+                                        class="text-dark text-decoration-none">
+                                        <h4 class="fw-bold product-title">{{ $product->name }}</h4>
+                                    </a>
+                                    <p class="small text-muted">{{ Str::limit($product->description, 50) }}...</p>
 
-                        </figure>
-                        <h3>{{ $product->name }}</h3>
-                        <div class="price_box">
-                            <span class="old_price">{{ $product->base_price }}đ</span>
+                                    <div class="price_box">
+                                        <span class="old_price text-muted text-decoration-line-through">
+                                            {{ number_format($product->base_price, 0, ',', '.') }} VND
+                                        </span>
 
-                            @if ($product->price_sale)
-                            <span class="new_price">{{ $product->price_sale }}đ</span>
-
-
-                            @endif
+                                        @if ($product->price_sale)
+                                            <span class="new_price text-danger fw-bold">
+                                                {{ number_format($product->price_sale, 0, ',', '.') }} VND
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
+                    @endforeach
                 </div>
-            @endforeach
 
             </div>
         </div>
@@ -153,8 +158,8 @@
             </div>
 
             <div class="carousel-inner">
-                @foreach($discountedProducts as $key => $product)
-                    <div class="carousel-item @if($key == 0) active @endif">
+                @foreach ($discountedProducts as $key => $product)
+                    <div class="carousel-item @if ($key == 0) active @endif">
                         <div class="row justify-content-center">
                             <div class="col-md-8"> <!-- Thay đổi từ col-md-4 thành col-md-8 để rộng hơn -->
                                 <div class="grid_item" style="width: 100%; margin: 0 auto;">
@@ -190,32 +195,37 @@
 
             </div>
             <div class="row small-gutters">
-                @foreach($topSellingProducts as $product)
-                <div class="col-6 col-md-4 col-xl-3">
-                    <div class="grid_item">
-                        <figure>
+                <div class="row g-4">
+                    @foreach ($topSellingProducts as $product)
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="card border-0 shadow-sm rounded overflow-hidden position-relative product-card">
+                                <a href="{{ route('productDetail', $product->slug) }}" class="d-block">
+                                    <img src="{{ Storage::url($product->img_thumbnail) }}"
+                                        class="card-img-top img-fluid rounded product-image" alt="{{ $product->name }}">
+                                </a>
 
-                            <img src="{{ Storage::url($product->img_thumbnail) }}"
-                                width="300px" alt="50">
+                                <div class="card-body text-center">
+                                    <a href="{{ route('productDetail', $product->slug) }}"
+                                        class="text-dark text-decoration-none">
+                                        <h6 class="fw-bold product-title">{{ $product->name }}</h6>
+                                    </a>
+                                    <p class="small text-muted">{{ Str::limit($product->description, 50) }}</p>
+                                    <div class="price_box">
+                                        <span class="old_price text-muted text-decoration-line-through">
+                                            {{ number_format($product->base_price, 0, ',', '.') }}đ
+                                        </span>
 
-                        </figure>
-                        <h3>{{ $product->name }}</h3>
-                        <div class="price_box">
-                            <span class="old_price">{{ $product->base_price }}đ</span>
-
-                            @if ($product->price_sale)
-                            <span class="new_price">{{ $product->price_sale }}đ</span>
-
-
-                            @endif
+                                        @if ($product->price_sale)
+                                            <span class="new_price text-danger fw-bold">
+                                                {{ number_format($product->price_sale, 0, ',', '.') }}đ
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
+                    @endforeach
                 </div>
-            @endforeach
 
             </div>
         </div>
@@ -253,7 +263,7 @@
 
                     </div>
                     <div class="row">
-                        @foreach($brands as $brand)
+                        @foreach ($brands as $brand)
                             <div class="col-md-3 col-6">
                                 <div class="brand_item text-center">
                                     <h3>{{ $brand->name }}</h3>
@@ -267,82 +277,140 @@
 
 
             </div>
-            <!-- /row -->
-            <style>
-                .carousel {
-                    position: relative;
-                    overflow: hidden;
-                }
-
-                .carousel-inner {
-                    display: flex;
-                    transition: transform 1s ease-in-out;
-                }
-
-                .carousel-item {
-                    min-width: 100%;
-                    display: none;
-                }
-
-                .carousel-item.active {
-                    display: block;
-                }
-
-                .carousel-control-prev, .carousel-control-next {
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    background: rgba(0, 0, 0, 0.5);
-                    border: none;
-                    padding: 10px;
-                    cursor: pointer;
-                }
-
-                .carousel-control-prev {
-                    left: 10px;
-                }
-
-                .carousel-control-next {
-                    right: 10px;
-                }
-
-                    </style>
-                  <script>
-                    let currentIndex = 0;
-                    const slides = document.querySelectorAll(".carousel-item");
-                    const totalSlides = slides.length;
-
-                    function showSlide(index) {
-                        slides.forEach((slide, i) => {
-                            slide.classList.remove("active");
-                            if (i === index) {
-                                slide.classList.add("active");
-                            }
-                        });
-                    }
-
-                    function nextSlide() {
-                        currentIndex = (currentIndex + 1) % totalSlides;
-                        showSlide(currentIndex);
-                    }
-
-                    function prevSlide() {
-                        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-                        showSlide(currentIndex);
-                    }
-
-                    // Tự động chạy slide mỗi 3 giây
-                    setInterval(nextSlide, 3000);
-
-                    // Hiển thị slide đầu tiên
-                    showSlide(currentIndex);
-                </script>
-
-</div>
+        </div>
         <!-- /container -->
     </main>
     <!-- /main -->
+@endsection
+@section('style-libs')
+    <!-- /row -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .carousel {
+            position: relative;
+            overflow: hidden;
+        }
 
+        .carousel-inner {
+            display: flex;
+            transition: transform 1s ease-in-out;
+        }
 
+        .carousel-item {
+            min-width: 100%;
+            display: none;
+        }
 
+        .carousel-item.active {
+            display: block;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .carousel-control-prev {
+            left: 10px;
+        }
+
+        .carousel-control-next {
+            right: 10px;
+        }
+    </style>
+    {{-- style sp --}}
+    <style>
+        /* Áp dụng font chữ đẹp */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Hiệu ứng hover cho sản phẩm */
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Hiệu ứng hover cho ảnh sản phẩm */
+        .product-image {
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        /* Hiệu ứng hover cho nút hành động */
+        .action-btn {
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Cải thiện typography */
+        .product-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .price_box {
+            font-size: 14px;
+        }
+
+        .old_price {
+            color: #888;
+            font-weight: 400;
+        }
+
+        .new_price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #e63946;
+        }
+    </style>
+@endsection
+
+@section('script-libs')
+    <script>
+        let currentIndex = 0;
+        const slides = document.querySelectorAll(".carousel-item");
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove("active");
+                if (i === index) {
+                    slide.classList.add("active");
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            showSlide(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            showSlide(currentIndex);
+        }
+
+        // Tự động chạy slide mỗi 3 giây
+        setInterval(nextSlide, 3000);
+
+        // Hiển thị slide đầu tiên
+        showSlide(currentIndex);
+    </script>
 @endsection

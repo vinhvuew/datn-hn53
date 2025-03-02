@@ -99,7 +99,7 @@
                                         <li><span>Subtotal</span>
                                             ${{ number_format($carts->sum(fn($cart) => $cart->product ? $cart->product->price * $cart->quantity : 0)) }}
                                         </li>
-                                      
+
                                         <li><span>Total</span> <span class="total-price">
                                                 ${{ number_format($carts->sum(fn($cart) => $cart->product ? $cart->product->price * $cart->quantity : 0)) }}
                                             </span></li>
@@ -111,8 +111,8 @@
                     </div>
                 @else
                     <div class="alert alert-info text-center">
-                        <h4>Your cart is empty!</h4>
-                        <a href="{{ route('home') }}" class="btn btn-primary">Continue Shopping</a>
+                        <h4>Giỏ hàng của bạn đang trống!</h4>
+                        <a href="{{ route('home') }}" class="btn btn-primary">Tiếp tục mua sắm</a>
                     </div>
                 @endif
             </div>
@@ -138,7 +138,7 @@
                             document.querySelector('.total-price').innerText = `$${data.newTotal}`;
                         });
                 }
-    
+
                 // Chỉ gán sự kiện một lần
                 document.querySelectorAll('.button_inc').forEach(button => {
                     button.onclick = function() {
@@ -146,31 +146,31 @@
                         let input = row.querySelector('.qty2');
                         let quantity = parseInt(input.value);
                         let cartId = input.getAttribute('data-id');
-    
+
                         if (this.classList.contains('inc')) {
-                            quantity+1;
+                            quantity + 1;
                         } else if (this.classList.contains('dec') && quantity > 1) {
-                            quantity-1;
+                            quantity - 1;
                         }
-    
+
                         input.value = quantity;
                         updateCart(cartId, quantity);
                     };
                 });
-    
+
                 document.querySelectorAll('.qty2').forEach(input => {
                     input.onchange = function() {
                         let quantity = parseInt(this.value);
                         let cartId = this.getAttribute('data-id');
-    
+
                         if (quantity < 1 || isNaN(quantity)) {
                             this.value = 1;
                             quantity = 1;
                         }
-    
+
                         updateCart(cartId, quantity);
                     };
                 });
             });
-        </script>    
+        </script>
     @endsection
