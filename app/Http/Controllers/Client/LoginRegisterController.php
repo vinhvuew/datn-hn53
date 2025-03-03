@@ -83,9 +83,9 @@ class LoginRegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        Auth::login($user);
+        // Auth::login($user);
 
-        return redirect('/')->with('success', 'Đăng ký thành công!');
+        return redirect()->route('login.show')->with('success', 'Đăng ký thành công! Vui lòng đăng nhập. ');
     }
 
     public function logout()
