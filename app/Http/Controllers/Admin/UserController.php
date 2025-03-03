@@ -19,23 +19,28 @@ class UserController extends Controller
 
     public function adminLogin(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'login'    => 'required',
-            'password' => 'required|min:6', 
+            'password' => 'required|min:6',
         ]);
 
         $login = $request->input('login');
         $password = $request->input('password');
 
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+        // dd($field);
 
         if (Auth::attempt([$field => $login, 'password' => $password])) {
+
             $user = Auth::user();
 
             if (!in_array($user->role, ['admin', 'moderator'])) {
+
                 Auth::logout();
                 return back()->with('error', 'Bạn không có quyền truy cập.');
             }
+            session(['admin_authenticated' => true]);
 
             return redirect()->route('admin.dashboard')->with('success', 'Đăng nhập thành công!');
         }
@@ -44,11 +49,11 @@ class UserController extends Controller
     }
 
     public function adminLogout()
-{
-    session()->forget('admin_authenticated'); 
-    Auth::logout(); 
-    return redirect()->route('admin.login')->with('success', 'Đăng xuất thành công.');
-}
+    {
+        session()->forget('admin_authenticated');
+        Auth::logout();
+        return redirect()->route('logad')->with('success', 'Đăng xuất thành công.');
+    }
 
 
     public function index()
@@ -72,7 +77,7 @@ class UserController extends Controller
             'email' => 'nullable|email|unique:users,email,' . $id,
             'phone' => 'nullable|numeric|digits_between:10,15|unique:users,phone,' . $id,
             'role'  => 'nullable|in:admin,moderator,user',
-            'password' => 'nullable|min:6', 
+            'password' => 'nullable|min:6',
         ]);
 
         $user->update([
@@ -87,31 +92,31 @@ class UserController extends Controller
     }
 
     public function updateRole(Request $request)
-{
-    $request->validate([
-        'user_id' => 'required|exists:users,id',
-        'role' => 'required|in:admin,moderator,user',
-    ]);
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'role' => 'required|in:admin,moderator,user',
+        ]);
 
-    $user = User::findOrFail($request->user_id);
-    $currentUser = Auth::user(); 
+        $user = User::findOrFail($request->user_id);
+        $currentUser = Auth::user();
 
-   
-    if ($currentUser->role !== 'admin') {
-        return response()->json(['message' => 'Bạn không có quyền thay đổi vai trò!'], 403);
+
+        if ($currentUser->role !== 'admin') {
+            return response()->json(['message' => 'Bạn không có quyền thay đổi vai trò!'], 403);
+        }
+
+
+        if ($currentUser->id == $user->id) {
+            return response()->json(['message' => 'Bạn không thể thay đổi vai trò của chính mình!'], 403);
+        }
+
+
+        $user->role = $request->role;
+        $user->save();
+
+        return response()->json(['message' => 'Cập nhật vai trò thành công!']);
     }
-
-   
-    if ($currentUser->id == $user->id) {
-        return response()->json(['message' => 'Bạn không thể thay đổi vai trò của chính mình!'], 403);
-    }
-
-   
-    $user->role = $request->role;
-    $user->save();
-
-    return response()->json(['message' => 'Cập nhật vai trò thành công!']);
-}
     public function destroy($id)
     {
         $user = User::findOrFail($id);

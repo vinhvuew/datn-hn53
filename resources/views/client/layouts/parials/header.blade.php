@@ -227,8 +227,10 @@
                                         </ul>
                                     </div>
                                 @else
-                                    <a href="{{ route('login.post') }}" class="access_link">
-                                        <i>Sign in/ Sign up</i>
+                                    <a href="{{ route('login.post') }}"
+                                        class="d-flex align-items-center text-primary text-decoration-none fs-5 fw-semibold">
+                                        <i class="fas fa-user-lock me-2 fs-3"></i>
+                                        <span>Sign in / Sign up</span>
                                     </a>
                                 @endif
                             </div>

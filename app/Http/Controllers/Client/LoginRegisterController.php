@@ -13,7 +13,7 @@ class LoginRegisterController extends Controller
 {
     public function showForm()
     {
-        return view('client.users.login');
+        return view('client.auth.login');
     }
 
     public function login(Request $request)
@@ -92,6 +92,6 @@ class LoginRegisterController extends Controller
     {
         Auth::logout();
         Session::flush();
-        return redirect()->route('login.show')->with('success', 'Bạn đã đăng xuất.');
+        return redirect()->route('home')->with('success', 'Bạn đã đăng xuất.');
     }
 }
