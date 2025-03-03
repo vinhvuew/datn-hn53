@@ -86,11 +86,10 @@ class AttributesValuesController extends Controller
         $request->validate(
             [
                 'attribute_id' => 'required|exists:attributes,id',
-                'value' => 'required|string|max:255|unique:attribute_values,value',
+                'value' => 'required|string|max:255',
             ],
             [
                 'value.required' => 'Giá trị Thuộc tính không được bỏ trống.',
-                'value.unique' => 'Giá trị Thuộc tính này đã tồn tại.',
                 'value.max' => 'không được quá 255 kí tự',
             ]
         );

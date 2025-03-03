@@ -10,6 +10,7 @@
                             <div class="card-body">
                                 <h5 class="card-title text-primary">
                                     Xin chào mừng Admin! 🎉
+                                    <i>{{ Auth::user()->name }}</i>
                                 </h5>
                                 <p class="mb-4">
                                     You have done

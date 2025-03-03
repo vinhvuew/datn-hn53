@@ -57,14 +57,23 @@ class Product extends Model
         return $this->hasMany(image_gallery::class);
     }
 
-     /**
+    /**
      * Quan hệ nhiều-nhiều với bảng Order thông qua bảng trung gian order_product
      */
     public function orders()
-{
-    return $this->belongsToMany(Order::class, 'order_details', 'product_id', 'order_id')
-                ->withPivot('name_product', 'quantity', 'price')
-                ->withTimestamps();
-}
+    {
+        return $this->belongsToMany(Order::class, 'order_details', 'product_id', 'order_id')
+            ->withPivot('name_product', 'quantity', 'price')
+            ->withTimestamps();
+    }
 
+    public function cartDetails()
+    {
+        return $this->hasMany(CartDetail::class);
+    }
+
+    public function getPriceAttribute()
+    {
+        return $this->price_sale ?? $this->base_price;
+    }
 }

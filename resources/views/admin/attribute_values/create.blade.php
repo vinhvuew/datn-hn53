@@ -53,7 +53,7 @@
                         <!-- Input giá trị thuộc tính -->
                         <div class="mb-3">
                             <label for="value" class="form-label">Giá Trị</label>
-                            <input type="text" name="value" id="value" class="form-control"
+                            <input type="text" name="value" id="value" class="form-control" value="{{old('value')}}"
                                 placeholder="Nhập giá trị">
                             @error('value')
                                 <div class="text-danger mt-1">{{ $message }}</div>

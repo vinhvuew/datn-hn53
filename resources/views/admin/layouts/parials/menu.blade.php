@@ -22,15 +22,19 @@
                 <div class="text-truncate" data-i18n="Danh Mục">Danh Mục</div>
             </a>
             <ul class="menu-sub">
+
                 <li class="menu-item @yield('item-category-create')">
                     <a href="{{ route('category.create') }}" class="menu-link">
+
                         <div class="text-truncate" data-i18n="Thêm Mới">
                             Thêm Mới`
                         </div>
                     </a>
                 </li>
+
                 <li class="menu-item @yield('item-category-index')">
                     <a href="{{ route('category.index') }}" class="menu-link">
+
                         <div class="text-truncate" data-i18n="Danh Sách">
                             Danh Sách
                         </div>
@@ -114,24 +118,22 @@
                 </div>
             </a>
             <ul class="menu-sub">
-
                 <li class="menu-item">
-                    <a href="{{ route('vouchers.view') }}" class="menu-link">
+                    <a href="{{ route('vouchers.index') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="danh sach">
-                            danh sách
+                            Danh sách
                         </div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('voucher.create') }}" class="menu-link">
+                    <a href="{{ route('vouchers.create') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="them">
                             Thêm
                         </div>
                     </a>
                 </li>
-
-
             </ul>
+
         </li>
         <li class="menu-item">
             <a href="{{ route('orders') }}" class="menu-link">
@@ -149,12 +151,7 @@
             <ul class="menu-sub">
                 <li class="menu-item">
                     <a href="{{ route('users.index') }}" class="menu-link">
-                        <div class="text-truncate" data-i18n="List">List</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="{{ route('users.create') }}" class="menu-link">
-                        <div class="text-truncate" data-i18n="Create">Add</div>
+                        <div class="text-truncate" data-i18n="Danh Sách Tài Khoản">Danh Sách Tài Khoản</div>
                     </a>
                 </li>
             </ul>
@@ -164,8 +161,6 @@
             <a href="{{ route('comment.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-chart"></i>
                     <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>
-                
-               
             </a>
         </li>
 
