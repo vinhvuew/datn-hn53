@@ -147,9 +147,9 @@
 
         <div class="container margin_60_35">
             <div class="main_title">
-                <h2>Hot Deals</h2>
-                <span>Discounted Products</span>
-                <p>Check out our latest deals and discounts!</p>
+                <h2>SALE SẢN PHẨM</h2>
+                <span>SẢN PHẨM GIẢM GIÁ</span>
+               
             </div>
 
             <div class="carousel-inner">
