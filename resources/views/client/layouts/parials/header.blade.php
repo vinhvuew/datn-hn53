@@ -6,8 +6,8 @@
             <div class="row small-gutters">
                 <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                     <div id="logo">
-                        <a href="index.html"><img src="{{ asset('client') }}/img/logo.svg" alt="" width="100"
-                                height="35"></a>
+                        <a href="{{ route('home') }}"><img src="{{ asset('client') }}/img/logoone.png" alt="" width="200"
+                                height="100"></a>
 
                     </div>
                 </div>

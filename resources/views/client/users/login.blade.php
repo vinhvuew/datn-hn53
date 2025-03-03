@@ -57,7 +57,7 @@
 
            <div class="input-group">
                <input type="password" name="password" id="registerPassword" placeholder="Mật khẩu">
-               <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('registerPassword', this)"></i>
+               <i class="fa-solid fa-eye-slash toggle-password" onclick="togglePassword('registerPassword', this)"></i>
            </div>
            <span class="error" id="registerPasswordError"></span>
 
