@@ -30,11 +30,12 @@
                                         <div class="thumb_cart">
                                             @if ($cart->product)
                                                 <img src="{{ Storage::url($cart->product->img_thumbnail) }}"
-                                                    alt="{{ $cart->product->name }}" width="100">
-                                                <span class="item_cart">{{ $cart->product->name }}</span>
+                                                    alt="{{ $cart->product->name }}" class="rounded me-2" width="80">
+                                                <span>{{ $cart->product->name }}</span>
                                             @else
                                                 <span class="text-danger">Product not found</span>
                                             @endif
+
                                         </div>
                                     </td>
                                     <td>
@@ -69,28 +70,6 @@
                             @endforeach
                         </tbody>
                     </table>
-
-                    <div class="row add_top_30 flex-sm-row-reverse cart_actions">
-                        <div class="col-sm-4 text-end">
-                            <button type="button" class="btn_1 gray">Update Cart</button>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="apply-coupon">
-                                <div class="form-group">
-                                    <div class="row g-2">
-                                        <div class="col-md-6">
-                                            <input type="text" name="coupon-code" placeholder="Promo code"
-                                                class="form-control">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <button type="button" class="btn_1 outline">Apply Coupon</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="box_cart">
                         <div class="container">
                             <div class="row justify-content-end">
@@ -117,6 +96,10 @@
                 @endif
             </div>
         </main>
+
+    @endsection
+
+    @section('script-libs')
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 function updateCart(cartId, quantity) {

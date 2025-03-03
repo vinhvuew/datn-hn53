@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,6 +56,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <!-- Close button using Font Awesome icon inside the form -->
@@ -71,7 +73,8 @@
         <form action="{{ route('admin.logad') }}" method="POST" class="form" id="login-form">
             @csrf
 
-            <input class="input" type="text" name="login" placeholder="Email hoặc Số điện thoại" value="{{ old('login') }}">
+            <input class="input" type="text" name="login" placeholder="Email hoặc Số điện thoại"
+                value="{{ old('login') }}">
             <span class="error-text" id="login-error"></span>
             @error('login')
                 <span class="error-text">{{ $message }}</span>
@@ -122,4 +125,5 @@
         });
     </script>
 </body>
+
 </html>

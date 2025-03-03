@@ -65,9 +65,9 @@ class ProductsController extends Controller
     public function addToCart(Request $request)
     {
         try {
-            // $user = Auth::user();
-
-            $cart = Cart::firstOrCreate(['user_id' =>  1]);
+            $user = Auth::user();
+// dd($user);
+            $cart = Cart::firstOrCreate(['user_id' =>  $user->id]);
             $productId = $request->input('product_id');
             $variantAttributeIds = $request->input('variant_attributes.attribute_value_id', []);
             $quantity = (int) $request->input('quantity', 1);
@@ -171,5 +171,4 @@ class ProductsController extends Controller
         // Trả về view với dữ liệu
         return view('client.product.products', compact('products', 'categories', 'brands'));
     }
-
 }

@@ -16,14 +16,16 @@ class AdminAuthenticate
      */
     public function handle(Request $request, Closure $next): Response
     {
-
+        // Kiểm tra nếu chưa đăng nhập hoặc không có quyền admin/moderator
         if (!Auth::check() || !in_array(Auth::user()->role, ['admin', 'moderator'])) {
             return redirect()->route('logad')->with('error', 'Bạn cần đăng nhập với quyền admin.');
         }
 
-
+        // Kiểm tra nếu session xác thực admin không tồn tại
         if (!session()->has('admin_authenticated')) {
-            return redirect()->route('logad')->with('error', 'Bạn cần đăng nhập lại.');
+            Auth::logout(); // Tự động đăng xuất
+            session()->forget('admin_authenticated'); // Xoá session cũ
+            return redirect()->route('logad')->with('error', 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
         }
 
         return $next($request);
