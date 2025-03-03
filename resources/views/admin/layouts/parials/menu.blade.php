@@ -163,5 +163,18 @@
                     <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>
             </a>
         </li>
+
+
+         <li class="menu-item">
+            <a href="{{ route('thongke.index') }}" class="menu-link">
+                <i class=" menu-icon fa-sharp fa-solid fa-chart-simple"></i>
+                    <div class="text-truncate" data-i18n="Thống Kê">Thống Kê</div>
+            </a>
+        </li> 
+
+
+    
+
+
     </ul>
 </aside>
