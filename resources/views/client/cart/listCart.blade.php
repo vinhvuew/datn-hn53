@@ -1,159 +1,244 @@
-    @extends('client.layouts.master')
-    @section('content')
-        <main class="bg_gray">
-            <div class="container margin_30">
-                <div class="page_header">
-                    <div class="breadcrumbs">
-                        <ul>
-                            <li><a href="{{ route('home') }}">Home</a></li>
-                            <li>Cart</li>
-                        </ul>
-                    </div>
-                    <h1>Shopping Cart</h1>
-                </div>
+@extends('client.layouts.master')
 
-                @if ($carts->count() > 0)
-                    <table class="table table-striped cart-list">
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Subtotal</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($carts as $cart)
+@section('content')
+    <main>
+        @if ($carts)
+            <div class="container">
+                <h2 class="text-center mb-4">🛒 Giỏ Hàng</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Hình ảnh</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Tổng tiền</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    @php
+                        $totalAmount = 0;
+                    @endphp
+
+                    @foreach ($carts as $cart)
+                        @if ($cart->variant)
+                            <tbody id="cart-item-{{ $cart->id }}">
                                 <tr>
+                                    <td><img src="{{ Storage::url($cart->variant->image) }}" alt="" width="50px"
+                                            class="rounded-2"></td>
+                                    <td>{{ Str::limit($cart->variant->product->name, 30) }}</td>
                                     <td>
-                                        <div class="thumb_cart">
-                                            @if ($cart->product)
-                                                <img src="{{ Storage::url($cart->product->img_thumbnail) }}"
-                                                    alt="{{ $cart->product->name }}" class="rounded me-2" width="80">
-                                                <span>{{ $cart->product->name }}</span>
-                                            @else
-                                                <span class="text-danger">Product not found</span>
-                                            @endif
-
-                                        </div>
+                                        {{ number_format($cart->variant->selling_price, 0, ',', '.') }} VNĐ
+                                    </td>
+                                    <td class="col-2">
+                                        <form class="update-cart-form" data-cart-id="{{ $cart->id }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="item-quantity d-flex align-items-center">
+                                                <input type="number" name="quantity"
+                                                    class="form-control quantity-input w-50" data-id="{{ $cart->id }}"
+                                                    value="{{ $cart->quantity }}" min="1">
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td id="total-amount-{{ $cart->id }}">
+                                        @php
+                                            $money = $cart->total_amount;
+                                            $totalAmount += $money;
+                                        @endphp
+                                        {{ number_format($cart->total_amount, 0, ',', '.') }} VNĐ
                                     </td>
                                     <td>
-                                        <strong>
-                                            @if ($cart->product)
-                                                ${{ number_format($cart->product->price_sale) }}
-                                            @else
-                                                N/A
-                                            @endif
-                                        </strong>
-                                    </td>
-                                    <td>
-                                        <div class="numbers-row">
-                                            <button type="button" class="dec button_inc"
-                                                data-id="{{ $cart->id }}"></button>
-                                            <input type="number" min="1" value="{{ $cart->quantity }}"
-                                                class="qty2 form-control text-center" data-id="{{ $cart->id }}">
-                                            <button type="button" class="inc button_inc"
-                                                data-id="{{ $cart->id }}"></button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <strong class="subtotal" data-id="{{ $cart->id }}">
-                                            ${{ number_format($cart->product ? $cart->product->price * $cart->quantity : 0) }}
-                                        </strong>
-                                    </td>
-                                    <td class="options">
-                                        <a href="{{ route('cart.destroy', ['id' => $cart->id]) }}" class="text-danger"><i
-                                                class="ti-trash"></i></a>
+                                        <form class="delete-cart-form" data-id="{{ $cart->id }}"
+                                            action="{{ route('cart.delete', $cart->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="box_cart">
-                        <div class="container">
-                            <div class="row justify-content-end">
-                                <div class="col-xl-4 col-lg-4 col-md-6">
-                                    <ul>
-                                        <li><span>Subtotal</span>
-                                            ${{ number_format($carts->sum(fn($cart) => $cart->product ? $cart->product->price * $cart->quantity : 0)) }}
-                                        </li>
+                            </tbody>
+                        @elseif ($cart->product)
+                            <tbody id="cart-item-{{ $cart->id }}">
+                                <tr>
+                                    <td><img src="{{ Storage::url($cart->product->img_thumbnail) }}" alt=""
+                                            height="50px" width="40px">
+                                    </td>
+                                    <td>{{ Str::limit($cart->product->name, 30) }} </td>
+                                    <td>
+                                        @if ($cart->product->price_sale)
+                                            {{ number_format($cart->product->price_sale, 0, ',', '.') }} VNĐ
+                                        @else
+                                            {{ number_format($cart->product->base_price, 0, ',', '.') }} VNĐ
+                                        @endif
+                                    </td>
+                                    <td class="col-2">
+                                        <form class="update-cart-form" data-cart-id="{{ $cart->id }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="item-quantity d-flex align-items-center">
+                                                <input type="number" name="quantity"
+                                                    class="form-control quantity-input w-50" data-id="{{ $cart->id }}"
+                                                    value="{{ $cart->quantity }}" min="1">
+                                            </div>
 
-                                        <li><span>Total</span> <span class="total-price">
-                                                ${{ number_format($carts->sum(fn($cart) => $cart->product ? $cart->product->price * $cart->quantity : 0)) }}
-                                            </span></li>
-                                    </ul>
-                                    {{-- <a href="{{ route('checkout') }}" class="btn_1 full-width cart">Proceed to Checkout</a> --}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <div class="alert alert-info text-center">
-                        <h4>Giỏ hàng của bạn đang trống!</h4>
-                        <a href="{{ route('home') }}" class="btn btn-primary">Tiếp tục mua sắm</a>
-                    </div>
-                @endif
+                                            <input type="hidden" name="price_sale"
+                                                value="{{ $cart->product->price_sale }}">
+
+                                        </form>
+                                    </td>
+                                    <td id="total-amount-{{ $cart->id }}">
+                                        @php
+                                            $money = $cart->total_amount;
+                                            $totalAmount += $money;
+                                        @endphp
+                                        {{ number_format($cart->total_amount, 0, ',', '.') }} VNĐ
+                                    </td>
+                                    <td>
+                                        <form class="delete-cart-form" data-id="{{ $cart->id }}"
+                                            action="{{ route('cart.delete', $cart->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="cross-icon flaticon-cancel-1">
+                                            </button>
+                                        </form>
+
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+                <div class="text-end mb-5 p-4 ">
+                    <h4 class="fw-bold text-primary">
+                        Tổng tiền:
+                        <span id="overall-total" class="text-danger">
+                            {{ number_format($totalAmount, 0, ',', '.') }} VNĐ
+                        </span>
+                    </h4>
+                    <button class="btn btn-success btn-lg mt-2 px-4 fw-bold">
+                        <i class="fas fa-shopping-cart"></i> Thanh toán
+                    </button>
+                </div>
+
             </div>
-        </main>
+        @else
+            <div class="empty-cart-box text-center mt-5" id="empty-cart" style="margin-bottom: 140px; ">
+                <img class="mb-4 mt-5" src="https://static-smember.cellphones.com.vn/smember/_nuxt/img/empty.db6deab.svg"
+                    alt="Empty Cart" width="300px">
+                <h4 class="text-secondary" style="font-size: 18px; font-weight: 600;">Giỏ hàng trống</h4>
+                <p style="font-size: 14px; color: #888;">Giỏ hàng của bạn đang trống.
+                    Hãy chọn thêm sản phẩm để mua sắm nhé</p>
+                <a href="{{ route('home') }}" class="btn btn-danger mb-5">
+                    Quay Lại Trang Chủ
+                </a>
+            </div>
+        @endif
+    </main>
+@endsection
+@section('script-libs')
+    <script>
+        $(document).ready(function() {
+            $('.quantity-input').on('input', function() {
+                let id = $(this).data('id');
+                let quantity = $(this).val();
 
-    @endsection
-
-    @section('script-libs')
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                function updateCart(cartId, quantity) {
-                    fetch("{{ route('cart.update') }}", {
-                            method: "POST",
-                            headers: {
-                                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                cart_id: cartId,
-                                quantity: quantity
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            document.querySelector(`.subtotal[data-id="${cartId}"]`).innerText =
-                                `$${data.newSubtotal}`;
-                            document.querySelector('.total-price').innerText = `$${data.newTotal}`;
-                        });
+                if (quantity < 0) {
+                    alert('Số lượng không hợp lệ!');
+                    return;
                 }
 
-                // Chỉ gán sự kiện một lần
-                document.querySelectorAll('.button_inc').forEach(button => {
-                    button.onclick = function() {
-                        let row = this.closest('.numbers-row');
-                        let input = row.querySelector('.qty2');
-                        let quantity = parseInt(input.value);
-                        let cartId = input.getAttribute('data-id');
+                $.ajax({
+                    url: '/cart/update/' + id,
+                    type: 'PUT',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        quantity: quantity
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Hiển thị thông báo thành công
+                            notyf.success(response.message);
 
-                        if (this.classList.contains('inc')) {
-                            quantity + 1;
-                        } else if (this.classList.contains('dec') && quantity > 1) {
-                            quantity - 1;
+                            // Cập nhật tổng tiền cho từng sản phẩm
+                            $('#total-amount-' + id).text(response.totalAmountFormatted);
+
+                            // Cập nhật tổng tiền giỏ hàng
+                            $('#overall-total').text(response.overallTotalFormatted);
+                        } else {
+                            alert(response.message);
                         }
-
-                        input.value = quantity;
-                        updateCart(cartId, quantity);
-                    };
-                });
-
-                document.querySelectorAll('.qty2').forEach(input => {
-                    input.onchange = function() {
-                        let quantity = parseInt(this.value);
-                        let cartId = this.getAttribute('data-id');
-
-                        if (quantity < 1 || isNaN(quantity)) {
-                            this.value = 1;
-                            quantity = 1;
-                        }
-
-                        updateCart(cartId, quantity);
-                    };
+                    },
+                    error: function(xhr) {
+                        alert(xhr.responseJSON.message);
+                    }
                 });
             });
-        </script>
-    @endsection
+
+            // Xóa sản phẩm khỏi giỏ hàng
+            $(document).ready(function() {
+                $('.btn-delete').on('click', function() {
+                    let id = $(this).data('id');
+
+                    if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '/cart/delete/' + id, // Cập nhật đường dẫn API đúng chuẩn
+                        type: 'DELETE', // Sử dụng phương thức DELETE đúng chuẩn RESTful
+                        data: {
+                            _token: '{{ csrf_token() }}' // Bảo mật CSRF token
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                // Xóa sản phẩm khỏi giao diện
+                                $('#cart-item-' + id).remove();
+
+                                // Cập nhật tổng tiền giỏ hàng
+                                $('#overall-total').text(response
+                                    .overallTotalFormatted);
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr) {
+                            alert(xhr.responseJSON.message);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+        $('.delete-cart-form').submit(function(event) {
+            event.preventDefault(); // Ngừng reload trang
+            var form = $(this);
+            var cartId = form.data('id');
+
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                success: function(response) {
+                    notyf.success(response.message);
+                    // Nếu xóa thành công, xóa dòng sản phẩm khỏi bảng
+                    form.closest('tr').remove();
+
+                    // Cập nhật tổng tiền nếu cần
+                    if (response.overallTotalFormatted) {
+                        $('#overall-total').text(response.overallTotalFormatted);
+                        $('#overall-totals').text(response.overallTotalFormatted);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Có lỗi xảy ra khi xóa sản phẩm');
+                }
+            });
+        });
+    </script>
+@endsection

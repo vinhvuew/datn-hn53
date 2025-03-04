@@ -53,8 +53,9 @@ Route::post('/checkout/store', [HomeController::class, 'checkout'])->name('check
 
 // giỏ hàng
 Route::get('/cart', [CartController::class, 'cart'])->name('cart.view');
-Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
-Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');
+
 
 Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
 Route::post('/checkout/store', [HomeController::class, 'checkout'])->name('checkout.store');
