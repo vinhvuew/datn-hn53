@@ -9,6 +9,7 @@ use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductsController;
 use App\Http\Controllers\Client\LoginRegisterController;
 use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\ProfileController;
 
 // admin
 use App\Http\Controllers\Admin\DashBoardController;
@@ -37,11 +38,15 @@ Route::get('/product', [HomeController::class, 'products'])->name('product');
 
 
 
+//trang profile
+Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
+    Route::get('/', [ProfileController::class, 'index'])->name('index'); // Hiển thị trang profile
+    Route::get('/edit', [ProfileController::class, 'edit'])->name('edit'); // Hiển thị form chỉnh sửa
+    Route::put('/update', [ProfileController::class, 'update'])->name('update'); // Cập nhật thông tin
+    Route::post('/update-avatar', [ProfileController::class, 'updateAvatar'])->name('updateAvatar');
+    Route::post('/update-password', [ProfileController::class, 'updatePassword'])->name('updatePassword');
+});
 
-
-
-       
- 
 
 Route::get('/product', [ProductsController::class, 'index'])->name('product.show');
 // Route cho trang sản phẩm với các tham số lọc
@@ -73,7 +78,7 @@ Route::post('/checkout/store', [HomeController::class, 'checkout'])->name('check
 Route::get('login', [LoginRegisterController::class, 'showForm'])->name('login.show');
 Route::post('login', [LoginRegisterController::class, 'login'])->name('login.post');
 Route::post('register', [LoginRegisterController::class, 'register'])->name('register.post');
-Route::get('logout', [LoginRegisterController::class, 'logout'])->name('logout');
+Route::post('logout', [LoginRegisterController::class, 'logout'])->name('logout');
 
 // đăng nhập admin
 Route::get('/logad', [UserController::class, 'showAdminLoginForm'])->name('logad');

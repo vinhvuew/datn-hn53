@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use function Laravel\Prompts\search;
+
 class UserController extends Controller
 {
     const PATH_VIEW = 'admin.users.';
@@ -56,10 +58,22 @@ class UserController extends Controller
     }
 
 
-    public function index()
+    public function index( Request $request)
     {
-        $users = User::all();
-        return view(self::PATH_VIEW . 'index', compact('users'));
+        $query =User::query();
+
+        $search = $request->input('search');
+
+        if(!empty($search)){
+            $query->Where(function($q) use ($search){
+                $q->Where('name','LIKE', "%{$search}%")
+                ->orWhere('email', 'LIKE', "%{$search}%")
+                ->orWhere('phone', 'LIKE', "%{$search}%");
+            });
+        }
+        $users = $query->paginate(10);
+
+        return view(self::PATH_VIEW . 'index', compact('users', 'search'));
     }
 
     public function edit($id)
