@@ -6,8 +6,9 @@
             <div class="row small-gutters">
                 <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                     <div id="logo">
-                        <a href="{{ route('home') }}"><img src="{{ asset('client') }}/img/logoone.png" alt=""
-                                height="50"></a>
+                        <a href="<?php echo e(route('home')); ?>"><img src="<?php echo e(asset('client')); ?>/img/logoone.png" alt="" width="200"
+                                height="100"></a>
+
                     </div>
                 </div>
                 <nav class="col-xl-6 col-lg-7">
@@ -21,16 +22,16 @@
                     <!-- Mobile menu button -->
                     <div class="main-menu">
                         <div id="header_menu">
-                            <a href="index.html"><img src="{{ asset('client') }}/img/logo_black.svg" alt=""
+                            <a href="index.html"><img src="<?php echo e(asset('client')); ?>/img/logo_black.svg" alt=""
                                     width="100" height="35"></a>
                             <a href="#" class="open_close" id="close_in"><i class="ti-close"></i></a>
                         </div>
                         <ul>
                             <li>
-                                <a href="{{ route('home') }}" class="show-submenu">Trang chủ</a>
+                                <a href="<?php echo e(route('home')); ?>" class="show-submenu">Trang chủ</a>
                             </li>
                             <li class="submenu">
-                                <a href="{{ route('product.show') }}" class="show-submenu">Sản phẩm</a>
+                                <a href="<?php echo e(route('product.show')); ?>" class="show-submenu">Sản phẩm</a>
                                 <ul>
                                     <li><a href="index.html">Slider</a></li>
                                     <li><a href="index-2.html">Video Background</a></li>
@@ -53,7 +54,7 @@
                     <!--/main-menu -->
                 </nav>
                 <div class="col-xl-3 col-lg-2 d-lg-flex align-items-center justify-content-end text-end">
-                    <a class="phone_top" href="tel://9438843343"><strong>+94
+                    <a class="phone_top" href="tel://9438843343"><strong><span>Need Help?</span>+94
                             423-23-221</strong></a>
                 </div>
             </div>
@@ -139,7 +140,7 @@
                 </div>
                 <div class="col-xl-6 col-lg-7 col-md-6 d-none d-md-block">
                     <div class="custom-search-input">
-                        <form action="{{ route('search') }}" method="GET">
+                        <form action="<?php echo e(route('search')); ?>" method="GET">
                             <input type="text" name="q" placeholder="Tìm sản phẩm..." required>
                             <button type="submit">🔍 </button>
                         </form>
@@ -156,8 +157,8 @@
                                         <li>
                                             <a href="product-detail-1.html">
                                                 <figure><img
-                                                        src="{{ asset('client') }}/img/products/product_placeholder_square_small.jpg"
-                                                        data-src="{{ asset('client') }}/img/products/shoes/thumb/1.jpg"
+                                                        src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_small.jpg"
+                                                        data-src="<?php echo e(asset('client')); ?>/img/products/shoes/thumb/1.jpg"
                                                         alt="" width="50" height="50" class="lazy">
                                                 </figure>
                                                 <strong><span>1x Armor Air x Fear</span>$90.00</strong>
@@ -167,8 +168,8 @@
                                         <li>
                                             <a href="product-detail-1.html">
                                                 <figure><img
-                                                        src="{{ asset('client') }}/img/products/product_placeholder_square_small.jpg"
-                                                        data-src="{{ asset('client') }}/img/products/shoes/thumb/2.jpg"
+                                                        src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_small.jpg"
+                                                        data-src="<?php echo e(asset('client')); ?>/img/products/shoes/thumb/2.jpg"
                                                         alt="" width="50" height="50" class="lazy">
                                                 </figure>
                                                 <strong><span>1x Armor Okwahn II</span>$110.00</strong>
@@ -183,7 +184,7 @@
                                         <a href="" class="btn_1 outline">View Cart</a><a href="checkout.html"
                                             class="btn_1">Checkout</a>
 
-                                        <a href="{{ route('cart.view') }}" class="btn_1 outline">View Cart</a><a
+                                        <a href="<?php echo e(route('cart.view')); ?>" class="btn_1 outline">View Cart</a><a
                                             href="checkout.html" class="btn_1">Checkout</a>
 
 
@@ -193,45 +194,45 @@
                             <!-- /dropdown-cart-->
                         </li>
                         <li>
-                            <div class="dropdown dropdown-access d-flex align-items-center">
-                                @if (Auth::check())
-                                    <i class="fa-regular fa-user fs-4"></i>
-                                    <strong>{{ Auth::user()->name }}</strong>
-                                    <a href="{{ route('cart.view') }}" class="cart_bt ms-3"><strong>2</strong></a>
+
+                            <a href="<?php echo e(route('cart.view')); ?>" class="cart_bt"><strong>2</strong></a>
+
+                        </li>
+                        <li>
+                            <div class="dropdown dropdown-access">
+                                <?php if(Auth::check()): ?>
+                                    <a href="#" class="access_link">
+                                        <i><?php echo e(Auth::user()->name); ?></i>
+                                    </a>
                                     <div class="dropdown-menu">
                                         <ul>
-                                            {{-- <li>
-                                                <a href="track-order.html"><i class="ti-truck"></i>Track your
-                                                    Order</a>
-                                            </li> --}}
+                                            
                                             <li>
                                                 <a href="my-orders.html"><i class="ti-package"></i>Đơn hàng của
                                                     tôi</a>
                                             </li>
                                             <li>
-                                                <a href="{{ route('profile.index') }}"><i class="ti-user"></i>Hồ sơ</a>
+                                                <a href="<?php echo e(route('profile.index')); ?>"><i class="ti-user"></i>Hồ sơ</a>
                                             </li>
                                             <li>
                                                 <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                     <i class="fas fa-sign-out-alt"></i> Đăng xuất
                                                 </a>
-                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                                    @csrf
+                                                <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+                                                    <?php echo csrf_field(); ?>
                                                 </form>
                                             </li>
                                             
-                                            {{-- <li>
-                                                <a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>
-                                            </li> --}}
+                                            
                                         </ul>
                                     </div>
-                                @else
-                                    <a href="{{ route('login.post') }}"
+                                <?php else: ?>
+                                    <a href="<?php echo e(route('login.post')); ?>"
                                         class="d-flex align-items-center text-primary text-decoration-none fs-5 fw-semibold">
                                         <i class="fas fa-user-lock me-2 fs-3"></i>
                                         <span>Sign in / Sign up</span>
                                     </a>
-                                @endif
+                                <?php endif; ?>
                             </div>
                             <!-- /dropdown-access-->
                         </li>
@@ -244,3 +245,4 @@
             <!-- /main_nav -->
 </header>
 <!-- /header -->
+<?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/layouts/parials/header.blade.php ENDPATH**/ ?>
