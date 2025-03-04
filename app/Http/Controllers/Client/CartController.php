@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
 use App\Models\CartDetail;
+use App\Models\Product;
+use App\Models\Variant;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
@@ -23,8 +26,8 @@ class CartController extends Controller
             $cart = Cart::where('user_id', Auth::id())->first();
             // dd($cart);
             // Nếu không có giỏ hàng, trả về danh sách rỗng
-            $carts = $cart ? $cart->cartDetails()->with(['product', 'variant'])->get() : [];
-
+            $carts = $cart ? $cart->cartDetails()->with(['product', 'variant', 'variant.attributes', 'variant.attributeValue'])->get() : [];
+            // dd($cart);
             return view('client.cart.listCart', compact('carts'));
         } catch (\Exception $e) {
             // Ghi log lỗi nếu cần
@@ -34,32 +37,180 @@ class CartController extends Controller
         }
     }
 
-    public function updateCart(Request $request)
+    // public function update(Request $request, string $id)
+    // {
+    //     // dd($request->all());
+    //     $request->validate([
+    //         'quantity' => 'required|integer|min:0',
+    //     ]);
+    //     // Lấy chi tiết giỏ hàng
+    //     $cartDetail = CartDetail::query()->with('cart', 'variant')->findOrFail($id);
+
+    //     if (!$cartDetail) {
+    //         return response()->json(['success' => false, 'message' => 'Giỏ hàng không tồn tại!'], 404);
+    //     }
+
+    //     $variant = Variant::find($cartDetail->variant_id);
+    //     $product = Product::find($cartDetail->product_id);
+    //     // dd($product);
+    //     if ($variant) {
+    //         // Kiểm tra số lượng tồn kho
+    //         if ($request->quantity > $variant->quantity) {
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => 'Số lượng yêu cầu vượt quá tồn kho của sản phẩm.',
+    //             ], 400);
+    //         }
+    //     }
+    //     if ($product) {
+    //         foreach ($product->variants as $variant) {
+    //             // Kiểm tra số lượng tồn kho
+    //             if ($request->quantity > $variant->quantity) {
+    //                 return response()->json([
+    //                     'success' => false,
+    //                     'message' => 'Số lượng yêu cầu vượt quá tồn kho của sản phẩm.',
+    //                 ], 400);
+    //             }
+    //         }
+    //     }
+
+    //     // // Cập nhật số lượng và tổng số tiền
+    //     // $cartDetail->quantity = $request->quantity;
+    //     // $cartDetail->total_amount = $request->quantity * $request->selling_price; // Sử dụng giá đã tính toán
+    //     // $cartDetail->save();
+    //     // Cập nhật số lượng và tổng số tiền
+    //     $cartDetail->quantity = $request->quantity;
+
+    //     // Kiểm tra xem sản phẩm có biến thể hay không
+    //     $price = $cartDetail->variant ? $cartDetail->variant->selling_price : $cartDetail->product->price_sale;
+
+    //     // Tính tổng số tiền
+    //     $cartDetail->total_amount = $request->quantity * $price;
+    //     $cartDetail->save();
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Cập nhật số lượng thành công!',
+    //         'cartDetail' => [
+    //             'quantity' => $cartDetail->quantity,
+    //         ],
+    //     ], 200);
+    // }
+
+
+    public function update(Request $request, string $id)
     {
-        $cartDetail = CartDetail::findOrFail($request->cart_id);
+        // dd($request->all());
+        $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        // Lấy chi tiết giỏ hàng
+        $cartDetail = CartDetail::query()->with('cart', 'variant')->findOrFail($id);
+
+        if (!$cartDetail) {
+            return response()->json(['success' => false, 'message' => 'Giỏ hàng không tồn tại!'], 404);
+        }
+
+        $variant = $cartDetail->variant;
+        $product = $cartDetail->product;
+        // dd($product);
+
+        // Kiểm tra tồn kho
+        if ($variant) {
+            if ($request->quantity > $variant->quantity) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Số lượng yêu cầu vượt quá tồn kho!',
+                ], 400);
+            }
+        }
+        if ($product) {
+            if ($request->quantity > $product->quantity) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Số lượng yêu cầu vượt quá tồn kho!',
+                ], 400);
+            }
+        }
+
+
+        // Xóa sản phẩm nếu số lượng <= 0
+        // if ($request->quantity <= 0) {
+        //     $cartDetail->delete();
+
+        //     // Nếu giỏ hàng không còn sản phẩm nào thì xóa luôn giỏ hàng
+        //     if ($cartDetail->cart->cartDetails()->count() === 0) {
+        //         $cartDetail->cart->delete();
+        //         return response()->json([
+        //             'success' => true,
+        //             'message' => 'Tất cả sản phẩm đã bị xóa khỏi giỏ hàng!',
+        //         ], 200);
+        //     }
+
+        //     $overallTotal = $cartDetail->cart->cartDetails->sum('total_amount');
+
+        //     return response()->json([
+        //         'success' => true,
+        //         'message' => 'Sản phẩm đã được xóa khỏi giỏ hàng!',
+        //         'overallTotalFormatted' => number_format($overallTotal, 0, ',', '.') . ' VNĐ',
+        //     ], 200);
+        // }
+
+
+        $variant = $cartDetail->variant;
+        $product = $cartDetail->product;
+        // dd($product);
+        if ($variant) {
+            // Kiểm tra giá sale từ session
+            // $productsOnSale = session('productsOnSale', []);
+            // $saleProduct = collect($productsOnSale)->firstWhere('id', $variant->product_id);
+            $price = $variant->selling_price;
+        } elseif ($product) {
+            // Kiểm tra giá sale từ session
+            // $productsOnSale = session('productsOnSale', []);
+            // $saleProduct = collect($productsOnSale)->firstWhere('id', $product->id);
+            $price = $product->price_sale ?? $product->base_price;
+        }
+
+        // Cập nhật số lượng và tổng số tiền
         $cartDetail->quantity = $request->quantity;
+        $cartDetail->total_amount = $request->quantity * $price;
         $cartDetail->save();
 
-        // Tính lại subtotal cho từng sản phẩm
-        $newSubtotal = number_format($cartDetail->quantity * ($cartDetail->product->price ?? 0));
-
-        // Tính lại tổng tiền của toàn bộ giỏ hàng
-        $newTotal = number_format(
-            CartDetail::whereHas('cart', function ($query) {
-                $query->where('user_id', Auth::id());
-            })->get()->sum(fn($cart) => $cart->quantity * ($cart->product->price ?? 0))
-        );
+        // Tính lại tổng tiền giỏ hàng
+        $overallTotal = $cartDetail->cart->cartDetails->sum('total_amount');
 
         return response()->json([
-            'newSubtotal' => $newSubtotal,
-            'newTotal' => $newTotal
-        ]);
+            'success' => true,
+            'message' => 'Cập nhật số lượng thành công!',
+            'totalAmountFormatted' => number_format($cartDetail->total_amount, 0, ',', '.') . ' VNĐ',
+            'overallTotalFormatted' => number_format($overallTotal, 0, ',', '.') . ' VNĐ',
+        ], 200);
     }
 
-
-    public function destroy($id)
+    public function destroy(string $id)
     {
-        CartDetail::findOrFail($id)->delete();
-        return redirect()->route('cart.index')->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng.');
+        $cartDetail = CartDetail::query()->with('cart')->find($id);
+        if (!$cartDetail) {
+            return back()->with('error', 'Giỏ hàng không tồn tại!');
+        }
+        $cartDetail->delete();
+
+        $overallTotal = $cartDetail->cart->cartDetails->sum('total_amount');
+
+        // Lấy id giỏ hàng
+        $cart = $cartDetail->cart;
+        // Kiểm tra xem giỏ hàng còn chi tiết nào không
+        if ($cart->cartDetails->count() === 0) {
+            $cart->delete();
+            return back()->with('error', 'Tất cả sản phẩm đã bị xóa khỏi giỏ hàng!');
+        }
+        return response()->json([
+            'success' => true,
+            'message' =>
+            'Xóa sản phẩm thành công!',
+            'overallTotalFormatted' => number_format($overallTotal, 0, ',', '.') . ' VNĐ',
+        ]);
     }
 }
