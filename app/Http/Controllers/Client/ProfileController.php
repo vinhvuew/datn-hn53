@@ -15,7 +15,7 @@ class ProfileController extends Controller
     // Hiển thị trang thông tin tài khoản
     public function index()
     {
-        return view('client.users.profile', [
+        return view('client.users.profile.info', [
             'user' => Auth::user()
         ]);
     }
