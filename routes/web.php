@@ -48,9 +48,9 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
 });
 
 
-Route::get('/product', [ProductsController::class, 'index'])->name('product.show');
+Route::get('/product', [ProductsController::class, 'statistical'])->name('product.show');
 // Route cho trang sản phẩm với các tham số lọc
-Route::get('/products', [ProductsController::class, 'index'])->name('products.filter');
+Route::get('/products', [ProductsController::class, 'statistical'])->name('products.filter');
 
 Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
 Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('productDetail');
@@ -97,9 +97,6 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::resource('users', UserController::class);
     Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
 
-
-
-
     // voucher
     Route::get('/vouchers', [VouchersController::class, 'index'])->name('vouchers.index');
     // Tạo voucher mới
@@ -125,8 +122,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
     Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
     Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
-  
-        //Thống Kê
-       Route::get('/thongke', [ThongKeController::class, 'index'])->name('thongke.index');
-});
 
+    //Thống Kê
+    Route::get('/thongke', [ThongKeController::class, 'statistical'])->name('thongke.statistical');
+});

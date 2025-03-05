@@ -24,8 +24,6 @@
                                     <div style="background-image: url({{ Storage::url($image->img) }})" class="item active">
                                     </div>
                                 @endforeach
-
-
                             </div>
                             <div class="left-t nonl-t"></div>
                             <div class="right-t"></div>

@@ -22,8 +22,11 @@
                                     <div style="background-image: url(<?php echo e(Storage::url($image->img)); ?>)" class="item active">
                                     </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
                             </div>
                             <div class="left-t nonl-t"></div>
                             <div class="right-t"></div>
