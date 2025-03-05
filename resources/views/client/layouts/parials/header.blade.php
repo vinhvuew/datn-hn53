@@ -197,7 +197,7 @@
                                 @if (Auth::check())
                                     <i class="fa-regular fa-user fs-4"></i>
                                     <strong>{{ Auth::user()->name }}</strong>
-                                    <a href="{{ route('cart.view') }}" class="cart_bt ms-3"><strong>2</strong></a>
+                                    <a href="{{ route('cart.view') }}" class="cart_bt ms-3"></a>
                                     <div class="dropdown-menu">
                                         <ul>
                                             {{-- <li>
