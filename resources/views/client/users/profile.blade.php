@@ -32,13 +32,13 @@
                 <div class="relative w-32 h-32 mx-auto mb-4">
                     <div class="w-full h-full rounded-full border-4 border-gray-400 overflow-hidden">
                         <img id="avatar-preview"
-                            src="{{ Auth::user()->avata ? asset('storage/' . Auth::user()->avata) : asset('default-avatar.png') }}" 
+                            src="{{ Auth::user()->avata ? asset('storage/' . Auth::user()->avata) : asset('default-avatar.png') }}"
                             class="w-full h-full object-cover">
                     </div>
                 </div>
 
                 <p class="text-lg font-semibold text-center">{{ Auth::user()->name }}</p>
-                
+
                 <!-- Menu Sidebar -->
                 <div class="mt-4">
                     <button id="btn-info" class="sidebar-btn active">
@@ -69,17 +69,17 @@
                         <p><strong>Họ và tên:</strong> {{ Auth::user()->name }}</p>
                         <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
                         <p><strong>Số điện thoại:</strong> {{ Auth::user()->phone }}</p>
-                        
+
                         <div class="flex space-x-2 mt-4">
                             <button id="edit-info" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">
                                 Chỉnh sửa thông tin
                             </button>
-                          
+
                             @if(Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
                                 <a href="{{ route('admin.dashboard') }}" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 admin-btn">
                                     Đăng nhập Admin
                                 </a>
-                            
+
                             @endif
                         </div>
                     </div>

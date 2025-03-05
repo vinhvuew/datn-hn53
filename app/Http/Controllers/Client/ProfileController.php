@@ -65,14 +65,14 @@ class ProfileController extends Controller
             'current_password' => 'required',
             'new_password' => 'required|min:6|confirmed',
         ]);
-    
+
         if (!Hash::check($request->current_password, Auth::user()->password)) {
             return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không đúng']);
         }
-    
+
         Auth::user()->update(['password' => Hash::make($request->new_password)]);
-    
+
         return back()->with('success', 'Mật khẩu đã được cập nhật');
     }
-    
+
 }

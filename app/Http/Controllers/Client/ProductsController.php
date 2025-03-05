@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\Client;
 
-
-use App\Http\Controllers\Admin\Controller as AdminController;
-
 use App\Http\Controllers\Controller;
-use App\Models\AttributeValue;
+
 use App\Models\Brand;
 use App\Models\Cart;
 use App\Models\CartDetail;
@@ -14,8 +11,7 @@ use App\Models\Comment;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Variant;
-use App\Models\VariantAttribute;
-use Attribute;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
