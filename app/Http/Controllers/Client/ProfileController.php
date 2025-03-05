@@ -12,32 +12,62 @@ use App\Models\User;
 
 class ProfileController extends Controller
 {
-    // Hiển thị trang thông tin tài khoản
+    // Hiển thị trang hồ sơ người dùng
     public function index()
     {
-        return view('client.users.profile', [
-            'user' => Auth::user()
-        ]);
+        return view('client.users.profile', ['user' => Auth::user()]);
+    }
+
+    // Hiển thị form chỉnh sửa thông tin
+    public function edit()
+    {
+        return view('client.users.profile_edit', ['user' => Auth::user()]);
     }
 
     // Cập nhật thông tin người dùng
     public function update(Request $request)
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
+    
+        // Kiểm tra dữ liệu đầu vào
+        $request->validate([
+            'name' => 'nullable|string|max:255',
+            'email' => [
+                'required',
+                'email:rfc,dns',
+                Rule::unique('users')->ignore($user->id),
+            ],
+            'phone' => [
+                'required',
+                'regex:/^[0-9]{10}$/', // Chỉ cho phép số điện thoại 10 chữ số
+                Rule::unique('users')->ignore($user->id),
+            ],
+        ], [
+            'email.required' => 'Email không được để trống.',
+            'email.email' => 'Email không đúng định dạng.',
+            'email.unique' => 'Email đã tồn tại trong hệ thống.',
+    
+            'phone.required' => 'Số điện thoại không được để trống.',
+            'phone.regex' => 'Số điện thoại không hợp lệ. Phải là 10 số.',
+            'phone.unique' => 'Số điện thoại đã tồn tại.',
+        ]);
+    
+        // Debug để kiểm tra dữ liệu gửi lên (bỏ comment nếu cần)
+        // dd($request->all());
+    
+        // Cập nhật thông tin người dùng
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone
+        ]);
+    
+        return redirect()->route('profile.index')->with('success', 'Cập nhật thông tin thành công.');
+    }
 
-    $request->validate([
-        'name' => 'nullable|string|max:255',
-        'email' => ['nullable', 'email', Rule::unique('users')->ignore($user->id)],
-        'phone' => ['nullable', 'numeric', 'digits_between:10,15', Rule::unique('users')->ignore($user->id)],
-    ]);
-
-    $user->update($request->only(['name', 'email', 'phone']));
-
-    return back()->with('success', 'Cập nhật thông tin thành công.');
-}
 
 
-    // Cập nhật avatar
+    // Cập nhật ảnh đại diện (avatar)
     public function updateAvatar(Request $request)
     {
         $request->validate([
@@ -46,33 +76,51 @@ class ProfileController extends Controller
 
         $user = Auth::user();
 
-        // Xóa avatar cũ nếu có
+        // Xóa ảnh cũ nếu có
         if ($user->avata) {
             Storage::delete('public/' . $user->avata);
         }
 
-        // Lưu avatar mới
-        $path = $request->file('avata')->store('avatars', 'public');
-        $user->avata = $path;
-        $user->save();
+        // Lưu ảnh mới vào thư mục "avatars" trong storage
+        $imagePath = $request->file('avata')->store('avatars', 'public');
 
-        return back()->with('success', 'Ảnh đại diện đã được cập nhật!');
-    }
+        // Cập nhật đường dẫn vào DB
+        $user->update(['avata' => $imagePath]);
 
-    public function updatePassword(Request $request)
-    {
-        $request->validate([
-            'current_password' => 'required',
-            'new_password' => 'required|min:6|confirmed',
+        return response()->json([
+            'success' => true,
+            'avatar' => asset('storage/' . $imagePath),
         ]);
-    
-        if (!Hash::check($request->current_password, Auth::user()->password)) {
-            return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không đúng']);
-        }
-    
-        Auth::user()->update(['password' => Hash::make($request->new_password)]);
-    
-        return back()->with('success', 'Mật khẩu đã được cập nhật');
     }
-    
+
+    // Cập nhật mật khẩu
+    public function updatePassword(Request $request)
+{
+    $request->validate([
+        'current_password' => 'required',
+        'new_password' => [
+            'required',
+            'min:6',
+            'confirmed',
+        ],
+    ], [
+        'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
+        'new_password.required' => 'Vui lòng nhập mật khẩu mới.',
+        'new_password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự.',
+        'new_password.confirmed' => 'Mật khẩu xác nhận không khớp.',
+    ]);
+
+    // Kiểm tra mật khẩu hiện tại
+    if (!Hash::check($request->current_password, Auth::user()->password)) {
+        return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không đúng'])
+                     ->with('tab', 'password'); // Giữ nguyên tab "Đổi mật khẩu"
+    }
+
+    // Cập nhật mật khẩu mới
+    Auth::user()->update(['password' => Hash::make($request->new_password)]);
+
+    return back()->with('success', 'Mật khẩu đã được cập nhật.')
+                 ->with('tab', 'password'); // Giữ nguyên tab "Đổi mật khẩu"
+}
+
 }
