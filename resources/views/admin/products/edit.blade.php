@@ -49,7 +49,7 @@
                                     <div class="row mb-3">
                                         <div class="col"><label class="form-label"
                                                 for="ecommerce-product-sku">SKU</label>
-                                            <input type="number" class="form-control" id="ecommerce-product-sku"
+                                            <input type="text" class="form-control" id="ecommerce-product-sku"
                                                 placeholder="sku" name="sku" aria-label="Product sku"
                                                 value="{{ $product->sku }}">
                                         </div>

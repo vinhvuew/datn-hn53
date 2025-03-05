@@ -14,17 +14,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cart', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->id(); // Cột id tự động tăng
-            $table->foreignIdFor(Variant::class)->constrained();
-            $table->foreignIdFor(Product::class)->constrained();// Khóa ngoại liên kết với bảng variants
             $table->foreignIdFor(User::class)->constrained();
-            $table->unsignedBigInteger('id_user'); // Khóa ngoại liên kết với bảng users
-            $table->string('img'); // Hình ảnh của sản phẩm trong giỏ hàng
-            $table->decimal('price', 15, 2); // Giá của sản phẩm trong giỏ hàng
-            $table->integer('quantity'); // Số lượng sản phẩm trong giỏ hàng
+            $table->enum('status', ['pending', 'completed', 'cancelled'])->default('pending');
             $table->timestamps(); // Cột created_at và updated_at
-
         });
     }
 

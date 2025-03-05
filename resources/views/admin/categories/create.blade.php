@@ -5,6 +5,7 @@
 @section('item-category-create', 'active')
 
 @section('content')
+
     <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
@@ -44,4 +45,5 @@
         </div>
         <!-- / Content -->
     </div>
+
 @endsection

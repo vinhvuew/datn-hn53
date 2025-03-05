@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Admin\Controller;
+use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use App\Http\Requests\BrandRequest; // Import Form Request
 
 class BrandsController extends Controller
 {
     const PATH_VIEW = 'admin.brands.';
-    /**
-     * Display a listing of the resource.
-     */
+
+    // Hiển thị danh sách thương hiệu
     public function index()
     {
-        $brands = Brand::all(); // Lấy tất cả thương hiệu từ DB
+        $brands = Brand::all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('brands'));
     }
 
@@ -24,15 +24,11 @@ class BrandsController extends Controller
         return view(self::PATH_VIEW . __FUNCTION__);
     }
 
-    // Lưu thương hiệu mới vào DB
-    public function store(Request $request)
+    // Lưu thương hiệu mới vào DB (CÓ VALIDATE)
+    public function store(BrandRequest $request) // Dùng BrandRequest thay vì Request
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
-        Brand::create($request->all()); // Thêm mới thương hiệu
+        // dd($request->validated());
+        Brand::create($request->validated()); // Validate tự động trước khi lưu
         return redirect()->route('brands.index')->with('success', 'Thương hiệu đã được thêm thành công.');
     }
 
@@ -42,15 +38,10 @@ class BrandsController extends Controller
         return view(self::PATH_VIEW . __FUNCTION__, compact('brand'));
     }
 
-    // Cập nhật thương hiệu
-    public function update(Request $request, Brand $brand)
+    // Cập nhật thương hiệu (CÓ VALIDATE)
+    public function update(BrandRequest $request, Brand $brand) // Dùng BrandRequest thay vì Request
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
-        $brand->update($request->all());
+        $brand->update($request->validated()); // Validate tự động trước khi cập nhật
         return redirect()->route('brands.index')->with('success', 'Thương hiệu đã được cập nhật.');
     }
 

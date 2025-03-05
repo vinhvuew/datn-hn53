@@ -6,7 +6,9 @@
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-4">
+
                 <span class="text-muted fw-light">Danh mục /</span> Danh sách danh mục
+
             </h4>
 
             <div class="app-ecommerce-category">
@@ -18,7 +20,9 @@
                     </div>
                     <!-- Add Category Button -->
                     <a href="{{ route('category.create') }}" class="btn btn-primary">
+
                         + Thêm mới danh mục
+
                     </a>
                 </div>
 
@@ -35,9 +39,11 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+
                                     <th>Tên danh mục</th>
                                     <th class="text-center">Trạng thái</th>
                                     <th class="text-center">Hành động</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,11 +52,13 @@
                                         <td>{{ $item->id }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td class="text-center">
+
                                             <span class="badge bg-success">Kích hoạt</span>
                                         </td>
                                         <td class="text-center">
                                             <a href="{{ route('category.edit', $item->id) }}"
                                                 class="btn btn-sm btn-primary">Chỉnh sửa</a>
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -61,6 +69,17 @@
             </div>
         </div>
         <!-- / Content -->
+<<<<<<< HEAD
+
+        <div class="buy-now">
+            <a href="https://themeselection.com/item/sneat-bootstrap-html-admin-template/" target="_blank"
+                class="btn btn-danger btn-buy-now">Buy Now</a>
+        </div>
+
+        <!-- Footer -->
+        <div class="content-backdrop fade"></div>
+=======
+>>>>>>> 73edc2211242ae6e934b743def6c0ebf86efdb54
     </div>
     <script>
         const btn = document.querySelectorAll('#submit-form');
