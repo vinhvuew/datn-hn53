@@ -7,11 +7,7 @@
                 <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                     <div id="logo">
                         <a href="<?php echo e(route('home')); ?>"><img src="<?php echo e(asset('client')); ?>/img/logoone.png" alt=""
-<<<<<<< HEAD
                                 height="50" width="50px"></a>
-=======
-                                height="50"></a>
->>>>>>> 7d504b5677bf376b612123db02d52bf028ce2c4c
                     </div>
                 </div>
                 <nav class="col-xl-6 col-lg-7">
@@ -201,7 +197,7 @@
                                 <?php if(Auth::check()): ?>
                                     <i class="fa-regular fa-user fs-4"></i>
                                     <strong><?php echo e(Auth::user()->name); ?></strong>
-                                    <a href="<?php echo e(route('cart.view')); ?>" class="cart_bt ms-3"><strong>2</strong></a>
+                                    <a href="<?php echo e(route('cart.view')); ?>" class="cart_bt ms-3"></a>
                                     <div class="dropdown-menu">
                                         <ul>
                                             

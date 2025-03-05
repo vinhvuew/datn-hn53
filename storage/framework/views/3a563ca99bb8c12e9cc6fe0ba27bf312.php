@@ -3,7 +3,10 @@
 <?php $__env->startSection('item-category-create', 'active'); ?>
 
 <?php $__env->startSection('content'); ?>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
     <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
@@ -50,7 +53,10 @@ unset($__errorArgs, $__bag); ?>
         </div>
         <!-- / Content -->
     </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/categories/create.blade.php ENDPATH**/ ?>

@@ -66,6 +66,7 @@ unset($__errorArgs, $__bag); ?>
                                                 placeholder="sku" name="sku" aria-label="Product sku"
                                                 value="<?php echo e(old('sku')); ?>">
                                         </div>
+<<<<<<< HEAD
 
                                         <div class="col"><label class="form-label" for="ecommerce-product-sku">Số
                                                 lượng</label>
@@ -79,6 +80,10 @@ $message = $__bag->first($__errorArgs[0]); ?>
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+=======
+                                        <div class="col"><label class="form-label" for="ecommerce-product-sku">Số
+                                                lượng</label>
+>>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
                                             <input type="number" class="form-control" id="ecommerce-product-quantity"
                                                 placeholder="quantity" name="quantity">
                                         </div>
@@ -86,6 +91,7 @@ unset($__errorArgs, $__bag); ?>
 
                                     <!-- Description -->
                                     <div class="mb-3">
+<<<<<<< HEAD
 
                                         <label class="form-label" for="ecommerce-product-name">Mô tả</label>
                                         <?php $__errorArgs = ['description'];
@@ -98,10 +104,14 @@ $message = $__bag->first($__errorArgs[0]); ?>
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+=======
+                                        <label class="form-label" for="ecommerce-product-name">Mô tả</label>
+>>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
                                         <textarea type="text" class="form-control" id="ecommerce-product-name" placeholder="description" name="description"
                                             aria-label="description"></textarea>
                                     </div>
                                     <div class="mb-3">
+<<<<<<< HEAD
                                         <?php $__errorArgs = ['content'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -112,6 +122,8 @@ $message = $__bag->first($__errorArgs[0]); ?>
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+=======
+>>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
                                         <label class="form-label" for="content">Nội dung</label>
                                         <textarea type="text" class="form-control" id="content" placeholder="content" name="content" aria-label="content"></textarea>
                                     </div>
@@ -130,6 +142,7 @@ unset($__errorArgs, $__bag); ?>
                                         <input type="file" class="form-control" name="img_thumbnail">
                                     </div>
                                     <div class="mb-3">
+<<<<<<< HEAD
                                         <?php $__errorArgs = ['user_manual'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -140,6 +153,8 @@ $message = $__bag->first($__errorArgs[0]); ?>
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+=======
+>>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
                                         <label class="form-label" for="content">Hướng dẫn sử dụng</label>
                                         <textarea type="text" class="form-control" name="user_manual"></textarea>
                                     </div>
@@ -152,9 +167,12 @@ unset($__errorArgs, $__bag); ?>
                                 <div class="card-body">
                                     <div class="row gy-3" id="gallery-container">
                                         <div id="gallery_1">
+<<<<<<< HEAD
                                             <?php $__currentLoopData = $errors->get('product_galleries.*'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <div class="text-red-500"><?php echo e($error[0]); ?></div>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+=======
+>>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
                                             <input type="file" class="form-control" name="product_galleries[]"
                                                 id="gallery_input_1" multiple>
                                             <?php if($errors->has('product_galleries')): ?>
@@ -265,7 +283,10 @@ unset($__errorArgs, $__bag); ?>
                                     
                                     <div class="mb-3">
                                         <label for="category_id" class="form-label">Danh mục</label>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
                                         <select name="category_id" class="form-select">
                                             <option value="" disabled selected>Chọn danh mục</option>
                                             <?php $__currentLoopData = $category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $categori): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -316,6 +337,7 @@ unset($__errorArgs, $__bag); ?>
                                         <label class="form-label" for="base_price">giá cơ bản</label>
                                         <input type="number" class="form-control" id="base_price"
                                             placeholder="base_price" name="base_price" aria-label="base_price">
+<<<<<<< HEAD
                                         <?php $__errorArgs = ['base_price'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -326,12 +348,15 @@ $message = $__bag->first($__errorArgs[0]); ?>
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+=======
+>>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
                                     </div>
                                     <!-- Discounted Price -->
                                     <div class="mb-3">
                                         <label class="form-label" for="ecommerce-product-discount-price">giá bán</label>
                                         <input type="number" class="form-control" id="price_sale"
                                             placeholder="price_sale" name="price_sale" aria-label="price_sale">
+<<<<<<< HEAD
                                         <?php $__errorArgs = ['price_sale'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -342,6 +367,8 @@ $message = $__bag->first($__errorArgs[0]); ?>
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+=======
+>>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
                                     </div>
                                 </div>
                             </div>
