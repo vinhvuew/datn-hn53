@@ -30,8 +30,6 @@ Route::get('/brands', [HomeController::class, 'index_brands'])->name('brand');
 
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 
-
-
 Route::get('/chat', [HomeController::class, 'room'])->name('chat');
 
 Route::get('/product', [HomeController::class, 'products'])->name('product');
@@ -61,10 +59,6 @@ Route::get('/comments/{productId}', [ProductsController::class, 'showComments'])
 
 // address
 Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store')->middleware('auth');
-
-
-
-
 
 // giỏ hàng
 Route::get('/cart', [CartController::class, 'cart'])->name('cart.view');
