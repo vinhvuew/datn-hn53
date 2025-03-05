@@ -97,9 +97,6 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::resource('users', UserController::class);
     Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
 
-
-
-
     // voucher
     Route::get('/vouchers', [VouchersController::class, 'index'])->name('vouchers.index');
     // Tạo voucher mới
@@ -125,8 +122,8 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
     Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
     Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
-  
+
         //Thống Kê
-       Route::get('/thongke', [ThongKeController::class, 'index'])->name('thongke.index');
+       Route::get('/thongke', [ThongKeController::class, 'statistical'])->name('thongke.statistical');
 });
 
