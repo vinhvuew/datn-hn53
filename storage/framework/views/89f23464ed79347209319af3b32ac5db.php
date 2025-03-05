@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('content'); ?>
 
 <script src="https://cdn.tailwindcss.com"></script>
