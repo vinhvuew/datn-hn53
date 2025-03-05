@@ -7,7 +7,11 @@
                 <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                     <div id="logo">
                         <a href="<?php echo e(route('home')); ?>"><img src="<?php echo e(asset('client')); ?>/img/logoone.png" alt=""
+<<<<<<< HEAD
                                 height="50" width="50px"></a>
+=======
+                                height="50"></a>
+>>>>>>> 7d504b5677bf376b612123db02d52bf028ce2c4c
                     </div>
                 </div>
                 <nav class="col-xl-6 col-lg-7">

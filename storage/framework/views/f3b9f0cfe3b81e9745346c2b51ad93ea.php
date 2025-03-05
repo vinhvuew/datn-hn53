@@ -22,8 +22,6 @@
                                     <div style="background-image: url(<?php echo e(Storage::url($image->img)); ?>)" class="item active">
                                     </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-
                             </div>
                             <div class="left-t nonl-t"></div>
                             <div class="right-t"></div>
