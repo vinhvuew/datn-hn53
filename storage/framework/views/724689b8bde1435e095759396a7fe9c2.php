@@ -6,9 +6,8 @@
             <div class="row small-gutters">
                 <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                     <div id="logo">
-                        <a href="<?php echo e(route('home')); ?>"><img src="<?php echo e(asset('client')); ?>/img/logoone.png" alt="" width="200"
-                                height="100"></a>
-
+                        <a href="<?php echo e(route('home')); ?>"><img src="<?php echo e(asset('client')); ?>/img/logoone.png" alt=""
+                                height="50"></a>
                     </div>
                 </div>
                 <nav class="col-xl-6 col-lg-7">
@@ -54,7 +53,7 @@
                     <!--/main-menu -->
                 </nav>
                 <div class="col-xl-3 col-lg-2 d-lg-flex align-items-center justify-content-end text-end">
-                    <a class="phone_top" href="tel://9438843343"><strong><span>Need Help?</span>+94
+                    <a class="phone_top" href="tel://9438843343"><strong>+94
                             423-23-221</strong></a>
                 </div>
             </div>
@@ -194,16 +193,11 @@
                             <!-- /dropdown-cart-->
                         </li>
                         <li>
-
-                            <a href="<?php echo e(route('cart.view')); ?>" class="cart_bt"><strong>2</strong></a>
-
-                        </li>
-                        <li>
-                            <div class="dropdown dropdown-access">
+                            <div class="dropdown dropdown-access d-flex align-items-center">
                                 <?php if(Auth::check()): ?>
-                                    <a href="#" class="access_link">
-                                        <i><?php echo e(Auth::user()->name); ?></i>
-                                    </a>
+                                    <i class="fa-regular fa-user fs-4"></i>
+                                    <strong><?php echo e(Auth::user()->name); ?></strong>
+                                    <a href="<?php echo e(route('cart.view')); ?>" class="cart_bt ms-3"><strong>2</strong></a>
                                     <div class="dropdown-menu">
                                         <ul>
                                             
