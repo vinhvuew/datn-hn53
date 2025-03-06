@@ -10,9 +10,13 @@
 
        <a href="<?php echo e(route('comment.create')); ?>" class="btn btn-success" >Các Nội Dung Vi Phạm Cộng Đồng</a> 
 <<<<<<< HEAD
+<<<<<<< HEAD
     
 =======
 >>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
+=======
+    
+>>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
 
         <?php if(session('success')): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -32,11 +36,16 @@
    
         <div class="table-responsive my-3">
 <<<<<<< HEAD
+<<<<<<< HEAD
             
             <table id="example" class="table table-bordered table-striped table-hover align-middle text-center">
 =======
             <table class="table table-bordered table-striped table-hover align-middle text-center">
 >>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
+=======
+            
+            <table id="example" class="table table-bordered table-striped table-hover align-middle text-center">
+>>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
                 <thead class="table-primary">
                     <tr>
                         <th scope="col">STT</th>
@@ -87,6 +96,9 @@
 
 <?php $__env->startSection('style-libs'); ?>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
     <!--datatable css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
@@ -112,6 +124,7 @@
             ]
         });
     </script>
+<<<<<<< HEAD
 <?php $__env->stopSection(); ?>
 
 =======
@@ -122,4 +135,8 @@
    
 <?php $__env->stopSection(); ?>
 >>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
+=======
+<?php $__env->stopSection(); ?>
+
+>>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
 <?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/comment/index.blade.php ENDPATH**/ ?>

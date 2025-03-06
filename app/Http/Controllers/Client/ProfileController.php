@@ -8,123 +8,115 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
+use Illuminate\Http\JsonResponse;
 use App\Models\User;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
     // Hiển thị trang hồ sơ người dùng
     public function index()
     {
-        return view('client.users.profile', ['user' => Auth::user()]);
+        return view('client.users.profile.info', ['user' => Auth::user()]);
     }
 
     // Hiển thị form chỉnh sửa thông tin
     public function edit()
     {
-        return view('client.users.profile_edit', ['user' => Auth::user()]);
+        return view('client.users.profile.edit', ['user' => Auth::user()]);
     }
 
-    // Cập nhật thông tin người dùng (Không dùng update() hoặc save())
     public function update(Request $request)
     {
-        $user = Auth::user();
+        // Lấy ID của người dùng hiện tại
+        $userId = Auth::id();
 
-        // Kiểm tra dữ liệu đầu vào
-        $request->validate([
-            'name' => 'nullable|string|max:255',
-            'email' => [
-                'required',
-                'email:rfc,dns',
-                Rule::unique('users')->ignore($user->id),
-            ],
-            'phone' => [
-                'required',
-                'regex:/^[0-9]{10}$/', // Chỉ cho phép số điện thoại 10 chữ số
-                Rule::unique('users')->ignore($user->id),
-            ],
-        ], [
-
-            'phone.required' => 'Số điện thoại không được để trống.',
-            'phone.regex' => 'Số điện thoại không hợp lệ. Phải là 10 số.',
-            'phone.unique' => 'Số điện thoại đã tồn tại.',
+        // Xác thực dữ liệu
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $userId,
+            'phone' => 'required|string|max:15',
+            'address' => 'nullable|string|max:255',
         ]);
 
+        // Cập nhật thông tin người dùng bằng Query Builder
+        DB::table('users')->where('id', $userId)->update($validatedData);
 
-        // Cập nhật thông tin bằng Query Builder
-        DB::table('users')
-            ->where('id', $user->id)
-            ->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'updated_at' => now(),
-            ]);
-
-        return redirect()->route('profile.index')->with('success', 'Cập nhật thông tin thành công.');
+        // Chuyển hướng về trang thông tin người dùng
+        return redirect()->route('profile.index', ['id' => $userId])
+            ->with('success', 'Thông tin đã được cập nhật.');
     }
-
-    // Cập nhật ảnh đại diện (avatar) - Không dùng update()
     public function updateAvatar(Request $request)
     {
-        $request->validate([
-            'avata' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        try {
+            // Lấy ID của người dùng hiện tại
+            $userId = Auth::id();
 
-        $user = Auth::user();
+            // Xác thực dữ liệu
+            $request->validate([
+                'avatar' => 'nullable|image|max:2048',
+            ]);
 
-        // Xóa ảnh cũ nếu có
-        if ($user->avata) {
-            Storage::delete('public/' . $user->avata);
+            // Xử lý ảnh đại diện
+            if ($request->hasFile('avatar')) {
+                // Lấy đường dẫn ảnh cũ
+                $oldAvatar = DB::table('users')->where('id', $userId)->value('avatar');
+
+                // Xóa ảnh cũ nếu có
+                if (!empty($oldAvatar) && Storage::exists('public/' . $oldAvatar)) {
+                    Storage::delete('public/' . $oldAvatar);
+                }
+
+                // Lưu ảnh mới
+                $avatarPath = $request->file('avatar')->store('avatars', 'public');
+
+                // Cập nhật ảnh vào database sử dụng Query Builder
+                DB::table('users')->where('id', $userId)->update(['avatar' => $avatarPath]);
+            }
+
+            // Chuyển hướng về trang hồ sơ với thông
+            return back()->with('success', ' Ảnh đại diện đã được cập nhật!');
+
+            // return redirect()->route('profile.index', ['id' => $userId])
+            //     ->with('success', 'Ảnh đại diện đã được cập nhật.');
+        } catch (Exception $e) {
+            Log::error('Lỗi cập nhật ảnh đại diện: ' . $e->getMessage());
+            return redirect()->route('profile.index', ['id' => $userId])
+                ->with('error', 'Có lỗi xảy ra khi cập nhật ảnh đại diện.');
         }
-
-        // Lưu ảnh mới vào thư mục "avatars" trong storage
-        $imagePath = $request->file('avata')->store('avatars', 'public');
-
-        // Cập nhật đường dẫn vào DB bằng SQL thủ công
-        DB::statement("UPDATE users SET avata = ?, updated_at = ? WHERE id = ?", [
-            $imagePath,
-            now(),
-            $user->id
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'avatar' => asset('storage/' . $imagePath),
-        ]);
     }
 
-    // Cập nhật mật khẩu - Không dùng update()
+    // Cập nhật mật khẩu
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'current_password' => 'required',
-            'new_password' => [
-                'required',
-                'min:6',
-                'confirmed',
-            ],
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|min:8|confirmed',
         ], [
             'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
             'new_password.required' => 'Vui lòng nhập mật khẩu mới.',
-            'new_password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự.',
-            'new_password.confirmed' => 'Mật khẩu xác nhận không khớp.',
+            'new_password.min' => 'Mật khẩu mới phải có ít nhất 8 ký tự.',
+            'new_password.confirmed' => 'Xác nhận mật khẩu mới không khớp.',
         ]);
 
-        // Kiểm tra mật khẩu hiện tại
-        if (!Hash::check($request->current_password, Auth::user()->password)) {
-            return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không đúng'])
-                ->with('tab', 'password');
+        $user = Auth::user();
+
+        try {
+            // Kiểm tra mật khẩu hiện tại
+            if (!Hash::check($request->current_password, $user->password)) {
+                return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không đúng']);
+            }
+
+            // Cập nhật mật khẩu mới sử dụng Query Builder
+            DB::table('users')->where('id', $user->id)->update([
+                'password' => Hash::make($request->new_password),
+                'updated_at' => now()
+            ]);
+
+            return back()->with('successp', 'Mật khẩu đã được cập nhật thành công!');
+        } catch (Exception $e) {
+            return back()->withErrors(['error' => 'Đã xảy ra lỗi, vui lòng thử lại sau!']);
         }
-
-
-        DB::statement("UPDATE users SET password = ?, updated_at = ? WHERE id = ?", [
-            Hash::make($request->new_password),
-            now(),
-            Auth::id(),
-        ]);
-
-        return back()->with('success', 'Mật khẩu đã được cập nhật.')
-            ->with('tab', 'password');
     }
 }

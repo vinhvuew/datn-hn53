@@ -22,16 +22,6 @@
                                     <div style="background-image: url(<?php echo e(Storage::url($image->img)); ?>)" class="item active">
                                     </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-<<<<<<< HEAD
-
-
-=======
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
                             </div>
                             <div class="left-t nonl-t"></div>
                             <div class="right-t"></div>
@@ -57,7 +47,6 @@
                                 <i class="icon-star"></i><em>4 reviews</em>
                             </span>
                             <p><small>SKU: <?php echo e($product->sku); ?></small><br><?php echo e($product->description); ?></p>
-
                             <?php if($product->variants->isNotEmpty()): ?>
                                 
                                 <div class="prod_options">

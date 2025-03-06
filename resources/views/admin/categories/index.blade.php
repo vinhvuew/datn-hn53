@@ -69,7 +69,7 @@
             </div>
         </div>
         <!-- / Content -->
-<<<<<<< HEAD
+
 
         <div class="buy-now">
             <a href="https://themeselection.com/item/sneat-bootstrap-html-admin-template/" target="_blank"
@@ -78,8 +78,7 @@
 
         <!-- Footer -->
         <div class="content-backdrop fade"></div>
-=======
->>>>>>> 73edc2211242ae6e934b743def6c0ebf86efdb54
+
     </div>
     <script>
         const btn = document.querySelectorAll('#submit-form');

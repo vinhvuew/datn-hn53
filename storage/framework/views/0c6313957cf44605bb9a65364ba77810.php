@@ -60,7 +60,7 @@ unset($__errorArgs, $__bag); ?>
                         <!-- Input giá trị thuộc tính -->
                         <div class="mb-3">
                             <label for="value" class="form-label">Giá Trị</label>
-                            <input type="text" name="value" id="value" class="form-control"
+                            <input type="text" name="value" id="value" class="form-control" value="<?php echo e(old('value')); ?>"
                                 placeholder="Nhập giá trị">
                             <?php $__errorArgs = ['value'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
