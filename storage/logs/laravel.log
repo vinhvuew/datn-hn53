@@ -3216,3 +3216,5 @@ Stack trace:
 #53 /Users/admin/datn-hn53/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(16): require_once('/Users/admin/da...')
 #54 {main}
 "} 
+[2025-03-06 05:55:49] local.ERROR: Attempt to read property "id" on null  
+[2025-03-06 05:55:54] local.ERROR: Attempt to read property "id" on null  
