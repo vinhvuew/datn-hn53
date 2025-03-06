@@ -29,7 +29,7 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $user = Auth::user();
-    
+
         // Kiểm tra dữ liệu đầu vào
         $request->validate([
             'name' => 'nullable|string|max:255',
@@ -44,13 +44,12 @@ class ProfileController extends Controller
                 Rule::unique('users')->ignore($user->id),
             ],
         ], [
-            'email.required' => 'Email không được để trống.',
-            'email.email' => 'Email không đúng định dạng.',
-            'email.unique' => 'Email đã tồn tại trong hệ thống.',
+
             'phone.required' => 'Số điện thoại không được để trống.',
             'phone.regex' => 'Số điện thoại không hợp lệ. Phải là 10 số.',
             'phone.unique' => 'Số điện thoại đã tồn tại.',
         ]);
+
 
         // Cập nhật thông tin bằng Query Builder
         DB::table('users')
@@ -115,10 +114,10 @@ class ProfileController extends Controller
         // Kiểm tra mật khẩu hiện tại
         if (!Hash::check($request->current_password, Auth::user()->password)) {
             return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không đúng'])
-                         ->with('tab', 'password'); 
+                ->with('tab', 'password');
         }
 
-        
+
         DB::statement("UPDATE users SET password = ?, updated_at = ? WHERE id = ?", [
             Hash::make($request->new_password),
             now(),
@@ -126,6 +125,6 @@ class ProfileController extends Controller
         ]);
 
         return back()->with('success', 'Mật khẩu đã được cập nhật.')
-                     ->with('tab', 'password'); 
+            ->with('tab', 'password');
     }
 }

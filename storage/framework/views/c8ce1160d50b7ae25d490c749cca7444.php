@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
 <?php $__env->startSection('content'); ?>
     <div class="container mt-5">
         <h2 class="text-center mb-4">Các Nội Dung Vi Phạm Cộng Đồng Và Cách Xử Lý</h2>

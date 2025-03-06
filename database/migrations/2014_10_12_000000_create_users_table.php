@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->timestamps(); // Cột created_at và updated_at
         });
     }
-    
+
 
     /**
      * Reverse the migrations.

@@ -7,7 +7,7 @@
                 <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                     <div id="logo">
                         <a href="<?php echo e(route('home')); ?>"><img src="<?php echo e(asset('client')); ?>/img/logoone.png" alt=""
-                                height="50"></a>
+                                height="50" width="50px"></a>
                     </div>
                 </div>
                 <nav class="col-xl-6 col-lg-7">
@@ -197,7 +197,7 @@
                                 <?php if(Auth::check()): ?>
                                     <i class="fa-regular fa-user fs-4"></i>
                                     <strong><?php echo e(Auth::user()->name); ?></strong>
-                                    <a href="<?php echo e(route('cart.view')); ?>" class="cart_bt ms-3"><strong>2</strong></a>
+                                    <a href="<?php echo e(route('cart.view')); ?>" class="cart_bt ms-3"></a>
                                     <div class="dropdown-menu">
                                         <ul>
                                             
@@ -206,17 +206,20 @@
                                                     tôi</a>
                                             </li>
                                             <li>
-                                                <a href="<?php echo e(route('profile.index')); ?>"><i class="ti-user"></i>Hồ sơ</a>
+                                                <a href="<?php echo e(route('profile.index')); ?>"><i class="ti-user"></i>Hồ
+                                                    sơ</a>
                                             </li>
                                             <li>
-                                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                <a href="#"
+                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                     <i class="fas fa-sign-out-alt"></i> Đăng xuất
                                                 </a>
-                                                <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+                                                <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST"
+                                                    style="display: none;">
                                                     <?php echo csrf_field(); ?>
                                                 </form>
                                             </li>
-                                            
+
                                             
                                         </ul>
                                     </div>
