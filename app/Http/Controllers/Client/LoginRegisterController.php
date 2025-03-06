@@ -94,4 +94,9 @@ class LoginRegisterController extends Controller
         Session::flush();
         return redirect()->route('home')->with('success', 'Bạn đã đăng xuất.');
     }
+    public function profile(){
+        $auth = auth('cus')->user();
+        return view('user.profile', compact('auth'));
+    }
+    
 }

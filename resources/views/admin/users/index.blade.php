@@ -2,11 +2,21 @@
 
 @section('content')
     <div class="container mt-4">
-        <div id="alert-container"></div> 
+        <div id="alert-container"></div>
 
         <div class="card shadow-sm border-0 rounded">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header  text-white d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Quản Lý Người Dùng</h5>
+                <form action="{{ route('users.index') }}" method="GET" class="d-flex">
+                    <input type="text" name="search" value="{{ request('search') }}" class="form-control form-control-sm me-2" 
+                           placeholder="Nhập tên, email hoặc SĐT" style="max-width: 250px;">
+                           <button type="submit" class="btn btn-outline-primary btn-sm me-2">🔍 Tìm kiếm</button>
+
+                    @if(request('search'))
+                        <a href="{{ route('users.index') }}" class="btn btn-warning btn-sm">Quay Lại</a>
+                    @endif
+                </form>
+                
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -23,26 +33,27 @@
                         </thead>
                         <tbody>
                             @foreach ($users as $user)
-                                <tr>
+                                <tr id="user-row-{{ $user->id }}">
                                     <td class="text-center align-middle">{{ $user->id }}</td>
                                     <td class="align-middle">{{ $user->name }}</td>
                                     <td class="align-middle">{{ $user->email ?? '-' }}</td>
                                     <td class="align-middle">{{ $user->phone ?? '-' }}</td>
                                     <td class="align-middle">
                                         <select name="role" class="form-select form-select-sm role-select"
-                                            data-user-id="{{ $user->id }}"
-                                            data-old-role="{{ $user->role }}">
+                                                data-user-id="{{ $user->id }}"
+                                                data-old-role="{{ $user->role }}">
                                             <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
                                             <option value="moderator" {{ $user->role == 'moderator' ? 'selected' : '' }}>Moderator</option>
                                             <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
                                         </select>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST"
-                                            class="d-inline" onsubmit="return confirmDelete(event, '{{ $user->name }}')">
+                                        <form class="delete-form d-inline"
+                                              data-user-id="{{ $user->id }}"
+                                              data-user-name="{{ $user->name }}">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">
+                                            <button type="button" class="btn btn-danger btn-sm delete-user">
                                                 <i class="fas fa-trash-alt"></i> Xóa
                                             </button>
                                         </form>
@@ -52,63 +63,106 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        
-        function confirmDelete(event, userName) {
-            if (!confirm('Bạn có chắc chắn muốn xóa người dùng "' + userName + '"?')) {
-                event.preventDefault();
-            }
-        }
+        document.addEventListener("DOMContentLoaded", function () {
+            // Xác nhận xóa user
+            document.querySelectorAll('.delete-user').forEach(button => {
+                button.addEventListener('click', function () {
+                    let form = this.closest('form');
+                    let userId = form.getAttribute('data-user-id');
+                    let userName = form.getAttribute('data-user-name');
 
-        $(document).ready(function () {
-            $('.role-select').on('change', function () {
-                let selectElement = $(this);
-                let userId = selectElement.data('user-id');
-                let newRole = selectElement.val();
-                let oldRole = selectElement.attr('data-old-role');
-                let token = "{{ csrf_token() }}";
-
-                if (!confirm("Bạn có chắc chắn muốn thay đổi vai trò?")) {
-                    selectElement.val(oldRole);
-                    return;
-                }
-
-                $.ajax({
-                    url: "{{ route('users.updateRole') }}",
-                    type: "POST",
-                    data: {
-                        _token: token,
-                        user_id: userId,
-                        role: newRole
-                    },
-                    success: function (response) {
-                        selectElement.attr('data-old-role', newRole);
-                        $('#alert-container').html(`
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                ${response.message}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        `);
-                    },
-                    error: function (xhr) {
-                        let errorMessage = "Có lỗi xảy ra.";
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                            errorMessage = xhr.responseJSON.message;
+                    Swal.fire({
+                        title: "Xác nhận xóa?",
+                        text: `Bạn có chắc chắn muốn xóa người dùng "${userName}"?`,
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Xóa",
+                        cancelButtonText: "Hủy"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`{{ route('users.destroy', '') }}/${userId}`, {
+                                method: "POST",
+                                headers: {
+                                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({ _method: "DELETE" })
+                            }).then(response => response.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        title: "Đã xóa!",
+                                        text: "Người dùng đã bị xóa thành công.",
+                                        icon: "success"
+                                    });
+                                    document.getElementById(`user-row-${userId}`).remove();
+                                }).catch(error => {
+                                    Swal.fire({
+                                        title: "Lỗi!",
+                                        text: "Không thể xóa người dùng.",
+                                        icon: "error"
+                                    });
+                                });
                         }
-                        selectElement.val(oldRole);
-                        $('#alert-container').html(`
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                ${errorMessage}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        `);
-                    }
+                    });
+                });
+            });
+
+            // Xác nhận thay đổi vai trò
+            document.querySelectorAll('.role-select').forEach(select => {
+                select.addEventListener('change', function () {
+                    let userId = this.getAttribute('data-user-id');
+                    let newRole = this.value;
+                    let oldRole = this.getAttribute('data-old-role');
+
+                    Swal.fire({
+                        title: "Xác nhận thay đổi?",
+                        text: "Bạn có chắc chắn muốn thay đổi vai trò của người dùng này?",
+                        icon: "question",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Đồng ý",
+                        cancelButtonText: "Hủy"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch("{{ route('users.updateRole') }}", {
+                                method: "POST",
+                                headers: {
+                                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    user_id: userId,
+                                    role: newRole
+                                })
+                            }).then(response => response.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        title: "Thành công!",
+                                        text: "Vai trò đã được cập nhật.",
+                                        icon: "success"
+                                    });
+                                    select.setAttribute('data-old-role', newRole);
+                                }).catch(error => {
+                                    Swal.fire({
+                                        title: "Lỗi!",
+                                        text: "Không thể thay đổi vai trò.",
+                                        icon: "error"
+                                    });
+                                    select.value = oldRole;
+                                });
+                        } else {
+                            select.value = oldRole;
+                        }
+                    });
                 });
             });
         });
