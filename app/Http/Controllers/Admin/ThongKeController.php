@@ -12,7 +12,7 @@ class ThongKeController extends Controller
     /**
      * Hiển thị thống kê doanh thu theo ngày, tuần, tháng, năm.
      */
-    public function index()
+    public function statistical()
     {
         // Doanh thu theo ngày
         $doanhThuNgay = Order::selectRaw('DATE(created_at) as ngay, SUM(total_price) as doanh_thu')
@@ -26,8 +26,8 @@ class ThongKeController extends Controller
         ->orderByDesc('nam')
         ->orderByDesc('tuan')
         ->get();
-    
-    
+
+
 
         // Doanh thu theo tháng
         $doanhThuThang = Order::selectRaw('YEAR(created_at) as nam, MONTH(created_at) as thang, SUM(total_price) as doanh_thu')

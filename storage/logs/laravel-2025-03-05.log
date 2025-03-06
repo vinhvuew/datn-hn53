@@ -227,3 +227,4 @@
 #43 D:\\laragon\\www\\datn-hn53\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #44 {main}
 "} 
+[2025-03-05 17:14:07] local.ERROR: Attempt to read property "id" on null  
