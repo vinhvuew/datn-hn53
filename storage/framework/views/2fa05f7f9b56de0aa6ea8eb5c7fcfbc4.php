@@ -13,10 +13,26 @@
                                     class="rounded-top">
                             </div>
                             <div class="user-profile-header d-flex flex-column flex-lg-row text-sm-start text-center mb-4">
-                                <div class="flex-shrink-0 mt-n2 mx-lg-0 mx-auto">
-                                    <img src="<?php echo e(asset('admin')); ?>/assets/img/avatars/1.png" alt="user image"
-                                        class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
-                                </div>
+                                <form action="<?php echo e(route('profile.updateAvatar')); ?>" method="POST"
+                                    enctype="multipart/form-data">
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('PUT'); ?>
+
+                                    <div class="position-relative d-inline-block">
+                                        <img src="<?php echo e(Storage::url(Auth::user()->avatar)); ?>" alt="user image"
+                                            class="d-block rounded-circle user-profile-img"
+                                            style="width: 100px; height: 100px; object-fit: cover;">
+
+
+                                        <label for="avatar-upload"
+                                            class="position-absolute bottom-0 end-0 bg-white p-1 rounded-circle shadow"
+                                            style="cursor: pointer;">
+                                            <i class="fas fa-camera text-primary"></i>
+                                        </label>
+                                        <input type="file" id="avatar-upload" name="avatar" class="d-none"
+                                            onchange="this.form.submit()">
+                                    </div>
+                                </form>
                                 <div class="flex-grow-1 mt-3 mt-lg-5">
                                     <div
                                         class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
@@ -85,7 +101,7 @@
                                             class="mdi mdi-account-outline mdi-24px"></i><span class="fw-medium mx-2">Họ và
                                             tên: </span> <span><?php echo e(Auth::user()->name); ?></span>
                                     </li>
-                                    
+
                                     <li class="d-flex align-items-center mb-3"><i
                                             class="mdi mdi-star-outline mdi-24px"></i><span class="fw-medium mx-2">Vai
                                             trò:</span>
@@ -108,10 +124,16 @@
                                             <?php endswitch; ?>
                                         </span>
                                     </li>
-                                    
-                                    <li class="d-flex align-items-center mb-3"><i
-                                            class="mdi mdi-flag-outline mdi-24px"></i><span class="fw-medium mx-2">Quốc
-                                            gia:</span> <span>Việt Nam</span></li>
+
+                                    <li class="d-flex align-items-center mb-3">
+                                        <i class='mdi mdi-map-marker-outline mdi-24px'></i>
+                                        <span class="fw-medium mx-2">Địa chỉ:
+                                        </span><span><?php echo e(Auth::user()->address); ?></span>
+                                    </li>
+                                    <li class="d-flex align-items-center mb-3"><i class="mdi mdi-flag-outline mdi-24px"></i>
+                                        <span class="fw-medium mx-2">Quốc
+                                            gia:</span> <span>Việt Nam</span>
+                                    </li>
                                     <li class="d-flex align-items-center mb-1"><i
                                             class="mdi mdi-translate mdi-24px"></i><span class="fw-medium mx-2">Ngôn
                                             ngữ:</span> <span>Tiếng việt</span>
@@ -127,6 +149,9 @@
                                             class="fw-medium mx-2">Email:</span>
                                         <span><?php echo e(Auth::user()->email); ?></span>
                                     </li>
+                                    <a class="btn btn-warning d-flex items-center" href="<?php echo e(route('profile.edit')); ?>">Chỉnh
+                                        sửa
+                                        thông tin</a>
                                 </ul>
                             </div>
                         </div>

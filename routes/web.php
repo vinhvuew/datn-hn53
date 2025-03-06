@@ -2,6 +2,7 @@
 
 
 
+use App\Http\Controllers\Admin\AttributesValuesController;
 use App\Http\Controllers\Client\AddressController;
 use Illuminate\Support\Facades\Route;
 // client
@@ -41,8 +42,8 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::get('/', [ProfileController::class, 'index'])->name('index'); // Hiển thị trang profile
     Route::get('/edit', [ProfileController::class, 'edit'])->name('edit'); // Hiển thị form chỉnh sửa
     Route::put('/update', [ProfileController::class, 'update'])->name('update'); // Cập nhật thông tin
-    Route::post('/update-avatar', [ProfileController::class, 'updateAvatar'])->name('updateAvatar');
-    Route::post('/update-password', [ProfileController::class, 'updatePassword'])->name('updatePassword');
+    Route::put('/update/avatar', [ProfileController::class, 'updateAvatar'])->name('updateAvatar');
+    Route::post('/update/password', [ProfileController::class, 'updatePassword'])->name('updatePassword');
 });
 
 
@@ -86,7 +87,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource("category", CategoryController::class);
     Route::resource('attributes', AttributesNameController::class);
-    Route::resource('attribute-values', AttributesNameController::class);
+    Route::resource('attribute-values', AttributesValuesController::class);
     Route::resource('brands', BrandsController::class);
     Route::resource('users', UserController::class);
     Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
