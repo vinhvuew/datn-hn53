@@ -68,566 +68,133 @@
             </div>
             <div id="icon_drag_mobile"></div>
         </div>
-        <!--/carousel-->
-
-        <ul id="banners_grid" class="clearfix">
-            <li>
-                <a href="#0" class="img_container">
-                    <img src="<?php echo e(asset('client')); ?>/img/banners_cat_placeholder.jpg"
-                        data-src="<?php echo e(asset('client')); ?>/img/banner_1.jpg" alt="" class="lazy">
-                    <div class="short_info opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.5)">
-                        <h3>Men's Collection</h3>
-                        <div><span class="btn_1">Shop Now</span></div>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="#0" class="img_container">
-                    <img src="<?php echo e(asset('client')); ?>/img/banners_cat_placeholder.jpg"
-                        data-src="<?php echo e(asset('client')); ?>/img/banner_2.jpg" alt="" class="lazy">
-                    <div class="short_info opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.5)">
-                        <h3>Womens's Collection</h3>
-                        <div><span class="btn_1">Shop Now</span></div>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="#0" class="img_container">
-                    <img src="<?php echo e(asset('client')); ?>/img/banners_cat_placeholder.jpg"
-                        data-src="<?php echo e(asset('client')); ?>/img/banner_3.jpg" alt="" class="lazy">
-                    <div class="short_info opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.5)">
-                        <h3>Kids's Collection</h3>
-                        <div><span class="btn_1">Shop Now</span></div>
-                    </div>
-                </a>
-            </li>
-        </ul>
-        <!--/banners_grid -->
 
         <div class="container margin_60_35">
             <div class="main_title">
-                <h2>Top Selling</h2>
-                <span>Products</span>
-                <p>Cum doctus civibus efficiantur in imperdiet deterruisset</p>
+                <h2>Sản phẩm mới ra</h2>
+                <span>Sản phẩm Mới</span>
+
             </div>
             <div class="row small-gutters">
-                <div class="col-6 col-md-4 col-xl-3">
-                    <div class="grid_item">
-                        <figure>
-                            <span class="ribbon off">-30%</span>
-                            <a href="product-detail-1.html">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/1.jpg" alt="" width="400"
-                                    height="400">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/1_b.jpg" alt=""
-                                    width="400" height="400">
-                            </a>
-                            <div data-countdown="2019/05/15" class="countdown"></div>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i></div>
-                        <a href="product-detail-1.html">
-                            <h3>Armor Air x Fear</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$48.00</span>
-                            <span class="old_price">$60.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /col -->
-                <div class="col-6 col-md-4 col-xl-3">
-                    <div class="grid_item">
-                        <span class="ribbon off">-30%</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/2.jpg" alt=""
-                                    width="400" height="400">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/2_b.jpg" alt=""
-                                    width="400" height="400">
-                            </a>
-                            <div data-countdown="2019/05/10" class="countdown"></div>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Armor Okwahn II</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$90.00</span>
-                            <span class="old_price">$170.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /col -->
-                <div class="col-6 col-md-4 col-xl-3">
-                    <div class="grid_item">
-                        <span class="ribbon off">-50%</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/3.jpg" alt=""
-                                    width="400" height="400">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/3_b.jpg" alt=""
-                                    width="400" height="400">
-                            </a>
-                            <div data-countdown="2019/05/21" class="countdown"></div>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Armor Air Wildwood ACG</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$75.00</span>
-                            <span class="old_price">$155.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /col -->
-                <div class="col-6 col-md-4 col-xl-3">
-                    <div class="grid_item">
-                        <span class="ribbon new">New</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/4.jpg" alt=""
-                                    width="400" height="400">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/4_b.jpg" alt=""
-                                    width="400" height="400">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Armor ACG React Terra</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$110.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /col -->
-                <div class="col-6 col-md-4 col-xl-3">
-                    <div class="grid_item">
-                        <span class="ribbon new">New</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/5.jpg" alt=""
-                                    width="400" height="400">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/5_b.jpg" alt=""
-                                    width="400" height="400">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Armor Air Zoom Alpha</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$140.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /col -->
-                <div class="col-6 col-md-4 col-xl-3">
-                    <div class="grid_item">
-                        <span class="ribbon new">New</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/6.jpg" alt=""
-                                    width="400" height="400">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/6_b.jpg" alt=""
-                                    width="400" height="400">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Armor Air Alpha</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$130.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /col -->
-                <div class="col-6 col-md-4 col-xl-3">
-                    <div class="grid_item">
-                        <span class="ribbon hot">Hot</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/7.jpg" alt=""
-                                    width="400" height="400">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/7_b.jpg" alt=""
-                                    width="400" height="400">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Armor Air Max 98</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$115.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /col -->
-                <div class="col-6 col-md-4 col-xl-3">
-                    <div class="grid_item">
-                        <span class="ribbon hot">Hot</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/8.jpg" alt=""
-                                    width="400" height="400">
-                                <img class="img-fluid lazy"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/8_b.jpg" alt=""
-                                    width="400" height="400">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Armor Air Max 720</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$120.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /col -->
-            </div>
-            <!-- /row -->
-        </div>
-        <!-- /container -->
+                <div class="row g-4">
+                    <?php $__currentLoopData = $latestProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="card border-0 shadow-sm rounded overflow-hidden position-relative product-card">
+                                <a href="<?php echo e(route('productDetail', $product->slug)); ?>" class="d-block">
+                                    <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
+                                        class="card-img-top img-fluid rounded product-image" alt="<?php echo e($product->name); ?>">
+                                </a>
 
-        <div class="featured lazy" data-bg="url(<?php echo e(asset('client')); ?>/img/featured_home.jpg)">
-            <div class="opacity-mask d-flex align-items-center" data-opacity-mask="rgba(0, 0, 0, 0.5)">
-                <div class="container margin_60">
-                    <div class="row justify-content-center justify-content-md-start">
-                        <div class="col-lg-6 wow" data-wow-offset="150">
-                            <h3>Armor<br>Air Color 720</h3>
-                            <p>Lightweight cushioning and durable support with a Phylon midsole</p>
-                            <div class="feat_text_block">
-                                <div class="price_box">
-                                    <span class="new_price">$90.00</span>
-                                    <span class="old_price">$170.00</span>
+                                <div class="card-body text-center">
+                                    <a href="<?php echo e(route('productDetail', $product->slug)); ?>"
+                                        class="text-dark text-decoration-none">
+                                        <h4 class="fw-bold product-title"><?php echo e($product->name); ?></h4>
+                                    </a>
+                                    <p class="small text-muted"><?php echo e(Str::limit($product->description, 50)); ?>...</p>
+
+                                    <div class="price_box">
+                                        <span class="old_price text-muted text-decoration-line-through">
+                                            <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
+                                        </span>
+
+                                        <?php if($product->price_sale): ?>
+                                            <span class="new_price text-danger fw-bold">
+                                                <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?> VND
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
-                                <a class="btn_1" href="listing-grid-1-full.html" role="button">Shop Now</a>
                             </div>
                         </div>
-                    </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
+
             </div>
         </div>
+
+        <!-- /container -->
+
+        <div class="container margin_60_35">
+            <div class="main_title">
+                <h2>SALE SẢN PHẨM</h2>
+                <span>SẢN PHẨM GIẢM GIÁ</span>
+               
+            </div>
+
+            <div class="carousel-inner">
+                <?php $__currentLoopData = $discountedProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="carousel-item <?php if($key == 0): ?> active <?php endif; ?>">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8"> <!-- Thay đổi từ col-md-4 thành col-md-8 để rộng hơn -->
+                                <div class="grid_item" style="width: 100%; margin: 0 auto;">
+                                    <figure>
+                                        <a href="#">
+                                            <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
+                                                style="width: 100%; height: 300px; object-fit: cover; display: block; margin: 0 auto;"
+                                                alt="Product Image">
+                                        </a>
+                                    </figure>
+                                    <h3><?php echo e($product->name); ?></h3>
+                                    <div class="price_box">
+                                        <span class="new_price">$<?php echo e($product->price_sale); ?></span>
+                                        <span class="old_price">$<?php echo e($product->base_price); ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
+
+        </div>
+
+
         <!-- /featured -->
 
         <div class="container margin_60_35">
             <div class="main_title">
-                <h2>Featured</h2>
-                <span>Products</span>
-                <p>Cum doctus civibus efficiantur in imperdiet deterruisset</p>
+                <h2>Sản phẩm bán chạy</h2>
+                <span>Sản phẩm HOT</span>
+
             </div>
-            <div class="owl-carousel owl-theme products_carousel">
-                <div class="item">
-                    <div class="grid_item">
-                        <span class="ribbon new">New</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="owl-lazy img-fluid"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/4.jpg" alt=""
-                                    width="400" height="400">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
+            <div class="row small-gutters">
+                <div class="row g-4">
+                    <?php $__currentLoopData = $topSellingProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="card border-0 shadow-sm rounded overflow-hidden position-relative product-card">
+                                <a href="<?php echo e(route('productDetail', $product->slug)); ?>" class="d-block">
+                                    <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
+                                        class="card-img-top img-fluid rounded product-image" alt="<?php echo e($product->name); ?>">
+                                </a>
+
+                                <div class="card-body text-center">
+                                    <a href="<?php echo e(route('productDetail', $product->slug)); ?>"
+                                        class="text-dark text-decoration-none">
+                                        <h6 class="fw-bold product-title"><?php echo e($product->name); ?></h6>
+                                    </a>
+                                    <p class="small text-muted"><?php echo e(Str::limit($product->description, 50)); ?></p>
+                                    <div class="price_box">
+                                        <span class="old_price text-muted text-decoration-line-through">
+                                            <?php echo e(number_format($product->base_price, 0, ',', '.')); ?>đ
+                                        </span>
+
+                                        <?php if($product->price_sale): ?>
+                                            <span class="new_price text-danger fw-bold">
+                                                <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?>đ
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <a href="product-detail-1.html">
-                            <h3>ACG React Terra</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$110.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
-                <!-- /item -->
-                <div class="item">
-                    <div class="grid_item">
-                        <span class="ribbon new">New</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="owl-lazy img-fluid"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/5.jpg" alt=""
-                                    width="400" height="400">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Air Zoom Alpha</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$140.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /item -->
-                <div class="item">
-                    <div class="grid_item">
-                        <span class="ribbon hot">Hot</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="owl-lazy img-fluid"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/8.jpg" alt=""
-                                    width="400" height="400">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Air Color 720</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$120.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /item -->
-                <div class="item">
-                    <div class="grid_item">
-                        <span class="ribbon off">-30%</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="owl-lazy img-fluid"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/2.jpg" alt=""
-                                    width="400" height="400">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Okwahn II</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$90.00</span>
-                            <span class="old_price">$170.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /item -->
-                <div class="item">
-                    <div class="grid_item">
-                        <span class="ribbon off">-50%</span>
-                        <figure>
-                            <a href="product-detail-1.html">
-                                <img class="owl-lazy img-fluid"
-                                    src="<?php echo e(asset('client')); ?>/img/products/product_placeholder_square_medium.jpg"
-                                    data-src="<?php echo e(asset('client')); ?>/img/products/shoes/3.jpg" alt=""
-                                    width="400" height="400">
-                            </a>
-                        </figure>
-                        <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
-                        </div>
-                        <a href="product-detail-1.html">
-                            <h3>Air Wildwood ACG</h3>
-                        </a>
-                        <div class="price_box">
-                            <span class="new_price">$75.00</span>
-                            <span class="old_price">$155.00</span>
-                        </div>
-                        <ul>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a>
-                            </li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-                                        compare</span></a></li>
-                            <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /grid_item -->
-                </div>
-                <!-- /item -->
+
             </div>
-            <!-- /products_carousel -->
         </div>
+
+
         <!-- /container -->
 
         <div class="bg_gray">
@@ -638,37 +205,7 @@
                                 data-src="<?php echo e(asset('client')); ?>/img/brands/logo_1.png" alt=""
                                 class="owl-lazy"></a>
                     </div>
-                    <!-- /item -->
-                    <div class="item">
-                        <a href="#0"><img src="<?php echo e(asset('client')); ?>/img/brands/placeholder_brands.png"
-                                data-src="<?php echo e(asset('client')); ?>/img/brands/logo_2.png" alt=""
-                                class="owl-lazy"></a>
-                    </div>
-                    <!-- /item -->
-                    <div class="item">
-                        <a href="#0"><img src="<?php echo e(asset('client')); ?>/img/brands/placeholder_brands.png"
-                                data-src="<?php echo e(asset('client')); ?>/img/brands/logo_3.png" alt=""
-                                class="owl-lazy"></a>
-                    </div>
-                    <!-- /item -->
-                    <div class="item">
-                        <a href="#0"><img src="<?php echo e(asset('client')); ?>/img/brands/placeholder_brands.png"
-                                data-src="<?php echo e(asset('client')); ?>/img/brands/logo_4.png" alt=""
-                                class="owl-lazy"></a>
-                    </div>
-                    <!-- /item -->
-                    <div class="item">
-                        <a href="#0"><img src="<?php echo e(asset('client')); ?>/img/brands/placeholder_brands.png"
-                                data-src="<?php echo e(asset('client')); ?>/img/brands/logo_5.png" alt=""
-                                class="owl-lazy"></a>
-                    </div>
-                    <!-- /item -->
-                    <div class="item">
-                        <a href="#0"><img src="<?php echo e(asset('client')); ?>/img/brands/placeholder_brands.png"
-                                data-src="<?php echo e(asset('client')); ?>/img/brands/logo_6.png" alt=""
-                                class="owl-lazy"></a>
-                    </div>
-                    <!-- /item -->
+
                 </div>
                 <!-- /carousel -->
             </div>
@@ -677,90 +214,169 @@
         <!-- /bg_gray -->
 
         <div class="container margin_60_35">
-            <div class="main_title">
-                <h2>Latest News</h2>
-                <span>Blog</span>
-                <p>Cum doctus civibus efficiantur in imperdiet deterruisset</p>
-            </div>
+
             <div class="row">
                 <div class="col-lg-6">
-                    <a class="box_news" href="blog.html">
-                        <figure>
-                            <img src="<?php echo e(asset('client')); ?>/img/blog-thumb-placeholder.jpg"
-                                data-src="<?php echo e(asset('client')); ?>/img/blog-thumb-1.jpg" alt="" width="400"
-                                height="266" class="lazy">
-                            <figcaption><strong>28</strong>Dec</figcaption>
-                        </figure>
-                        <ul>
-                            <li>by Mark Twain</li>
-                            <li>20.11.2017</li>
-                        </ul>
-                        <h4>Pri oportere scribentur eu</h4>
-                        <p>Cu eum alia elit, usu in eius appareat, deleniti sapientem honestatis eos ex. In ius esse
-                            ullum vidisse....</p>
-                    </a>
+
                 </div>
                 <!-- /box_news -->
-                <div class="col-lg-6">
-                    <a class="box_news" href="blog.html">
-                        <figure>
-                            <img src="<?php echo e(asset('client')); ?>/img/blog-thumb-placeholder.jpg"
-                                data-src="<?php echo e(asset('client')); ?>/img/blog-thumb-2.jpg" alt="" width="400"
-                                height="266" class="lazy">
-                            <figcaption><strong>28</strong>Dec</figcaption>
-                        </figure>
-                        <ul>
-                            <li>By Jhon Doe</li>
-                            <li>20.11.2017</li>
-                        </ul>
-                        <h4>Duo eius postea suscipit ad</h4>
-                        <p>Cu eum alia elit, usu in eius appareat, deleniti sapientem honestatis eos ex. In ius esse
-                            ullum vidisse....</p>
-                    </a>
+                <div class="container margin_60_35">
+                    <div class="main_title">
+                        <h2>Top Thương hiệu</h2>
+                        <span>THương hiệu uy tín</span>
+
+                    </div>
+                    <div class="row">
+                        <?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="col-md-3 col-6">
+                                <div class="brand_item text-center">
+                                    <h3><?php echo e($brand->name); ?></h3>
+                                    <p><?php echo e($brand->text); ?></p>
+                                </div>
+                            </div>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </div>
                 </div>
-                <!-- /box_news -->
-                <div class="col-lg-6">
-                    <a class="box_news" href="blog.html">
-                        <figure>
-                            <img src="<?php echo e(asset('client')); ?>/img/blog-thumb-placeholder.jpg"
-                                data-src="<?php echo e(asset('client')); ?>/img/blog-thumb-3.jpg" alt="" width="400"
-                                height="266" class="lazy">
-                            <figcaption><strong>28</strong>Dec</figcaption>
-                        </figure>
-                        <ul>
-                            <li>By Luca Robinson</li>
-                            <li>20.11.2017</li>
-                        </ul>
-                        <h4>Elitr mandamus cu has</h4>
-                        <p>Cu eum alia elit, usu in eius appareat, deleniti sapientem honestatis eos ex. In ius esse
-                            ullum vidisse....</p>
-                    </a>
-                </div>
-                <!-- /box_news -->
-                <div class="col-lg-6">
-                    <a class="box_news" href="blog.html">
-                        <figure>
-                            <img src="<?php echo e(asset('client')); ?>/img/blog-thumb-placeholder.jpg"
-                                data-src="<?php echo e(asset('client')); ?>/img/blog-thumb-4.jpg" alt="" width="400"
-                                height="266" class="lazy">
-                            <figcaption><strong>28</strong>Dec</figcaption>
-                        </figure>
-                        <ul>
-                            <li>By Paula Rodrigez</li>
-                            <li>20.11.2017</li>
-                        </ul>
-                        <h4>Id est adhuc ignota delenit</h4>
-                        <p>Cu eum alia elit, usu in eius appareat, deleniti sapientem honestatis eos ex. In ius esse
-                            ullum vidisse....</p>
-                    </a>
-                </div>
-                <!-- /box_news -->
+
+
+
             </div>
-            <!-- /row -->
         </div>
         <!-- /container -->
     </main>
     <!-- /main -->
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('style-libs'); ?>
+    <!-- /row -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .carousel {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 1s ease-in-out;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            display: none;
+        }
+
+        .carousel-item.active {
+            display: block;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .carousel-control-prev {
+            left: 10px;
+        }
+
+        .carousel-control-next {
+            right: 10px;
+        }
+    </style>
+    
+    <style>
+        /* Áp dụng font chữ đẹp */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Hiệu ứng hover cho sản phẩm */
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Hiệu ứng hover cho ảnh sản phẩm */
+        .product-image {
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        /* Hiệu ứng hover cho nút hành động */
+        .action-btn {
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Cải thiện typography */
+        .product-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .price_box {
+            font-size: 14px;
+        }
+
+        .old_price {
+            color: #888;
+            font-weight: 400;
+        }
+
+        .new_price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #e63946;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('script-libs'); ?>
+    <script>
+        let currentIndex = 0;
+        const slides = document.querySelectorAll(".carousel-item");
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove("active");
+                if (i === index) {
+                    slide.classList.add("active");
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            showSlide(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            showSlide(currentIndex);
+        }
+
+        // Tự động chạy slide mỗi 3 giây
+        setInterval(nextSlide, 3000);
+
+        // Hiển thị slide đầu tiên
+        showSlide(currentIndex);
+    </script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/admin/datn-hn53/resources/views/Client/home.blade.php ENDPATH**/ ?>

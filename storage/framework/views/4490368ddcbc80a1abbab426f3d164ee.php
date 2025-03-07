@@ -118,9 +118,9 @@
                             <?php echo e(number_format($totalAmount, 0, ',', '.')); ?> VNĐ
                         </span>
                     </h4>
-                    <button class="btn btn-success btn-lg mt-2 px-4 fw-bold">
+                    <a href="<?php echo e(route("checkout.view")); ?>" class="btn btn-success btn-lg mt-2 px-4 fw-bold">
                         <i class="fas fa-shopping-cart"></i> Thanh toán
-                    </button>
+                    </a>
                 </div>
 
             </div>
