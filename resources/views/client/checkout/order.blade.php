@@ -188,7 +188,6 @@
 
 
                     </div>
-                    <!-- /step -->
 
                 </div>
                 <div class="col-lg-4 col-md-6">
@@ -197,7 +196,8 @@
                         <div class="form-voucher">
                             <input type="text" placeholder="Nhập Voucher ..." id="input-coupon"> <button id="btn-submit-coupon">Áp Dụng</button>
                         </div>
-                        <form class="box_general summary" action="{{checkout.store}}" style="margin-top: 5px">
+                        <form class="box_general summary" method="POST" action="{{ route('checkout.store') }}" style="margin-top: 5px">
+                            @csrf
                             @foreach ($cart->cartDetails as $product)
                                 <ul>
                                     <li class="clearfix"><em>{{ $product->quantity }}x {{ $product->product->name }}</em>
@@ -327,7 +327,7 @@
         $(document).ready(function() {
             $('#btn-submit-coupon').click(function() {
                 let couponCode = $('#input-coupon').val().trim();
-                let totalAmount = {{ $totalAmount }}; // Lấy tổng tiền từ Laravel
+                let totalAmount = {{ $totalAmount }}; 
         
                 if (!couponCode) {
                     alert('Vui lòng nhập mã giảm giá!');
@@ -340,7 +340,7 @@
                     data: {
                         coupon_code: couponCode,
                         total_amount: totalAmount,
-                        _token: "{{ csrf_token() }}" // CSRF Token cho Laravel
+                        _token: "{{ csrf_token() }}" 
                     },
                     success: function(response) {
                         if (response.status === 'success') {
@@ -351,7 +351,7 @@
                             $('#total_amount_display').text(
                                 new Intl.NumberFormat('vi-VN').format(response.final_total) + " VNĐ"
                             );
-                            $('#discount_value span').text(new Intl.NumberFormat('vi-VN').format(response.discount_amount) + "VNĐ") ;
+                            $('#discount_value span').text("-" + new Intl.NumberFormat('vi-VN').format(response.discount_amount) + "VNĐ") ;
 
                             alert(response.message);
                         } else {

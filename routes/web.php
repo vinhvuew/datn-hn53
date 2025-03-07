@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\Client\AddressController;
 use App\Http\Controllers\Client\OrderController;
+use App\Http\Controllers\Client\Payment\VNPayController;
 use Illuminate\Support\Facades\Route;
 // client
 use App\Http\Controllers\Client\HomeController;
@@ -66,7 +67,7 @@ Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.
 Route::post('/apply-voucher', [OrderController::class, 'applyVoucher'])->name('apply.voucher');
 
 
-
+Route::post('/vnpay-return',[VNPayController::class,'handleReturn'])->name('vnpay.return');
 // giỏ hàng
 Route::get('/cart', [CartController::class, 'cart'])->name('cart.view');
 Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');

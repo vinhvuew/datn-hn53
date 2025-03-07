@@ -2,141 +2,126 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Http\Controllers\Client\Payment\MomoController;
+use App\Http\Controllers\Client\Payment\VNPayController;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartDetail;
 use App\Models\Order;
-use App\Models\Order_deltail;
-use App\Models\Status_order;
+
+use App\Models\OrderDetail;
 use App\Models\Voucher;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+    protected $vnpay_service;
+    protected $momo_service;
+    public function __construct(VNPayController $vnpay_servie, MomoController $momo_service)
+    {
+        $this->vnpay_service = $vnpay_servie;
+        $this->momo_service = $momo_service;
+    }
     public function placeOrder(Request $request)
     {
-    dd($request->all());
-        DB::beginTransaction(); 
-    
+        $cart = Cart::where('user_id', Auth::id())->first();
+        $cart_detail = CartDetail::where('cart_id', $cart->id)->get();
         try {
-            $user = auth()->user();
-            $cart = Cart::where('user_id', $user->id)->first();
-            $paymentMethod = $request->payment_method;
-            $addressId = $request->address_id;
-            $voucherId = $request->voucher_id;
-    
-            if (!$cart || $cart->cartDetails->isEmpty()) {
-                return response()->json(['status' => 'error', 'message' => 'Giỏ hàng của bạn đang trống!']);
+            if ($cart_detail == null)
+                return response()->json(['error' => 'Giỏ hàng trống']);
+            switch ($request->payment_method) {
+                case "VNPAY_DECOD":
+                    $order = $this->createOrder($request);
+                    $this->vnpay_service->VNpay_Payment($order->total_price, 'vn', $request->ip(), $order->id);
+                    break;
+                case "MOMO":
+
+                    dd(1);
+                    break;
+                case "COD":
+                    $order = $this->createOrder($request);
+                    $this->orderItems($cart_detail, $order->id, $cart->id);
+                    break;
+
             }
-    
-            $defaultStatus = Status_order::where('name', 'pending')->first();
-            if (!$defaultStatus) {
-                throw new \Exception('Trạng thái đơn hàng mặc định không tồn tại!');
-            }
-    
-            $totalAmount = $cart->cartDetails->sum(function ($item) {
-                return $item->quantity * $item->product->price;
-            });
-    
-            $discountAmount = 0;
-            if ($voucherId) {
-                $voucher = Voucher::find($voucherId);
-                if ($voucher) {
-                    $discountAmount = $voucher->discount_value;
-                    $totalAmount -= $discountAmount; 
-                    $totalAmount = max($totalAmount, 0); 
-                }
-            }
-    
-            $order = Order::create([
-                'user_id' => $user->id,
-                'status_id' => $defaultStatus->id, 
-                'total_price' => $totalAmount,
-                'address_id' => $addressId,
-                'payment_method' => $paymentMethod,
-                'payment_status' => 'pending',
-                'order_date' => now(),
-                'voucher_id' => $voucherId,
-            ]);
-    
-            $this->orderItems($cart->cartDetails, $order->id);
-    
-            CartDetail::where('cart_id', $cart->id)->delete();
-    
-            DB::commit();
-    
-            if ($paymentMethod == 'COD') {
-                return response()->json(['status' => 'success', 'message' => 'Đặt hàng thành công!']);
-            } elseif ($paymentMethod == 'VNPAY') {
-                return $this->processVNPay($order);
-            } elseif ($paymentMethod == 'MOMO') {
-                return $this->processMoMo($order);
-            } else {
-                return response()->json(['status' => 'error', 'message' => 'Phương thức thanh toán không hợp lệ!']);
-            }
-    
+
         } catch (\Exception $e) {
-            DB::rollBack(); 
             return response()->json(['status' => 'error', 'message' => 'Lỗi khi đặt hàng: ' . $e->getMessage()]);
         }
     }
+    private function createOrder($request)
+    {
+        return Order::create([
+            'user_id' => Auth::id(),
+            'status_id' => 1,
+            'total_price' => $request->total_price,
+            'address_id' => $request->address_id,
+            'payment_method' => $request->payment_method,
+            'payment_status' => 'paid',
+            'order_date' => now(),
+            'voucher_id' => $request->voucher_id ? $request->voucher_id : null,
+        ]);
 
-    private function orderItems($items, $orderId) {
+    }
+    private function orderItems($items, $orderId, $cart_id)
+    {
         foreach ($items as $item) {
-            Order::create([
+            OrderDetail::create([
                 'order_id' => $orderId,
                 'product_id' => $item->product_id,
+                'variant_id' => $item->variant_id ?? null,
                 'quantity' => $item->quantity,
                 'price' => $item->product->price,
-                'total_amount' => $item->total_amount
+                'total_price' => $item->total_amount,
             ]);
         }
-    
-        // Xóa giỏ hàng sau khi đặt hàng thành công
-        CartDetail::where('cart_id', auth()->user()->cart->id)->delete();
+
+        CartDetail::where('cart_id', $cart_id)->delete();
     }
+
 
     public function applyVoucher(Request $request)
-{
-    $voucher = Voucher::where('code', $request->coupon_code)->first();
+    {
+        $voucher = Voucher::where('code', $request->coupon_code)->first();
 
-    if (!$voucher) {
-        return response()->json(['status' => 'error', 'message' => 'Mã giảm giá không tồn tại!']);
+        if (!$voucher) {
+            return response()->json(['status' => 'error', 'message' => 'Mã giảm giá không tồn tại!']);
+        }
+
+
+        if ($voucher->status !== 'active' || ($voucher->end_date && $voucher->end_date < now())) {
+            return response()->json(['status' => 'error', 'message' => 'Mã giảm giá đã hết hạn!']);
+        }
+
+        $totalAmount = $request->total_amount;
+
+        if ($voucher->min_order_value && $totalAmount < $voucher->min_order_value) {
+            return response()->json(['status' => 'error', 'message' => 'Giá trị đơn hàng chưa đủ để áp dụng mã giảm giá!']);
+        }
+
+        $discountAmount = 0;
+
+        if ($voucher->discount_type === 'percentage') {
+            $discountAmount = ($totalAmount * $voucher->discount_value) / 100;
+        } else {
+            $discountAmount = $voucher->discount_value;
+        }
+
+        if ($voucher->max_discount_value && $discountAmount > $voucher->max_discount_value) {
+            $discountAmount = $voucher->max_discount_value;
+        }
+
+        $finalTotal = $totalAmount - $discountAmount;
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Áp dụng mã giảm giá thành công!',
+            'discount_amount' => $discountAmount,
+            'final_total' => $finalTotal,
+            'voucher_id' => $voucher->id
+        ]);
     }
-
-
-    if ($voucher->status !== 'active' || ($voucher->end_date && $voucher->end_date < now())) {
-        return response()->json(['status' => 'error', 'message' => 'Mã giảm giá đã hết hạn!']);
-    }
-
-    $totalAmount = $request->total_amount; 
-
-    if ($voucher->min_order_value && $totalAmount < $voucher->min_order_value) {
-        return response()->json(['status' => 'error', 'message' => 'Giá trị đơn hàng chưa đủ để áp dụng mã giảm giá!']);
-    }
-
-    $discountAmount = 0;
-
-    if ($voucher->discount_type === 'percentage') {
-        $discountAmount = ($totalAmount * $voucher->discount_value) / 100;
-    } else {
-        $discountAmount = $voucher->discount_value;
-    }
-
-    if ($voucher->max_discount_value && $discountAmount > $voucher->max_discount_value) {
-        $discountAmount = $voucher->max_discount_value;
-    }
-
-    $finalTotal = $totalAmount - $discountAmount;
-
-    return response()->json([
-        'status' => 'success',
-        'message' => 'Áp dụng mã giảm giá thành công!',
-        'discount_amount' => $discountAmount,
-        'final_total' => $finalTotal,
-        'voucher_id'=>$voucher->id
-    ]);
-}
 
 }

@@ -13,14 +13,13 @@ class VNPayController extends Controller
         $vnp_TmnCode = env('VNP_TMNCODE'); 
         $vnp_HashSecret = env('VNP_HASHSECRET'); 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://127.0.0.1:8000/checkout-fatal-vnpay/" . Auth::user()->id;
+        $vnp_Returnurl = "http://127.0.0.1:8000/vnpay-return";
         $vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
         $apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
 
         $startTime = date("YmdHis");
         $expire = date('YmdHis', strtotime('+15 minutes', strtotime($startTime)));
-
-        $vnp_Amount = $amount;
+        
         $vnp_Locale = $language;
         $vnp_BankCode = 'VNBANK';
 
@@ -28,7 +27,7 @@ class VNPayController extends Controller
         $inputData = array(
             "vnp_Version" => "2.1.0",
             "vnp_TmnCode" => $vnp_TmnCode,
-            "vnp_Amount" => $vnp_Amount * 100,
+            "vnp_Amount" => $amount * 100,
             "vnp_Command" => "pay",
             "vnp_CreateDate" => date('YmdHis'), 
             "vnp_CurrCode" => "VND",

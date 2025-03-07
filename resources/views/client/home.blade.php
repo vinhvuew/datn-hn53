@@ -228,14 +228,14 @@
 
                     </div>
                     <div class="row">
-                        @foreach ($brands as $brand)
+                        {{-- @foreach ($brands as $brand)
                             <div class="col-md-3 col-6">
                                 <div class="brand_item text-center">
                                     <h3>{{ $brand->name }}</h3>
                                     <p>{{ $brand->text }}</p>
                                 </div>
                             </div>
-                        @endforeach
+                        @endforeach --}}
                     </div>
                 </div>
 

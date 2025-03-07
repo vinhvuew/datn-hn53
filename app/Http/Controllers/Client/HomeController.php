@@ -18,7 +18,28 @@ class HomeController extends Controller
     public function home()
     {
             $latestProducts = Product::all();
-        return view(self::PATH_VIEW . __FUNCTION__,compact('latestProducts'));
+            $discountedProducts = Product::all();
+            $topSellingProducts =Product::all();
+            $brands = [
+                [
+                    "name" => "Hải",
+                    "text" => "Thương hiệu số 1"
+                ],
+                [
+                    "name" => "Nam",
+                    "text" => "Uy tín và chất lượng"
+                ],
+                [
+                    "name" => "Linh",
+                    "text" => "Dẫn đầu xu hướng"
+                ],
+                [
+                    "name" => "An",
+                    "text" => "Giá tốt nhất thị trường"
+                ]
+            ];
+            
+        return view(self::PATH_VIEW . __FUNCTION__,compact('latestProducts','discountedProducts','topSellingProducts','brands'));
     }
 
 
