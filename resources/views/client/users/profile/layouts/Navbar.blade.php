@@ -25,7 +25,7 @@
                     @endif
                     <li>
                         <a href="{{ route('logout') }}" class="btn btn-danger">
-                            <i class="mdi mdi-logout"></i> Đăng xuất
+                            <i class="mdi mdi-logout me-1 mdi-20px"></i> Đăng xuất
                         </a>
                     </li>
                    
