@@ -18,9 +18,19 @@
                     </i>Lịch sử</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="pages-profile-connections.html">
-                    <i class='mdi mdi-logout me-1 mdi-20px'>
-                    </i>Đăng xuất</a>
+                    <?php if(Auth::check() && (Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')): ?>
+                        <a class="nav-link <?php echo $__env->yieldContent('Account'); ?>" href="<?php echo e(route('admin.logad')); ?>" >
+                            <i class='mdi mdi-account me-1 mdi-20px'></i> Đăng nhập Admin
+                        </a>
+                    <?php endif; ?>
+                    <li>
+                        <a href="<?php echo e(route('logout')); ?>" class="btn btn-danger">
+                            <i class="mdi mdi-logout"></i> Đăng xuất
+                        </a>
+                    </li>
+                   
+               
+                
             </li>
         </ul>
     </div>
