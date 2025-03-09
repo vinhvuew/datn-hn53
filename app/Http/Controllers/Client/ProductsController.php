@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\Client;
 
-
-use App\Http\Controllers\Admin\Controller as AdminController;
-
 use App\Http\Controllers\Controller;
-use App\Models\AttributeValue;
+
 use App\Models\Brand;
 use App\Models\Cart;
 use App\Models\CartDetail;
@@ -14,8 +11,7 @@ use App\Models\Comment;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Variant;
-use App\Models\VariantAttribute;
-use Attribute;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -66,7 +62,7 @@ class ProductsController extends Controller
     {
         try {
             $user = Auth::user();
-// dd($user);
+            // dd($user);
             $cart = Cart::firstOrCreate(['user_id' =>  $user->id]);
             $productId = $request->input('product_id');
             $variantAttributeIds = $request->input('variant_attributes.attribute_value_id', []);
@@ -135,10 +131,56 @@ class ProductsController extends Controller
         }
     }
 
+    public function storeCommet(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            Comment::create([
+                'user_id' => $user->id, // Chỉ truyền ID của user
+                'product_id' => $request->product_id,
+                'variant_id' => $request->variant_id,
+                'parent_id' => $request->parent_id,
+                'content' => $request->content,
+            ]);
+            return back();
+        } catch (\Exception $e) {
+            Log::error('Lỗi lưu bình luận: ' . $e->getMessage());
+            return back();
+        }
+    }
+
+    public function storeReply(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'parent_id' => 'required|exists:comments,id',
+            'content' => 'required|string|max:500',
+        ]);
+
+        try {
+            $user = Auth::id(); // Lấy ID của user đang đăng nhập
+
+            if (!$user) {
+                return back()->with('error', 'Bạn cần đăng nhập để trả lời bình luận.');
+            }
+
+            Comment::create([
+                'user_id' => $user,
+                'product_id' => $request->product_id,
+                'parent_id' => $request->parent_id,
+                'content' => $request->content,
+            ]);
+
+            return back()->with('success', 'Trả lời bình luận thành công.');
+        } catch (\Throwable $th) {
+            Log::error('Lỗi lưu bình luận: ' . $th->getMessage());
+            return back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
+        }
+    }
 
 
     // tùng bún
-    public function index(Request $request)
+    public function statistical(Request $request)
     {
         // Lấy danh sách danh mục và thương hiệu
         $categories = Category::all();

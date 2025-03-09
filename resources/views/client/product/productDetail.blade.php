@@ -24,8 +24,6 @@
                                     <div style="background-image: url({{ Storage::url($image->img) }})" class="item active">
                                     </div>
                                 @endforeach
-
-
                             </div>
                             <div class="left-t nonl-t"></div>
                             <div class="right-t"></div>
@@ -51,7 +49,6 @@
                                 <i class="icon-star"></i><em>4 reviews</em>
                             </span>
                             <p><small>SKU: {{ $product->sku }}</small><br>{{ $product->description }}</p>
-
                             @if ($product->variants->isNotEmpty())
                                 {{-- Nếu có biến thể --}}
                                 <div class="prod_options">

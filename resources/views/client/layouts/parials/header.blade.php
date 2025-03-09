@@ -7,7 +7,7 @@
                 <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                     <div id="logo">
                         <a href="{{ route('home') }}"><img src="{{ asset('client') }}/img/logoone.png" alt=""
-                                height="50"></a>
+                                height="50" width="50px"></a>
                     </div>
                 </div>
                 <nav class="col-xl-6 col-lg-7">
@@ -197,7 +197,7 @@
                                 @if (Auth::check())
                                     <i class="fa-regular fa-user fs-4"></i>
                                     <strong>{{ Auth::user()->name }}</strong>
-                                    <a href="{{ route('cart.view') }}" class="cart_bt ms-3"><strong>2</strong></a>
+                                    <a href="{{ route('cart.view') }}" class="cart_bt ms-3"></a>
                                     <div class="dropdown-menu">
                                         <ul>
                                             {{-- <li>
@@ -209,17 +209,20 @@
                                                     tôi</a>
                                             </li>
                                             <li>
-                                                <a href="{{ route('profile.index') }}"><i class="ti-user"></i>Hồ sơ</a>
+                                                <a href="{{ route('profile.index') }}"><i class="ti-user"></i>Hồ
+                                                    sơ</a>
                                             </li>
                                             <li>
-                                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                <a href="#"
+                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                     <i class="fas fa-sign-out-alt"></i> Đăng xuất
                                                 </a>
-                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                    style="display: none;">
                                                     @csrf
                                                 </form>
                                             </li>
-                                            
+
                                             {{-- <li>
                                                 <a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>
                                             </li> --}}

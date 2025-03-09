@@ -101,7 +101,9 @@
                                             action="{{ route('cart.delete', $cart->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="cross-icon flaticon-cancel-1">
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
                                             </button>
                                         </form>
 
@@ -242,4 +244,3 @@
         });
     </script>
 @endsection
-

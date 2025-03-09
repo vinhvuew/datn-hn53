@@ -2,6 +2,7 @@
 
 
 
+use App\Http\Controllers\Admin\AttributesValuesController;
 use App\Http\Controllers\Client\AddressController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\Payment\VNPayController;
@@ -32,8 +33,6 @@ Route::get('/brands', [HomeController::class, 'index_brands'])->name('brand');
 
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 
-
-
 Route::get('/chat', [HomeController::class, 'room'])->name('chat');
 
 Route::get('/product', [HomeController::class, 'products'])->name('product');
@@ -45,14 +44,14 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::get('/', [ProfileController::class, 'index'])->name('index'); // Hiển thị trang profile
     Route::get('/edit', [ProfileController::class, 'edit'])->name('edit'); // Hiển thị form chỉnh sửa
     Route::put('/update', [ProfileController::class, 'update'])->name('update'); // Cập nhật thông tin
-    Route::post('/update-avatar', [ProfileController::class, 'updateAvatar'])->name('updateAvatar');
-    Route::post('/update-password', [ProfileController::class, 'updatePassword'])->name('updatePassword');
+    Route::put('/update/avatar', [ProfileController::class, 'updateAvatar'])->name('updateAvatar');
+    Route::post('/update/password', [ProfileController::class, 'updatePassword'])->name('updatePassword');
 });
 
 
-Route::get('/product', [ProductsController::class, 'index'])->name('product.show');
+Route::get('/product', [ProductsController::class, 'statistical'])->name('product.show');
 // Route cho trang sản phẩm với các tham số lọc
-Route::get('/products', [ProductsController::class, 'index'])->name('products.filter');
+Route::get('/products', [ProductsController::class, 'statistical'])->name('products.filter');
 
 Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
 Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('productDetail');
@@ -94,13 +93,10 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource("category", CategoryController::class);
     Route::resource('attributes', AttributesNameController::class);
-    Route::resource('attribute-values', AttributesNameController::class);
+    Route::resource('attribute-values', AttributesValuesController::class);
     Route::resource('brands', BrandsController::class);
     Route::resource('users', UserController::class);
     Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
-
-
-
 
     // voucher
     Route::get('/vouchers', [VouchersController::class, 'index'])->name('vouchers.index');
@@ -127,8 +123,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
     Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
     Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
-  
-        //Thống Kê
-       Route::get('/thongke', [ThongKeController::class, 'index'])->name('thongke.index');
-});
 
+    //Thống Kê
+    Route::get('/thongke', [ThongKeController::class, 'statistical'])->name('thongke.statistical');
+});
