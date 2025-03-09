@@ -227,14 +227,7 @@
 
                     </div>
                     <div class="row">
-                        <?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="col-md-3 col-6">
-                                <div class="brand_item text-center">
-                                    <h3><?php echo e($brand->name); ?></h3>
-                                    <p><?php echo e($brand->text); ?></p>
-                                </div>
-                            </div>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        
                     </div>
                 </div>
 

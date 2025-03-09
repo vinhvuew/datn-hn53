@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client\Payment;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -66,8 +67,21 @@ class VNPayController extends Controller
         header('Location: ' . $vnp_Url);
         die();
     }
-    public function handleReturn(Request $request)
+    public function handleReturn()
     {
-        //
+        $id = $_GET['vnp_TxnRef'];
+        $status = $_GET['vnp_ResponseCode'];
+        if($status == 00){
+           $obj = Order::find($id);
+           $obj->payment_status = "Thanh toán thành công";
+           if($obj->save()){
+            return view('client.checkout.complete');
+           }
+
+        }else{
+            return view('client.checkout.failed');
+
+        }
+
     }
 }

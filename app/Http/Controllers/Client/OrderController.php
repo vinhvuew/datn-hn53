@@ -33,16 +33,20 @@ class OrderController extends Controller
                 return response()->json(['error' => 'Giỏ hàng trống']);
             switch ($request->payment_method) {
                 case "VNPAY_DECOD":
-                    $order = $this->createOrder($request);
+                    $order = $this->createOrder($request,'Chờ thanh toán');
+                    $this->orderItems($cart_detail, $order->id, $cart->id);
+
                     $this->vnpay_service->VNpay_Payment($order->total_price, 'vn', $request->ip(), $order->id);
+
                     break;
                 case "MOMO":
 
                     dd(1);
                     break;
                 case "COD":
-                    $order = $this->createOrder($request);
+                    $order = $this->createOrder($request,'Thanh toán khi nhận hàng');
                     $this->orderItems($cart_detail, $order->id, $cart->id);
+                    return view('client.checkout.complete');
                     break;
 
             }
@@ -51,7 +55,7 @@ class OrderController extends Controller
             return response()->json(['status' => 'error', 'message' => 'Lỗi khi đặt hàng: ' . $e->getMessage()]);
         }
     }
-    private function createOrder($request)
+    private function createOrder($request,$status)
     {
         return Order::create([
             'user_id' => Auth::id(),
@@ -59,7 +63,7 @@ class OrderController extends Controller
             'total_price' => $request->total_price,
             'address_id' => $request->address_id,
             'payment_method' => $request->payment_method,
-            'payment_status' => 'paid',
+            'payment_status' => $status,
             'order_date' => now(),
             'voucher_id' => $request->voucher_id ? $request->voucher_id : null,
         ]);
