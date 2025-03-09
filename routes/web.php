@@ -4,6 +4,8 @@
 
 use App\Http\Controllers\Admin\AttributesValuesController;
 use App\Http\Controllers\Client\AddressController;
+use App\Http\Controllers\Client\OrderController;
+use App\Http\Controllers\Client\Payment\VNPayController;
 use Illuminate\Support\Facades\Route;
 // client
 use App\Http\Controllers\Client\HomeController;
@@ -26,7 +28,7 @@ use App\Http\Controllers\Admin\ThongKeController;
 
 
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/brands', [HomeController::class, 'index_brands'])->name('brand');
 
 Route::get('/search', [HomeController::class, 'search'])->name('search');
@@ -68,7 +70,7 @@ Route::delete('/cart/delete/{id}', [CartController::class, 'destroy'])->name('ca
 
 
 Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
-Route::post('/checkout/store', [HomeController::class, 'checkout'])->name('checkout.store');
+Route::post('/checkout/store', [OrderController::class, 'placeOrder'])->name('checkout.store');
 
 // đăng nhập, đăng ký, đăng xuất user
 Route::get('login', [LoginRegisterController::class, 'showForm'])->name('login.show');

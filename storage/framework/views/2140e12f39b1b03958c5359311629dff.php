@@ -1,6 +1,4 @@
-@extends('client.layouts.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <style>
         .address-box {
             border: 1px solid #ccc;
@@ -78,15 +76,15 @@
                         <div class="tab-content checkout">
                             <div class="tab-pane fade show active" id="tab_1" role="tabpanel" aria-labelledby="tab_1">
                                 <div id="addressList">
-                                    @foreach ($address as $index => $a)
+                                    <?php $__currentLoopData = $address; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="address-box">
-                                        <input type="checkbox" class="address-checkbox" value="{{ $a->id }}"
-                                            {{ $loop->first ? 'checked' : '' }} onchange="getSelectedAddresses()">
-                                        <p><strong>{{ $a->full_name }}</strong></p>
-                                        <p>📞 {{ $a->phone }}</p>
-                                        <p>📍 {{ $a->address }}, {{ $a->ward }}, {{ $a->district }}, {{ $a->province }}</p>
+                                        <input type="checkbox" class="address-checkbox" value="<?php echo e($a->id); ?>"
+                                            <?php echo e($loop->first ? 'checked' : ''); ?> onchange="getSelectedAddresses()">
+                                        <p><strong><?php echo e($a->full_name); ?></strong></p>
+                                        <p>📞 <?php echo e($a->phone); ?></p>
+                                        <p>📍 <?php echo e($a->address); ?>, <?php echo e($a->ward); ?>, <?php echo e($a->district); ?>, <?php echo e($a->province); ?></p>
                                     </div>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 
                                 </div>
                             </div>
@@ -94,8 +92,8 @@
                             <div class="tab-pane fade" id="tab_2" role="tabpanel" aria-labelledby="tab_2"
                                 style="position: relative;">
 
-                                <form action="{{ route('addresses.store') }}" method="POST">
-                                    @csrf
+                                <form action="<?php echo e(route('addresses.store')); ?>" method="POST">
+                                    <?php echo csrf_field(); ?>
                                     <div class="form-group">
                                         <label for="full_name">Họ và Tên</label>
                                         <input type="text" class="form-control" name="full_name" required>
@@ -170,16 +168,16 @@
                         <h3>2. Phương Thức Thanh Toán</h3>
                         <ul>
 
-                            @foreach ($payment_method as $method)
+                            <?php $__currentLoopData = $payment_method; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $method): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <li>
-                                    <label class="container_radio">{{ $method['name'] }}<a href="#0" class="info"
+                                    <label class="container_radio"><?php echo e($method['name']); ?><a href="#0" class="info"
                                             data-bs-toggle="modal" data-bs-target="#payments_method"></a>
-                                        <input type="radio" name="payment" value="{{ $method['value'] }}"
+                                        <input type="radio" name="payment" value="<?php echo e($method['value']); ?>"
                                             id="payment_method" checked>
                                         <span class="checkmark"></span>
                                     </label>
                                 </li>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                         </ul>
 
@@ -196,20 +194,20 @@
                         <div class="form-voucher">
                             <input type="text" placeholder="Nhập Voucher ..." id="input-coupon"> <button id="btn-submit-coupon">Áp Dụng</button>
                         </div>
-                        <form class="box_general summary" method="POST" action="{{ route('checkout.store') }}" style="margin-top: 5px">
-                            @csrf
-                            @foreach ($cart->cartDetails as $product)
+                        <form class="box_general summary" method="POST" action="<?php echo e(route('checkout.store')); ?>" style="margin-top: 5px">
+                            <?php echo csrf_field(); ?>
+                            <?php $__currentLoopData = $cart->cartDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <ul>
-                                    <li class="clearfix"><em>{{ $product->quantity }}x {{ $product->product->name }}</em>
-                                        <span>{{ number_format($product->total_amount, 0, ',', '.') }} VNĐ</span></li>
+                                    <li class="clearfix"><em><?php echo e($product->quantity); ?>x <?php echo e($product->product->name); ?></em>
+                                        <span><?php echo e(number_format($product->total_amount, 0, ',', '.')); ?> VNĐ</span></li>
                                 </ul>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <ul>
                                 <li class="clearfix" id="discount_value"><em>Mã giảm giá :</em>
                                     <span>-0VNĐ</span></li>
                             </ul>
                             <div class="total clearfix" id="total_order">
-                                TOTAL <span id="total_amount_display">{{ number_format($totalAmount,0,',','.') }} VNĐ</span>
+                                TOTAL <span id="total_amount_display"><?php echo e(number_format($totalAmount,0,',','.')); ?> VNĐ</span>
                             </div>
                                                         <div class="form-group">
                                 <label class="container_check">Register to the Newsletter.
@@ -217,8 +215,8 @@
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
-                            <input type="hidden" name="total_price" id="total_price" value="{{$totalAmount}}">
-                            <input type="hidden" name="address_id" id="address_id" value="{{$address[0]->id}}">
+                            <input type="hidden" name="total_price" id="total_price" value="<?php echo e($totalAmount); ?>">
+                            <input type="hidden" name="address_id" id="address_id" value="<?php echo e($address[0]->id); ?>">
                             <input type="hidden" name="payment_method" class="payment_method" value="COD">
                             <input type="hidden" name="voucher_id" id="voucher_id">
 
@@ -327,7 +325,7 @@
         $(document).ready(function() {
             $('#btn-submit-coupon').click(function() {
                 let couponCode = $('#input-coupon').val().trim();
-                let totalAmount = {{ $totalAmount }}; 
+                let totalAmount = <?php echo e($totalAmount); ?>; 
         
                 if (!couponCode) {
                     alert('Vui lòng nhập mã giảm giá!');
@@ -335,12 +333,12 @@
                 }
         
                 $.ajax({
-                    url: "{{ route('apply.voucher') }}",
+                    url: "<?php echo e(route('apply.voucher')); ?>",
                     type: "POST",
                     data: {
                         coupon_code: couponCode,
                         total_amount: totalAmount,
-                        _token: "{{ csrf_token() }}" 
+                        _token: "<?php echo e(csrf_token()); ?>" 
                     },
                     success: function(response) {
                         if (response.status === 'success') {
@@ -367,12 +365,13 @@
         });
         </script>
     </main>
-@endsection
-@section('style-libs')
-    <link href="{{ asset('client') }}/css/checkout.css" rel="stylesheet">
-@endsection
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('style-libs'); ?>
+    <link href="<?php echo e(asset('client')); ?>/css/checkout.css" rel="stylesheet">
+<?php $__env->stopSection(); ?>
 
-@section('script-libs')
-    <script src="{{ asset('client') }}/js/common_scripts.min.js"></script>
-    <script src="{{ asset('client') }}/js/main.js"></script>
-@endsection
+<?php $__env->startSection('script-libs'); ?>
+    <script src="<?php echo e(asset('client')); ?>/js/common_scripts.min.js"></script>
+    <script src="<?php echo e(asset('client')); ?>/js/main.js"></script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/admin/datn-hn53/resources/views/Client/checkout/order.blade.php ENDPATH**/ ?>
