@@ -122,17 +122,17 @@
                             {{ number_format($totalAmount, 0, ',', '.') }} VNĐ
                         </span>
                     </h4>
-                    <a href="{{route("checkout.view")}}" class="btn btn-success btn-lg mt-2 px-4 fw-bold">
+                    <a href="{{ route('checkout.view') }}" class="btn btn-success btn-lg mt-2 px-4 fw-bold">
                         <i class="fas fa-shopping-cart"></i> Thanh toán
                     </a>
                 </div>
 
             </div>
         @else
-            <div class="empty-cart-box text-center mt-5" id="empty-cart" style="margin-bottom: 140px; ">
-                <img class="mb-4 mt-5" src="https://static-smember.cellphones.com.vn/smember/_nuxt/img/empty.db6deab.svg"
+            <div class="empty-cart-box text-center" id="empty-cart" style=" margin-top: 140px;">
+                <img class="mb-5" src="https://static-smember.cellphones.com.vn/smember/_nuxt/img/empty.db6deab.svg"
                     alt="Empty Cart" width="300px">
-                <h4 class="text-secondary" style="font-size: 18px; font-weight: 600;">Giỏ hàng trống</h4>
+                <h4 class="text-secondary mt-5" style="font-size: 18px; font-weight: 600;">Giỏ hàng trống</h4>
                 <p style="font-size: 14px; color: #888;">Giỏ hàng của bạn đang trống.
                     Hãy chọn thêm sản phẩm để mua sắm nhé</p>
                 <a href="{{ route('home') }}" class="btn btn-danger mb-5">
@@ -216,7 +216,7 @@
             });
         });
     </script>
-    <script>
+    {{-- <script>
         $('.delete-cart-form').submit(function(event) {
             event.preventDefault(); // Ngừng reload trang
             var form = $(this);
@@ -242,5 +242,5 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 @endsection

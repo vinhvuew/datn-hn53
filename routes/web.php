@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\VouchersController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AttributesNameController;
+use App\Http\Controllers\Admin\OderDeltailController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ThongKeController;
 
@@ -37,15 +38,16 @@ Route::get('/chat', [HomeController::class, 'room'])->name('chat');
 
 Route::get('/product', [HomeController::class, 'products'])->name('product');
 
-
+Route::post('apply', [OrderController::class, 'applyVoucher'])->name('apply.voucher');
 
 //trang profile
 Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
     Route::get('/', [ProfileController::class, 'index'])->name('index'); // Hiển thị trang profile
     Route::get('/edit', [ProfileController::class, 'edit'])->name('edit'); // Hiển thị form chỉnh sửa
     Route::put('/update', [ProfileController::class, 'update'])->name('update'); // Cập nhật thông tin
-    Route::put('/update/avatar', [ProfileController::class, 'updateAvatar'])->name('updateAvatar');
-    Route::post('/update/password', [ProfileController::class, 'updatePassword'])->name('updatePassword');
+    Route::put('/update/avatar', [ProfileController::class, 'updateAvatar'])->name('updateAvatar'); // cập nhật avatar
+    Route::post('/update/password', [ProfileController::class, 'updatePassword'])->name('updatePassword');// cập nhật mk
+    Route::get('/myOder', [ProfileController::class, 'myOder'])->name('myOder'); // đơn hàng của tôi
 });
 
 
@@ -83,6 +85,7 @@ Route::get('/logad', [UserController::class, 'showAdminLoginForm'])->name('logad
 Route::post('/logad', [UserController::class, 'adminLogin'])->name('admin.logad');
 Route::post('/logad/logout', [UserController::class, 'adminLogout'])->name('admin.logout');
 
+// Admin
 Route::prefix('admin')->middleware(['admin'])->group(function () {
 
     Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');

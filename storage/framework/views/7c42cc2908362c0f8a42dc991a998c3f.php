@@ -19,6 +19,33 @@
         h3 {
             margin-top: 20px;
         }
+
+        .form-voucher {
+            background-color: #fff;
+            border: 1px solid lightgray;
+            padding: 5px;
+            display: flex;
+            gap: 3px;
+
+        }
+
+        .form-voucher input {
+            width: 80%;
+            height: 40px;
+            border-radius: 5px;
+            border: 1px solid lightgray;
+        }
+
+        .form-voucher button {
+            width: 17%;
+            height: 40px;
+            font-size: 10px;
+            background-color: #333333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+
+        }
     </style>
     <main class="bg_gray">
 
@@ -52,16 +79,17 @@
                         <div class="tab-content checkout">
                             <div class="tab-pane fade show active" id="tab_1" role="tabpanel" aria-labelledby="tab_1">
                                 <div id="addressList">
-                                    <?php $__currentLoopData = $address; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php $__currentLoopData = $address; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="address-box">
                                             <input type="checkbox" class="address-checkbox" value="<?php echo e($a->id); ?>"
-                                                onchange="getSelectedAddresses()">
+                                                <?php echo e($loop->first ? 'checked' : ''); ?> onchange="getSelectedAddresses()">
                                             <p><strong><?php echo e($a->full_name); ?></strong></p>
                                             <p>📞 <?php echo e($a->phone); ?></p>
                                             <p>📍 <?php echo e($a->address); ?>, <?php echo e($a->ward); ?>, <?php echo e($a->district); ?>,
                                                 <?php echo e($a->province); ?></p>
                                         </div>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
                                 </div>
                             </div>
                             <!-- /tab_1 -->
@@ -162,27 +190,45 @@
 
 
                     </div>
-                    <!-- /step -->
 
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="step last">
                         <h3>3. Tóm Tắt Đơn Hàng</h3>
-                        <form class="box_general summary">
-                            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="form-voucher">
+                            <input type="text" placeholder="Nhập Voucher ..." id="input-coupon"> <button
+                                id="btn-submit-coupon">Áp Dụng</button>
+                        </div>
+                        <form class="box_general summary" method="POST" action="<?php echo e(route('checkout.store')); ?>"
+                            style="margin-top: 5px">
+                            <?php echo csrf_field(); ?>
+                            <?php $__currentLoopData = $cart->cartDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <ul>
-                                    <li class="clearfix"><em><?php echo e($product['quantity']); ?>x <?php echo e($product['name']); ?></em>
-                                        <span><?php echo e(number_format($product['total'], 0, ',', '.')); ?> VNĐ</span></li>
+                                    <li class="clearfix"><em><?php echo e($product->quantity); ?>x <?php echo e($product->name); ?></em>
+                                        <span><?php echo e(number_format($product->total_amount, 0, ',', '.')); ?> VNĐ</span>
+                                    </li>
                                 </ul>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <ul>
+                                <li class="clearfix" id="discount_value"><em>Mã giảm giá :</em>
+                                    <span>-0VNĐ</span>
+                                </li>
+                            </ul>
+                            <div class="total clearfix" id="total_order">
+                                TOTAL <span id="total_amount_display"><?php echo e(number_format($totalAmount, 0, ',', '.')); ?>
 
-                            <div class="total clearfix">TOTAL <span>$450.00</span></div>
+                                    VNĐ</span>
+                            </div>
                             <div class="form-group">
                                 <label class="container_check">Register to the Newsletter.
                                     <input type="checkbox" checked>
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
+                            <input type="hidden" name="total_price" id="total_price" value="<?php echo e($totalAmount); ?>">
+                            <input type="hidden" name="address_id" id="address_id" value="<?php echo e($address[0]->id); ?>">
+                            <input type="hidden" name="payment_method" class="payment_method" value="COD">
+                            <input type="hidden" name="voucher_id" id="voucher_id">
 
                             <button class="btn_1 full-width">Place Order</a>
                         </form>
@@ -192,21 +238,17 @@
         </div>
         <script>
             function getSelectedAddresses() {
-                let address = null;
                 document.querySelectorAll('.address-checkbox:checked').forEach(checkbox => {
-                    selected = checkbox.value;
+                    document.querySelector('#address_id').value = checkbox.value;
                 });
-                console.log("ID Địa chỉ đã chọn:", selected);
             }
         </script>
         <script>
             const payment_methods = document.querySelectorAll('#payment_method');
-            //    console.log(payment_method);
-            let payment_method = '';
             for (const pay of payment_methods) {
                 pay.addEventListener('change', () => {
-                    // console.log(pay.value);
-                    payment_method = pay.value;
+
+                    document.querySelector('.payment_method').value = pay.value;
 
                 })
             }
@@ -234,14 +276,14 @@
                 data.forEach(item => {
                     select.append(
                         `<option value="${item[valueKey]}" data-text="${item[textKey]}">${item[textKey]}</option>`
-                        );
+                    );
                 });
             };
 
             $("#Province").on("change", function() {
                 let provinceId = $(this).val();
                 let provinceName = $(this).find("option:selected").data("text");
-                $("#province_name").val(provinceName); 
+                $("#province_name").val(provinceName);
 
                 $("#District").empty().append(`<option value="">Chọn Quận/Huyện</option>`);
                 $("#Ward").empty().append(`<option value="">Chọn Xã/Phường</option>`);
@@ -255,7 +297,7 @@
             $("#District").on("change", function() {
                 let districtId = $(this).val();
                 let districtName = $(this).find("option:selected").data("text");
-                $("#district_name").val(districtName); 
+                $("#district_name").val(districtName);
 
                 $("#Ward").empty().append(`<option value="">Chọn Xã/Phường</option>`);
 
@@ -287,6 +329,51 @@
 
             $(document).ready(function() {
                 initDropdowns();
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#btn-submit-coupon').click(function() {
+                    let couponCode = $('#input-coupon').val().trim();
+                    let totalAmount = <?php echo e($totalAmount); ?>;
+
+                    if (!couponCode) {
+                        alert('Vui lòng nhập mã giảm giá!');
+                        return;
+                    }
+
+                    $.ajax({
+                        url: "<?php echo e(route('apply.voucher')); ?>",
+                        type: "POST",
+                        data: {
+                            coupon_code: couponCode,
+                            total_amount: totalAmount,
+                            _token: "<?php echo e(csrf_token()); ?>"
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                document.querySelector('#total_price').value = response.final_total;
+
+                                document.querySelector('#voucher_id').value = response.voucher_id;
+
+                                $('#total_amount_display').text(
+                                    new Intl.NumberFormat('vi-VN').format(response
+                                    .final_total) + " VNĐ"
+                                );
+                                $('#discount_value span').text("-" + new Intl.NumberFormat('vi-VN')
+                                    .format(response.discount_amount) + "VNĐ");
+
+                                alert(response.message);
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr) {
+                            alert("Có lỗi xảy ra! Vui lòng thử lại.");
+                            console.error(xhr.responseText);
+                        }
+                    });
+                });
             });
         </script>
     </main>

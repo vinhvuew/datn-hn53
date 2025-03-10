@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -118,5 +120,19 @@ class ProfileController extends Controller
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Đã xảy ra lỗi, vui lòng thử lại sau!']);
         }
+    }
+
+    // đơn hàng
+    public function myOder(Request $request)
+    {
+        $user = Auth::user();
+
+        // Lấy danh sách đơn hàng của người dùng
+        $orders = Order::with(['orderDetails.product']) // Lấy thông tin sản phẩm trong đơn hàng
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        // dd($orders);
+        return view('client.users.profile.order', compact('orders'));
     }
 }

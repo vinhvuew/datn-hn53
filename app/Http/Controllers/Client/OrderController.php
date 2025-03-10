@@ -28,12 +28,14 @@ class OrderController extends Controller
     {
         $cart = Cart::where('user_id', Auth::id())->first();
         $cart_detail = CartDetail::where('cart_id', $cart->id)->get();
+        // return response()->json($cart_detail);
+
         try {
             if ($cart_detail == null)
                 return response()->json(['error' => 'Giỏ hàng trống']);
             switch ($request->payment_method) {
                 case "VNPAY_DECOD":
-                    $order = $this->createOrder($request,'Chờ thanh toán');
+                    $order = $this->createOrder($request, 'Chờ thanh toán');
                     $this->orderItems($cart_detail, $order->id, $cart->id);
 
                     $this->vnpay_service->VNpay_Payment($order->total_price, 'vn', $request->ip(), $order->id);
@@ -44,18 +46,18 @@ class OrderController extends Controller
                     dd(1);
                     break;
                 case "COD":
-                    $order = $this->createOrder($request,'Thanh toán khi nhận hàng');
+                    // dd($cart_detail);
+                    $order = $this->createOrder($request, 'Thanh toán khi nhận hàng');
+                    // dd($order);
                     $this->orderItems($cart_detail, $order->id, $cart->id);
                     return view('client.checkout.complete');
                     break;
-
             }
-
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => 'Lỗi khi đặt hàng: ' . $e->getMessage()]);
         }
     }
-    private function createOrder($request,$status)
+    private function createOrder($request, $status)
     {
         return Order::create([
             'user_id' => Auth::id(),
@@ -67,17 +69,17 @@ class OrderController extends Controller
             'order_date' => now(),
             'voucher_id' => $request->voucher_id ? $request->voucher_id : null,
         ]);
-
     }
     private function orderItems($items, $orderId, $cart_id)
     {
         foreach ($items as $item) {
+            // dd($item);
             OrderDetail::create([
                 'order_id' => $orderId,
-                'product_id' => $item->product_id,
+                'product_id' => $item->product_id ?? null,
                 'variant_id' => $item->variant_id ?? null,
                 'quantity' => $item->quantity,
-                'price' => $item->product->price,
+                'price' => $item->variant->product->base_price,
                 'total_price' => $item->total_amount,
             ]);
         }
@@ -127,5 +129,4 @@ class OrderController extends Controller
             'voucher_id' => $voucher->id
         ]);
     }
-
 }

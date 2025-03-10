@@ -21,21 +21,24 @@
         h3 {
             margin-top: 20px;
         }
-        .form-voucher{
+
+        .form-voucher {
             background-color: #fff;
             border: 1px solid lightgray;
             padding: 5px;
-            display:flex;
+            display: flex;
             gap: 3px;
-            
+
         }
-        .form-voucher input{
+
+        .form-voucher input {
             width: 80%;
             height: 40px;
             border-radius: 5px;
             border: 1px solid lightgray;
         }
-        .form-voucher button{
+
+        .form-voucher button {
             width: 17%;
             height: 40px;
             font-size: 10px;
@@ -79,15 +82,16 @@
                             <div class="tab-pane fade show active" id="tab_1" role="tabpanel" aria-labelledby="tab_1">
                                 <div id="addressList">
                                     @foreach ($address as $index => $a)
-                                    <div class="address-box">
-                                        <input type="checkbox" class="address-checkbox" value="{{ $a->id }}"
-                                            {{ $loop->first ? 'checked' : '' }} onchange="getSelectedAddresses()">
-                                        <p><strong>{{ $a->full_name }}</strong></p>
-                                        <p>📞 {{ $a->phone }}</p>
-                                        <p>📍 {{ $a->address }}, {{ $a->ward }}, {{ $a->district }}, {{ $a->province }}</p>
-                                    </div>
-                                @endforeach
-                                
+                                        <div class="address-box">
+                                            <input type="checkbox" class="address-checkbox" value="{{ $a->id }}"
+                                                {{ $loop->first ? 'checked' : '' }} onchange="getSelectedAddresses()">
+                                            <p><strong>{{ $a->full_name }}</strong></p>
+                                            <p>📞 {{ $a->phone }}</p>
+                                            <p>📍 {{ $a->address }}, {{ $a->ward }}, {{ $a->district }},
+                                                {{ $a->province }}</p>
+                                        </div>
+                                    @endforeach
+
                                 </div>
                             </div>
                             <!-- /tab_1 -->
@@ -194,31 +198,36 @@
                     <div class="step last">
                         <h3>3. Tóm Tắt Đơn Hàng</h3>
                         <div class="form-voucher">
-                            <input type="text" placeholder="Nhập Voucher ..." id="input-coupon"> <button id="btn-submit-coupon">Áp Dụng</button>
+                            <input type="text" placeholder="Nhập Voucher ..." id="input-coupon"> <button
+                                id="btn-submit-coupon">Áp Dụng</button>
                         </div>
-                        <form class="box_general summary" method="POST" action="{{ route('checkout.store') }}" style="margin-top: 5px">
+                        <form class="box_general summary" method="POST" action="{{ route('checkout.store') }}"
+                            style="margin-top: 5px">
                             @csrf
                             @foreach ($cart->cartDetails as $product)
                                 <ul>
-                                    <li class="clearfix"><em>{{ $product->quantity }}x {{ $product->product->name }}</em>
-                                        <span>{{ number_format($product->total_amount, 0, ',', '.') }} VNĐ</span></li>
+                                    <li class="clearfix"><em>{{ $product->quantity }}x {{ $product->name }}</em>
+                                        <span>{{ number_format($product->total_amount, 0, ',', '.') }} VNĐ</span>
+                                    </li>
                                 </ul>
                             @endforeach
                             <ul>
                                 <li class="clearfix" id="discount_value"><em>Mã giảm giá :</em>
-                                    <span>-0VNĐ</span></li>
+                                    <span>-0VNĐ</span>
+                                </li>
                             </ul>
                             <div class="total clearfix" id="total_order">
-                                TOTAL <span id="total_amount_display">{{ number_format($totalAmount,0,',','.') }} VNĐ</span>
+                                TOTAL <span id="total_amount_display">{{ number_format($totalAmount, 0, ',', '.') }}
+                                    VNĐ</span>
                             </div>
-                                                        <div class="form-group">
+                            <div class="form-group">
                                 <label class="container_check">Register to the Newsletter.
                                     <input type="checkbox" checked>
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
-                            <input type="hidden" name="total_price" id="total_price" value="{{$totalAmount}}">
-                            <input type="hidden" name="address_id" id="address_id" value="{{$address[0]->id}}">
+                            <input type="hidden" name="total_price" id="total_price" value="{{ $totalAmount }}">
+                            <input type="hidden" name="address_id" id="address_id" value="{{ $address[0]->id }}">
                             <input type="hidden" name="payment_method" class="payment_method" value="COD">
                             <input type="hidden" name="voucher_id" id="voucher_id">
 
@@ -239,7 +248,7 @@
             const payment_methods = document.querySelectorAll('#payment_method');
             for (const pay of payment_methods) {
                 pay.addEventListener('change', () => {
-                   
+
                     document.querySelector('.payment_method').value = pay.value;
 
                 })
@@ -268,14 +277,14 @@
                 data.forEach(item => {
                     select.append(
                         `<option value="${item[valueKey]}" data-text="${item[textKey]}">${item[textKey]}</option>`
-                        );
+                    );
                 });
             };
 
             $("#Province").on("change", function() {
                 let provinceId = $(this).val();
                 let provinceName = $(this).find("option:selected").data("text");
-                $("#province_name").val(provinceName); 
+                $("#province_name").val(provinceName);
 
                 $("#District").empty().append(`<option value="">Chọn Quận/Huyện</option>`);
                 $("#Ward").empty().append(`<option value="">Chọn Xã/Phường</option>`);
@@ -289,7 +298,7 @@
             $("#District").on("change", function() {
                 let districtId = $(this).val();
                 let districtName = $(this).find("option:selected").data("text");
-                $("#district_name").val(districtName); 
+                $("#district_name").val(districtName);
 
                 $("#Ward").empty().append(`<option value="">Chọn Xã/Phường</option>`);
 
@@ -323,48 +332,50 @@
                 initDropdowns();
             });
         </script>
-       <script>
-        $(document).ready(function() {
-            $('#btn-submit-coupon').click(function() {
-                let couponCode = $('#input-coupon').val().trim();
-                let totalAmount = {{ $totalAmount }}; 
-        
-                if (!couponCode) {
-                    alert('Vui lòng nhập mã giảm giá!');
-                    return;
-                }
-        
-                $.ajax({
-                    url: "{{ route('apply.voucher') }}",
-                    type: "POST",
-                    data: {
-                        coupon_code: couponCode,
-                        total_amount: totalAmount,
-                        _token: "{{ csrf_token() }}" 
-                    },
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            document.querySelector('#total_price').value = response.final_total;
-                            
-                            document.querySelector('#voucher_id').value = response.voucher_id;
+        <script>
+            $(document).ready(function() {
+                $('#btn-submit-coupon').click(function() {
+                    let couponCode = $('#input-coupon').val().trim();
+                    let totalAmount = {{ $totalAmount }};
 
-                            $('#total_amount_display').text(
-                                new Intl.NumberFormat('vi-VN').format(response.final_total) + " VNĐ"
-                            );
-                            $('#discount_value span').text("-" + new Intl.NumberFormat('vi-VN').format(response.discount_amount) + "VNĐ") ;
-
-                            alert(response.message);
-                        } else {
-                            alert(response.message);
-                        }
-                    },
-                    error: function(xhr) {
-                        alert("Có lỗi xảy ra! Vui lòng thử lại.");
-                        console.error(xhr.responseText);
+                    if (!couponCode) {
+                        alert('Vui lòng nhập mã giảm giá!');
+                        return;
                     }
+
+                    $.ajax({
+                        url: "{{ route('apply.voucher') }}",
+                        type: "POST",
+                        data: {
+                            coupon_code: couponCode,
+                            total_amount: totalAmount,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                document.querySelector('#total_price').value = response.final_total;
+
+                                document.querySelector('#voucher_id').value = response.voucher_id;
+
+                                $('#total_amount_display').text(
+                                    new Intl.NumberFormat('vi-VN').format(response
+                                    .final_total) + " VNĐ"
+                                );
+                                $('#discount_value span').text("-" + new Intl.NumberFormat('vi-VN')
+                                    .format(response.discount_amount) + "VNĐ");
+
+                                alert(response.message);
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr) {
+                            alert("Có lỗi xảy ra! Vui lòng thử lại.");
+                            console.error(xhr.responseText);
+                        }
+                    });
                 });
             });
-        });
         </script>
     </main>
 @endsection

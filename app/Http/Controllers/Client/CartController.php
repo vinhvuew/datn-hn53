@@ -206,11 +206,9 @@ class CartController extends Controller
             $cart->delete();
             return back()->with('error', 'Tất cả sản phẩm đã bị xóa khỏi giỏ hàng!');
         }
-        return response()->json([
-            'success' => true,
-            'message' =>
-            'Xóa sản phẩm thành công!',
-            'overallTotalFormatted' => number_format($overallTotal, 0, ',', '.') . ' VNĐ',
+        return back()->with([
+            'success' => 'Xóa sản phẩm thành công!',
+            'overallTotalFormatted' => number_format($overallTotal, 0, ',', '.') . ' VNĐ'
         ]);
     }
 }

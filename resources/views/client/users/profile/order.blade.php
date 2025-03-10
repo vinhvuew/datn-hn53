@@ -1,6 +1,6 @@
 @extends('client.layouts.master')
 
-@section('info', 'active')
+@section('order', 'active')
 
 @section('content')
     <main>
@@ -150,9 +150,7 @@
                                             class="fw-medium mx-2">Email:</span>
                                         <span>{{ Auth::user()->email }}</span>
                                     </li>
-                                    <a class="btn btn-warning d-flex items-center" href="{{ route('profile.edit') }}">Chỉnh
-                                        sửa
-                                        thông tin</a>
+
                                 </ul>
                             </div>
                         </div>
@@ -165,12 +163,52 @@
                                 <h5 class="card-action-title mb-0"><i
                                         class='mdi mdi-chart-timeline-variant mdi-24px me-2'></i>Hoạt
                                     động,
-                                    dòng thời gian</h5>
+                                    Đơn hàng của tôi</h5>
                             </div>
                             <div class="card-body pt-3 pb-0">
-                                <ul class="timeline card-timeline mb-0">
-                                    
-                                </ul>
+                                <div class="col-xl-12 mb-5">
+                                    <div class="list-group">
+                                        @foreach ($orders as $order)
+                                            <div class="list-group-item">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <h5>Đơn hàng #{{ $order->id }}</h5>
+                                                        <p>Ngày đặt: {{ $order->order_date }}</p>
+                                                        <p>Trạng thái: <span
+                                                                class="badge bg-warning">{{ $order->payment_status ?? 'Đang xử lý' }}</span>
+                                                        </p>
+                                                        <p>Tổng tiền:
+                                                            <strong>{{ number_format($order->total_price, 0, ',', '.') }}
+                                                                VNĐ</strong>
+                                                        </p>
+                                                    </div>
+                                                    <button class="btn btn-primary toggle-details"
+                                                        data-target="#orderDetails{{ $order->id }}">Xem chi
+                                                        tiết</button>
+                                                </div>
+                                                <div class="collapse mt-3" id="orderDetails{{ $order->id }}">
+                                                    <ul class="list-group">
+                                                        @foreach ($order->orderDetails as $detail)
+                                                            <li class="list-group-item">
+                                                                @if ($detail->variant)
+                                                                    {{ $detail->variant->name ?? 'Biến thể không tồn tại' }}
+                                                                @elseif ($detail->product)
+                                                                    {{ $detail->product->name ?? 'Sản phẩm không tồn tại' }}
+                                                                @else
+                                                                    Sản phẩm không xác định
+                                                                @endif
+                                                                -
+                                                                {{ number_format($detail->price, 0, ',', '.') }} VNĐ
+                                                                (x{{ $detail->quantity }})
+                                                            </li>
+                                                        @endforeach
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!--/ Activity Timeline -->
@@ -209,3 +247,15 @@
         }
     </style>
 @endsection
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".toggle-details").forEach(button => {
+            button.addEventListener("click", function() {
+                const targetId = this.getAttribute("data-target");
+                const targetDiv = document.querySelector(targetId);
+                targetDiv.classList.toggle("show");
+            });
+        });
+    });
+</script>

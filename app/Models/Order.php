@@ -25,22 +25,22 @@ class Order extends Model
     protected $dates = ['deleted_at'];
 
     public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function status_order()
+    {
+        return $this->belongsTo(Status_order::class);
+    }
+
+    public function vouchers()
+    {
+        return $this->belongsTo(Voucher::class, 'voucher_id', 'id');
+    }
+
+    public function orderDetails()
 {
-    return $this->belongsTo(User::class, 'user_id', 'id');
+    return $this->hasMany(OrderDetail::class, 'order_id', 'id');
 }
-
-public function status_order()
-{
-    return $this->belongsTo(Status_order::class);
-}
-
-public function vouchers()
-{
-    return $this->belongsTo(Voucher::class, 'voucher_id', 'id');
-}
-
-
-
-
-
 }
