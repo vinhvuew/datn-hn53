@@ -17,13 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'phone',
-        'role',
-    ];
+    protected $fillable = ['name', 'email', 'phone', 'address', 'password', 'avatar'];
 
     protected $attributes = [
         'role' => 'user',  // Sử dụng dấu `=>` để gán giá trị mặc định
@@ -48,4 +42,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'string',
     ];
+    public function getAvataUrlAttribute()
+    {
+        return $this->avata ? asset('storage/avatar/' . $this->avata) : asset('images/default-avatar.png');
+    }
 }

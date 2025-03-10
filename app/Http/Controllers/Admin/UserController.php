@@ -2,104 +2,148 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Admin\Controller;
-use App\Http\Requests\StoreUserRequest;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+use function Laravel\Prompts\search;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     const PATH_VIEW = 'admin.users.';
 
-    public function index()
+    public function showAdminLoginForm()
     {
-        $users = User::all();
-        return view(self::PATH_VIEW . __FUNCTION__, compact('users'));
+        return view(self::PATH_VIEW . 'logad');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function adminLogin(Request $request)
     {
-        return view(self::PATH_VIEW . __FUNCTION__);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreUserRequest $request)
-    {
-
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
-            'phone' => $request->phone,
-            'role' => $request->role,
+        // dd($request->all());
+        $request->validate([
+            'login'    => 'required',
+            'password' => 'required|min:6',
         ]);
 
-        return redirect()->route('users.index')->with('success', 'Tạo tài khoản thành công.');
+        $login = $request->input('login');
+        $password = $request->input('password');
+
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+        // dd($field);
+
+        if (Auth::attempt([$field => $login, 'password' => $password])) {
+
+            $user = Auth::user();
+
+            if (!in_array($user->role, ['admin', 'moderator'])) {
+
+                Auth::logout();
+                return back()->with('error', 'Bạn không có quyền truy cập.');
+            }
+            session(['admin_authenticated' => true]);
+
+            return redirect()->route('admin.dashboard')->with('success', 'Đăng nhập thành công!');
+        }
+
+        return back()->withInput()->with('error', 'Thông tin đăng nhập không đúng.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    public function adminLogout()
+    {
+        session()->forget('admin_authenticated');
+        Auth::logout();
+        return redirect()->route('logad')->with('success', 'Đăng xuất thành công.');
+    }
+
+
+    public function index( Request $request)
+    {
+        $query =User::query();
+
+        $search = $request->input('search');
+
+        if(!empty($search)){
+            $query->Where(function($q) use ($search){
+                $q->Where('name','LIKE', "%{$search}%")
+                ->orWhere('email', 'LIKE', "%{$search}%")
+                ->orWhere('phone', 'LIKE', "%{$search}%");
+            });
+        }
+        $users = $query->paginate(10);
+
+        return view(self::PATH_VIEW . 'index', compact('users', 'search'));
+    }
+
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view(self::PATH_VIEW . __FUNCTION__, compact('user'));
+        return view(self::PATH_VIEW . 'edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
- 
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
 
+        $request->validate([
+            'name'  => 'nullable|string|max:255',
+            'email' => 'nullable|email|unique:users,email,' . $id,
+            'phone' => 'nullable|numeric|digits_between:10,15|unique:users,phone,' . $id,
+            'role'  => 'nullable|in:admin,moderator,user',
+            'password' => 'nullable|min:6',
+        ]);
 
-public function update(Request $request, $id)
-{
-    
-    $user = User::findOrFail($id);
+        $user->update([
+            'name'  => $request->name ?? $user->name,
+            'email' => $request->email ?? $user->email,
+            'phone' => $request->phone ?? $user->phone,
+            'role'  => $request->role ?? $user->role,
+            'password' => $request->filled('password') ? Hash::make($request->password) : $user->password,
+        ]);
 
-   
-    $validatedData = $request->validate([
-        'email' => 'required|email|max:255|unique:users,email,' . $user->id, 
-        'phone' => 'nullable|numeric|unique:users,phone,' . $user->id, 
-        'role' => 'required|in:admin,user', 
-        'password' => 'nullable|string|min:6|confirmed', 
-    ]);
-
-    
-    if ($request->filled('password')) {
-        $user->password = bcrypt($request->password);
+        return redirect()->route('users.index')->with('success', 'Cập nhật người dùng thành công.');
     }
 
-    $user->name = $request->name;
-    $user->email = $validatedData['email'];
-    $user->phone = $validatedData['phone'];
-    $user->role = $validatedData['role'];
+    public function updateRole(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'role' => 'required|in:admin,moderator,user',
+        ]);
 
-   
-    $user->save();
-
-   
-    return redirect()->route('users.index')->with('success', 'Cập nhật người dùng thành công.');
-}
+        $user = User::findOrFail($request->user_id);
+        $currentUser = Auth::user();
 
 
+        if ($currentUser->role !== 'admin') {
+            return response()->json(['message' => 'Bạn không có quyền thay đổi vai trò!'], 403);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
+        if ($currentUser->id == $user->id) {
+            return response()->json(['message' => 'Bạn không thể thay đổi vai trò của chính mình!'], 403);
+        }
+
+
+        $user->role = $request->role;
+        $user->save();
+
+        return response()->json(['message' => 'Cập nhật vai trò thành công!']);
+    }
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        $user->delete();
 
+        if (Auth::id() == $id) {
+            return back()->with('error', 'Bạn không thể xóa chính mình.');
+        }
+
+        if ($user->role === 'admin') {
+            return back()->with('error', 'Không thể xóa tài khoản admin.');
+        }
+
+        $user->delete();
         return redirect()->route('users.index')->with('success', 'Xóa tài khoản thành công.');
     }
 }

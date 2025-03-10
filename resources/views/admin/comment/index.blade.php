@@ -6,6 +6,7 @@
         <h1 class="text-center mb-4">Quản Lý Bình Luận</h1>
 
        <a href="{{route('comment.create') }}" class="btn btn-success" >Các Nội Dung Vi Phạm Cộng Đồng</a> 
+    
 
         @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -22,7 +23,8 @@
    
    
         <div class="table-responsive my-3">
-            <table class="table table-bordered table-striped table-hover align-middle text-center">
+            
+            <table id="example" class="table table-bordered table-striped table-hover align-middle text-center">
                 <thead class="table-primary">
                     <tr>
                         <th scope="col">STT</th>
@@ -72,9 +74,29 @@
 @endsection
 
 @section('style-libs')
-    
-@endsection
+    <!--datatable css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <!--datatable responsive css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+@endsection
 @section('script-libs')
-   
+    <!--datatable js-->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script>
+        new DataTable("#example", {
+            order: [
+                [0, 'desc']
+            ]
+        });
+    </script>
 @endsection

@@ -36,6 +36,13 @@ class CartDetail extends Model
             }
         });
     }
+    public function getTotalPriceAttribute()
+    {
+        return $this->quantity * ($this->variant->price_sale ?? $this->product->price_sale ?? 0);
+    }
+
+
+
 
     public function cart()
     {
