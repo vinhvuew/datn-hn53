@@ -54,33 +54,5 @@ class HomeController extends Controller
     return view('client.searchResults', compact('searchResults', 'query'));
     }
 
-    public function filter(Request $request)
-    {
-        $query = Product::query();
 
-        // Lọc theo giá
-        if ($request->filled('price')) {
-            [$min, $max] = explode('-', $request->price . '-');
-            if ($min !== '') {
-                $query->where('base_price', '>=', (int)$min);
-            }
-            if ($max !== '') {
-                $query->where('base_price', '<=', (int)$max);
-            }
-        }
-
-        // Lọc theo size (giả sử có cột `size` trong bảng `products`)
-        if ($request->filled('size')) {
-            $query->where('size', $request->size);
-        }
-
-        // Lọc theo màu sắc (giả sử có cột `color` trong bảng `products`)
-        if ($request->filled('color')) {
-            $query->where('color', $request->color);
-        }
-
-        $filteredProducts = $query->get();
-
-        return view('client.filtered_products', compact('filteredProducts'));
-    }
 }
