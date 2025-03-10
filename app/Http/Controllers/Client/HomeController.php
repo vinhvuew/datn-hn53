@@ -7,7 +7,7 @@ use App\Models\Address;
 use App\Models\Cart;
 use App\Models\CartDetail;
 use App\Models\Product;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -38,7 +38,7 @@ class HomeController extends Controller
                     "text" => "Giá tốt nhất thị trường"
                 ]
             ];
-            
+
         return view(self::PATH_VIEW . __FUNCTION__,compact('latestProducts','discountedProducts','topSellingProducts','brands'));
     }
 
@@ -63,7 +63,7 @@ class HomeController extends Controller
                 'value' => 'COD'
             ],
         ];
-       
+
         return view(self::PATH_VIEW . __FUNCTION__ . ".order", compact('totalAmount', 'payment_method', 'cart','address'));
        }
        return view('client.home');
@@ -86,5 +86,5 @@ class HomeController extends Controller
 
 }
 
-}
+
 
