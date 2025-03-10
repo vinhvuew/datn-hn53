@@ -70,4 +70,21 @@ class HomeController extends Controller
 
     }
 
+
+    public function search(Request $request)
+    {
+        $query = $request->input('q'); // Lấy từ khóa tìm kiếm từ form
+
+    $searchResults = Product::where('name', 'LIKE', "%{$query}%") // Tìm theo tên sản phẩm
+                            ->orWhere('description', 'LIKE', "%{$query}%") // Tìm theo mô tả
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+
+    return view('client.searchResults', compact('searchResults', 'query'));
+    }
+
+
 }
+
+}
+
