@@ -1,8 +1,6 @@
-@extends('client.layouts.master')
+<?php $__env->startSection('order', 'active'); ?>
 
-@section('info', 'active')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <main>
         <div class="content-wrapper" style="padding: 1px 0 250px;">
             <div class="container-xxl flex-grow-1 container-p-y">
@@ -11,17 +9,17 @@
                     <div class="col-12">
                         <div class="card mb-4">
                             <div class="user-profile-header-banner">
-                                <img src="{{ asset('admin') }}/assets/img/pages/profile-banner.png" alt="Banner image"
+                                <img src="<?php echo e(asset('admin')); ?>/assets/img/pages/profile-banner.png" alt="Banner image"
                                     class="rounded-top">
                             </div>
                             <div class="user-profile-header d-flex flex-column flex-lg-row text-sm-start text-center mb-4">
-                                <form action="{{ route('profile.updateAvatar') }}" method="POST"
+                                <form action="<?php echo e(route('profile.updateAvatar')); ?>" method="POST"
                                     enctype="multipart/form-data">
-                                    @csrf
-                                    @method('PUT')
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('PUT'); ?>
 
                                     <div class="position-relative d-inline-block">
-                                        <img src="{{ Storage::url(Auth::user()->avatar) }}" alt="user image"
+                                        <img src="<?php echo e(Storage::url(Auth::user()->avatar)); ?>" alt="user image"
                                             class="d-block rounded-circle user-profile-img"
                                             style="width: 100px; height: 100px; object-fit: cover;">
 
@@ -39,29 +37,29 @@
                                     <div
                                         class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                                         <div class="user-profile-info">
-                                            <h4>{{ Auth::user()->name }}</h4>
+                                            <h4><?php echo e(Auth::user()->name); ?></h4>
                                             <ul
                                                 class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
 
                                                 <li class="list-inline-item">
                                                     <i class='mdi mdi-invert-colors me-1 mdi-20px'></i>
                                                     <span class="fw-medium">
-                                                        @switch(Auth::user()->role)
-                                                            @case('user')
+                                                        <?php switch(Auth::user()->role):
+                                                            case ('user'): ?>
                                                                 Thành viên
-                                                            @break
+                                                            <?php break; ?>
 
-                                                            @case('admin')
+                                                            <?php case ('admin'): ?>
                                                                 Quản trị
-                                                            @break
+                                                            <?php break; ?>
 
-                                                            @case('moderator')
+                                                            <?php case ('moderator'): ?>
                                                                 Nhân viên
-                                                            @break
+                                                            <?php break; ?>
 
-                                                            @default
+                                                            <?php default: ?>
                                                                 Không xác định
-                                                        @endswitch
+                                                        <?php endswitch; ?>
                                                     </span>
                                                 </li>
 
@@ -72,7 +70,8 @@
                                                 <li class="list-inline-item">
                                                     <i class='mdi mdi-calendar-blank-outline me-1 mdi-20px'></i>
                                                     <span class="fw-medium">Tham gia:
-                                                        {{ Auth::user()->created_at->format('d/m/Y') }}
+                                                        <?php echo e(Auth::user()->created_at->format('d/m/Y')); ?>
+
                                                     </span>
                                                 </li>
                                             </ul>
@@ -88,7 +87,7 @@
                 </div>
                 <!--/ Header -->
 
-                @include('client.users.profile.layouts.Navbar')
+                <?php echo $__env->make('client.users.profile.layouts.Navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
                 <!-- User Profile Content -->
                 <div class="row">
@@ -100,36 +99,36 @@
                                 <ul class="list-unstyled my-3 py-1">
                                     <li class="d-flex align-items-center mb-3"><i
                                             class="mdi mdi-account-outline mdi-24px"></i><span class="fw-medium mx-2">Họ và
-                                            tên: </span> <span>{{ Auth::user()->name }}</span>
+                                            tên: </span> <span><?php echo e(Auth::user()->name); ?></span>
                                     </li>
 
                                     <li class="d-flex align-items-center mb-3"><i
                                             class="mdi mdi-star-outline mdi-24px"></i><span class="fw-medium mx-2">Vai
                                             trò:</span>
                                         <span>
-                                            @switch(Auth::user()->role)
-                                                @case('user')
+                                            <?php switch(Auth::user()->role):
+                                                case ('user'): ?>
                                                     Thành viên
-                                                @break
+                                                <?php break; ?>
 
-                                                @case('admin')
+                                                <?php case ('admin'): ?>
                                                     Quản trị
-                                                @break
+                                                <?php break; ?>
 
-                                                @case('moderator')
+                                                <?php case ('moderator'): ?>
                                                     Nhân viên
-                                                @break
+                                                <?php break; ?>
 
-                                                @default
+                                                <?php default: ?>
                                                     Không xác định
-                                            @endswitch
+                                            <?php endswitch; ?>
                                         </span>
                                     </li>
 
                                     <li class="d-flex align-items-center mb-3">
                                         <i class='mdi mdi-map-marker-outline mdi-24px'></i>
                                         <span class="fw-medium mx-2">Địa chỉ:
-                                        </span><span>{{ Auth::user()->address }}</span>
+                                        </span><span><?php echo e(Auth::user()->address); ?></span>
                                     </li>
                                     <li class="d-flex align-items-center mb-3"><i class="mdi mdi-flag-outline mdi-24px"></i>
                                         <span class="fw-medium mx-2">Quốc
@@ -144,15 +143,13 @@
                                 <ul class="list-unstyled my-3 py-1">
                                     <li class="d-flex align-items-center mb-3"><i
                                             class="mdi mdi-phone-outline mdi-24px"></i><span class="fw-medium mx-2">Liên
-                                            hệ:</span> <span>{{ Auth::user()->phone }}</span></li>
+                                            hệ:</span> <span><?php echo e(Auth::user()->phone); ?></span></li>
                                     <li class="d-flex align-items-center mb-1"><i
                                             class="mdi mdi-email-outline mdi-24px"></i><span
                                             class="fw-medium mx-2">Email:</span>
-                                        <span>{{ Auth::user()->email }}</span>
+                                        <span><?php echo e(Auth::user()->email); ?></span>
                                     </li>
-                                    <a class="btn btn-warning d-flex items-center" href="{{ route('profile.edit') }}">Chỉnh
-                                        sửa
-                                        thông tin</a>
+
                                 </ul>
                             </div>
                         </div>
@@ -165,12 +162,55 @@
                                 <h5 class="card-action-title mb-0"><i
                                         class='mdi mdi-chart-timeline-variant mdi-24px me-2'></i>Hoạt
                                     động,
-                                    dòng thời gian</h5>
+                                    Đơn hàng của tôi</h5>
                             </div>
                             <div class="card-body pt-3 pb-0">
-                                <ul class="timeline card-timeline mb-0">
-                                    
-                                </ul>
+                                <div class="col-xl-12 mb-5">
+                                    <div class="list-group">
+                                        <?php $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <div class="list-group-item">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <h5>Đơn hàng #<?php echo e($order->id); ?></h5>
+                                                        <p>Ngày đặt: <?php echo e($order->order_date); ?></p>
+                                                        <p>Trạng thái: <span
+                                                                class="badge bg-warning"><?php echo e($order->payment_status ?? 'Đang xử lý'); ?></span>
+                                                        </p>
+                                                        <p>Tổng tiền:
+                                                            <strong><?php echo e(number_format($order->total_price, 0, ',', '.')); ?>
+
+                                                                VNĐ</strong>
+                                                        </p>
+                                                    </div>
+                                                    <button class="btn btn-primary toggle-details"
+                                                        data-target="#orderDetails<?php echo e($order->id); ?>">Xem chi
+                                                        tiết</button>
+                                                </div>
+                                                <div class="collapse mt-3" id="orderDetails<?php echo e($order->id); ?>">
+                                                    <ul class="list-group">
+                                                        <?php $__currentLoopData = $order->orderDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $detail): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <li class="list-group-item">
+                                                                <?php if($detail->variant): ?>
+                                                                    <?php echo e($detail->variant->name ?? 'Biến thể không tồn tại'); ?>
+
+                                                                <?php elseif($detail->product): ?>
+                                                                    <?php echo e($detail->product->name ?? 'Sản phẩm không tồn tại'); ?>
+
+                                                                <?php else: ?>
+                                                                    Sản phẩm không xác định
+                                                                <?php endif; ?>
+                                                                -
+                                                                <?php echo e(number_format($detail->price, 0, ',', '.')); ?> VNĐ
+                                                                (x<?php echo e($detail->quantity); ?>)
+                                                            </li>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!--/ Activity Timeline -->
@@ -181,12 +221,12 @@
         </div>
     </main>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('style-libs')
-    <link rel="stylesheet" href="{{ asset('admin') }}/assets/vendor/css/rtl/core.css"
+<?php $__env->startSection('style-libs'); ?>
+    <link rel="stylesheet" href="<?php echo e(asset('admin')); ?>/assets/vendor/css/rtl/core.css"
         class="template-customizer-core-css" />
-    <link rel="stylesheet" href="{{ asset('admin') }}/assets/vendor/css/pages/page-profile.css" />
+    <link rel="stylesheet" href="<?php echo e(asset('admin')); ?>/assets/vendor/css/pages/page-profile.css" />
     <style>
         a {
             color: #4C5671;
@@ -208,4 +248,18 @@
             color: #fff;
         }
     </style>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".toggle-details").forEach(button => {
+            button.addEventListener("click", function() {
+                const targetId = this.getAttribute("data-target");
+                const targetDiv = document.querySelector(targetId);
+                targetDiv.classList.toggle("show");
+            });
+        });
+    });
+</script>
+
+<?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/users/profile/order.blade.php ENDPATH**/ ?>
