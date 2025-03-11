@@ -46,7 +46,7 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::get('/edit', [ProfileController::class, 'edit'])->name('edit'); // Hiển thị form chỉnh sửa
     Route::put('/update', [ProfileController::class, 'update'])->name('update'); // Cập nhật thông tin
     Route::put('/update/avatar', [ProfileController::class, 'updateAvatar'])->name('updateAvatar'); // cập nhật avatar
-    Route::post('/update/password', [ProfileController::class, 'updatePassword'])->name('updatePassword');// cập nhật mk
+    Route::post('/update/password', [ProfileController::class, 'updatePassword'])->name('updatePassword'); // cập nhật mk
     Route::get('/myOder', [ProfileController::class, 'myOder'])->name('myOder'); // đơn hàng của tôi
 });
 
@@ -55,9 +55,7 @@ Route::get('/product', [ProductsController::class, 'statistical'])->name('produc
 // Route cho trang sản phẩm với các tham số lọc
 Route::get('/products', [ProductsController::class, 'statistical'])->name('products.filter');
 
-Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
-Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('productDetail');
-
+// comment
 Route::post('/add-comment', [ProductsController::class, 'storeCommet'])->name('add.comment');
 Route::post('/add-reply', [ProductsController::class, 'storeReply'])->name('add.reply');
 Route::get('/comments/{productId}', [ProductsController::class, 'showComments']);
@@ -66,13 +64,18 @@ Route::get('/comments/{productId}', [ProductsController::class, 'showComments'])
 Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store')->middleware('auth');
 
 // giỏ hàng
+Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
+Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('productDetail');
 Route::get('/cart', [CartController::class, 'cart'])->name('cart.view');
 Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');
 
-
-Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
+// check out
+Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
 Route::post('/checkout/store', [OrderController::class, 'placeOrder'])->name('checkout.store');
+Route::put('/cart/update-selection/{id}', [CartController::class, 'updateSelection']);
+
 
 // đăng nhập, đăng ký, đăng xuất user
 Route::get('login', [LoginRegisterController::class, 'showForm'])->name('login.show');

@@ -3,11 +3,14 @@
 @section('content')
     <main>
         @if ($carts)
-            <div class="container">
+            <div class="container mt-4">
                 <h2 class="text-center mb-4">🛒 Giỏ Hàng</h2>
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>
+                                Tất cả <input type="checkbox" id="select-all">
+                            </th>
                             <th>Hình ảnh</th>
                             <th>Tên sản phẩm</th>
                             <th>Giá</th>
@@ -24,6 +27,11 @@
                         @if ($cart->variant)
                             <tbody id="cart-item-{{ $cart->id }}">
                                 <tr>
+                                    <td>
+                                        <input type="checkbox" class="cart-item-checkbox" data-id="{{ $cart->id }}"
+                                            data-price="{{ $cart->total_amount }}" name="selected_items[]"
+                                            value="{{ $cart->id }}" {{ $cart->is_selected ? 'checked' : '' }}>
+                                    </td>
                                     <td><img src="{{ Storage::url($cart->variant->image) }}" alt="" width="50px"
                                             class="rounded-2"></td>
                                     <td>{{ Str::limit($cart->variant->product->name, 30) }}</td>
@@ -47,6 +55,7 @@
                                             $totalAmount += $money;
                                         @endphp
                                         {{ number_format($cart->total_amount, 0, ',', '.') }} VNĐ
+
                                     </td>
                                     <td>
                                         <form class="delete-cart-form" data-id="{{ $cart->id }}"
@@ -63,6 +72,12 @@
                         @elseif ($cart->product)
                             <tbody id="cart-item-{{ $cart->id }}">
                                 <tr>
+                                    <td>
+                                        <input type="checkbox" class="cart-item-checkbox" data-id="{{ $cart->id }}"
+                                            data-price="{{ $cart->total_amount }}" name="selected_items[]"
+                                            value="{{ $cart->id }}" {{ $cart->is_selected ? 'checked' : '' }}>
+                                    </td>
+
                                     <td><img src="{{ Storage::url($cart->product->img_thumbnail) }}" alt=""
                                             height="50px" width="40px">
                                     </td>
@@ -84,9 +99,6 @@
                                                     value="{{ $cart->quantity }}" min="1">
                                             </div>
 
-                                            <input type="hidden" name="price_sale"
-                                                value="{{ $cart->product->price_sale }}">
-
                                         </form>
                                     </td>
                                     <td id="total-amount-{{ $cart->id }}">
@@ -94,6 +106,7 @@
                                             $money = $cart->total_amount;
                                             $totalAmount += $money;
                                         @endphp
+
                                         {{ number_format($cart->total_amount, 0, ',', '.') }} VNĐ
                                     </td>
                                     <td>
@@ -101,6 +114,7 @@
                                             action="{{ route('cart.delete', $cart->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
+
                                             <button type="submit" class="btn btn-danger">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
@@ -115,17 +129,20 @@
                     @endforeach
                     </tbody>
                 </table>
-                <div class="text-end mb-5 p-4 ">
-                    <h4 class="fw-bold text-primary">
-                        Tổng tiền:
-                        <span id="overall-total" class="text-danger">
-                            {{ number_format($totalAmount, 0, ',', '.') }} VNĐ
-                        </span>
-                    </h4>
-                    <a href="{{ route('checkout.view') }}" class="btn btn-success btn-lg mt-2 px-4 fw-bold">
-                        <i class="fas fa-shopping-cart"></i> Thanh toán
-                    </a>
-                </div>
+                <form id="checkout-form" action="{{ route('checkout.view') }}" method="POST">
+                    @csrf
+                    <div class="text-end mb-5 p-4">
+                        <h4 class="fw-bold text-primary">
+                            Tổng tiền: <span id="overall-total" class="text-danger">
+                                {{ number_format($totalAmount, 0, ',', '.') }} VNĐ
+                            </span>
+                        </h4>
+                        <button type="submit" class="btn btn-success btn-lg mt-2 px-4 fw-bold">
+                            <i class="fas fa-shopping-cart"></i> Thanh toán
+                        </button>
+                    </div>
+                </form>
+
 
             </div>
         @else
@@ -216,31 +233,80 @@
             });
         });
     </script>
-    {{-- <script>
-        $('.delete-cart-form').submit(function(event) {
-            event.preventDefault(); // Ngừng reload trang
-            var form = $(this);
-            var cartId = form.data('id');
+    {{--  --}}
 
-            $.ajax({
-                url: form.attr('action'),
-                type: 'POST',
-                data: form.serialize(),
-                success: function(response) {
-                    notyf.success(response.message);
-                    // Nếu xóa thành công, xóa dòng sản phẩm khỏi bảng
-                    form.closest('tr').remove();
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let selectAllCheckbox = document.getElementById('select-all');
+            let checkboxes = document.querySelectorAll('.cart-item-checkbox');
+            let totalAmountSpan = document.getElementById('overall-total');
+            let checkoutForm = document.getElementById('checkout-form'); // Form thanh toán
 
-                    // Cập nhật tổng tiền nếu cần
-                    if (response.overallTotalFormatted) {
-                        $('#overall-total').text(response.overallTotalFormatted);
-                        $('#overall-totals').text(response.overallTotalFormatted);
+            function updateTotal() {
+                let total = 0;
+                document.querySelectorAll('.cart-item-checkbox:checked').forEach(function(checkedBox) {
+                    total += parseFloat(checkedBox.dataset.price);
+                });
+                totalAmountSpan.textContent = total.toLocaleString('vi-VN') + ' VNĐ';
+            }
+
+            // Sự kiện khi chọn/bỏ chọn tất cả
+            selectAllCheckbox.addEventListener('change', function() {
+                checkboxes.forEach(function(checkbox) {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+                updateTotal();
+            });
+
+            // Sự kiện khi chọn từng sản phẩm
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    if (!checkbox.checked) {
+                        selectAllCheckbox.checked = false;
+                    } else {
+                        let allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                        selectAllCheckbox.checked = allChecked;
                     }
-                },
-                error: function(xhr, status, error) {
-                    alert('Có lỗi xảy ra khi xóa sản phẩm');
+                    updateTotal();
+                });
+            });
+
+            // Kiểm tra trước khi submit form
+            checkoutForm.addEventListener('submit', function(event) {
+                let selectedItems = document.querySelectorAll('.cart-item-checkbox:checked');
+
+                if (selectedItems.length === 0) {
+                    event.preventDefault(); // Ngăn form submit
+                    alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán!");
                 }
             });
         });
-    </script> --}}
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.cart-item-checkbox').on('change', function() {
+                let id = $(this).data('id');
+                let isSelected = $(this).prop('checked') ? 1 : 0;
+
+                $.ajax({
+                    url: '/cart/update-selection/' + id,
+                    type: 'PUT',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        is_selected: isSelected
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            console.log(response.message);
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Có lỗi xảy ra! Vui lòng thử lại.');
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

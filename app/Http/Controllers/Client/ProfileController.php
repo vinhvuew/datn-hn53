@@ -130,7 +130,7 @@ class ProfileController extends Controller
         // Lấy danh sách đơn hàng của người dùng
         $orders = Order::with(['orderDetails.product']) // Lấy thông tin sản phẩm trong đơn hàng
             ->where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
             ->get();
         // dd($orders);
         return view('client.users.profile.order', compact('orders'));

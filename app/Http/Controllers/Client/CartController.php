@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
 {
+    const PATH_VIEW = 'Client.';
+
     public function cart()
     {
         try {
@@ -210,5 +213,33 @@ class CartController extends Controller
             'success' => 'Xóa sản phẩm thành công!',
             'overallTotalFormatted' => number_format($overallTotal, 0, ',', '.') . ' VNĐ'
         ]);
+    }
+
+    public function checkout(Request $request)
+    {
+
+        $selectedItems = $request->input('selected_items');
+
+        if (!$selectedItems) {
+            return response()->json(['success' => false, 'message' => 'Không có sản phẩm nào được chọn!']);
+        }
+
+        // Lưu sản phẩm vào session hoặc tiếp tục xử lý đặt hàng
+        session(['checkout_items' => $selectedItems]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function updateSelection(Request $request, $id)
+    {
+        $cartItem = CartDetail::find($id);
+
+        if (!$cartItem) {
+            return response()->json(['success' => false, 'message' => 'Sản phẩm không tồn tại!'], 404);
+        }
+
+        $cartItem->update(['is_selected' => $request->is_selected]);
+
+        return response()->json(['success' => true, 'message' => 'Cập nhật thành công!']);
     }
 }

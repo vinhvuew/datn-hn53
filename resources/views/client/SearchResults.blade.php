@@ -1,4 +1,5 @@
-<?php $__env->startSection('content'); ?>
+@extends('client.layouts.master')
+@section('content')
 <main>
          <div class="container margin_60_35">
              <div class="main_title">
@@ -8,21 +9,21 @@
              </div>
 
              <div class="row small-gutters">
-                 <?php if($searchResults->isNotEmpty()): ?>
-                     <?php $__currentLoopData = $searchResults; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                 @if($searchResults->isNotEmpty())
+                     @foreach($searchResults as $product)
                          <div class="col-6 col-md-4 col-xl-3">
                              <div class="grid_item">
                                  <figure>
-                                     <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
-                                         width="300px" alt="<?php echo e($product->name); ?>">
+                                     <img src="{{ Storage::url($product->img_thumbnail) }}"
+                                         width="300px" alt="{{ $product->name }}">
                                  </figure>
-                                 <h3><?php echo e($product->name); ?></h3>
+                                 <h3>{{ $product->name }}</h3>
                                  <div class="price_box">
-                                     <span class="old_price"><?php echo e(number_format($product->base_price)); ?>đ</span>
+                                     <span class="old_price">{{ number_format($product->base_price) }}đ</span>
 
-                                     <?php if($product->price_sale): ?>
-                                         <span class="new_price"><?php echo e(number_format($product->price_sale)); ?>đ</span>
-                                     <?php endif; ?>
+                                     @if ($product->price_sale)
+                                         <span class="new_price">{{ number_format($product->price_sale) }}đ</span>
+                                     @endif
                                  </div>
                                  <ul>
                                      <li>
@@ -40,19 +41,17 @@
                                  </ul>
                              </div>
                          </div>
-                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                 <?php else: ?>
+                     @endforeach
+                 @else
                      <div class="col-12 text-center">
                          <h4 class="text-danger">Sản phẩm không tồn tại</h4>
                          <p>Vui lòng thử lại với từ khóa khác.</p>
                      </div>
-                     <?php endif; ?>
+                     @endif
              </div>
 
          </div>
          </main>
      <!-- /main -->
 
- <?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/searchResults.blade.php ENDPATH**/ ?>
+ @endsection
