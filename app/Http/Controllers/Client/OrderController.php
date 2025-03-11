@@ -27,7 +27,10 @@ class OrderController extends Controller
     public function placeOrder(Request $request)
     {
         $cart = Cart::where('user_id', Auth::id())->first();
-        $cart_detail = CartDetail::where('cart_id', $cart->id)->get();
+        $cart_detail = CartDetail::with('product')->where('cart_id', $cart->id)->get();
+        // var_dump($cart_detail);die();
+        // return response()->json($cart_detail);
+
         try {
             if ($cart_detail == null)
                 return response()->json(['error' => 'Giỏ hàng trống']);
@@ -35,7 +38,6 @@ class OrderController extends Controller
                 case "VNPAY_DECOD":
                     $order = $this->createOrder($request,'Chờ thanh toán');
                     $this->orderItems($cart_detail, $order->id, $cart->id);
-
                     $this->vnpay_service->VNpay_Payment($order->total_price, 'vn', $request->ip(), $order->id);
 
                     break;
@@ -57,6 +59,7 @@ class OrderController extends Controller
     }
     private function createOrder($request,$status)
     {
+      
         return Order::create([
             'user_id' => Auth::id(),
             'status_id' => 1,
@@ -77,7 +80,7 @@ class OrderController extends Controller
                 'product_id' => $item->product_id,
                 'variant_id' => $item->variant_id ?? null,
                 'quantity' => $item->quantity,
-                'price' => $item->product->price,
+                'price' => $item->product->base_price,
                 'total_price' => $item->total_amount,
             ]);
         }

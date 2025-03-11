@@ -99,7 +99,9 @@
                                             action="<?php echo e(route('cart.delete', $cart->id)); ?>" method="post">
                                             <?php echo csrf_field(); ?>
                                             <?php echo method_field('DELETE'); ?>
-                                            <button type="submit" class="cross-icon flaticon-cancel-1">
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
                                             </button>
                                         </form>
 
@@ -240,6 +242,5 @@
         });
     </script>
 <?php $__env->stopSection(); ?>
-
 
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/admin/datn-hn53/resources/views/client/cart/listCart.blade.php ENDPATH**/ ?>
