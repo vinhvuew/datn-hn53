@@ -13,7 +13,7 @@ use App\Http\Controllers\Client\ProductsController;
 use App\Http\Controllers\Client\LoginRegisterController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
-
+use App\Http\Controllers\Client\CreateNewsController;
 // admin
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\CommentController;
@@ -50,6 +50,10 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::get('/myOder', [ProfileController::class, 'myOder'])->name('myOder'); // đơn hàng của tôi
 });
 
+// router phan tin tuc
+
+Route::get('/news', [CreateNewsController::class, 'index']);
+Route::get('/news/{id}', [CreateNewsController::class, 'show'])->name('news.show');
 
 Route::get('/product', [ProductsController::class, 'statistical'])->name('product.show');
 // Route cho trang sản phẩm với các tham số lọc
