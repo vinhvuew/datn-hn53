@@ -7,7 +7,7 @@ use App\Models\Address;
 use App\Models\Cart;
 use App\Models\CartDetail;
 use App\Models\Product;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -38,7 +38,7 @@ class HomeController extends Controller
                     "text" => "Giá tốt nhất thị trường"
                 ]
             ];
-            
+
         return view(self::PATH_VIEW . __FUNCTION__,compact('latestProducts','discountedProducts','topSellingProducts','brands'));
     }
 
@@ -63,11 +63,28 @@ class HomeController extends Controller
                 'value' => 'COD'
             ],
         ];
-       
+
         return view(self::PATH_VIEW . __FUNCTION__ . ".order", compact('totalAmount', 'payment_method', 'cart','address'));
        }
        return view('client.home');
 
     }
 
+
+    public function search(Request $request)
+    {
+        $query = $request->input('q'); // Lấy từ khóa tìm kiếm từ form
+
+    $searchResults = Product::where('name', 'LIKE', "%{$query}%") // Tìm theo tên sản phẩm
+                            ->orWhere('description', 'LIKE', "%{$query}%") // Tìm theo mô tả
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+
+    return view('client.searchResults', compact('searchResults', 'query'));
+    }
+
+
 }
+
+
+

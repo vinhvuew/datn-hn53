@@ -39,11 +39,11 @@ class OrderController extends Controller
                     $order = $this->createOrder($request,'Chờ thanh toán');
                     $this->orderItems($cart_detail, $order->id, $cart->id);
                     $this->vnpay_service->VNpay_Payment($order->total_price, 'vn', $request->ip(), $order->id);
-
+                    return view('client.checkout.complete');
                     break;
                 case "MOMO":
 
-                    dd(1);
+                    // dd(1);
                     break;
                 case "COD":
                     $order = $this->createOrder($request,'Thanh toán khi nhận hàng');

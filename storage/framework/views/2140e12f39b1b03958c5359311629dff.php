@@ -76,9 +76,9 @@
                         <div class="tab-content checkout">
                             <div class="tab-pane fade show active" id="tab_1" role="tabpanel" aria-labelledby="tab_1">
                                 <div id="addressList">
-                                    <?php $__currentLoopData = $address; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php $__currentLoopData = $address; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="address-box">
-                                        <input type="checkbox" class="address-checkbox" value="<?php echo e($a->id); ?>"
+                                        <input type="radio" id="" class="address-checkbox" value="<?php echo e($a->id); ?>"
                                             <?php echo e($loop->first ? 'checked' : ''); ?> onchange="getSelectedAddresses()">
                                         <p><strong><?php echo e($a->full_name); ?></strong></p>
                                         <p>📞 <?php echo e($a->phone); ?></p>

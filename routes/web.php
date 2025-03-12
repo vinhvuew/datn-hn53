@@ -62,9 +62,7 @@ Route::get('/comments/{productId}', [ProductsController::class, 'showComments'])
 
 // address
 Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store')->middleware('auth');
-
 Route::post('/apply-voucher', [OrderController::class, 'applyVoucher'])->name('apply.voucher');
-
 
 Route::get('/vnpay-return',[VNPayController::class,'handleReturn'])->name('vnpay.return');
 // giỏ hàng
