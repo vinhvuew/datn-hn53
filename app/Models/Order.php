@@ -9,13 +9,16 @@ class Order extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'shipping_address',
+        'user_id',
+        'status_id',
         'total_price',
-        'voucher',
-        'pay',
-        'status_pay',
-
+        'address_id',
+        'payment_method',
+        'payment_status',
+        'order_date',
+        'voucher_id',
     ];
+
 
     public $table = 'orders';
     public $timestamps = false;
@@ -36,12 +39,7 @@ public function vouchers()
     return $this->belongsTo(Voucher::class, 'voucher_id', 'id');
 }
 
-public function products()
-{
-    return $this->belongsToMany(Product::class, 'order_details', 'order_id', 'product_id')
-                ->withPivot('quantity', 'price')
-                ->withTimestamps();
-}
+
 
 
 

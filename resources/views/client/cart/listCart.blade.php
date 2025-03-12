@@ -101,7 +101,9 @@
                                             action="{{ route('cart.delete', $cart->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="cross-icon flaticon-cancel-1">
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
                                             </button>
                                         </form>
 
@@ -120,9 +122,9 @@
                             {{ number_format($totalAmount, 0, ',', '.') }} VNĐ
                         </span>
                     </h4>
-                    <button class="btn btn-success btn-lg mt-2 px-4 fw-bold">
+                    <a href="{{route("checkout.view")}}" class="btn btn-success btn-lg mt-2 px-4 fw-bold">
                         <i class="fas fa-shopping-cart"></i> Thanh toán
-                    </button>
+                    </a>
                 </div>
 
             </div>
@@ -242,4 +244,3 @@
         });
     </script>
 @endsection
-

@@ -17,15 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'avata',
-        'password',
-        'phone',
-        'role',
-    ];
-    
+    protected $fillable = ['name', 'email', 'phone', 'address', 'password', 'avatar'];
 
     protected $attributes = [
         'role' => 'user',  // Sử dụng dấu `=>` để gán giá trị mặc định
