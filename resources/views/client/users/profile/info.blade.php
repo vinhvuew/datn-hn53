@@ -169,29 +169,7 @@
                             </div>
                             <div class="card-body pt-3 pb-0">
                                 <ul class="timeline card-timeline mb-0">
-
-                                    {{-- @if ($logs->isEmpty())
-                                    <div class="alert alert-warning" role="alert">
-                                        Bạn chưa có hoạt động nào!
-                                    </div>
-                                @else
-                                    @foreach ($logs as $item)
-                                        <li
-                                            class="timeline-item timeline-item-transparent {{ !$loop->last ? 'border-primary' : 'border-transparent' }}">
-                                            <span class="timeline-point timeline-point-primary"></span>
-                                            <div class="timeline-event">
-                                                <div class="timeline-header mb-2 pb-1">
-                                                    <h6 class="mb-0">Người dùng thực hiện</h6>
-                                                    <small
-                                                        class="text-muted">{{ $item->created_at->format('d/m/Y') }}</small>
-                                                </div>
-                                                <p class="text-muted mb-2">{{ $item->action }} </p>
-                                            </div>
-                                        </li>
-                                    @endforeach
-                                @endif --}}
-
-
+                                    
                                 </ul>
                             </div>
                         </div>

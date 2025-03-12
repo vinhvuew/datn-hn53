@@ -16,6 +16,7 @@ class CartDetail extends Model
         'variant_id',
         'quantity',
         'total_amount',
+        'is_selected'
     ];
 
     protected static function boot()

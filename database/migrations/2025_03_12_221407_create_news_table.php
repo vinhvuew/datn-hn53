@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('news', function (Blueprint $table) {
+        Schema::create('create_news', function (Blueprint $table) {
             $table->id();
-            $table->string('title'); // Tiêu đề bài viết
-            $table->text('content'); // Nội dung bài viết
-            $table->string('image')->nullable(); // Đường dẫn ảnh (có thể null)
+            $table->string('title');
+            $table->text('content');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('news');
+        Schema::dropIfExists('create_news');
     }
 };

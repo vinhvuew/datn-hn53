@@ -15,8 +15,8 @@
                                         <p class="owl-slide-animated owl-slide-subtitle">
                                             Limited items available at this price
                                         </p>
-                                        <div class="owl-slide-animated owl-slide-cta"><a class="btn_1"
-                                                href="listing-grid-1-full.html" role="button">Shop Now</a></div>
+                                        {{-- <div class="owl-slide-animated owl-slide-cta"><a class="btn_1"
+                                                href="listing-grid-1-full.html" role="button">Shop Now</a></div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -379,5 +379,4 @@
         // Hiển thị slide đầu tiên
         showSlide(currentIndex);
     </script>
-
 @endsection
