@@ -21,7 +21,8 @@
                                     @method('PUT')
 
                                     <div class="position-relative d-inline-block">
-                                        <img src="{{ Storage::url(Auth::user()->avatar) }}" alt="user image"
+                                        
+                                        <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="user image"
                                             class="d-block rounded-circle user-profile-img"
                                             style="width: 100px; height: 100px; object-fit: cover;">
 
@@ -135,10 +136,7 @@
                                         <span class="fw-medium mx-2">Quốc
                                             gia:</span> <span>Việt Nam</span>
                                     </li>
-                                    <li class="d-flex align-items-center mb-1"><i
-                                            class="mdi mdi-translate mdi-24px"></i><span class="fw-medium mx-2">Ngôn
-                                            ngữ:</span> <span>Tiếng việt</span>
-                                    </li>
+                                  
                                 </ul>
                                 <small class="card-text text-uppercase">Liên hệ</small>
                                 <ul class="list-unstyled my-3 py-1">
