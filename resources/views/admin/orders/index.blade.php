@@ -18,6 +18,7 @@
             </div>
         @endif
 
+
         {{-- Bảng danh sách đơn hàng --}}
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover align-middle text-center">
@@ -37,34 +38,41 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($listOrders as $key => $order)
+                    @if ($listOrders->isEmpty())
                         <tr>
-                            <td>{{ $key + 1 }}</td>
-                            <td>{{ $order->user_name }}</td>
-                            <td>{{ $order->shipping_address }}</td>
-                            <td>{{ $order->voucher_name }}</td>
-                            <td>{{ ($order->total_price) }}vnđ  </td>
-                            <td>{{ $order->pay}}</td>
-                            <td>{{ $order->status_pay }}</td>
-                            <td>{{ $order->status_name }}</td>
-                            <td>{{ $order->created_at }}</td>
-                            <td>{{ $order->updated_at }}</td>
-                            <td>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <a href="{{ route('orders.show', $order->id)}}" class="btn btn-info">Detail</a>
-                                    <a href="{{ route('orders.edit', $order->id) }} " class="btn btn-warning">Edit</a>
-                                    <form action="{{ route('orders.destroy', $order->id) }}" method="POST" class="m-0 p-0">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger"
-                                            onclick="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
+                            <td colspan="11" class="text-center text-danger fw-bold">Không có đơn hàng nào.</td>
                         </tr>
-                    @endforeach
+                    @else
+                        @foreach ($listOrders as $key => $order)
+                            <tr>
+                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $order->user_name }}</td>
+                                <td>{{ $order->shipping_address }}</td>
+                                <td>{{ $order->voucher_name }}</td>
+                                <td>{{ $order->total_price }}vnđ </td>
+                                <td>{{ $order->pay }}</td>
+                                <td>{{ $order->status_pay }}</td>
+                                <td>{{ $order->status_name }}</td>
+                                <td>{{ $order->created_at }}</td>
+                                <td>{{ $order->updated_at }}</td>
+                                <td>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <a href="{{ route('orders.show', $order->id) }}" class="btn btn-info">Detail</a>
+                                        <a href="{{ route('orders.edit', $order->id) }} " class="btn btn-warning">Edit</a>
+                                        <form action="{{ route('orders.destroy', $order->id) }}" method="POST"
+                                            class="m-0 p-0">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger"
+                                                onclick="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>

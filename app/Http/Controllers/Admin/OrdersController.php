@@ -18,9 +18,9 @@ class OrdersController extends Controller
     {
         $listOrders = DB::table('orders')
             ->join('users', 'orders.user_id', '=', 'users.id')
-            ->join('status_orders', 'orders.status_order_id', '=', 'status_orders.id')
-            ->join('vouchers', 'orders.voucher_id', '=', 'vouchers.id')
-            ->select('orders.*', 'users.name as user_name', 'status_orders.status_name', 'vouchers.name as voucher_name')  // Lấy các cột cần thiết từ cả hai bảng
+            ->join('status_orders', 'orders.status_id', '=', 'status_orders.id')
+            ->leftJoin('vouchers', 'orders.voucher_id', '=', 'vouchers.id') // Dùng leftJoin để tránh lỗi khi không có voucher
+            ->select('orders.*', 'users.name as user_name', 'status_orders.status_name', 'vouchers.name as voucher_name')
             ->get();
         return view('admin.orders.index', compact('listOrders'));
     }
@@ -66,29 +66,29 @@ class OrdersController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-{
-    $request->validate([
-        'status_order_id' => 'required|exists:status_orders,id',
-    ]);
+    {
+        $request->validate([
+            'status_order_id' => 'required|exists:status_orders,id',
+        ]);
 
-    $order = Order::findOrFail($id);
-    $currentStatus = $order->status_order_id;
-    $newStatus = $request->status_order_id;
+        $order = Order::findOrFail($id);
+        $currentStatus = $order->status_order_id;
+        $newStatus = $request->status_order_id;
 
-    // Danh sách trạng thái không cho phép quay lại (giả sử ID: 2 - Đang giao hàng, 3 - Giao hàng thành công)
-    $restrictedStatuses = [3, 4];
+        // Danh sách trạng thái không cho phép quay lại (giả sử ID: 2 - Đang giao hàng, 3 - Giao hàng thành công)
+        $restrictedStatuses = [3, 4];
 
-    // Kiểm tra nếu đơn hàng đang ở trạng thái hạn chế và muốn quay lại trạng thái cũ
-    if (in_array($currentStatus, $restrictedStatuses) && $newStatus < $currentStatus) {
-        return redirect()->back()->with('error', 'Không thể quay lại trạng thái trước đó!');
+        // Kiểm tra nếu đơn hàng đang ở trạng thái hạn chế và muốn quay lại trạng thái cũ
+        if (in_array($currentStatus, $restrictedStatuses) && $newStatus < $currentStatus) {
+            return redirect()->back()->with('error', 'Không thể quay lại trạng thái trước đó!');
+        }
+
+        // Cập nhật trạng thái mới
+        $order->status_order_id = $newStatus;
+        $order->save();
+
+        return redirect()->route('orders')->with('success', 'Cập nhật trạng thái thành công!');
     }
-
-    // Cập nhật trạng thái mới
-    $order->status_order_id = $newStatus;
-    $order->save();
-
-    return redirect()->route('orders')->with('success', 'Cập nhật trạng thái thành công!');
-}
 
     /**
      * Remove the specified resource from storage.

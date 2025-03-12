@@ -16,4 +16,24 @@ class OrderDetail extends Model
         'price',
         'total_price',
     ];
+
+    // Mối quan hệ với bảng Order
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    // Mối quan hệ với bảng Product
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    // Mối quan hệ với bảng Variant (nếu sản phẩm có biến thể)
+    public function variant()
+    {
+        return $this->belongsTo(Variant::class);
+    }
+
+   
 }
