@@ -4,8 +4,11 @@
 
     <div class="mb-3">
         <label for="code" class="form-label">Nhập Mã Xác Thực:</label>
-        <input type="text" id="code" name="code" class="form-control text-center fw-bold" placeholder="Nhập mã 6 số..." required>
+        <input type="text" id="code" name="code" class="form-control text-center fw-bold" placeholder="Nhập mã 6 số..." >
         <div id="codeError" class="text-danger mt-1"></div>
+        @if ($errors->has('code'))
+    <div class="text-danger mt-1">{{ $errors->first('code') }}</div>
+@endif
     </div>
 
     <button type="submit" class="btn btn-primary w-100">Xác Thực</button>
