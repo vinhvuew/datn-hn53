@@ -121,7 +121,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     // Route::get("/qldonhang", [Controller::class, 'donhang']);
     Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
     Route::delete('/orders/{id}', [OrdersController::class, 'destroy'])->name('orders.destroy');
-    Route::get('/orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
+    Route::get('/orders/show/{id}', [OrdersController::class, 'show'])->name('orders.show');
     Route::get('orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
     Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
     Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');

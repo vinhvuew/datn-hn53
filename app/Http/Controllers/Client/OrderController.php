@@ -100,6 +100,7 @@ class OrderController extends Controller
                     'product_id' => $item->product_id ?? null,
                     'variant_id' => $item->variant_id ?? null,
                     'quantity' => $item->quantity,
+                    'product_name' => $item->product->name ?? $item->variant->product->name,
                     'price' => $item->variant_id
                         ? optional($item->variant)->selling_price ?? 0
                         : optional($item->product)->base_price ?? 0,
