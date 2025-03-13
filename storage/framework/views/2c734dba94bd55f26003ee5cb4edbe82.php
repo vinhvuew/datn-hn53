@@ -14,7 +14,6 @@
     <div class="card p-4 shadow" style="max-width: 400px; width: 100%;">
         <h4 class="text-center">Xác thực tài khoản</h4>
 
-        <!-- Thông báo chung -->
         <?php if(session('message')): ?>
             <div class="alert alert-info text-center">
                 <?php echo e(session('message')); ?>
@@ -22,7 +21,6 @@
             </div>
         <?php endif; ?>
 
-        <!-- Thông báo lỗi nếu có -->
         <?php if($errors->any()): ?>
             <div class="alert alert-danger text-center">
                 <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -32,7 +30,6 @@
         <?php endif; ?>
 
 
-        <!-- Form nhập mã xác thực -->
         <form action="<?php echo e(route('verification.submit')); ?>" method="POST" class="mt-3">
             <?php echo csrf_field(); ?>
             <div class="mb-3">
@@ -55,7 +52,7 @@ unset($__errorArgs, $__bag); ?>
             <button type="submit" class="btn btn-primary w-100">Xác nhận</button>
         </form>
 
-        <!-- Form gửi lại mã -->
+      
         <form action="<?php echo e(route('resend.verification')); ?>" method="POST" class="mt-2">
             <?php echo csrf_field(); ?>
             <button type="submit" class="btn btn-secondary w-100">Gửi lại mã xác thực</button>

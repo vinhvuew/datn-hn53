@@ -174,7 +174,8 @@
                                                     <div>
                                                         <h5>Đơn hàng #{{ $order->id }}</h5>
                                                         <p>Ngày đặt: {{ $order->order_date }}</p>
-                                                        <p>Trạng thái: <span
+                                                        <p>Trạng thái:
+                                                            <span
                                                                 class="badge bg-warning">{{ $order->payment_status ?? 'Đang xử lý' }}</span>
                                                         </p>
                                                         <p>Tổng tiền:
@@ -186,28 +187,85 @@
                                                         data-target="#orderDetails{{ $order->id }}">Xem chi
                                                         tiết</button>
                                                 </div>
+                                                <div class="d-flex align-items-end">
+                                                    <button class="btn btn-label-danger"
+                                                        data-order-id="{{ $order->id }}">
+                                                        ❌ Hủy đơn hàng
+                                                    </button>
+                                                </div>
+                                                <!-- Danh sách sản phẩm trong đơn hàng -->
                                                 <div class="collapse mt-3" id="orderDetails{{ $order->id }}">
                                                     <ul class="list-group">
                                                         @foreach ($order->orderDetails as $detail)
-                                                            <li class="list-group-item">
+                                                            <li class="list-group-item d-flex align-items-center">
                                                                 @if ($detail->variant)
-                                                                    {{ $detail->variant->name ?? 'Biến thể không tồn tại' }}
+                                                                    <!-- Trường hợp có biến thể -->
+
+                                                                    <div class="d-flex align-items-center mb-3">
+                                                                        <img src="{{ Storage::url($detail->variant->image ?? $detail->product->image) }}"
+                                                                            alt="{{ $detail->product->name ?? 'Không có tên sản phẩm' }}"
+                                                                            width="70" height="100"
+                                                                            class="me-3 rounded shadow-sm">
+
+                                                                        <div>
+                                                                            <strong
+                                                                                class="text-primary">{{ $detail->product_name ?? 'Không có tên sản phẩm' }}</strong>
+                                                                            <p class="mb-1">
+                                                                                💰 Giá:
+                                                                                <strong>{{ number_format($detail->price, 0, ',', '.') }}
+                                                                                    VNĐ</strong>
+                                                                                (Số lượng: {{ $detail->quantity }})
+                                                                            </p>
+
+                                                                            <!-- Hiển thị biến thể -->
+                                                                            <p class="mb-1"><strong>🎨 Biến thể:</strong>
+                                                                            </p>
+                                                                            <ul class="list-unstyled ps-3">
+                                                                                @foreach ($detail->variant->attributes as $variantAttribute)
+                                                                                    <li><i
+                                                                                            class="bi bi-arrow-right-circle"></i>
+                                                                                        <strong>{{ $variantAttribute->attribute->name ?? 'Không xác định' }}:</strong>
+                                                                                        {{ $variantAttribute->attributeValue->value ?? 'Không xác định' }}
+                                                                                    </li>
+                                                                                @endforeach
+                                                                            </ul>
+
+                                                                        </div>
+
+                                                                    </div>
                                                                 @elseif ($detail->product)
-                                                                    {{ $detail->product->name ?? 'Sản phẩm không tồn tại' }}
+                                                                    <!-- Trường hợp không có biến thể, chỉ có sản phẩm -->
+                                                                    <div class="d-flex align-items-center mb-3">
+                                                                        <img src="{{ Storage::url($detail->product->img_thumbnail) }}"
+                                                                            alt="{{ $detail->product->name }}"
+                                                                            width="70" height="70"
+                                                                            class="me-3 rounded shadow-sm">
+
+                                                                        <div>
+                                                                            <strong
+                                                                                class="text-dark">{{ $detail->product_name }}</strong>
+                                                                            <p class="mb-1">
+                                                                                💰 Giá:
+                                                                                <strong>{{ number_format($detail->price, 0, ',', '.') }}
+                                                                                    VNĐ</strong>
+                                                                                (Số lượng: {{ $detail->quantity }})
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
                                                                 @else
-                                                                    Sản phẩm không xác định
+                                                                    <span>Sản phẩm không xác định</span>
                                                                 @endif
-                                                                -
-                                                                {{ number_format($detail->price, 0, ',', '.') }} VNĐ
-                                                                (x{{ $detail->quantity }})
                                                             </li>
                                                         @endforeach
 
                                                     </ul>
                                                 </div>
+
                                             </div>
                                         @endforeach
                                     </div>
+
+
                                 </div>
                             </div>
                         </div>
