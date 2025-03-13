@@ -60,7 +60,7 @@
                                 <div class="mb-3">
                                     <label class="form-label"><strong>Khoảng giá</strong></label>
                                     <input type="range" class="form-range" name="price_sale" id="priceRange"
-                                        min="0" max="10000" step="100" value="{{ request('price_sale', 0) }}">
+                                        min="0" max="10000000" step="500" value="{{ request('price_sale', 0) }}">
                                     <div class="d-flex justify-content-between">
                                         <span>0đ</span>
                                         <span id="priceValue">{{ request('price_sale', 0) }}đ</span>
@@ -77,57 +77,39 @@
 
                 <!-- Danh sách sản phẩm (70%) -->
                 <div class="col-lg-9">
-                    <!-- Dòng chữ chạy "Sale ngập trời" -->
-                    <div class="marquee bg-warning py-2 mb-4">
-                        <marquee behavior="scroll" direction="left" scrollamount="10">
-                            <strong class="text-danger">🎉 SALE NGẬP TRỜI - GIẢM GIÁ LÊN ĐẾN 50% 🎉</strong>
-                        </marquee>
-                    </div>
-
                     <!-- Danh sách sản phẩm -->
-                    <div class="row small-gutters">
+                    <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-3 mt-4">
                         @foreach ($products as $product)
-                            <div class="col-6 col-md-4 col-xl-3">
-                                <div class="grid_item">
-                                    <figure>
-                                        @if ($product->price_sale)
-                                            <span
-                                                class="ribbon off">-{{ round((($product->price_sale - $product->base_price) / $product->price_sale) * 100) }}%</span>
-                                        @endif
-                                        <a href="{{ route('product.show', $product->slug) }}">
-                                            <img class="img-fluid lazy"
+                            <div class="col">
+                                <div class="card border-0 shadow-sm text-center h-100">
+                                    <div class="position-relative overflow-hidden">
+                                        <a href="{{ route('product.show', $product->slug) }}" class="d-block">
+                                            <img class="img-fluid lazy product-image"
                                                 src="{{ asset('storage/' . $product->img_thumbnail) }}"
-                                                alt="{{ $product->name }}" width="400" height="400">
+                                                alt="{{ $product->name }}">
                                         </a>
-                                    </figure>
-                                    <div class="rating">
-                                        <i class="icon-star voted"></i>
-                                        <i class="icon-star voted"></i>
-                                        <i class="icon-star voted"></i>
-                                        <i class="icon-star voted"></i>
-                                        <i class="icon-star"></i>
                                     </div>
-                                    <a href="{{ route('product.show', $product->slug) }}">
-                                        <h3>{{ $product->name }}</h3>
-                                    </a>
-                                    <div class="price_box">
-                                        <span class="new_price">{{ $product->base_price }}đ</span>
-                                        @if ($product->price_sale)
-                                            <span class="old_price">{{ $product->price_sale }}đ</span>
-                                        @endif
+                                    <div class="card-body p-3">
+                                        <a href="{{ route('product.show', $product->slug) }}" class="text-decoration-none">
+                                            <h5 class="card-title text-truncate">{{ $product->name }}</h5>
+                                        </a>
+                                        <div class="price_box">
+                                            @if ($product->price_sale)
+                                                <span
+                                                    class="new_price text-danger fw-bold">{{ number_format($product->price_sale, 0, ',', '.') }}đ</span>
+                                                <span
+                                                    class="old_price text-muted text-decoration-line-through ms-2">{{ number_format($product->base_price, 0, ',', '.') }}đ</span>
+                                            @else
+                                                <span
+                                                    class="new_price fw-bold">{{ number_format($product->base_price, 0, ',', '.') }}đ</span>
+                                            @endif
+                                        </div>
                                     </div>
-                                    <ul>
-                                        <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip"
-                                                data-bs-placement="left" title="Add to compare"><i
-                                                    class="ti-control-shuffle"></i><span>Add to compare</span></a></li>
-                                        <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip"
-                                                data-bs-placement="left" title="Add to cart"><i
-                                                    class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                                    </ul>
                                 </div>
                             </div>
                         @endforeach
                     </div>
+
 
                     <!-- Phân trang -->
                     <div class="pagination__wrapper d-flex justify-content-center mt-4">
@@ -153,6 +135,28 @@
             font-size: 1.2rem;
             color: #dc3545;
             /* Màu chữ đỏ */
+        }
+
+        .product-image {
+            transition: transform 0.3s ease-in-out;
+            border-radius: 10px;
+        }
+
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+
+        .price_box {
+            font-size: 1.1rem;
+        }
+
+        .new_price {
+            font-weight: bold;
+        }
+
+        .old_price {
+            font-size: 0.9rem;
+            color: gray;
         }
     </style>
 @endsection

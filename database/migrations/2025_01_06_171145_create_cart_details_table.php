@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(Variant::class)->nullable()->constrained();
             $table->integer('quantity')->default(1);
             $table->decimal('total_amount', 15, 2);
+            $table->integer('is_selected')->default(0);
             $table->timestamps();
         });
     }

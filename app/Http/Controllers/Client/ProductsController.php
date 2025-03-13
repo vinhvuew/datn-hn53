@@ -82,24 +82,35 @@ class ProductsController extends Controller
                 if (!$variant || $variant->quantity < $quantity) {
                     return back()->with('error', 'Sản phẩm không còn hàng hoặc số lượng vượt quá tồn kho!');
                 }
+                if ($variant->quantity < $quantity) {
+                    return back()->with('error', 'Số lượng vượt quá tồn kho.');
+                }
+
 
                 $cartDetail = CartDetail::where('cart_id', $cart->id)
                     ->where('variant_id', $variant->id)
                     ->first();
 
                 if ($cartDetail) {
+                    if (($quantity + $cartDetail->quantity) > $variant->quantity) {
+                        return back()->with('error', 'Số lượng vượt quá tồn kho.');
+                    }
+                }
+
+                if ($cartDetail) {
                     $cartDetail->quantity += $quantity;
-                    $cartDetail->total_amount += $variant->price_modifier * $quantity;
+                    $cartDetail->total_amount += $variant->selling_price * $quantity;
                     $cartDetail->save();
                 } else {
                     CartDetail::create([
                         'cart_id' => $cart->id,
                         'variant_id' => $variant->id,
                         'quantity' => $quantity,
-                        'total_amount' => $variant->price_modifier * $quantity,
+                        'total_amount' => $variant->selling_price * $quantity,
                     ]);
                 }
-                $variant->decrement('quantity', $quantity);
+
+                // $variant->decrement('quantity', $quantity);
             } else {
                 if ($product->quantity < $quantity) {
                     return back()->with('error', 'Số lượng vượt quá tồn kho.');
@@ -108,7 +119,11 @@ class ProductsController extends Controller
                 $cartDetail = CartDetail::where('cart_id', $cart->id)
                     ->where('product_id', $productId)
                     ->first();
-
+                if ($cartDetail) {
+                    if (($quantity + $cartDetail->quantity) > $product->quantity) {
+                        return back()->with('error', 'Số lượng vượt quá tồn kho.');
+                    }
+                }
                 if ($cartDetail) {
                     $cartDetail->quantity += $quantity;
                     $cartDetail->total_amount += $price * $quantity;
@@ -121,7 +136,7 @@ class ProductsController extends Controller
                         'total_amount' => $price * $quantity,
                     ]);
                 }
-                $product->decrement('quantity', $quantity);
+                // $product->decrement('quantity', $quantity);
             }
 
             return back()->with('success', 'Sản phẩm đã được thêm vào giỏ hàng!');

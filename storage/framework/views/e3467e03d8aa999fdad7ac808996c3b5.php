@@ -168,10 +168,7 @@
                             </div>
                             <div class="card-body pt-3 pb-0">
                                 <ul class="timeline card-timeline mb-0">
-
                                     
-
-
                                 </ul>
                             </div>
                         </div>

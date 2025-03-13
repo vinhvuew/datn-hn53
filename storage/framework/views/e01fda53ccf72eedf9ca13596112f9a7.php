@@ -14,8 +14,7 @@
                                         <p class="owl-slide-animated owl-slide-subtitle">
                                             Limited items available at this price
                                         </p>
-                                        <div class="owl-slide-animated owl-slide-cta"><a class="btn_1"
-                                                href="listing-grid-1-full.html" role="button">Shop Now</a></div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -371,7 +370,6 @@
         // Hiển thị slide đầu tiên
         showSlide(currentIndex);
     </script>
-
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/admin/datn-hn53/resources/views/Client/home.blade.php ENDPATH**/ ?>
