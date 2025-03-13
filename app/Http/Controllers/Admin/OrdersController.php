@@ -43,10 +43,15 @@ class OrdersController extends Controller
      */
     public function show($id)
     {
-        $order_detail = Order::with(['users', 'status_order', 'vouchers', 'products'])
-            ->where('id', $id)
-            ->firstOrFail();
-        return view('admin.orders.show', compact('order_detail'));
+        $order = Order::with([
+            'orderDetails.product',
+            'orderDetails.variant.attributes.attribute',
+            'orderDetails.variant.attributes.attributeValue',
+            'user',
+            'status'
+        ])->findOrFail($id);
+
+        return view('admin.orders.show', compact('order'));
     }
 
     /**

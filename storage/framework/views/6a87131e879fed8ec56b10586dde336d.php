@@ -18,14 +18,23 @@
                     </i>Lịch sử</a>
             </li>
             <li class="nav-item">
-                
-
-                <a href="<?php echo e(route('logout')); ?>" class="nav-link">
-                    <i class="mdi mdi-logout me-1 mdi-20px"></i> Đăng xuất
-                </a>
-
+                <?php if(Auth::check() && (Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')): ?>
+                    <a class="nav-link <?php echo $__env->yieldContent('Account'); ?>" href="<?php echo e(route('admin.logad')); ?>">
+                        <i class='mdi mdi-account me-1 mdi-20px'></i> Đăng nhập Admin
+                    </a>
+                <?php endif; ?>
 
             </li>
+            <li class="nav-item">
+                <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+                    <?php echo csrf_field(); ?>
+                </form>
+            
+                <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="mdi mdi-logout me-1 mdi-20px"></i> Đăng xuất
+                </a>
+            </li>
+            
         </ul>
     </div>
 </div>

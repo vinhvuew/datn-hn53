@@ -29,7 +29,7 @@
                         <?php $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
                                 <td>ORDER <?php echo e($order->id); ?></td>
-                                <td><?php echo e($order->users->name); ?></td>
+                                <td><?php echo e($order->user->name); ?></td>
                                 <td><?php echo e(\Carbon\Carbon::parse($order->order_date)->format('d/m/Y')); ?></td>
                                 <td>
                                     <span
@@ -51,7 +51,7 @@
                                 <td>
                                     <span
                                         class="badge
-                                            <?php switch($order->payment_method):
+                                            <?php switch($order->status):
                                                 case ('pending'): ?> bg-warning text-dark <?php break; ?>
                                                 <?php case ('confirmed'): ?> bg-secondary text-white <?php break; ?>
                                                 <?php case ('shipping'): ?> bg-primary <?php break; ?>
@@ -81,7 +81,7 @@
                                             'return_approved' => 'Chấp nhận trả hàng',
                                             'returned_item_received' => 'Đã nhận được hàng trả lại',
                                             'refund_completed' => 'Hoàn tiền thành công',
-                                        ][$order->payment_status] ?? 'Không rõ'); ?>
+                                        ][$order->status] ?? 'Không rõ'); ?>
 
                                     </span>
                                 </td>

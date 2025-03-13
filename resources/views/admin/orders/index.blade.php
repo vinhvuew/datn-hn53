@@ -30,7 +30,7 @@
                         @foreach ($orders as $key => $order)
                             <tr>
                                 <td>ORDER {{ $order->id }}</td>
-                                <td>{{ $order->users->name }}</td>
+                                <td>{{ $order->user->name }}</td>
                                 <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</td>
                                 <td>
                                     <span
@@ -51,7 +51,7 @@
                                 <td>
                                     <span
                                         class="badge
-                                            @switch($order->payment_status)
+                                            @switch($order->status)
                                                 @case('pending') bg-warning text-dark @break
                                                 @case('confirmed') bg-secondary text-white @break
                                                 @case('shipping') bg-primary @break
@@ -81,7 +81,7 @@
                                             'return_approved' => 'Chấp nhận trả hàng',
                                             'returned_item_received' => 'Đã nhận được hàng trả lại',
                                             'refund_completed' => 'Hoàn tiền thành công',
-                                        ][$order->payment_status] ?? 'Không rõ' }}
+                                        ][$order->status] ?? 'Không rõ' }}
                                     </span>
                                 </td>
                                 <td>{{ number_format($order->total_price, 0, ',', '.') }} VNĐ</td>
