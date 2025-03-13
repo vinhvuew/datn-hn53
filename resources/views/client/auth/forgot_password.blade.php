@@ -4,7 +4,17 @@
 
     <div class="mb-3">
         <label for="email" class="form-label">Email:</label>
-        <input type="email" id="email" name="email" class="form-control" placeholder="Nhập email của bạn..." required>
+        <input type="email" id="email" name="email" class="form-control" placeholder="Nhập email của bạn..." value="{{ old('email') }}">
+        
+        @if ($errors->has('email'))
+            <div class="text-danger mt-1">
+                @foreach ($errors->get('email') as $error)
+                    <div>{{ $error }}</div>
+                @endforeach
+            </div>
+        @endif
+
+       
         <div id="emailError" class="text-danger mt-1"></div>
     </div>
 
@@ -20,7 +30,7 @@ function validateEmail() {
     let email = document.getElementById("email").value;
     let emailError = document.getElementById("emailError");
 
-    emailError.innerHTML = "";
+    emailError.innerHTML = "";  // Reset error message
 
     let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 

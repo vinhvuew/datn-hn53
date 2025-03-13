@@ -1400,3 +1400,7 @@ Did you mean one of these?
 #61 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #62 {main}
 "} 
+[2025-03-13 10:19:52] local.ERROR: syntax error, unexpected token "<", expecting "function" or "const" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"<\", expecting \"function\" or \"const\" at D:\\laragon\\www\\datn-hn53\\app\\Models\\variant.php:39)
+[stacktrace]
+#0 {main}
+"} 
