@@ -21,7 +21,8 @@
                                     @method('PUT')
 
                                     <div class="position-relative d-inline-block">
-                                        <img src="{{ Storage::url(Auth::user()->avatar) }}" alt="user image"
+                                        
+                                        <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="user image"
                                             class="d-block rounded-circle user-profile-img"
                                             style="width: 100px; height: 100px; object-fit: cover;">
 
@@ -135,10 +136,7 @@
                                         <span class="fw-medium mx-2">Quốc
                                             gia:</span> <span>Việt Nam</span>
                                     </li>
-                                    <li class="d-flex align-items-center mb-1"><i
-                                            class="mdi mdi-translate mdi-24px"></i><span class="fw-medium mx-2">Ngôn
-                                            ngữ:</span> <span>Tiếng việt</span>
-                                    </li>
+                                  
                                 </ul>
                                 <small class="card-text text-uppercase">Liên hệ</small>
                                 <ul class="list-unstyled my-3 py-1">
@@ -169,29 +167,7 @@
                             </div>
                             <div class="card-body pt-3 pb-0">
                                 <ul class="timeline card-timeline mb-0">
-
-                                    {{-- @if ($logs->isEmpty())
-                                    <div class="alert alert-warning" role="alert">
-                                        Bạn chưa có hoạt động nào!
-                                    </div>
-                                @else
-                                    @foreach ($logs as $item)
-                                        <li
-                                            class="timeline-item timeline-item-transparent {{ !$loop->last ? 'border-primary' : 'border-transparent' }}">
-                                            <span class="timeline-point timeline-point-primary"></span>
-                                            <div class="timeline-event">
-                                                <div class="timeline-header mb-2 pb-1">
-                                                    <h6 class="mb-0">Người dùng thực hiện</h6>
-                                                    <small
-                                                        class="text-muted">{{ $item->created_at->format('d/m/Y') }}</small>
-                                                </div>
-                                                <p class="text-muted mb-2">{{ $item->action }} </p>
-                                            </div>
-                                        </li>
-                                    @endforeach
-                                @endif --}}
-
-
+                                    
                                 </ul>
                             </div>
                         </div>

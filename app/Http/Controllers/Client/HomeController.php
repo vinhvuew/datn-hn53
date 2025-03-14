@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Models\Cart;
+use App\Models\CartDetail;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Models\Brand;
 
 class HomeController extends Controller
 {
@@ -16,15 +17,48 @@ class HomeController extends Controller
 
     public function home()
     {
-        return view(self::PATH_VIEW . __FUNCTION__);
+        $latestProducts = Product::all();
+        $discountedProducts = Product::all();
+        $topSellingProducts = Product::all();
+        $brands = [
+            [
+                "name" => "Hải",
+                "text" => "Thương hiệu số 1"
+            ],
+            [
+                "name" => "Nam",
+                "text" => "Uy tín và chất lượng"
+            ],
+            [
+                "name" => "Linh",
+                "text" => "Dẫn đầu xu hướng"
+            ],
+            [
+                "name" => "An",
+                "text" => "Giá tốt nhất thị trường"
+            ]
+        ];
+
+        return view(self::PATH_VIEW . __FUNCTION__, compact('latestProducts', 'discountedProducts', 'topSellingProducts', 'brands'));
     }
 
 
     public function checkout()
     {
+
         if (Auth::check()) {
-            $totalAmount = 1;
             $address = Address::where('user_id', Auth::id())->get();
+
+            $cart = Cart::with(['cartDetails' => function ($query) {
+                $query->where('is_selected', 1);
+            }, 'cartDetails.product'])
+                ->where('user_id', Auth::id())
+                ->first();
+
+
+            $totalAmount = CartDetail::where('cart_id', $cart->id)
+                ->where('is_selected', 1)
+                ->sum('total_amount');
 
             $payment_method = [
                 [
@@ -40,51 +74,12 @@ class HomeController extends Controller
                     'value' => 'COD'
                 ],
             ];
-            $products = [
-                [
-                    'name' => 'Giày Nike ss2',
-                    'total' => 120000,
-                    'quantity' => 2,
 
-                ],
-                [
-                    'name' => 'Giày jordan ss2',
-                    'total' => 220000,
-                    'quantity' => 1,
-
-                ],
-
-            ];
-            return view(self::PATH_VIEW . __FUNCTION__ . ".order", compact('totalAmount', 'payment_method', 'products', 'address'));
+            return view(self::PATH_VIEW . __FUNCTION__ . ".order", compact('totalAmount', 'payment_method', 'cart', 'address'));
         }
         return view('client.home');
     }
-    public function room()
-    {
-        return view(self::PATH_VIEW . __FUNCTION__);
-    }
-    public function products()
-    {
-        return view(self::PATH_VIEW . __FUNCTION__);
-    }
 
-
-
-
-    public function index()
-    {
-
-        $latestProducts = Product::orderBy('created_at', 'desc')->take(8)->get();
-        $topSellingProducts = Product::orderBy('view', 'desc')->take(8)->get();
-        $brands = Brand::orderBy('created_at', 'desc')->take(4)->get();
-        $discountedProducts = Product::whereColumn('price_sale', '<', 'base_price') // Lọc sản phẩm giảm giá
-            ->orderBy('created_at', 'desc')
-            ->take(9) // Lấy 9 sản phẩm (hiển thị 3 sản phẩm mỗi slide)
-            ->get();
-
-
-        return view('client.home', compact('latestProducts', 'topSellingProducts', 'brands', 'discountedProducts'));
-    }
 
     public function search(Request $request)
     {
@@ -95,36 +90,6 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('client.product.searchResults', compact('searchResults', 'query'));
-    }
-
-    public function filter(Request $request)
-    {
-        $query = Product::query();
-
-        // Lọc theo giá
-        if ($request->filled('price')) {
-            [$min, $max] = explode('-', $request->price . '-');
-            if ($min !== '') {
-                $query->where('base_price', '>=', (int)$min);
-            }
-            if ($max !== '') {
-                $query->where('base_price', '<=', (int)$max);
-            }
-        }
-
-        // Lọc theo size (giả sử có cột `size` trong bảng `products`)
-        if ($request->filled('size')) {
-            $query->where('size', $request->size);
-        }
-
-        // Lọc theo màu sắc (giả sử có cột `color` trong bảng `products`)
-        if ($request->filled('color')) {
-            $query->where('color', $request->color);
-        }
-
-        $filteredProducts = $query->get();
-
-        return view('client.filtered_products', compact('filteredProducts'));
+        return view('client.searchResults', compact('searchResults', 'query'));
     }
 }

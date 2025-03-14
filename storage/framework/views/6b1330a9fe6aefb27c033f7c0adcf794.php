@@ -1,27 +1,34 @@
 <?php $__env->startSection('content'); ?>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
 >>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
     <div class="container mt-4">
         <div id="alert-container"></div>
+=======
+    <main>
+        <div class="container mt-4">
+            <div id="alert-container"></div>
+>>>>>>> 2d5fa35dcb35469b34b27246e4e055613a191cef
 
-        <div class="card shadow-sm border-0 rounded">
-            <div class="card-header  text-white d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Quản Lý Người Dùng</h5>
-                <form action="<?php echo e(route('users.index')); ?>" method="GET" class="d-flex">
-                    <input type="text" name="search" value="<?php echo e(request('search')); ?>"
-                        class="form-control form-control-sm me-2" placeholder="Nhập tên, email hoặc SĐT"
-                        style="max-width: 250px;">
-                    <button type="submit" class="btn btn-outline-primary btn-sm me-2">🔍 Tìm kiếm</button>
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-header  text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Quản Lý Người Dùng</h5>
+                    <form action="<?php echo e(route('users.index')); ?>" method="GET" class="d-flex">
+                        <input type="text" name="search" value="<?php echo e(request('search')); ?>"
+                            class="form-control form-control-sm me-2" placeholder="Nhập tên, email hoặc SĐT"
+                            style="max-width: 250px;">
+                        <button type="submit" class="btn btn-outline-primary btn-sm me-2">🔍 Tìm kiếm</button>
 
-                    <?php if(request('search')): ?>
-                        <a href="<?php echo e(route('users.index')); ?>" class="btn btn-warning btn-sm">Quay Lại</a>
-                    <?php endif; ?>
-                </form>
+                        <?php if(request('search')): ?>
+                            <a href="<?php echo e(route('users.index')); ?>" class="btn btn-warning btn-sm">Quay Lại</a>
+                        <?php endif; ?>
+                    </form>
 
+<<<<<<< HEAD
             </div>
             <div class="card-body">
 <<<<<<< HEAD
@@ -128,14 +135,61 @@
                                             </button>
                                         </form>
                                     </td>
+=======
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-primary text-center">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên</th>
+                                    <th>Email</th>
+                                    <th>Số Điện Thoại</th>
+                                    <th>Vai Trò</th>
+                                    <th class="text-center">Chức Năng</th>
+>>>>>>> 2d5fa35dcb35469b34b27246e4e055613a191cef
                                 </tr>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <tr id="user-row-<?php echo e($user->id); ?>">
+                                        <td class="text-center align-middle"><?php echo e($user->id); ?></td>
+                                        <td class="align-middle"><?php echo e($user->name); ?></td>
+                                        <td class="align-middle"><?php echo e($user->email ?? '-'); ?></td>
+                                        <td class="align-middle"><?php echo e($user->phone ?? '-'); ?></td>
+                                        <td class="align-middle">
+                                            <select name="role" class="form-select form-select-sm role-select"
+                                                data-user-id="<?php echo e($user->id); ?>" data-old-role="<?php echo e($user->role); ?>">
+                                                <option value="user" <?php echo e($user->role == 'user' ? 'selected' : ''); ?>>User
+                                                </option>
+                                                <option value="moderator"
+                                                    <?php echo e($user->role == 'moderator' ? 'selected' : ''); ?>>
+                                                    Moderator</option>
+                                                <option value="admin" <?php echo e($user->role == 'admin' ? 'selected' : ''); ?>>Admin
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <form class="delete-form d-inline" data-user-id="<?php echo e($user->id); ?>"
+                                                data-user-name="<?php echo e($user->name); ?>">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('DELETE'); ?>
+                                                <button type="button" class="btn btn-danger btn-sm delete-user">
+                                                    <i class="fas fa-trash-alt"></i> Xóa
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <<<<<<< HEAD

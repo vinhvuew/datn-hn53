@@ -4,7 +4,7 @@
         <div id="carousel-home">
             <div class="owl-carousel owl-theme">
                 <div class="owl-slide cover"
-                    style="background-image: url({{ asset('client') }}/img/slides/slide_home_2.jpg);">
+                    style="background-image: url({{ asset('client.home') }}/img/slides/slide_home_2.jpg);">
                     <div class="opacity-mask d-flex align-items-center" data-opacity-mask="rgba(0, 0, 0, 0.5)">
                         <div class="container">
                             <div class="row justify-content-center justify-content-md-end">
@@ -15,8 +15,8 @@
                                         <p class="owl-slide-animated owl-slide-subtitle">
                                             Limited items available at this price
                                         </p>
-                                        <div class="owl-slide-animated owl-slide-cta"><a class="btn_1"
-                                                href="listing-grid-1-full.html" role="button">Shop Now</a></div>
+                                        {{-- <div class="owl-slide-animated owl-slide-cta"><a class="btn_1"
+                                                href="listing-grid-1-full.html" role="button">Shop Now</a></div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -119,7 +119,7 @@
             <div class="main_title">
                 <h2>SALE SẢN PHẨM</h2>
                 <span>SẢN PHẨM GIẢM GIÁ</span>
-               
+
             </div>
 
             <div class="carousel-inner">
@@ -228,14 +228,14 @@
 
                     </div>
                     <div class="row">
-                        @foreach ($brands as $brand)
+                        {{-- @foreach ($brands as $brand)
                             <div class="col-md-3 col-6">
                                 <div class="brand_item text-center">
                                     <h3>{{ $brand->name }}</h3>
                                     <p>{{ $brand->text }}</p>
                                 </div>
                             </div>
-                        @endforeach
+                        @endforeach --}}
                     </div>
                 </div>
 
@@ -366,6 +366,7 @@
             currentIndex = (currentIndex + 1) % totalSlides;
             showSlide(currentIndex);
         }
+
 
         function prevSlide() {
             currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
