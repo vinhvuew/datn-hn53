@@ -15,6 +15,7 @@ class OrderDetail extends Model
         'quantity',
         'price',
         'total_price',
+        'product_name'
     ];
 
     // Mối quan hệ với bảng Order
@@ -35,5 +36,5 @@ class OrderDetail extends Model
         return $this->belongsTo(Variant::class);
     }
 
-   
+
 }

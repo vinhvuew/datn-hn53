@@ -18,18 +18,23 @@
                     </i>Lịch sử</a>
             </li>
             <li class="nav-item">
-                {{-- @if (Auth::check() && (Auth::user()->role === 'admin' || Auth::user()->role === 'moderator'))
+                @if (Auth::check() && (Auth::user()->role === 'admin' || Auth::user()->role === 'moderator'))
                     <a class="nav-link @yield('Account')" href="{{ route('admin.logad') }}">
                         <i class='mdi mdi-account me-1 mdi-20px'></i> Đăng nhập Admin
                     </a>
-                @endif --}}
-
-                <a href="{{ route('logout') }}" class="nav-link">
-                    <i class="mdi mdi-logout me-1 mdi-20px"></i> Đăng xuất
-                </a>
-
+                @endif
 
             </li>
+            <li class="nav-item">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            
+                <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="mdi mdi-logout me-1 mdi-20px"></i> Đăng xuất
+                </a>
+            </li>
+            
         </ul>
     </div>
 </div>

@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductsController;
 use App\Http\Controllers\Client\LoginRegisterController;
+
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Client\CreateNewsController;
@@ -80,6 +84,27 @@ Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout.vi
 Route::post('/checkout/store', [OrderController::class, 'placeOrder'])->name('checkout.store');
 Route::put('/cart/update-selection/{id}', [CartController::class, 'updateSelection']);
 
+// dang nhap, dang ky
+Route::get('login', [LoginRegisterController::class, 'showForm'])->name('login.show');
+Route::post('login', [LoginRegisterController::class, 'login'])->name('login.post');
+Route::post('register', [LoginRegisterController::class, 'register'])->name('register.post');
+//xac minh email
+Route::get('/verify-email/{code}', [LoginRegisterController::class, 'verifyEmail'])->name('verify.email');
+//gui lại email xac thuc
+Route::post('/resend-verification', [LoginRegisterController::class, 'resendVerification'])->name('resend.verification');
+Route::get('/verify-code', [LoginRegisterController::class, 'showVerificationForm'])->name('verification.form');
+Route::post('/verify-code', [LoginRegisterController::class, 'verifyCode'])->name('verification.submit');
+
+//quen mat khau
+Route::get('/forgot-password', [LoginRegisterController::class, 'showForgotPasswordForm'])->name('password.forgot.form');
+Route::post('/forgot-password', [LoginRegisterController::class, 'sendResetCode'])->name('password.forgot');
+
+Route::get('/verify-reset-code', [LoginRegisterController::class, 'showVerifyResetCodeForm'])->name('password.verify.form');
+Route::post('/verify-reset-code', [LoginRegisterController::class, 'verifyResetCode'])->name('password.verify');
+
+Route::post('/resend-password', [LoginRegisterController::class, 'resendVerificationForPassword'])->name('password.resend');
+Route::get('/reset-password', [LoginRegisterController::class, 'showResetPasswordForm'])->name('password.reset.form');
+Route::post('/reset-password', [LoginRegisterController::class, 'resetPassword'])->name('password.reset');
 
 // đăng nhập, đăng ký, đăng xuất user
 Route::get('login', [LoginRegisterController::class, 'showForm'])->name('login.show');
@@ -125,7 +150,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     // Route::get("/qldonhang", [Controller::class, 'donhang']);
     Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
     Route::delete('/orders/{id}', [OrdersController::class, 'destroy'])->name('orders.destroy');
-    Route::get('/orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
+    Route::get('/orders/show/{id}', [OrdersController::class, 'show'])->name('orders.show');
     Route::get('orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
     Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
     Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
