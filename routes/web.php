@@ -102,6 +102,7 @@ Route::post('/forgot-password', [LoginRegisterController::class, 'sendResetCode'
 Route::get('/verify-reset-code', [LoginRegisterController::class, 'showVerifyResetCodeForm'])->name('password.verify.form');
 Route::post('/verify-reset-code', [LoginRegisterController::class, 'verifyResetCode'])->name('password.verify');
 
+Route::post('/resend-password', [LoginRegisterController::class, 'resendVerificationForPassword'])->name('password.resend');
 Route::get('/reset-password', [LoginRegisterController::class, 'showResetPasswordForm'])->name('password.reset.form');
 Route::post('/reset-password', [LoginRegisterController::class, 'resetPassword'])->name('password.reset');
 

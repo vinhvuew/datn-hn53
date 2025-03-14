@@ -9,17 +9,20 @@ class ForgotPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $otp;
+    public $user;
+    public $verificationCode;
 
-    public function __construct($otp)
+    public function __construct($user)
     {
-        $this->otp = $otp;
+        $this->user = $user;
+        $this->verificationCode = $user->verification_code; 
     }
 
     public function build()
     {
         return $this->subject('Mã xác thực đặt lại mật khẩu')
-                    ->view('emails.forgot_password')
-                    ->with(['otp' => $this->otp]);
+                    ->view('client.emails.forgot_password')
+                    ->with([ 'user' => $this->user,
+                    'verificationCode' => $this->verificationCode, ]);
     }
 }
