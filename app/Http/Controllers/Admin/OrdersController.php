@@ -16,6 +16,7 @@ class OrdersController extends Controller
      */
     public function index()
     {
+
         $query = Order::query();
 
         $orders = $query->orderBy('created_at', 'desc')->paginate(10);
