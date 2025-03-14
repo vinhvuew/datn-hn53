@@ -116,7 +116,7 @@ class ProfileController extends Controller
                 'updated_at' => now()
             ]);
 
-            return back()->with('successp', 'Mật khẩu đã được cập nhật thành công!');
+            return back()->with('success', 'Mật khẩu đã được cập nhật thành công!');
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Đã xảy ra lỗi, vui lòng thử lại sau!']);
         }
@@ -127,12 +127,16 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        // Lấy danh sách đơn hàng của người dùng
-        $orders = Order::with(['orderDetails.product']) // Lấy thông tin sản phẩm trong đơn hàng
+        // Lấy danh sách đơn hàng của người dùng kèm theo thông tin sản phẩm và biến thể
+        $orders = Order::with([
+            'orderDetails.product',// Lấy sản phẩm trong đơn hàng
+            'orderDetails.variant.attributes.attribute',      
+            'orderDetails.variant.attributes.attributeValue' // Lấy biến thể và thuộc tính biến thể
+        ])
             ->where('user_id', $user->id)
             ->orderBy('id', 'desc')
             ->get();
-        // dd($orders);
+// dd($orders);
         return view('client.users.profile.order', compact('orders'));
     }
 }

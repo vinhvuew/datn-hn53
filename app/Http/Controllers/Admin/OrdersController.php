@@ -16,13 +16,11 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $listOrders = DB::table('orders')
-            ->join('users', 'orders.user_id', '=', 'users.id')
-            ->join('status_orders', 'orders.status_id', '=', 'status_orders.id')
-            ->leftJoin('vouchers', 'orders.voucher_id', '=', 'vouchers.id') // Dùng leftJoin để tránh lỗi khi không có voucher
-            ->select('orders.*', 'users.name as user_name', 'status_orders.status_name', 'vouchers.name as voucher_name')
-            ->get();
-        return view('admin.orders.index', compact('listOrders'));
+
+        $query = Order::query();
+
+        $orders = $query->orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.orders.index', compact('orders'));
     }
 
     /**g
@@ -46,10 +44,15 @@ class OrdersController extends Controller
      */
     public function show($id)
     {
-        $order_detail = Order::with(['users', 'status_order', 'vouchers', 'products'])
-            ->where('id', $id)
-            ->firstOrFail();
-        return view('admin.orders.show', compact('order_detail'));
+        $order = Order::with([
+            'orderDetails.product',
+            'orderDetails.variant.attributes.attribute',
+            'orderDetails.variant.attributes.attributeValue',
+            'user',
+            'status'
+        ])->findOrFail($id);
+
+        return view('admin.orders.show', compact('order'));
     }
 
     /**

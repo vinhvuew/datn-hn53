@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 [2025-03-12 22:59:54] local.ERROR: Undefined array key "image"  
 [2025-03-12 23:01:38] local.ERROR: Undefined array key "image"  
 [2025-03-12 23:09:10] local.ERROR: Lỗi khi tạo đơn hàng: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'address_id' cannot be null (Connection: mysql, SQL: insert into `orders` (`user_id`, `status_id`, `total_price`, `address_id`, `payment_method`, `payment_status`, `order_date`, `voucher_id`) values (1, 1, 2000000.00, ?, COD, Thanh toán khi nhận hàng, 2025-03-12 23:09:10, ?))  
@@ -1706,3 +1707,5 @@
 #54 {main}
 "} 
 >>>>>>> 6c57f66bdd32d3406f5eb3395302b427099e421b
+=======
+>>>>>>> 2d5fa35dcb35469b34b27246e4e055613a191cef

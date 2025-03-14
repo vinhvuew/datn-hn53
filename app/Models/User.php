@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable 
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -17,7 +16,12 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'phone', 'address', 'password', 'avatar'];
+    protected $fillable = [
+        'name', 'address', 'email', 'password', 'phone', 'role',
+        'avatar', 'email_verified_at', 'verification_code', 
+        'verification_code_sent_at', 'verification_code_expires_at',
+        'password_reset_sent_at', 'password_reset_expires_at'
+    ];
 
     protected $attributes = [
         'role' => 'user',  // Sử dụng dấu `=>` để gán giá trị mặc định
@@ -40,10 +44,13 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'string',
+        'verification_code_sent_at' => 'datetime',
+        'verification_code_expires_at' => 'datetime',
+        'password_reset_sent_at' => 'datetime',
+        'password_reset_expires_at' => 'datetime',
     ];
     public function getAvataUrlAttribute()
     {
-        return $this->avata ? asset('storage/avatar/' . $this->avata) : asset('images/default-avatar.png');
+        return $this->avatar ? asset('storage/avatar/' . $this->avatar) : asset('images/default-avatar.png');
     }
 }

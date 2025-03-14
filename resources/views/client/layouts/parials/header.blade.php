@@ -34,7 +34,7 @@
 
                             </li>
                             <li>
-                                <a href="blog.html">Chính sách</a>
+                                <a href="{{ route('policies')}}">Chính sách</a>
                             </li>
                             <li>
                                 <a href="blog.html">Bài viết</a>
