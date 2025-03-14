@@ -116,7 +116,7 @@ class ProfileController extends Controller
                 'updated_at' => now()
             ]);
 
-            return back()->with('successp', 'Mật khẩu đã được cập nhật thành công!');
+            return back()->with('success', 'Mật khẩu đã được cập nhật thành công!');
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Đã xảy ra lỗi, vui lòng thử lại sau!']);
         }

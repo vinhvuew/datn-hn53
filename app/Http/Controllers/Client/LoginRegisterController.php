@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyEmail;
 use App\Models\User;
 
 class LoginRegisterController extends Controller
@@ -40,12 +42,18 @@ class LoginRegisterController extends Controller
 
         $user = User::where($fieldType, $login)->first();
 
-        if ($user && Hash::check($password, $user->password)) {
-            Auth::login($user);
-            return redirect('/')->with('success', 'Đăng nhập thành công!');
+        if (!$user || !Hash::check($password, $user->password)) {
+            return back()->withErrors(['login' => 'Thông tin đăng nhập không đúng.'])->with('auth_type', 'login');
         }
 
-        return back()->withErrors(['login' => 'Thông tin đăng nhập không đúng.'])->with('auth_type', 'login');
+        // Nếu email chưa được xác thực, chuyển hướng sang trang nhập mã xác thực
+        if ($user->email && !$user->email_verified_at) {
+            session(['email_verification' => $user->email]); // Lưu email vào session
+            return redirect()->route('verification.form')->with('message', 'Tài khoản chưa được xác thực. Vui lòng nhập mã xác thực.');
+        }
+
+        Auth::login($user);
+        return redirect('/')->with('success', 'Đăng nhập thành công!');
     }
 
     public function register(Request $request)
@@ -76,16 +84,191 @@ class LoginRegisterController extends Controller
             return back()->withErrors(['login' => ucfirst($fieldType) . ' đã được sử dụng.'])->with('auth_type', 'register');
         }
 
+        $verificationCode = mt_rand(100000, 999999);
+
         $user = User::create([
             'name'     => $request->name,
             'email'    => $fieldType === 'email' ? $login : null,
             'phone'    => $fieldType === 'phone' ? $login : null,
             'password' => Hash::make($request->password),
+            'verification_code' => $verificationCode,
         ]);
 
-        // Auth::login($user);
+        if ($user->email) {
+            Mail::to($user->email)->send(new VerifyEmail($user));
+        }
 
-        return redirect()->route('login.show')->with('success', 'Đăng ký thành công! Vui lòng đăng nhập. ');
+        return redirect()->route('login.show')->with('success', 'Đăng ký thành công! Vui lòng kiểm tra email để kích hoạt tài khoản.');
+    }
+
+    public function showVerificationForm()
+    {
+        if (!session()->has('email_verification')) {
+            return redirect()->route('login.show')->withErrors(['error' => 'Không tìm thấy email cần xác thực.']);
+        }
+
+        return view('client.auth.verify_code');
+    }
+
+    public function verifyCode(Request $request)
+    {
+        $request->validate([
+            'code' => ['required', 'digits:6'],
+        ], [
+            'code.required' => 'Vui lòng nhập mã xác thực.',
+            'code.digits' => 'Mã xác thực phải có 6 chữ số.',
+        ]);
+
+        $email = session('email_verification');
+
+        $user = User::where('email', $email)
+            ->where('verification_code', $request->code)
+            ->first();
+
+        if (!$user) {
+            return back()->withErrors(['code' => 'Mã xác thực không đúng.']);
+        }
+
+        // Cập nhật trạng thái xác thực email
+        $user->email_verified_at = now();
+        $user->verification_code = null;
+        $user->save();
+
+        // Đăng nhập người dùng
+        Auth::login($user);
+
+        // Xóa session xác thực
+        session()->forget('email_verification');
+
+        return redirect('/')->with('success', 'Tài khoản đã được xác thực thành công!');
+    }
+
+    public function resendVerification()
+    {
+        $email = session('email_verification');
+
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return redirect()->route('login.show')->withErrors(['login' => 'Không tìm thấy tài khoản với email này.']);
+        }
+
+        if ($user->email_verified_at) {
+            return redirect()->route('login.show')->with('success', 'Email đã được xác thực trước đó. Bạn có thể đăng nhập.');
+        }
+
+        $verificationCode = mt_rand(100000, 999999);
+        $user->verification_code = $verificationCode;
+        $user->save();
+
+        Mail::to($user->email)->send(new VerifyEmail($user));
+
+        return redirect()->route('verification.form')->with('message', 'Mã xác thực mới đã được gửi. Vui lòng kiểm tra email.');
+    }
+
+
+    public function showForgotPasswordForm()
+    {
+        return view('client.auth.forgot_password');
+    }
+
+    // Xử lý yêu cầu quên mật khẩu
+    public function sendResetCode(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email', 'exists:users,email'],
+        ], [
+            'email.required' => 'Vui lòng nhập email.',
+            'email.email' => 'Email không hợp lệ.',
+            'email.exists' => 'Email này chưa được đăng ký.',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        // Tạo mã OTP 6 số
+        $otp = mt_rand(100000, 999999);
+        $user->verification_code = $otp;
+        $user->save();
+
+        // Gửi mã OTP qua email
+        Mail::to($user->email)->send(new VerifyEmail($user));
+
+        // Lưu email vào session để dùng ở bước tiếp theo
+        session(['password_reset_email' => $user->email]);
+
+        return redirect()->route('password.verify.form')->with('message', 'Mã xác thực đã được gửi. Vui lòng kiểm tra email.');
+    }
+
+    // Hiển thị form nhập mã OTP
+    public function showVerifyResetCodeForm()
+    {
+        if (!session()->has('password_reset_email')) {
+            return redirect()->route('password.forgot.form')->withErrors(['error' => 'Vui lòng nhập email để nhận mã xác thực.']);
+        }
+
+        return view('client.auth.verify_reset_code');
+    }
+
+    // Xác thực mã OTP
+    public function verifyResetCode(Request $request)
+    {
+        $request->validate([
+            'code' => ['required', 'digits:6'],
+        ], [
+            'code.required' => 'Vui lòng nhập mã xác thực.',
+            'code.digits' => 'Mã xác thực phải có 6 chữ số.',
+        ]);
+
+        $email = session('password_reset_email');
+        $user = User::where('email', $email)->where('verification_code', $request->code)->first();
+
+        if (!$user) {
+            return back()->withErrors(['code' => 'Mã xác thực không đúng.']);
+        }
+
+        // Xóa mã xác thực và chuyển sang bước đặt lại mật khẩu
+        session(['password_reset_verified' => true]);
+
+        return redirect()->route('password.reset.form');
+    }
+
+    // Hiển thị form đặt lại mật khẩu
+    public function showResetPasswordForm()
+    {
+        if (!session()->has('password_reset_verified')) {
+            return redirect()->route('password.forgot.form')->withErrors(['error' => 'Vui lòng xác thực mã OTP trước.']);
+        }
+
+        return view('client.auth.reset_password');
+    }
+
+    // Xử lý đặt lại mật khẩu
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'min:6', 'confirmed'],
+        ], [
+            'password.required' => 'Vui lòng nhập mật khẩu mới.',
+            'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
+            'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
+        ]);
+
+        $email = session('password_reset_email');
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return redirect()->route('password.forgot.form')->withErrors(['error' => 'Không tìm thấy tài khoản.']);
+        }
+
+        // Cập nhật mật khẩu mới
+        $user->password = Hash::make($request->password);
+        $user->verification_code = null; // Xóa mã OTP
+        $user->save();
+
+        // Xóa session
+        session()->forget(['password_reset_email', 'password_reset_verified']);
+
+        return redirect()->route('login.show')->with('success', 'Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập.');
     }
 
     public function logout()
@@ -94,9 +277,10 @@ class LoginRegisterController extends Controller
         Session::flush();
         return redirect()->route('home')->with('success', 'Bạn đã đăng xuất.');
     }
-    public function profile(){
+
+    public function profile()
+    {
         $auth = auth('cus')->user();
         return view('user.profile', compact('auth'));
     }
-    
 }

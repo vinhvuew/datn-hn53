@@ -55,6 +55,13 @@
         </div>
     @endif
 
+    <!--thông báo nếu tài khoản chưa xác thực -->
+    @if (session('unverified_email'))
+        <div class="alert alert-warning">
+            Tài khoản chưa xác thực. Kiểm tra email của bạn để xác nhận tài khoản.
+        </div>
+    @endif
+
     <div class="container" id="container">
         <!-- Form Đăng Ký -->
         <div class="form-container sign-up-container">
@@ -65,16 +72,23 @@
                 @csrf
                 <h1>Đăng Ký</h1>
                 <input type="text" name="name" id="name" placeholder="Họ và Tên">
-                <span class="error" id="nameError"></span>
+                <span class="error" id="nameError">
+                    @error('name') {{ $message }} @enderror
+                </span>
 
                 <input type="text" name="login" id="registerLogin" placeholder="Email hoặc Số điện thoại">
-                <span class="error" id="registerLoginError"></span>
+                <span class="error" id="registerLoginError">
+                    @error('login') {{ $message }} @enderror
+                </span>
 
                 <div class="input-group">
                     <input type="password" name="password" id="registerPassword" placeholder="Mật khẩu">
-                    <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('registerPassword', this)"></i>
+                    <i class="fa-solid fa-eye-slash toggle-password"
+                        onclick="togglePassword('registerPassword', this)"></i>
                 </div>
-                <span class="error" id="registerPasswordError"></span>
+                <span class="error" id="registerPasswordError">
+                    @error('password') {{ $message }} @enderror
+                </span>
 
                 <div class="input-group">
                     <input type="password" name="password_confirmation" id="confirmPassword"
@@ -82,7 +96,9 @@
                     <i class="fa-solid fa-eye-slash toggle-password"
                         onclick="togglePassword('confirmPassword', this)"></i>
                 </div>
-                <span class="error" id="confirmPasswordError"></span>
+                <span class="error" id="confirmPasswordError">
+                    @error('password_confirmation') {{ $message }} @enderror
+                </span>
 
                 <button type="submit">Đăng Ký</button>
             </form>
@@ -97,14 +113,19 @@
                 @csrf
                 <h1>Đăng Nhập</h1>
                 <input type="text" name="login" id="loginEmail" placeholder="Email hoặc Số điện thoại">
-                <span class="error" id="loginEmailError"></span>
+                <span class="error" id="loginEmailError">
+                    @error('login') {{ $message }} @enderror
+                </span>
 
                 <div class="input-group">
                     <input type="password" name="password" id="loginPassword" placeholder="Mật khẩu">
                     <i class="fa-solid fa-eye-slash toggle-password"
                         onclick="togglePassword('loginPassword', this)"></i>
                 </div>
-                <span class="error" id="loginPasswordError"></span>
+                <span class="error" id="loginPasswordError">
+                    @error('password') {{ $message }} @enderror
+                </span>
+                <a href="{{ route('password.forgot.form') }}">Quên Mật Khẩu?</a>
 
                 <button type="submit">Đăng Nhập</button>
             </form>
@@ -144,7 +165,7 @@
             let input = document.getElementById(id);
             if (input.type === "password") {
                 input.type = "text";
-                icon.classList.replace("fa-eye-slash", "fa-eye");
+                icon.classList.replace("fa-eye", "fa-eye-slash");
             } else {
                 input.type = "password";
                 icon.classList.replace("fa-eye", "fa-eye-slash");
