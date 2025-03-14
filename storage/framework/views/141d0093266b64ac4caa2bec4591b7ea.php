@@ -1,36 +1,93 @@
-<form action="<?php echo e(route('password.verify')); ?>" method="POST" class="container mt-5 p-4 bg-white shadow rounded" style="max-width: 400px;" onsubmit="return validateOTP()">
-    <?php echo csrf_field(); ?>
-    <h3 class="text-center text-primary mb-4">Xác Thực Mã OTP</h3>
+<!DOCTYPE html>
+<html lang="vi">
 
-    <div class="mb-3">
-        <label for="code" class="form-label">Nhập Mã Xác Thực:</label>
-        <input type="text" id="code" name="code" class="form-control text-center fw-bold" placeholder="Nhập mã 6 số..." >
-        <div id="codeError" class="text-danger mt-1"></div>
-        <?php if($errors->has('code')): ?>
-    <div class="text-danger mt-1"><?php echo e($errors->first('code')); ?></div>
-<?php endif; ?>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Xác thực Mật khẩu</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light d-flex justify-content-center align-items-center vh-100">
+
+    <div class="card p-4 shadow" style="max-width: 400px; width: 100%;">
+        <h4 class="text-center">Xác thực Mật khẩu</h4>
+
+        <?php if(session('message')): ?>
+            <div class="alert alert-info text-center">
+                <?php echo e(session('message')); ?>
+
+            </div>
+        <?php endif; ?>
+
+        <?php if($errors->any()): ?>
+            <div class="alert alert-danger text-center">
+                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <p><?php echo e($error); ?></p>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
+        <?php endif; ?>
+
+        <form action="<?php echo e(route('password.verify')); ?>" method="POST" class="mt-3">
+            <?php echo csrf_field(); ?>
+            <div class="mb-3">
+                <label for="code" class="form-label">Nhập mã OTP:</label>
+                <input type="text" name="code" id="code" class="form-control text-center fw-bold" placeholder="Nhập mã 6 số..." required>
+                <div id="codeError" class="text-danger mt-1"></div>
+                <?php $__errorArgs = ['code'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <div class="invalid-feedback"><?php echo e($message); ?></div>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Xác nhận</button>
+        </form>
+
+        <form action="<?php echo e(route('password.resend')); ?>" method="POST" class="mt-2">
+            <?php echo csrf_field(); ?>
+            <button type="submit" id="resend-btn" class="btn btn-secondary w-100" <?php if(session('remaining_time')): ?> disabled <?php endif; ?>>
+                Gửi lại mã OTP
+            </button>
+        </form>
+
+        <?php if(session('remaining_time')): ?>
+            <p class="text-danger text-center mt-2">
+                Bạn có thể gửi lại mã sau <span id="countdown"><?php echo e(session('remaining_time')); ?></span> giây.
+            </p>
+        <?php endif; ?>
     </div>
 
-    <button type="submit" class="btn btn-primary w-100">Xác Thực</button>
-</form>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Bootstrap 5 CDN -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let countdownElem = document.getElementById("countdown");
+            let resendBtn = document.getElementById("resend-btn");
 
-<script>
-function validateOTP() {
-    let code = document.getElementById("code").value;
-    let codeError = document.getElementById("codeError");
+            if (countdownElem) {
+                let timeLeft = parseInt(countdownElem.textContent);
+                let timer = setInterval(function () {
+                    if (timeLeft <= 1) {
+                        clearInterval(timer);
+                        countdownElem.parentElement.style.display = "none";
+                        resendBtn.removeAttribute("disabled");
+                    } else {
+                        timeLeft--;
+                        countdownElem.textContent = timeLeft;
+                    }
+                }, 1000);
+            }
+        });
+    </script>
 
-    codeError.innerHTML = "";
+</body>
 
-    if (!/^\d{6}$/.test(code)) {
-        codeError.innerHTML = "Mã xác thực phải là 6 chữ số.";
-        return false;
-    }
-
-    return true;
-}
-</script>
+</html>
 <?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/auth/verify_reset_code.blade.php ENDPATH**/ ?>

@@ -14,6 +14,7 @@
             <h4 class="card-title">Chào <?php echo e($user->name); ?>,</h4>
             <p class="card-text">Mã xác thực của bạn là:</p>
             <h2 class="fw-bold text-primary"><?php echo e($user->verification_code); ?></h2>
+            <p>Mã này sẽ hết hạn sau 5 phút.</p>
             <p class="mt-3">Vui lòng nhập mã này vào trang xác thực để kích hoạt tài khoản.</p>
             <a href="<?php echo e(route('verification.form')); ?>" class="btn btn-primary mt-3">Nhập mã xác thực</a>
         </div>

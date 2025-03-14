@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyEmail;
+use App\Mail\ForgotPasswordMail;
 use App\Models\User;
 
 class LoginRegisterController extends Controller
@@ -129,9 +130,15 @@ class LoginRegisterController extends Controller
             return back()->withErrors(['code' => 'Mã xác thực không đúng.']);
         }
 
+         // Kiểm tra thời gian mã hết hạn 
+    if ($user->verification_code_expires_at && now()->greaterThan($user->verification_code_expires_at)) {
+        return back()->withErrors(['code' => 'Mã xác thực đã hết hạn. Vui lòng yêu cầu gửi lại mã.']);
+    }
+
         // Cập nhật trạng thái xác thực email
         $user->email_verified_at = now();
         $user->verification_code = null;
+        $user->verification_code_expires_at = null;
         $user->save();
 
         // Đăng nhập người dùng
@@ -157,8 +164,16 @@ class LoginRegisterController extends Controller
             return redirect()->route('login.show')->with('success', 'Email đã được xác thực trước đó. Bạn có thể đăng nhập.');
         }
 
+        // Kiểm tra thời gian gửi mã gần nhất
+        if ($user->verification_code_sent_at && now()->diffInSeconds($user->verification_code_sent_at) < 60) {
+            $remainingTime = 60 - now()->diffInSeconds($user->verification_code_sent_at);
+            return back()->with(['error' => "Vui lòng đợi {$remainingTime} giây trước khi gửi lại mã.", 'remaining_time' => $remainingTime]);
+        }
+
         $verificationCode = mt_rand(100000, 999999);
         $user->verification_code = $verificationCode;
+        $user->verification_code_sent_at = now();
+        $user->verification_code_expires_at = now()->addMinutes(5);
         $user->save();
 
         Mail::to($user->email)->send(new VerifyEmail($user));
@@ -169,7 +184,8 @@ class LoginRegisterController extends Controller
 
     public function showForgotPasswordForm()
     {
-        return view('client.auth.forgot_password');
+        $user = null;
+        return view('client.auth.forgot_password', compact('user'));
     }
 
     // Xử lý yêu cầu quên mật khẩu
@@ -185,15 +201,23 @@ class LoginRegisterController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
+        // Kiểm tra nếu đã gửi mã gần đây (thời gian chờ 60 giây)
+        if ($user->password_reset_sent_at && now()->diffInSeconds($user->password_reset_sent_at) < 60) {
+            $remaining = 60 - now()->diffInSeconds($user->password_reset_sent_at);
+            return back()->withErrors(['email' => "Vui lòng chờ {$remaining} giây trước khi yêu cầu lại."]);
+        }
+
         // Tạo mã OTP 6 số
         $otp = mt_rand(100000, 999999);
         $user->verification_code = $otp;
+        $user->password_reset_sent_at = now();
+        $user->password_reset_expires_at = now()->addMinutes(5); // Hết hạn sau 5 phút
         $user->save();
 
         // Gửi mã OTP qua email
-        Mail::to($user->email)->send(new VerifyEmail($user));
+        Mail::to($user->email)->send(new ForgotPasswordMail($user));
 
-        // Lưu email vào session để dùng ở bước tiếp theo
+        // Lưu email vào session
         session(['password_reset_email' => $user->email]);
 
         return redirect()->route('password.verify.form')->with('message', 'Mã xác thực đã được gửi. Vui lòng kiểm tra email.');
@@ -208,6 +232,36 @@ class LoginRegisterController extends Controller
 
         return view('client.auth.verify_reset_code');
     }
+    
+    public function resendVerificationForPassword()
+{
+    $email = session('password_reset_email');
+
+    $user = User::where('email', $email)->first();
+
+    if (!$user) {
+        return redirect()->route('password.request')->withErrors(['email' => 'Không tìm thấy tài khoản với email này.']);
+    }
+
+    // Kiểm tra thời gian gửi mã gần nhất
+    if ($user->password_reset_sent_at && now()->diffInSeconds($user->password_reset_sent_at) < 60) {
+        $remainingTime = 60 - now()->diffInSeconds($user->password_reset_sent_at);
+        return back()->with(['error' => "Vui lòng đợi {$remainingTime} giây trước khi gửi lại mã.", 'remaining_time' => $remainingTime]);
+    }
+
+    // Tạo mã OTP mới
+    $resetCode = mt_rand(100000, 999999);
+    $user->verification_code = $resetCode;
+    $user->password_reset_sent_at = now();
+    $user->password_reset_expires_at = now()->addMinutes(5);
+    $user->save();
+
+    // Gửi email đặt lại mật khẩu
+    Mail::to($user->email)->send(new ForgotPasswordMail($user));
+
+    return redirect()->route('password.verify')->with('message', 'Mã xác thực mới đã được gửi. Vui lòng kiểm tra email.');
+}
+
 
     // Xác thực mã OTP
     public function verifyResetCode(Request $request)
@@ -224,6 +278,9 @@ class LoginRegisterController extends Controller
 
         if (!$user) {
             return back()->withErrors(['code' => 'Mã xác thực không đúng.']);
+        }
+        if ($user->password_reset_expires_at && now()->greaterThan($user->password_reset_expires_at)) {
+            return back()->withErrors(['code' => 'Mã xác thực đã hết hạn. Vui lòng yêu cầu gửi lại mã.']);
         }
 
         // Xóa mã xác thực và chuyển sang bước đặt lại mật khẩu
@@ -252,6 +309,9 @@ class LoginRegisterController extends Controller
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
             'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
         ]);
+        if (!session('password_reset_verified')) {
+            return redirect()->route('password.request.form')->withErrors(['error' => 'Bạn chưa xác thực mã OTP.']);
+        }
 
         $email = session('password_reset_email');
         $user = User::where('email', $email)->first();
@@ -271,6 +331,7 @@ class LoginRegisterController extends Controller
         return redirect()->route('login.show')->with('success', 'Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập.');
     }
 
+    
     public function logout()
     {
         Auth::logout();
