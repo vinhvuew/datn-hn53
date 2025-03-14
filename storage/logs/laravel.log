@@ -1,3 +1,4 @@
+
 [2025-03-12 15:14:03] local.ERROR: syntax error, unexpected token "{" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"{\" at D:\\laragon\\www\\datn-hn53\\app\\Models\\User.php:12)
 [stacktrace]
 #0 {main}

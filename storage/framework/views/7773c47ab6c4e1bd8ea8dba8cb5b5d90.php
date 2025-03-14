@@ -173,7 +173,8 @@
                                                     <div>
                                                         <h5>Đơn hàng #<?php echo e($order->id); ?></h5>
                                                         <p>Ngày đặt: <?php echo e($order->order_date); ?></p>
-                                                        <p>Trạng thái: <span
+                                                        <p>Trạng thái:
+                                                            <span
                                                                 class="badge bg-warning"><?php echo e($order->payment_status ?? 'Đang xử lý'); ?></span>
                                                         </p>
                                                         <p>Tổng tiền:
@@ -186,30 +187,88 @@
                                                         data-target="#orderDetails<?php echo e($order->id); ?>">Xem chi
                                                         tiết</button>
                                                 </div>
+                                                <div class="d-flex align-items-end">
+                                                    <button class="btn btn-label-danger"
+                                                        data-order-id="<?php echo e($order->id); ?>">
+                                                        ❌ Hủy đơn hàng
+                                                    </button>
+                                                </div>
+                                                <!-- Danh sách sản phẩm trong đơn hàng -->
                                                 <div class="collapse mt-3" id="orderDetails<?php echo e($order->id); ?>">
                                                     <ul class="list-group">
                                                         <?php $__currentLoopData = $order->orderDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $detail): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <li class="list-group-item">
+                                                            <li class="list-group-item d-flex align-items-center">
                                                                 <?php if($detail->variant): ?>
-                                                                    <?php echo e($detail->variant->name ?? 'Biến thể không tồn tại'); ?>
+                                                                    <!-- Trường hợp có biến thể -->
 
+                                                                    <div class="d-flex align-items-center mb-3">
+                                                                        <img src="<?php echo e(Storage::url($detail->variant->image ?? $detail->product->image)); ?>"
+                                                                            alt="<?php echo e($detail->product->name ?? 'Không có tên sản phẩm'); ?>"
+                                                                            width="70" height="100"
+                                                                            class="me-3 rounded shadow-sm">
+
+                                                                        <div>
+                                                                            <strong
+                                                                                class="text-primary"><?php echo e($detail->product_name ?? 'Không có tên sản phẩm'); ?></strong>
+                                                                            <p class="mb-1">
+                                                                                💰 Giá:
+                                                                                <strong><?php echo e(number_format($detail->price, 0, ',', '.')); ?>
+
+                                                                                    VNĐ</strong>
+                                                                                (Số lượng: <?php echo e($detail->quantity); ?>)
+                                                                            </p>
+
+                                                                            <!-- Hiển thị biến thể -->
+                                                                            <p class="mb-1"><strong>🎨 Biến thể:</strong>
+                                                                            </p>
+                                                                            <ul class="list-unstyled ps-3">
+                                                                                <?php $__currentLoopData = $detail->variant->attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variantAttribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                    <li><i
+                                                                                            class="bi bi-arrow-right-circle"></i>
+                                                                                        <strong><?php echo e($variantAttribute->attribute->name ?? 'Không xác định'); ?>:</strong>
+                                                                                        <?php echo e($variantAttribute->attributeValue->value ?? 'Không xác định'); ?>
+
+                                                                                    </li>
+                                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                            </ul>
+
+                                                                        </div>
+
+                                                                    </div>
                                                                 <?php elseif($detail->product): ?>
-                                                                    <?php echo e($detail->product->name ?? 'Sản phẩm không tồn tại'); ?>
+                                                                    <!-- Trường hợp không có biến thể, chỉ có sản phẩm -->
+                                                                    <div class="d-flex align-items-center mb-3">
+                                                                        <img src="<?php echo e(Storage::url($detail->product->img_thumbnail)); ?>"
+                                                                            alt="<?php echo e($detail->product->name); ?>"
+                                                                            width="70" height="70"
+                                                                            class="me-3 rounded shadow-sm">
 
+                                                                        <div>
+                                                                            <strong
+                                                                                class="text-dark"><?php echo e($detail->product_name); ?></strong>
+                                                                            <p class="mb-1">
+                                                                                💰 Giá:
+                                                                                <strong><?php echo e(number_format($detail->price, 0, ',', '.')); ?>
+
+                                                                                    VNĐ</strong>
+                                                                                (Số lượng: <?php echo e($detail->quantity); ?>)
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
                                                                 <?php else: ?>
-                                                                    Sản phẩm không xác định
+                                                                    <span>Sản phẩm không xác định</span>
                                                                 <?php endif; ?>
-                                                                -
-                                                                <?php echo e(number_format($detail->price, 0, ',', '.')); ?> VNĐ
-                                                                (x<?php echo e($detail->quantity); ?>)
                                                             </li>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                                                     </ul>
                                                 </div>
+
                                             </div>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </div>
+
+
                                 </div>
                             </div>
                         </div>
