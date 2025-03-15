@@ -56,16 +56,7 @@
                                 </div>
 
                                 <!-- Giá sale -->
-                                <div class="mb-3">
-                                    <label class="form-label"><strong>Khoảng giá</strong></label>
-                                    <input type="range" class="form-range" name="price_sale" id="priceRange"
-                                        min="0" max="10000000" step="500" value="<?php echo e(request('price_sale', 0)); ?>">
-                                    <div class="d-flex justify-content-between">
-                                        <span>0đ</span>
-                                        <span id="priceValue"><?php echo e(request('price_sale', 0)); ?>đ</span>
-                                        <!-- Hiển thị giá trị hiện tại -->
-                                    </div>
-                                </div>
+                                
 
                                 <!-- Nút lọc -->
                                 <button type="submit" class="btn btn-primary w-100 mt-3">Áp dụng</button>
