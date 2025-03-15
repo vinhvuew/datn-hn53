@@ -14,47 +14,55 @@
     <div class="card p-4 shadow" style="max-width: 400px; width: 100%;">
         <h4 class="text-center">Xác thực tài khoản</h4>
 
-        @if (session('message'))
+        <?php if(session('message')): ?>
             <div class="alert alert-info text-center">
-                {{ session('message') }}
-            </div>
-        @endif
+                <?php echo e(session('message')); ?>
 
-        @if ($errors->any())
+            </div>
+        <?php endif; ?>
+
+        <?php if($errors->any()): ?>
             <div class="alert alert-danger text-center">
-                @foreach ($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
+                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <p><?php echo e($error); ?></p>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
-        @endif
+        <?php endif; ?>
 
-        <form action="{{ route('verification.submit') }}" method="POST" class="mt-3">
-            @csrf
+        <form action="<?php echo e(route('verification.submit')); ?>" method="POST" class="mt-3">
+            <?php echo csrf_field(); ?>
             <div class="mb-3">
                 <label for="code" class="form-label">Nhập mã xác thực:</label>
-                <input type="text" name="code" class="form-control @if (session('error')) is-invalid @endif"
-                    value="{{ old('code') }}">
+                <input type="text" name="code" class="form-control <?php if(session('error')): ?> is-invalid <?php endif; ?>"
+                    value="<?php echo e(old('code')); ?>">
 
-                @error('code')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+                <?php $__errorArgs = ['code'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <div class="invalid-feedback"><?php echo e($message); ?></div>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
             </div>
             <button type="submit" class="btn btn-primary w-100">Xác nhận</button>
         </form>
 
-        <form action="{{ route('resend.verification') }}" method="POST" class="mt-2">
-            @csrf
+        <form action="<?php echo e(route('resend.verification')); ?>" method="POST" class="mt-2">
+            <?php echo csrf_field(); ?>
             <button type="submit" id="resend-btn" class="btn btn-secondary w-100"
-                @if (session('remaining_time')) disabled @endif>
+                <?php if(session('remaining_time')): ?> disabled <?php endif; ?>>
                 Gửi lại mã xác thực
             </button>
         </form>
 
-        @if (session('remaining_time'))
+        <?php if(session('remaining_time')): ?>
             <p class="text-danger text-center mt-2">
-                Bạn có thể gửi lại mã sau <span id="countdown">{{ session('remaining_time') }}</span> giây.
+                Bạn có thể gửi lại mã sau <span id="countdown"><?php echo e(session('remaining_time')); ?></span> giây.
             </p>
-        @endif
+        <?php endif; ?>
     </div>
 
     <!-- Bootstrap JS -->
@@ -82,3 +90,4 @@
 </body>
 
 </html>
+<?php /**PATH /Users/admin/datn-hn53/resources/views/client/auth/verify_code.blade.php ENDPATH**/ ?>

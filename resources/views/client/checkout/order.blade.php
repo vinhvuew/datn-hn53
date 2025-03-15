@@ -84,7 +84,7 @@
 
                                     @foreach ($address as $index => $a)
                                         <div class="address-box">
-                                            <input type="checkbox" class="address-checkbox" value="{{ $a->id }}"
+                                            <input type="radio" name="address" class="address-checkbox" value="{{ $a->id }}"
                                                 {{ $loop->first ? 'checked' : '' }} onchange="getSelectedAddresses()">
                                             <p><strong>{{ $a->full_name }}</strong></p>
                                             <p>📞 {{ $a->phone }}</p>
