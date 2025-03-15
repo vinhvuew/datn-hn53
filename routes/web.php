@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductsController;
 use App\Http\Controllers\Client\LoginRegisterController;
+use App\Http\Controllers\Client\PolicyController;
 
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -119,6 +120,8 @@ Route::get('/logad', [UserController::class, 'showAdminLoginForm'])->name('logad
 Route::post('/logad', [UserController::class, 'adminLogin'])->name('admin.logad');
 Route::post('/logad/logout', [UserController::class, 'adminLogout'])->name('admin.logout');
 
+// chính sách
+Route::get('/policies', [PolicyController::class, 'index'])->name('policies');
 // Admin
 Route::prefix('admin')->middleware(['admin'])->group(function () {
 
