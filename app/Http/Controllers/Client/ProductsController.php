@@ -62,7 +62,6 @@ class ProductsController extends Controller
     {
         try {
             $user = Auth::user();
-            // dd($user);
             $cart = Cart::firstOrCreate(['user_id' =>  $user->id]);
             $productId = $request->input('product_id');
             $variantAttributeIds = $request->input('variant_attributes.attribute_value_id', []);
