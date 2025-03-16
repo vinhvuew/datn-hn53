@@ -1,17 +1,13 @@
-<?php $__env->startSection('title'); ?>
-    Quản lý đơn hàng
-<?php $__env->stopSection(); ?>
 <?php $__env->startSection('menu-item-order', 'active'); ?>
 
 <?php $__env->startSection('content'); ?>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="mb-4">
+        <h4 class="py-3 mb-4">
             <span class="text-muted fw-light">Đơn hàng /</span> Danh sách đơn hàng
         </h4>
         <div class="card">
             <div class="card-body">
-                <table id="example"
-                    class=" text-center table table-bordered dt-responsive nowrap table-striped align-middle"
+                <table id="example" class="text-center table table-bordered dt-responsive nowrap table-striped align-middle"
                     style="width:100%">
                     <thead>
                         <tr>
@@ -19,6 +15,7 @@
                             <th>Tên khách hàng</th>
                             <th>Ngày đặt</th>
                             <th>Thanh Toán</th>
+                            <th>TT thanh toán</th>
                             <th>Trạng thái</th>
                             <th>Tổng tiền</th>
                             <th>Thao tác</th>
@@ -47,6 +44,18 @@
 
                                     </span>
                                 </td>
+                                <td>
+                                    <?php if($order->payment_status == 'Thanh toán thành công'): ?>
+                                        <span class="badge bg-success">Thanh toán thành công</span>
+                                    <?php elseif($order->payment_status == 'Chờ thanh toán'): ?>
+                                        <span class="badge bg-warning text-dark">Chờ thanh toán</span>
+                                    <?php elseif($order->payment_status == 'Thanh toán khi nhận hàng'): ?>
+                                        <span class="badge bg-primary">Thanh toán khi nhận hàng</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-secondary">Không xác định</span>
+                                    <?php endif; ?>
+                                </td>
+
                                 <td>
                                     <span
                                         class="badge
@@ -87,9 +96,8 @@
                                 <td><?php echo e(number_format($order->total_price, 0, ',', '.')); ?> VNĐ</td>
                                 <td>
                                     <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Xem Chi Tiết"
-                                        class="btn btn-info btn-sm me-1" href="<?php echo e(route('orders.show', $order->id)); ?>">xem
-                                        chi tiết
-                                        <i class="mdi mdi-eye"></i>
+                                        class="btn btn-info btn-sm me-1" href="<?php echo e(route('orders.show', $order->id)); ?>">
+                                        <i class='bx bxs-show'></i>
                                     </a>
                                 </td>
                             </tr>
@@ -100,5 +108,7 @@
         </div>
     </div>
 <?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.parials.datatable', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/orders/index.blade.php ENDPATH**/ ?>

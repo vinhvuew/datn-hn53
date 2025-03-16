@@ -89,10 +89,6 @@ class OrderController extends Controller
 
                 return $order;
             }
-
-
-
-
         } catch (\Exception $e) {
             Log::error('Lỗi khi tạo đơn hàng: ' . $e->getMessage());
             return null;
@@ -106,7 +102,6 @@ class OrderController extends Controller
                 $price = 0;
                 if (isset($item->product_id)) {
                     $price = Product::find($item->product_id)->base_price;
-
                 } else {
                     $price = Variant::find($item->variant_id)->selling_price;
                 }
@@ -118,6 +113,7 @@ class OrderController extends Controller
                 $order->quantity = $item->quantity;
                 $order->price = $price;
                 $order->total_price = $item->total_amount;
+                $order->product_name = $item->product->name ?? $item->variant->product->name;
                 $order->save();
                 CartDetail::find($item->id)->delete();
 
@@ -126,9 +122,10 @@ class OrderController extends Controller
                 if ($remainingItems === 0) {
                     Cart::where('id', $item->cart_id)->delete();
                 }
-                return back()->with('success', 'Bạn đã đặt hàng thành công!');
-                // dd($oder);
+                // return back()->with('success', 'Bạn đã đặt hàng thành công!');
+                // Thằng ngu bỏ nó ra ngoài vòng lặp
             }
+            return back()->with('success', 'Bạn đã đặt hàng thành công!');
         } catch (\Exception $e) {
             Log::error('Lỗi khi thêm sản phẩm vào đơn hàng: ' . $e->getMessage());
 

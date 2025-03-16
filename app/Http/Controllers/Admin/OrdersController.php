@@ -16,41 +16,20 @@ class OrdersController extends Controller
      */
     public function index()
     {
-
         $query = Order::query();
 
         $orders = $query->orderBy('created_at', 'desc')->paginate(10);
         return view('admin.orders.index', compact('orders'));
     }
 
-    /**g
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
-        $order = Order::with([
-            'orderDetails.product',
-            'orderDetails.variant.attributes.attribute',
-            'orderDetails.variant.attributes.attributeValue',
+        $order = Order::query()->with(
+            'orderDetails',
             'user',
-            'status'
-        ])->findOrFail($id);
+            'address'
+        )->findOrFail($id);
+        // dd(gettype($order->order_date), $order->order_date);
 
         return view('admin.orders.show', compact('order'));
     }

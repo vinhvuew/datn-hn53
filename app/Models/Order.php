@@ -53,10 +53,6 @@ class Order extends Model
     public $timestamps = false;
     protected $dates = ['deleted_at'];
 
-    public function users()
-    {
-        return $this->belongsTo(User::class);
-    }
     //trong admin
     public function user()
     {
@@ -80,5 +76,10 @@ class Order extends Model
     public function variant()
     {
         return $this->belongsTo(Variant::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
     }
 }
