@@ -259,7 +259,7 @@ unset($__errorArgs, $__bag); ?>
                             <!-- /danh mục -->
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Danh mục & thương hiệu/h5>
+                                    <h5 class="card-title mb-0">Danh mục & thương hiệu</h5>
                                 </div>
                                 <div class="card-body">
                                     

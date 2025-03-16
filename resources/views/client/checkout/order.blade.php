@@ -81,9 +81,10 @@
                         <div class="tab-content checkout">
                             <div class="tab-pane fade show active" id="tab_1" role="tabpanel" aria-labelledby="tab_1">
                                 <div id="addressList">
+
                                     @foreach ($address as $index => $a)
                                         <div class="address-box">
-                                            <input type="checkbox" class="address-checkbox" value="{{ $a->id }}"
+                                            <input type="radio" name="address" class="address-checkbox" value="{{ $a->id }}"
                                                 {{ $loop->first ? 'checked' : '' }} onchange="getSelectedAddresses()">
                                             <p><strong>{{ $a->full_name }}</strong></p>
                                             <p>📞 {{ $a->phone }}</p>
@@ -91,7 +92,6 @@
                                                 {{ $a->province }}</p>
                                         </div>
                                     @endforeach
-
                                 </div>
                             </div>
                             <!-- /tab_1 -->

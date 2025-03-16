@@ -25,8 +25,7 @@
         </ul>
         <p><strong>Phí vận chuyển:</strong></p>
         <ul>
-            <li>Miễn phí vận chuyển cho đơn hàng trên 500.000đ.</li>
-            <li>Đơn hàng dưới 500.000đ sẽ tính phí vận chuyển theo khu vực.</li>
+            <li>Miễn phí vận chuyển áp dụng cho toàn bộ đơn hàng</li>
         </ul>
 
         <h2>3. Chính Sách Bảo Mật</h2>

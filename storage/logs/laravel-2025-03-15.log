@@ -1,1 +1,0 @@
-[2025-03-15 21:56:48] local.ERROR: Lỗi khi tạo đơn hàng: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'address_id' cannot be null (Connection: mysql, SQL: insert into `orders` (`user_id`, `total_price`, `address_id`, `payment_method`, `payment_status`, `order_date`, `voucher_id`) values (7, 1300000.00, ?, COD, Thanh toán khi nhận hàng, 2025-03-15 21:56:48, ?))  
