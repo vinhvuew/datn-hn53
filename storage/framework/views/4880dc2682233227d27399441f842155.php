@@ -99,7 +99,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                                         <textarea type="text" class="form-control" id="ecommerce-product-name" placeholder="description" name="description"
-                                            aria-label="description"></textarea>
+                                            aria-label="description" value="<?php echo e(old('description')); ?>"></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <?php $__errorArgs = ['content'];
@@ -113,7 +113,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                                         <label class="form-label" for="content">Nội dung</label>
-                                        <textarea type="text" class="form-control" id="content" placeholder="content" name="content" aria-label="content"></textarea>
+                                        <textarea type="text" class="form-control" id="content" placeholder="content" name="content" aria-label="content" value="<?php echo e(old('content')); ?>"></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="content">Hình ảnh</label>
@@ -141,7 +141,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                                         <label class="form-label" for="content">Hướng dẫn sử dụng</label>
-                                        <textarea type="text" class="form-control" name="user_manual"></textarea>
+                                        <textarea type="text" class="form-control" name="user_manual" value="<?php echo e(old('user_manual')); ?>"></textarea>
                                     </div>
                                 </div>
                             </div>
