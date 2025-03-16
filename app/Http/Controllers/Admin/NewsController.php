@@ -60,7 +60,8 @@ class NewsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $news = CreateNews::findOrFail($id);
+        return view('admin.news.show', compact('news'));
     }
 
     /**
@@ -68,7 +69,9 @@ class NewsController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $news = CreateNews::findOrFail($id);
+        // return view('news.edit', compact('news'));
+        return view('admin.news.edit', compact('news'));
     }
 
     /**
@@ -76,7 +79,19 @@ class NewsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $news = CreateNews::findOrFail($id);
+        $request->validate([
+        'title' => 'required|max:255',
+        'content' => 'required',
+    ]);
+
+    $news->update([
+        'title' => $request->title,
+        'content' => $request->content,
+    ]);
+
+    return redirect()->route('news.index',$id)->with('success', 'Tin tức đã cập nhật lại.');
+
     }
 
     /**
@@ -89,7 +104,7 @@ class NewsController extends Controller
             return redirect()->route('news.index')->with('error', 'Tin tức không tồn tại.');
         }
 
-        
+
 
         $news->delete();
         return redirect()->route('news.index')->with('success', 'Tin tức đã được xóa.');

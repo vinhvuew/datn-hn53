@@ -5,19 +5,9 @@
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-4">
-<<<<<<< HEAD
-<<<<<<< HEAD
 
                 <span class="text-muted fw-light">Danh mục /</span> Danh sách danh mục
 
-=======
-                <span class="text-muted fw-light">Danh mục /</span> Danh sách danh mục
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
-=======
-
-                <span class="text-muted fw-light">Danh mục /</span> Danh sách danh mục
-
->>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
             </h4>
 
             <div class="app-ecommerce-category">
@@ -29,19 +19,9 @@
                     </div>
                     <!-- Add Category Button -->
                     <a href="<?php echo e(route('category.create')); ?>" class="btn btn-primary">
-<<<<<<< HEAD
-<<<<<<< HEAD
 
                         + Thêm mới danh mục
 
-=======
-                        + Thêm mới danh mục
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
-=======
-
-                        + Thêm mới danh mục
-
->>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
                     </a>
                 </div>
 
@@ -59,23 +39,11 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
 
                                     <th>Tên danh mục</th>
                                     <th class="text-center">Trạng thái</th>
                                     <th class="text-center">Hành động</th>
 
-<<<<<<< HEAD
-=======
-                                    <th>Tên danh mục</th>
-                                    <th class="text-center">Trạng thái</th>
-                                    <th class="text-center">Hành động</th>
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
-=======
->>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,27 +52,13 @@
                                         <td><?php echo e($item->id); ?></td>
                                         <td><?php echo e($item->name); ?></td>
                                         <td class="text-center">
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
-=======
-
->>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
                                             <span class="badge bg-success">Kích hoạt</span>
                                         </td>
                                         <td class="text-center">
                                             <a href="<?php echo e(route('category.edit', $item->id)); ?>"
                                                 class="btn btn-sm btn-primary">Chỉnh sửa</a>
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
-=======
-
->>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
                                         </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -115,11 +69,7 @@
             </div>
         </div>
         <!-- / Content -->
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
+
 
         <div class="buy-now">
             <a href="https://themeselection.com/item/sneat-bootstrap-html-admin-template/" target="_blank"
@@ -128,13 +78,7 @@
 
         <!-- Footer -->
         <div class="content-backdrop fade"></div>
-=======
->>>>>>> 73edc2211242ae6e934b743def6c0ebf86efdb54
-<<<<<<< HEAD
-=======
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
-=======
->>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
+
     </div>
     <script>
         const btn = document.querySelectorAll('#submit-form');

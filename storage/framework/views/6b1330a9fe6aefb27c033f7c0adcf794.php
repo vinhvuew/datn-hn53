@@ -28,12 +28,10 @@
                         <?php endif; ?>
                     </form>
 
-<<<<<<< HEAD
+
             </div>
             <div class="card-body">
-<<<<<<< HEAD
-=======
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
+
 
     <div class="container mt-4">
         <div class="card shadow-sm border-0 rounded">
@@ -63,12 +61,7 @@
                     </div>
                 <?php endif; ?>
 
-<<<<<<< HEAD
-=======
->>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
-=======
->>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
+
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
                         <thead class="table-primary text-center">
@@ -86,12 +79,7 @@
                                 <tr id="user-row-<?php echo e($user->id); ?>">
                                     <td class="text-center align-middle"><?php echo e($user->id); ?></td>
                                     <td class="align-middle"><?php echo e($user->name); ?></td>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
+
                                     <td class="align-middle"><?php echo e($user->email ?? '-'); ?></td>
                                     <td class="align-middle"><?php echo e($user->phone ?? '-'); ?></td>
                                     <td class="align-middle">
@@ -106,11 +94,10 @@
                                         </select>
                                     </td>
                                     <td class="text-center align-middle">
-<<<<<<< HEAD
+
                                         <form action="<?php echo e(route('users.destroy', $user->id)); ?>" method="POST"
                                             class="d-inline" onsubmit="return confirmDelete(event, '<?php echo e($user->name); ?>')">
-=======
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
+
                                     <td class="align-middle"><?php echo e($user->email); ?></td>
                                     <td class="align-middle"><?php echo e($user->phone); ?></td>
                                     <td class="align-middle"><?php echo e($user->role); ?></td>
@@ -120,14 +107,11 @@
                                         </a>
                                         <form action="<?php echo e(route('users.destroy', $user->id)); ?>" method="POST"
                                             class="d-inline" onsubmit="return confirmDelete()">
-<<<<<<< HEAD
-=======
->>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
-=======
+
+
                                         <form class="delete-form d-inline" data-user-id="<?php echo e($user->id); ?>"
                                             data-user-name="<?php echo e($user->name); ?>">
->>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
+
                                             <?php echo csrf_field(); ?>
                                             <?php echo method_field('DELETE'); ?>
                                             <button type="button" class="btn btn-danger btn-sm delete-user">
@@ -135,7 +119,7 @@
                                             </button>
                                         </form>
                                     </td>
-=======
+
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -148,7 +132,7 @@
                                     <th>Số Điện Thoại</th>
                                     <th>Vai Trò</th>
                                     <th class="text-center">Chức Năng</th>
->>>>>>> 2d5fa35dcb35469b34b27246e4e055613a191cef
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -192,13 +176,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
+
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-=======
->>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Xác nhận xóa user
@@ -301,9 +282,7 @@
             });
         });
     </script>
-<<<<<<< HEAD
-=======
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
+
     <script>
         function confirmDelete() {
             return confirm('Bạn có chắc chắn muốn xóa người dùng này?');
@@ -311,12 +290,7 @@
     </script>
 
 
-<<<<<<< HEAD
-=======
->>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
-=======
->>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/users/index.blade.php ENDPATH**/ ?>
