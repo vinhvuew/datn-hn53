@@ -47,13 +47,13 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    @if ($errors->any())
+    {{-- @if ($errors->any())
         <div class="alert alert-danger">
             @foreach ($errors->all() as $error)
                 <p>{{ $error }}</p>
             @endforeach
         </div>
-    @endif
+    @endif --}}
 
     <!--thông báo nếu tài khoản chưa xác thực -->
     @if (session('unverified_email'))
@@ -73,12 +73,16 @@
                 <h1>Đăng Ký</h1>
                 <input type="text" name="name" id="name" placeholder="Họ và Tên">
                 <span class="error" id="nameError">
-                    @error('name') {{ $message }} @enderror
+                    @error('name')
+                        {{ $message }}
+                    @enderror
                 </span>
 
                 <input type="text" name="login" id="registerLogin" placeholder="Email hoặc Số điện thoại">
                 <span class="error" id="registerLoginError">
-                    @error('login') {{ $message }} @enderror
+                    @error('login')
+                        {{ $message }}
+                    @enderror
                 </span>
 
                 <div class="input-group">
@@ -87,7 +91,9 @@
                         onclick="togglePassword('registerPassword', this)"></i>
                 </div>
                 <span class="error" id="registerPasswordError">
-                    @error('password') {{ $message }} @enderror
+                    @error('password')
+                        {{ $message }}
+                    @enderror
                 </span>
 
                 <div class="input-group">
@@ -97,7 +103,9 @@
                         onclick="togglePassword('confirmPassword', this)"></i>
                 </div>
                 <span class="error" id="confirmPasswordError">
-                    @error('password_confirmation') {{ $message }} @enderror
+                    @error('password_confirmation')
+                        {{ $message }}
+                    @enderror
                 </span>
 
                 <button type="submit">Đăng Ký</button>
@@ -114,7 +122,9 @@
                 <h1>Đăng Nhập</h1>
                 <input type="text" name="login" id="loginEmail" placeholder="Email hoặc Số điện thoại">
                 <span class="error" id="loginEmailError">
-                    @error('login') {{ $message }} @enderror
+                    @error('login')
+                        {{ $message }}
+                    @enderror
                 </span>
 
                 <div class="input-group">
@@ -123,7 +133,9 @@
                         onclick="togglePassword('loginPassword', this)"></i>
                 </div>
                 <span class="error" id="loginPasswordError">
-                    @error('password') {{ $message }} @enderror
+                    @error('password')
+                        {{ $message }}
+                    @enderror
                 </span>
                 <a href="{{ route('password.forgot.form') }}">Quên Mật Khẩu?</a>
 

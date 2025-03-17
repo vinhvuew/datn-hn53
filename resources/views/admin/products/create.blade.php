@@ -72,14 +72,14 @@
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                         @enderror
                                         <textarea type="text" class="form-control" id="ecommerce-product-name" placeholder="description" name="description"
-                                            aria-label="description"></textarea>
+                                            aria-label="description" value="{{ old('description') }}"></textarea>
                                     </div>
                                     <div class="mb-3">
                                         @error('content')
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                         @enderror
                                         <label class="form-label" for="content">Nội dung</label>
-                                        <textarea type="text" class="form-control" id="content" placeholder="content" name="content" aria-label="content"></textarea>
+                                        <textarea type="text" class="form-control" id="content" placeholder="content" name="content" aria-label="content" value="{{ old('content') }}"></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="content">Hình ảnh</label>
@@ -93,7 +93,7 @@
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                         @enderror
                                         <label class="form-label" for="content">Hướng dẫn sử dụng</label>
-                                        <textarea type="text" class="form-control" name="user_manual"></textarea>
+                                        <textarea type="text" class="form-control" name="user_manual" value="{{ old('user_manual') }}"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -216,7 +216,7 @@
                             <!-- /danh mục -->
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Danh mục & thương hiệu/h5>
+                                    <h5 class="card-title mb-0">Danh mục & thương hiệu</h5>
                                 </div>
                                 <div class="card-body">
                                     {{-- danh mục --}}

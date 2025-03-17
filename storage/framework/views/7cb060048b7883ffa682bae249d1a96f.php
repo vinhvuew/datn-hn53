@@ -69,6 +69,7 @@
             </div>
         </div>
         <!-- / Content -->
+<<<<<<< HEAD
 
 
         <div class="buy-now">
@@ -79,6 +80,9 @@
         <!-- Footer -->
         <div class="content-backdrop fade"></div>
 
+=======
+
+>>>>>>> d640a94395e5aad28536339b2c07f9aa66b7258e
     </div>
     <script>
         const btn = document.querySelectorAll('#submit-form');

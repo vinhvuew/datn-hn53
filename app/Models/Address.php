@@ -20,4 +20,9 @@ class Address extends Model
         'user_id',
         'is_default'
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

@@ -7,7 +7,7 @@
                 <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                     <div id="logo">
                         <a href="<?php echo e(route('home')); ?>"><img src="<?php echo e(asset('client')); ?>/img/logoone.png" alt=""
-                                height="50"></a>
+                                height="50" width="50px"></a>
                     </div>
                 </div>
                 <nav class="col-xl-6 col-lg-7">
@@ -29,16 +29,10 @@
                             <li>
                                 <a href="<?php echo e(route('home')); ?>" class="show-submenu">Trang chủ</a>
                             </li>
-                            <li class="submenu">
+                            <li>
                                 <a href="<?php echo e(route('product.show')); ?>" class="show-submenu">Sản phẩm</a>
-                                <ul>
-                                    <li><a href="index.html">Slider</a></li>
-                                    <li><a href="index-2.html">Video Background</a></li>
-                                    <li><a href="index-3.html">Vertical Slider</a></li>
-                                    <li><a href="index-4.html">GDPR Cookie Bar</a></li>
-                                </ul>
-                            </li>
 
+                            </li>
                             <li>
                                 <a href="blog.html">Chính sách</a>
                             </li>
@@ -78,61 +72,7 @@
                                         Categories
                                     </a>
                                 </span>
-                                <div id="menu">
-                                    <ul>
-                                        <li><span><a href="#0">Collections</a></span>
-                                            <ul>
-                                                <li><a href="listing-grid-1-full.html">Trending</a></li>
-                                                <li><a href="listing-grid-2-full.html">Life style</a></li>
-                                                <li><a href="listing-grid-3.html">Running</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Training</a></li>
-                                                <li><a href="listing-grid-5-sidebar-right.html">View all Collections</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><span><a href="#">Men</a></span>
-                                            <ul>
-                                                <li><a href="listing-grid-6-sidebar-left.html">Offers</a></li>
-                                                <li><a href="listing-grid-7-sidebar-right.html">Shoes</a></li>
-                                                <li><a href="listing-row-1-sidebar-left.html">Clothing</a></li>
-                                                <li><a href="listing-row-3-sidebar-left.html">Accessories</a></li>
-                                                <li><a href="listing-row-4-sidebar-extended.html">Equipment</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><span><a href="#">Women</a></span>
-                                            <ul>
-                                                <li><a href="listing-grid-1-full.html">Best Sellers</a></li>
-                                                <li><a href="listing-grid-2-full.html">Clothing</a></li>
-                                                <li><a href="listing-grid-3.html">Accessories</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Shoes</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><span><a href="#">Boys</a></span>
-                                            <ul>
-                                                <li><a href="listing-grid-6-sidebar-left.html">Easy On Shoes</a></li>
-                                                <li><a href="listing-grid-7-sidebar-right.html">Clothing</a></li>
-                                                <li><a href="listing-row-3-sidebar-left.html">Must Have</a></li>
-                                                <li><a href="listing-row-4-sidebar-extended.html">All Boys</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><span><a href="#">Girls</a></span>
-                                            <ul>
-                                                <li><a href="listing-grid-1-full.html">New Releases</a></li>
-                                                <li><a href="listing-grid-2-full.html">Clothing</a></li>
-                                                <li><a href="listing-grid-3.html">Sale</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Best Sellers</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><span><a href="#">Customize</a></span>
-                                            <ul>
-                                                <li><a href="listing-row-1-sidebar-left.html">For Men</a></li>
-                                                <li><a href="listing-row-2-sidebar-right.html">For Women</a></li>
-                                                <li><a href="listing-row-4-sidebar-extended.html">For Boys</a></li>
-                                                <li><a href="listing-grid-1-full.html">For Girls</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
+
                             </li>
                         </ul>
                     </nav>
@@ -197,7 +137,7 @@
                                 <?php if(Auth::check()): ?>
                                     <i class="fa-regular fa-user fs-4"></i>
                                     <strong><?php echo e(Auth::user()->name); ?></strong>
-                                    <a href="<?php echo e(route('cart.view')); ?>" class="cart_bt ms-3"><strong>2</strong></a>
+                                    <a href="<?php echo e(route('cart.view')); ?>" class="cart_bt ms-3"></a>
                                     <div class="dropdown-menu">
                                         <ul>
                                             
@@ -206,17 +146,20 @@
                                                     tôi</a>
                                             </li>
                                             <li>
-                                                <a href="<?php echo e(route('profile.index')); ?>"><i class="ti-user"></i>Hồ sơ</a>
+                                                <a href="<?php echo e(route('profile.index')); ?>"><i class="ti-user"></i>Hồ
+                                                    sơ</a>
                                             </li>
                                             <li>
-                                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                <a href="#"
+                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                     <i class="fas fa-sign-out-alt"></i> Đăng xuất
                                                 </a>
-                                                <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+                                                <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST"
+                                                    style="display: none;">
                                                     <?php echo csrf_field(); ?>
                                                 </form>
                                             </li>
-                                            
+
                                             
                                         </ul>
                                     </div>

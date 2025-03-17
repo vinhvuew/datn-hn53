@@ -15,6 +15,14 @@
                 <span class="badge badge-center rounded-pill bg-danger ms-auto">5</span>
             </a>
         </li>
+        <li class="menu-item">
+            <a href="<?php echo e(route('orders.index')); ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-cart"></i>
+                <div class="text-truncate" data-i18n="Đơn hàng">
+                    Đơn hàng
+                </div>
+            </a>
+        </li>
         
         <li class="menu-item <?php echo $__env->yieldContent('item-category'); ?>">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -135,14 +143,7 @@
             </ul>
 
         </li>
-        <li class="menu-item">
-            <a href="<?php echo e(route('orders')); ?>" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div class="text-truncate" data-i18n="Đơn hàng">
-                    Đơn hàng
-                </div>
-            </a>
-        </li>
+
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-user"></i>

@@ -45,7 +45,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="content">Hình ảnh</label>
-                                    <img src="{{ Storage::url($product->img_thumbnail) }}" width="50px" class="rounded">
+                                    <img src="{{ asset('storage/' . $product->img_thumbnail) }} alt="Product Image">
+
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="content">Hướng dẫn sử dụng</label>

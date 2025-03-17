@@ -107,6 +107,7 @@
                                         <!-- Description -->
                                         <div class="mb-3">
 
+<<<<<<< HEAD
 
                                             <label class="form-label" for="ecommerce-product-name">Mô tả</label>
                                             <?php $__errorArgs = ['description'];
@@ -188,6 +189,64 @@
                                             <label class="form-label" for="content">Hướng dẫn sử dụng</label>
                                             <textarea type="text" class="form-control" name="user_manual"></textarea>
                                         </div>
+=======
+                                        <label class="form-label" for="ecommerce-product-name">Mô tả</label>
+                                        <?php $__errorArgs = ['description'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <div class="text-danger mt-1"><?php echo e($message); ?></div>
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                        <textarea type="text" class="form-control" id="ecommerce-product-name" placeholder="description" name="description"
+                                            aria-label="description" value="<?php echo e(old('description')); ?>"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <?php $__errorArgs = ['content'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <div class="text-danger mt-1"><?php echo e($message); ?></div>
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                        <label class="form-label" for="content">Nội dung</label>
+                                        <textarea type="text" class="form-control" id="content" placeholder="content" name="content" aria-label="content" value="<?php echo e(old('content')); ?>"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="content">Hình ảnh</label>
+                                        <?php $__errorArgs = ['img_thumbnail'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <div class="text-danger mt-1"><?php echo e($message); ?></div>
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                        <input type="file" class="form-control" name="img_thumbnail">
+                                    </div>
+                                    <div class="mb-3">
+                                        <?php $__errorArgs = ['user_manual'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <div class="text-danger mt-1"><?php echo e($message); ?></div>
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                        <label class="form-label" for="content">Hướng dẫn sử dụng</label>
+                                        <textarea type="text" class="form-control" name="user_manual" value="<?php echo e(old('user_manual')); ?>"></textarea>
+                                    </div>
+>>>>>>> d640a94395e5aad28536339b2c07f9aa66b7258e
                                 </div>
                             </div>
                             <div class="card mb-4">
@@ -329,7 +388,7 @@
                             <!-- /danh mục -->
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Danh mục & thương hiệu/h5>
+                                    <h5 class="card-title mb-0">Danh mục & thương hiệu</h5>
                                 </div>
                                 <div class="card-body">
 

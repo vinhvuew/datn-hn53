@@ -3,14 +3,16 @@
 <?php $__env->startSection('item-category-create', 'active'); ?>
 
 <?php $__env->startSection('content'); ?>
-<<<<<<< HEAD
 
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 
 =======
 >>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
 >>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
+=======
+>>>>>>> d640a94395e5aad28536339b2c07f9aa66b7258e
     <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
@@ -57,14 +59,16 @@ unset($__errorArgs, $__bag); ?>
         </div>
         <!-- / Content -->
     </div>
-<<<<<<< HEAD
 
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 
 =======
 >>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
 >>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
+=======
+>>>>>>> d640a94395e5aad28536339b2c07f9aa66b7258e
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/categories/create.blade.php ENDPATH**/ ?>

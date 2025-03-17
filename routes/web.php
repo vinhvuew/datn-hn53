@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductsController;
 use App\Http\Controllers\Client\LoginRegisterController;
+use App\Http\Controllers\Client\PolicyController;
 
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -71,7 +72,9 @@ Route::get('/comments/{productId}', [ProductsController::class, 'showComments'])
 
 // address
 Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store')->middleware('auth');
+Route::post('/apply-voucher', [OrderController::class, 'applyVoucher'])->name('apply.voucher');
 
+Route::get('/vnpay-return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
 // giỏ hàng
 Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
 Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('productDetail');
@@ -118,6 +121,8 @@ Route::get('/logad', [UserController::class, 'showAdminLoginForm'])->name('logad
 Route::post('/logad', [UserController::class, 'adminLogin'])->name('admin.logad');
 Route::post('/logad/logout', [UserController::class, 'adminLogout'])->name('admin.logout');
 
+// chính sách
+Route::get('/policies', [PolicyController::class, 'index'])->name('policies');
 // Admin
 Route::prefix('admin')->middleware(['admin'])->group(function () {
 
@@ -148,13 +153,24 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
 
 
     // Đơn hàng
-    // Route::get("/qldonhang", [Controller::class, 'donhang']);
-    Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
-    Route::delete('/orders/{id}', [OrdersController::class, 'destroy'])->name('orders.destroy');
-    Route::get('/orders/show/{id}', [OrdersController::class, 'show'])->name('orders.show');
-    Route::get('orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
-    Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
-    Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
+    Route::prefix('orders')
+        ->as('orders.')
+        ->controller(OrdersController::class)
+        ->group(function () {
+            Route::get('/',  'index')->name('index');
+            Route::get('/show/{id}', 'show')->name('show');
+            Route::get('/{id}/edit',  'edit')->name('edit');
+            Route::post('/{id}/update', 'update')->name('update');
+            Route::post('cancel/{id}', 'cancel')->name('cancel');
+            Route::post('confirmed/{id}', 'confirmed')->name('confirmed');
+            Route::post('shipping/{id}', 'shipping')->name('shipping');
+            Route::post('delivered/{id}', 'delivered')->name('delivered');
+            Route::post('return_request/{id}', 'return_request')->name('return_request');
+            Route::post('refuse_return/{id}', 'refuse_return')->name('refuse_return');
+            Route::post('refunded/{id}', 'refunded')->name('refunded');
+            Route::post('returned_item_received/{id}', 'returned_item_received')->name('returned_item_received');
+            Route::post('refund_completed/{id}', 'refund_completed')->name('refund_completed');
+        });
 
     //Thống Kê
     Route::get('/thongke', [ThongKeController::class, 'statistical'])->name('thongke.statistical');

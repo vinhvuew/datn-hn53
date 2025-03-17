@@ -1,18 +1,12 @@
 <?php $__env->startSection('content'); ?>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
+
     <div class="container mt-4">
         <div id="alert-container"></div>
-=======
+
     <main>
         <div class="container mt-4">
             <div id="alert-container"></div>
->>>>>>> 2d5fa35dcb35469b34b27246e4e055613a191cef
+
 
             <div class="card shadow-sm border-0 rounded">
                 <div class="card-header  text-white d-flex justify-content-between align-items-center">
