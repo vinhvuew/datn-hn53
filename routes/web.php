@@ -177,11 +177,12 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
 
     // Tin Tức
     Route::get('/news', [NewsController::class, 'index'])->name('news.index');
-    Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
     Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
+
     Route::post('/news/store', [NewsController::class, 'store'])->name('news.store');
     Route::delete('/news/{id}', [NewsController::class, 'destroy'])->name('news.destroy');
     Route::get('/news/{id}/edit', [NewsController::class, 'edit'])->name('news.edit');
     Route::put('/news/{id}/update', [NewsController::class, 'update'])->name('news.update');
+    Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
 
 });
