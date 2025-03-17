@@ -4,6 +4,14 @@
 <?php $__env->startSection('content'); ?>
     <div class="container mt-5">
         <h1>Thêm Thương Hiệu</h1>
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+        
+>>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
+=======
+>>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
         <?php if($errors->any()): ?>
             <div class="alert alert-danger">
                 <ul>
@@ -25,7 +33,11 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
+
 unset($__errorArgs, $__bag); ?>"
+
+unset($__errorArgs, $__bag); ?>" 
+
                     id="name" name="name" value="<?php echo e(old('name')); ?>" required>
                 <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');

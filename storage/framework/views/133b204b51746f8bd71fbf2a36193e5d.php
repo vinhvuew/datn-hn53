@@ -172,7 +172,18 @@
                 <div class="text-truncate" data-i18n="Thống Kê">Thống Kê</div>
             </a>
         </li>
+       
 
+
+
+
+        <li class="menu-item">
+            <a href="<?php echo e(route('news.index')); ?>" class="menu-link">
+                <i class="menu-icon fa-regular fa-newspaper"></i>
+                
+                <div class="text-truncate" data-i18n="Tin Tức">Tin Tức</div>
+            </a>
+        </li>
 
 
 

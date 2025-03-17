@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 
 
-=======
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
 <?php $__env->startSection('content'); ?>
     <div class="container mt-5">
         <h2 class="text-center mb-4">Các Nội Dung Vi Phạm Cộng Đồng Và Cách Xử Lý</h2>
@@ -78,7 +75,7 @@
             </div>
         </div>
 
-       
+        <!-- Nút Quay lại -->
         <div class="text-center mt-4">
             <a href="<?php echo e(route('comment.index')); ?>" class="btn btn-primary">Quay lại Trang Danh Sách</a>
         </div>
@@ -95,4 +92,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/comment/vipham.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/comment/add.blade.php ENDPATH**/ ?>

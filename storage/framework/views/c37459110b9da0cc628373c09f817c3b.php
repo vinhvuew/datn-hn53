@@ -3,6 +3,8 @@
 <?php $__env->startSection('content'); ?>
 
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
     <div class="container mt-4">
         <div class="card shadow-lg border-0 rounded">
             <div class="card-header text-white text-center">
@@ -89,6 +91,7 @@
     </script>
 
 =======
+>>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
 <div class="container mt-4">
     <div class="card shadow-lg border-0 rounded">
         <div class="card-header text-white text-center">
@@ -284,7 +287,10 @@ unset($__errorArgs, $__bag); ?>
         }
     });
 </script>
+<<<<<<< HEAD
+=======
 >>>>>>> 07e8e7158f77a68db8f04b241cf0796e284dc9fd
+>>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
 
 <?php $__env->stopSection(); ?>
 

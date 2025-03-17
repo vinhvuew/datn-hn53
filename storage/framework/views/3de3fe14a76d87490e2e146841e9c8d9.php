@@ -1,7 +1,14 @@
 <?php $__env->startSection('item-brand', 'open'); ?>
 <?php $__env->startSection('item-brand-index', 'active'); ?>
 <?php $__env->startSection('content'); ?>
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
+=======
+
+>>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
     <div class="container mt-5">
         <h1>Danh Sách Thương Hiệu</h1>
         <a class="btn btn-primary mb-3" href="<?php echo e(route('brands.create')); ?>">Thêm Thương Hiệu</a>
@@ -11,7 +18,14 @@
 
         <table class="table table-bordered table-hover shadow-sm">
             <thead class="table-primary text-center">
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
+=======
+
+>>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
                 <tr>
                     <th>ID</th>
                     <th>Tên</th>
@@ -45,7 +59,16 @@
 
     </div>
 <?php $__env->stopSection(); ?>
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+<?php $__env->startSection('style-libs'); ?>
+<?php $__env->stopSection(); ?>
+>>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
+=======
+
+>>>>>>> c15ac78eb9e5a7360e30aad08da3d4eb600aed78
 <?php $__env->startSection('script-libs'); ?>
 <?php $__env->stopSection(); ?>
 

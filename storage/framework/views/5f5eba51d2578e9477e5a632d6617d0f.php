@@ -1,12 +1,10 @@
-@extends('admin.layouts.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-gradient fw-bold">
             <i class="fas fa-newspaper"></i> Thêm Tin Tức Mới
         </h2>
-        <a href="{{ route('news.index') }}" class="btn btn-outline-dark fw-bold shadow-sm px-4 py-2">
+        <a href="<?php echo e(route('news.index')); ?>" class="btn btn-outline-dark fw-bold shadow-sm px-4 py-2">
             <i class="fas fa-arrow-left"></i> Trở lại
         </a>
     </div>
@@ -18,8 +16,8 @@
         </div>
 
         <div class="card-body p-4">
-            <form action="{{ route('news.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
+            <form action="<?php echo e(route('news.store')); ?>" method="POST" enctype="multipart/form-data">
+                <?php echo csrf_field(); ?>
 
                 <div class="mb-4">
                     <label class="form-label fw-bold">📌 Tiêu đề <span class="text-danger">*</span></label>
@@ -47,7 +45,7 @@
                     <button type="submit" class="btn btn-success fw-bold px-5 py-2 shadow-lg btn-hover">
                         <i class="fas fa-save"></i> Lưu
                     </button>
-                    <a href="{{ route('news.index') }}" class="btn btn-danger fw-bold px-5 py-2 shadow-lg btn-hover ms-2">
+                    <a href="<?php echo e(route('news.index')); ?>" class="btn btn-danger fw-bold px-5 py-2 shadow-lg btn-hover ms-2">
                         <i class="fas fa-times"></i> Hủy
                     </a>
                 </div>
@@ -79,9 +77,9 @@
         transition: 0.3s ease-in-out;
     }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script-libs')
+<?php $__env->startSection('script-libs'); ?>
     <script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('editor', {
@@ -90,4 +88,6 @@
             resize_enabled: false
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/news/create.blade.php ENDPATH**/ ?>

@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\AttributesNameController;
 use App\Http\Controllers\Admin\OderDeltailController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ThongKeController;
+use App\Http\Controllers\Admin\NewsController;
 
 
 
@@ -173,4 +174,15 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
 
     //Thống Kê
     Route::get('/thongke', [ThongKeController::class, 'statistical'])->name('thongke.statistical');
+
+    // Tin Tức
+    Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+    Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
+
+    Route::post('/news/store', [NewsController::class, 'store'])->name('news.store');
+    Route::delete('/news/{id}', [NewsController::class, 'destroy'])->name('news.destroy');
+    Route::get('/news/{id}/edit', [NewsController::class, 'edit'])->name('news.edit');
+    Route::put('/news/{id}/update', [NewsController::class, 'update'])->name('news.update');
+    Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
+
 });
