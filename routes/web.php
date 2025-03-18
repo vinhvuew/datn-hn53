@@ -54,6 +54,7 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::put('/update/avatar', [ProfileController::class, 'updateAvatar'])->name('updateAvatar'); // cập nhật avatar
     Route::post('/update/password', [ProfileController::class, 'updatePassword'])->name('updatePassword'); // cập nhật mk
     Route::get('/myOder', [ProfileController::class, 'myOder'])->name('myOder'); // đơn hàng của tôi
+    Route::get('myOder/show/{id}', [ProfileController::class, 'show'])->name('detailOrder');
 });
 
 // router phan tin tuc

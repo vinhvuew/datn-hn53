@@ -1,7 +1,7 @@
 <?php $__env->startSection('title'); ?>
     Chi tiết đơn hàng
 <?php $__env->stopSection(); ?>
-<?php $__env->startSection('menu-item-order', 'active'); ?>
+<?php $__env->startSection('item-order', 'active'); ?>
 <?php $__env->startSection('content'); ?>
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -227,7 +227,84 @@
                     <div class="card-header">
                         <h5 class="card-title m-0">Hoạt động vận chuyển</h5>
                     </div>
+                    <div class="card-body mt-3">
+                        <ul class="timeline pb-0 mb-0">
+                            <?php
+                                $hasReceived = false;
+                            ?>
 
+                            <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($item->name === 'Giao hàng thành công'): ?>
+                                    <?php $hasReceived = true; ?>
+                                <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                            <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($item->name !== 'Đang giao hàng' && $item->name !== 'Giao hàng thành công'): ?>
+                                    <li
+                                        class="timeline-item timeline-item-transparent <?php echo e(!$loop->last ? 'border-primary' : 'border-transparent'); ?>">
+                                        <span class="timeline-point-wrapper"> <span
+                                                class="timeline-point timeline-point-primary"></span> </span>
+                                        <div class="timeline-event">
+                                            <div class="timeline-header">
+                                                <h6 class="mb-0"><?php echo e($item->name); ?></h6>
+                                                <span class="text-muted"><?php echo e(date('d/m/Y', strtotime($item->created_at))); ?>
+
+                                                    |
+                                                    <?php echo e($item->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('h:i A')); ?></span>
+                                            </div>
+                                            <p class="mt-2"><?php echo e($item->note); ?></p>
+                                        </div>
+                                    </li>
+                                <?php elseif($item->name === 'Đang giao hàng'): ?>
+                                    
+                                    <?php if(!$hasReceived): ?>
+                                        <li class="timeline-item timeline-item-transparent">
+                                            <span class="timeline-point-wrapper"> <span
+                                                    class="timeline-point timeline-point-secondary"></span> </span>
+                                            <div class="timeline-event">
+                                                <div class="timeline-header">
+                                                    <h6 class="mb-0 mt-1">Giao hàng thành công</h6>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    <?php endif; ?>
+                                    
+                                    <li
+                                        class="timeline-item timeline-item-transparent <?php echo e(!$loop->last ? 'border-primary' : 'border-transparent'); ?>">
+                                        <span class="timeline-point-wrapper"> <span
+                                                class="timeline-point timeline-point-primary"></span> </span>
+                                        <div class="timeline-event">
+                                            <div class="timeline-header">
+                                                <h6 class="mb-0"><?php echo e($item->name); ?></h6>
+                                                <span class="text-muted"><?php echo e(date('d/m/Y', strtotime($item->created_at))); ?>
+
+                                                    |
+                                                    <?php echo e($item->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('h:i A')); ?></span>
+                                            </div>
+                                            <p class="mt-2"><?php echo e($item->note); ?></p>
+                                        </div>
+                                    </li>
+                                <?php elseif($item->name === 'Giao hàng thành công'): ?>
+                                    <li
+                                        class="timeline-item timeline-item-transparent <?php echo e(!$loop->last ? 'border-primary' : 'border-transparent'); ?>">
+                                        <span class="timeline-point-wrapper"> <span
+                                                class="timeline-point timeline-point-primary"></span></span>
+                                        <div class="timeline-event">
+                                            <div class="timeline-header">
+                                                <h6 class="mb-0"><?php echo e($item->name); ?></h6>
+                                                <span class="text-muted"><?php echo e(date('d/m/Y', strtotime($item->created_at))); ?>
+
+                                                    |
+                                                    <?php echo e($item->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('h:i A')); ?></span>
+                                            </div>
+                                            <p class="mt-2"><?php echo e($item->note); ?></p>
+                                        </div>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-lg-4">
@@ -240,7 +317,8 @@
                                     <img src="<?php echo e(Storage::url($order->user->avatar)); ?>" alt="Avatar"
                                         class="rounded-circle">
                                 <?php else: ?>
-                                    <img src="<?php echo e(asset('themes/image/logo.jpg')); ?>" alt="Avatar" class="rounded-circle">
+                                    <img src="<?php echo e(asset('themes/image/logo.jpg')); ?>" alt="Avatar"
+                                        class="rounded-circle">
                                 <?php endif; ?>
 
                             </div>
@@ -411,6 +489,56 @@
         </div>
     </div>
     <!-- / Content -->
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('style-libs'); ?>
+    <style>
+        .modal-contents {
+            margin: 15% auto;
+            display: block;
+            width: 75%;
+            max-width: 600px;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script-libs'); ?>
+    <script>
+        document.getElementById('flexCheckChecked').addEventListener('change', function() {
+            const additionalInput = document.getElementById('additionalInput');
+            if (this.checked) {
+                additionalInput.style.display = 'block'; // Hiển thị ô input
+            } else {
+                additionalInput.style.display = 'none'; // Ẩn ô input
+            }
+        });
+    </script>
+    <script>
+        // Lấy phần tử hình ảnh và modal
+        var img = document.getElementById("myImg");
+        var modal = document.getElementById("myModal");
+        var modalImg = document.getElementById("imgModal");
+        var closeBtn = document.getElementById("closeBtn");
+
+        // Khi người dùng nhấp vào hình ảnh, mở modal và hiển thị hình ảnh lớn
+        img.onclick = function() {
+            modal.style.display = "block";
+            modalImg.src = this.src; // Đặt hình ảnh modal với hình ảnh đã nhấp
+        }
+
+        // Khi người dùng nhấp vào nút đóng, đóng modal
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Khi người dùng nhấp ngoài modal, đóng modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <script src="<?php echo e(asset('themes')); ?>/admin/vendor/libs/cleavejs/cleave.js"></script>
+    <script src="<?php echo e(asset('themes')); ?>/admin/vendor/libs/cleavejs/cleave-phone.js"></script>
+    <script src="<?php echo e(asset('themes')); ?>/admin/js/app-ecommerce-order-details.js"></script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/orders/show.blade.php ENDPATH**/ ?>

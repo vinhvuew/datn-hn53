@@ -183,6 +183,7 @@
                                                                 VNĐ</strong>
                                                         </p>
                                                     </div>
+                                                    <a href="<?php echo e(route('profile.detailOrder', $order->id)); ?>">Trạng thái</a>
                                                     <button class="btn btn-primary toggle-details"
                                                         data-target="#orderDetails<?php echo e($order->id); ?>">Xem chi
                                                         tiết</button>
@@ -271,6 +272,7 @@
 
                                 </div>
                             </div>
+
                         </div>
                         <!--/ Activity Timeline -->
                     </div>

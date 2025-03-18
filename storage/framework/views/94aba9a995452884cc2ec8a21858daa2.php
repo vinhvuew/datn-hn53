@@ -1,4 +1,4 @@
-<?php $__env->startSection('menu-item-order', 'active'); ?>
+<?php $__env->startSection('item-order', 'active'); ?>
 
 <?php $__env->startSection('content'); ?>
     <div class="container-xxl flex-grow-1 container-p-y">

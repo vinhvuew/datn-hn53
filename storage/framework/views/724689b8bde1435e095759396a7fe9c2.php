@@ -20,11 +20,7 @@
                     </a>
                     <!-- Mobile menu button -->
                     <div class="main-menu">
-                        <div id="header_menu">
-                            <a href="index.html"><img src="<?php echo e(asset('client')); ?>/img/logo_black.svg" alt=""
-                                    width="100" height="35"></a>
-                            <a href="#" class="open_close" id="close_in"><i class="ti-close"></i></a>
-                        </div>
+                        
                         <ul>
                             <li>
                                 <a href="<?php echo e(route('home')); ?>" class="show-submenu">Trang chủ</a>
