@@ -1,11 +1,14 @@
 <?php $__env->startSection('content'); ?>
     <main>
         <?php if($carts): ?>
-            <div class="container">
+            <div class="container mt-4">
                 <h2 class="text-center mb-4">🛒 Giỏ Hàng</h2>
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>
+                                Tất cả <input type="checkbox" id="select-all">
+                            </th>
                             <th>Hình ảnh</th>
                             <th>Tên sản phẩm</th>
                             <th>Giá</th>
@@ -22,6 +25,11 @@
                         <?php if($cart->variant): ?>
                             <tbody id="cart-item-<?php echo e($cart->id); ?>">
                                 <tr>
+                                    <td>
+                                        <input type="checkbox" class="cart-item-checkbox" data-id="<?php echo e($cart->id); ?>"
+                                            data-price="<?php echo e($cart->total_amount); ?>" name="selected_items[]"
+                                            value="<?php echo e($cart->id); ?>" <?php echo e($cart->is_selected ? 'checked' : ''); ?>>
+                                    </td>
                                     <td><img src="<?php echo e(Storage::url($cart->variant->image)); ?>" alt="" width="50px"
                                             class="rounded-2"></td>
                                     <td><?php echo e(Str::limit($cart->variant->product->name, 30)); ?></td>
@@ -45,6 +53,7 @@
                                             $totalAmount += $money;
                                         ?>
                                         <?php echo e(number_format($cart->total_amount, 0, ',', '.')); ?> VNĐ
+
                                     </td>
                                     <td>
                                         <form class="delete-cart-form" data-id="<?php echo e($cart->id); ?>"
@@ -61,6 +70,12 @@
                         <?php elseif($cart->product): ?>
                             <tbody id="cart-item-<?php echo e($cart->id); ?>">
                                 <tr>
+                                    <td>
+                                        <input type="checkbox" class="cart-item-checkbox" data-id="<?php echo e($cart->id); ?>"
+                                            data-price="<?php echo e($cart->total_amount); ?>" name="selected_items[]"
+                                            value="<?php echo e($cart->id); ?>" <?php echo e($cart->is_selected ? 'checked' : ''); ?>>
+                                    </td>
+
                                     <td><img src="<?php echo e(Storage::url($cart->product->img_thumbnail)); ?>" alt=""
                                             height="50px" width="40px">
                                     </td>
@@ -82,9 +97,6 @@
                                                     value="<?php echo e($cart->quantity); ?>" min="1">
                                             </div>
 
-                                            <input type="hidden" name="price_sale"
-                                                value="<?php echo e($cart->product->price_sale); ?>">
-
                                         </form>
                                     </td>
                                     <td id="total-amount-<?php echo e($cart->id); ?>">
@@ -92,6 +104,7 @@
                                             $money = $cart->total_amount;
                                             $totalAmount += $money;
                                         ?>
+
                                         <?php echo e(number_format($cart->total_amount, 0, ',', '.')); ?> VNĐ
                                     </td>
                                     <td>
@@ -99,7 +112,10 @@
                                             action="<?php echo e(route('cart.delete', $cart->id)); ?>" method="post">
                                             <?php echo csrf_field(); ?>
                                             <?php echo method_field('DELETE'); ?>
-                                            <button type="submit" class="cross-icon flaticon-cancel-1">
+
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
                                             </button>
                                         </form>
 
@@ -111,24 +127,27 @@
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
-                <div class="text-end mb-5 p-4 ">
-                    <h4 class="fw-bold text-primary">
-                        Tổng tiền:
-                        <span id="overall-total" class="text-danger">
-                            <?php echo e(number_format($totalAmount, 0, ',', '.')); ?> VNĐ
-                        </span>
-                    </h4>
-                    <a href="<?php echo e(route("checkout.view")); ?>" class="btn btn-success btn-lg mt-2 px-4 fw-bold">
-                        <i class="fas fa-shopping-cart"></i> Thanh toán
-                    </a>
-                </div>
+                <form id="checkout-form" action="<?php echo e(route('checkout.view')); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
+                    <div class="text-end mb-5 p-4">
+                        <h4 class="fw-bold text-primary">
+                            Tổng tiền: <span id="overall-total" class="text-danger">
+                                <?php echo e(number_format($totalAmount, 0, ',', '.')); ?> VNĐ
+                            </span>
+                        </h4>
+                        <button type="submit" class="btn btn-success btn-lg mt-2 px-4 fw-bold">
+                            <i class="fas fa-shopping-cart"></i> Thanh toán
+                        </button>
+                    </div>
+                </form>
+
 
             </div>
         <?php else: ?>
-            <div class="empty-cart-box text-center mt-5" id="empty-cart" style="margin-bottom: 140px; ">
-                <img class="mb-4 mt-5" src="https://static-smember.cellphones.com.vn/smember/_nuxt/img/empty.db6deab.svg"
+            <div class="empty-cart-box text-center" id="empty-cart" style=" margin-top: 140px;">
+                <img class="mb-5" src="https://static-smember.cellphones.com.vn/smember/_nuxt/img/empty.db6deab.svg"
                     alt="Empty Cart" width="300px">
-                <h4 class="text-secondary" style="font-size: 18px; font-weight: 600;">Giỏ hàng trống</h4>
+                <h4 class="text-secondary mt-5" style="font-size: 18px; font-weight: 600;">Giỏ hàng trống</h4>
                 <p style="font-size: 14px; color: #888;">Giỏ hàng của bạn đang trống.
                     Hãy chọn thêm sản phẩm để mua sắm nhé</p>
                 <a href="<?php echo e(route('home')); ?>" class="btn btn-danger mb-5">
@@ -212,34 +231,82 @@
             });
         });
     </script>
+    
+
     <script>
-        $('.delete-cart-form').submit(function(event) {
-            event.preventDefault(); // Ngừng reload trang
-            var form = $(this);
-            var cartId = form.data('id');
+        document.addEventListener("DOMContentLoaded", function() {
+            let selectAllCheckbox = document.getElementById('select-all');
+            let checkboxes = document.querySelectorAll('.cart-item-checkbox');
+            let totalAmountSpan = document.getElementById('overall-total');
+            let checkoutForm = document.getElementById('checkout-form'); // Form thanh toán
 
-            $.ajax({
-                url: form.attr('action'),
-                type: 'POST',
-                data: form.serialize(),
-                success: function(response) {
-                    notyf.success(response.message);
-                    // Nếu xóa thành công, xóa dòng sản phẩm khỏi bảng
-                    form.closest('tr').remove();
+            function updateTotal() {
+                let total = 0;
+                document.querySelectorAll('.cart-item-checkbox:checked').forEach(function(checkedBox) {
+                    total += parseFloat(checkedBox.dataset.price);
+                });
+                totalAmountSpan.textContent = total.toLocaleString('vi-VN') + ' VNĐ';
+            }
 
-                    // Cập nhật tổng tiền nếu cần
-                    if (response.overallTotalFormatted) {
-                        $('#overall-total').text(response.overallTotalFormatted);
-                        $('#overall-totals').text(response.overallTotalFormatted);
+            // Sự kiện khi chọn/bỏ chọn tất cả
+            selectAllCheckbox.addEventListener('change', function() {
+                checkboxes.forEach(function(checkbox) {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+                updateTotal();
+            });
+
+            // Sự kiện khi chọn từng sản phẩm
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    if (!checkbox.checked) {
+                        selectAllCheckbox.checked = false;
+                    } else {
+                        let allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                        selectAllCheckbox.checked = allChecked;
                     }
-                },
-                error: function(xhr, status, error) {
-                    alert('Có lỗi xảy ra khi xóa sản phẩm');
+                    updateTotal();
+                });
+            });
+
+            // Kiểm tra trước khi submit form
+            checkoutForm.addEventListener('submit', function(event) {
+                let selectedItems = document.querySelectorAll('.cart-item-checkbox:checked');
+
+                if (selectedItems.length === 0) {
+                    event.preventDefault(); // Ngăn form submit
+                    alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán!");
                 }
             });
         });
     </script>
-<?php $__env->stopSection(); ?>
+    <script>
+        $(document).ready(function() {
+            $('.cart-item-checkbox').on('change', function() {
+                let id = $(this).data('id');
+                let isSelected = $(this).prop('checked') ? 1 : 0;
 
+                $.ajax({
+                    url: '/cart/update-selection/' + id,
+                    type: 'PUT',
+                    data: {
+                        _token: '<?php echo e(csrf_token()); ?>',
+                        is_selected: isSelected
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            console.log(response.message);
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Có lỗi xảy ra! Vui lòng thử lại.');
+                    }
+                });
+            });
+        });
+    </script>
+<?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/admin/datn-hn53/resources/views/client/cart/listCart.blade.php ENDPATH**/ ?>

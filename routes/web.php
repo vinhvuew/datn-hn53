@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\AttributesNameController;
 use App\Http\Controllers\Admin\OderDeltailController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ThongKeController;
+use App\Http\Controllers\Admin\NewsController;
 
 
 
@@ -53,6 +54,7 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::put('/update/avatar', [ProfileController::class, 'updateAvatar'])->name('updateAvatar'); // cập nhật avatar
     Route::post('/update/password', [ProfileController::class, 'updatePassword'])->name('updatePassword'); // cập nhật mk
     Route::get('/myOder', [ProfileController::class, 'myOder'])->name('myOder'); // đơn hàng của tôi
+    Route::get('myOder/show/{id}', [ProfileController::class, 'show'])->name('detailOrder');
 });
 
 // router phan tin tuc
@@ -71,7 +73,9 @@ Route::get('/comments/{productId}', [ProductsController::class, 'showComments'])
 
 // address
 Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store')->middleware('auth');
+Route::post('/apply-voucher', [OrderController::class, 'applyVoucher'])->name('apply.voucher');
 
+Route::get('/vnpay-return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
 // giỏ hàng
 Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
 Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('productDetail');
@@ -150,14 +154,36 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
 
 
     // Đơn hàng
-    // Route::get("/qldonhang", [Controller::class, 'donhang']);
-    Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
-    Route::delete('/orders/{id}', [OrdersController::class, 'destroy'])->name('orders.destroy');
-    Route::get('/orders/show/{id}', [OrdersController::class, 'show'])->name('orders.show');
-    Route::get('orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
-    Route::post('orders/{id}', [OrdersController::class, 'update'])->name('orders.update');
-    Route::post('/orders/{id}/update', [OrdersController::class, 'update'])->name('orders.update');
+    Route::prefix('orders')
+        ->as('orders.')
+        ->controller(OrdersController::class)
+        ->group(function () {
+            Route::get('/',  'index')->name('index');
+            Route::get('/show/{id}', 'show')->name('show');
+            Route::get('/{id}/edit',  'edit')->name('edit');
+            Route::post('/{id}/update', 'update')->name('update');
+            Route::post('cancel/{id}', 'cancel')->name('cancel');
+            Route::post('confirmed/{id}', 'confirmed')->name('confirmed');
+            Route::post('shipping/{id}', 'shipping')->name('shipping');
+            Route::post('delivered/{id}', 'delivered')->name('delivered');
+            Route::post('return_request/{id}', 'return_request')->name('return_request');
+            Route::post('refuse_return/{id}', 'refuse_return')->name('refuse_return');
+            Route::post('refunded/{id}', 'refunded')->name('refunded');
+            Route::post('returned_item_received/{id}', 'returned_item_received')->name('returned_item_received');
+            Route::post('refund_completed/{id}', 'refund_completed')->name('refund_completed');
+        });
 
     //Thống Kê
     Route::get('/thongke', [ThongKeController::class, 'statistical'])->name('thongke.statistical');
+
+    // Tin Tức
+    Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+    Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
+
+    Route::post('/news/store', [NewsController::class, 'store'])->name('news.store');
+    Route::delete('/news/{id}', [NewsController::class, 'destroy'])->name('news.destroy');
+    Route::get('/news/{id}/edit', [NewsController::class, 'edit'])->name('news.edit');
+    Route::put('/news/{id}/update', [NewsController::class, 'update'])->name('news.update');
+    Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
+
 });

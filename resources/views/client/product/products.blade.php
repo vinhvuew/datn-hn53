@@ -57,7 +57,7 @@
                                 </div>
 
                                 <!-- Giá sale -->
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label class="form-label"><strong>Khoảng giá</strong></label>
                                     <input type="range" class="form-range" name="price_sale" id="priceRange"
                                         min="0" max="10000000" step="500" value="{{ request('price_sale', 0) }}">
@@ -66,7 +66,7 @@
                                         <span id="priceValue">{{ request('price_sale', 0) }}đ</span>
                                         <!-- Hiển thị giá trị hiện tại -->
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <!-- Nút lọc -->
                                 <button type="submit" class="btn btn-primary w-100 mt-3">Áp dụng</button>
@@ -83,8 +83,8 @@
                             <div class="col">
                                 <div class="card border-0 shadow-sm text-center h-100">
                                     <div class="position-relative overflow-hidden">
-                                        <a href="{{ route('product.show', $product->slug) }}" class="d-block">
-                                            <img class="img-fluid lazy product-image"
+                                        <a  href="{{ route('productDetail', $product->slug) }}" class="d-block">
+                                            <img src="{{ Storage::url($product->img_thumbnail) }}" class="img-fluid lazy product-image"
                                                 src="{{ asset('storage/' . $product->img_thumbnail) }}"
                                                 alt="{{ $product->name }}">
                                         </a>
@@ -109,7 +109,6 @@
                             </div>
                         @endforeach
                     </div>
-
 
                     <!-- Phân trang -->
                     <div class="pagination__wrapper d-flex justify-content-center mt-4">
