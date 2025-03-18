@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('menu-item-order', 'active')
+@section('item-order', 'active')
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">

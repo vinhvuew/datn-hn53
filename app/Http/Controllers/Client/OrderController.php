@@ -11,6 +11,7 @@ use App\Models\Order;
 
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\Shipping;
 use App\Models\Variant;
 use App\Models\Voucher;
 use DB;
@@ -55,14 +56,17 @@ class OrderController extends Controller
                     break;
                 case "COD":
                     // dd($cart_detail);
-                    $order = $this->createOrder($request, 'Thanh toán khi nhận hàng');
-                    // dd($order);
-                    $orderdatail = $this->orderItems($cart_detail, $order->id);
-                    // dd($orderdatail);
-                    if (!$orderdatail) {
-                        return response()->json(['status' => 'error', 'message' => 'Lỗi khi thêm chi tiết đơn hàng!'], 500);
+                    try {
+                        $order = $this->createOrder($request, 'Thanh toán khi nhận hàng');
+                        // dd($order);
+                        $orderdatail = $this->orderItems($cart_detail, $order->id);
+                        // dd($orderdatail);
+                        if (!$orderdatail) {
+                            return response()->json(['status' => 'error', 'message' => 'Lỗi khi thêm chi tiết đơn hàng!'], 500);
+                        }
+                    } catch (\Throwable $th) {
+                        //throw $th;
                     }
-                    // dd($orderdatail);
                     return view('client.checkout.complete');
                     break;
                 default:
@@ -115,7 +119,9 @@ class OrderController extends Controller
                 $order->total_price = $item->total_amount;
                 $order->product_name = $item->product->name ?? $item->variant->product->name;
                 $order->save();
+
                 CartDetail::find($item->id)->delete();
+                // Trạng Thái đơn hàng
 
                 // Kiểm tra nếu giỏ hàng không còn sản phẩm nào thì xóa luôn
                 $remainingItems = CartDetail::where('cart_id', $item->cart_id)->count();
@@ -125,14 +131,20 @@ class OrderController extends Controller
                 // return back()->with('success', 'Bạn đã đặt hàng thành công!');
                 // Thằng ngu bỏ nó ra ngoài vòng lặp
             }
+            // Trạng Thái đơn hàng
+            try {
+                Shipping::create([
+                    'order_id' => $orderId,
+                    'name' => 'Đơn hàng của bạn đã được đặt thành công',
+                    'note' => 'Đơn hàng đang đợi được xác nhận',
+                ]);
+            } catch (\Exception $e) {
+                Log::error('Lỗi khi tạo đơn hàng: ' . $e->getMessage());
+            }
             return back()->with('success', 'Bạn đã đặt hàng thành công!');
         } catch (\Exception $e) {
             Log::error('Lỗi khi thêm sản phẩm vào đơn hàng: ' . $e->getMessage());
-
-            return false;
         }
-
-        return true;
     }
 
 
