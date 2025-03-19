@@ -183,6 +183,7 @@
                                                                 VNĐ</strong>
                                                         </p>
                                                     </div>
+                                                    <a href="{{ route('profile.detailOrder', $order->id) }}">Trạng thái</a>
                                                     <button class="btn btn-primary toggle-details"
                                                         data-target="#orderDetails{{ $order->id }}">Xem chi
                                                         tiết</button>
@@ -268,6 +269,7 @@
 
                                 </div>
                             </div>
+
                         </div>
                         <!--/ Activity Timeline -->
                     </div>

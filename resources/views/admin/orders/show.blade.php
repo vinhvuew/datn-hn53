@@ -2,7 +2,7 @@
 @section('title')
     Chi tiết đơn hàng
 @endsection
-@section('menu-item-order', 'active')
+@section('item-order', 'active')
 @section('content')
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -226,7 +226,81 @@
                     <div class="card-header">
                         <h5 class="card-title m-0">Hoạt động vận chuyển</h5>
                     </div>
+                    <div class="card-body mt-3">
+                        <ul class="timeline pb-0 mb-0">
+                            @php
+                                $hasReceived = false;
+                            @endphp
 
+                            @foreach ($events as $item)
+                                @if ($item->name === 'Giao hàng thành công')
+                                    @php $hasReceived = true; @endphp
+                                @endif
+                            @endforeach
+
+                            @foreach ($events as $item)
+                                @if ($item->name !== 'Đang giao hàng' && $item->name !== 'Giao hàng thành công')
+                                    <li
+                                        class="timeline-item timeline-item-transparent {{ !$loop->last ? 'border-primary' : 'border-transparent' }}">
+                                        <span class="timeline-point-wrapper"> <span
+                                                class="timeline-point timeline-point-primary"></span> </span>
+                                        <div class="timeline-event">
+                                            <div class="timeline-header">
+                                                <h6 class="mb-0">{{ $item->name }}</h6>
+                                                <span class="text-muted">{{ date('d/m/Y', strtotime($item->created_at)) }}
+                                                    |
+                                                    {{ $item->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('h:i A') }}</span>
+                                            </div>
+                                            <p class="mt-2">{{ $item->note }}</p>
+                                        </div>
+                                    </li>
+                                @elseif ($item->name === 'Đang giao hàng')
+                                    {{-- Hiển thị "Giao hàng thành công" nếu chưa có trong danh sách --}}
+                                    @if (!$hasReceived)
+                                        <li class="timeline-item timeline-item-transparent">
+                                            <span class="timeline-point-wrapper"> <span
+                                                    class="timeline-point timeline-point-secondary"></span> </span>
+                                            <div class="timeline-event">
+                                                <div class="timeline-header">
+                                                    <h6 class="mb-0 mt-1">Giao hàng thành công</h6>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endif
+                                    {{-- Hiển thị trạng thái "Đang giao hàng" --}}
+                                    <li
+                                        class="timeline-item timeline-item-transparent {{ !$loop->last ? 'border-primary' : 'border-transparent' }}">
+                                        <span class="timeline-point-wrapper"> <span
+                                                class="timeline-point timeline-point-primary"></span> </span>
+                                        <div class="timeline-event">
+                                            <div class="timeline-header">
+                                                <h6 class="mb-0">{{ $item->name }}</h6>
+                                                <span class="text-muted">{{ date('d/m/Y', strtotime($item->created_at)) }}
+                                                    |
+                                                    {{ $item->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('h:i A') }}</span>
+                                            </div>
+                                            <p class="mt-2">{{ $item->note }}</p>
+                                        </div>
+                                    </li>
+                                @elseif ($item->name === 'Giao hàng thành công')
+                                    <li
+                                        class="timeline-item timeline-item-transparent {{ !$loop->last ? 'border-primary' : 'border-transparent' }}">
+                                        <span class="timeline-point-wrapper"> <span
+                                                class="timeline-point timeline-point-primary"></span></span>
+                                        <div class="timeline-event">
+                                            <div class="timeline-header">
+                                                <h6 class="mb-0">{{ $item->name }}</h6>
+                                                <span class="text-muted">{{ date('d/m/Y', strtotime($item->created_at)) }}
+                                                    |
+                                                    {{ $item->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('h:i A') }}</span>
+                                            </div>
+                                            <p class="mt-2">{{ $item->note }}</p>
+                                        </div>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-lg-4">
@@ -239,7 +313,8 @@
                                     <img src="{{ Storage::url($order->user->avatar) }}" alt="Avatar"
                                         class="rounded-circle">
                                 @else
-                                    <img src="{{ asset('themes/image/logo.jpg') }}" alt="Avatar" class="rounded-circle">
+                                    <img src="{{ asset('themes/image/logo.jpg') }}" alt="Avatar"
+                                        class="rounded-circle">
                                 @endif
 
                             </div>
@@ -441,4 +516,54 @@
         </div>
     </div>
     <!-- / Content -->
+@endsection
+@section('style-libs')
+    <style>
+        .modal-contents {
+            margin: 15% auto;
+            display: block;
+            width: 75%;
+            max-width: 600px;
+        }
+    </style>
+@endsection
+@section('script-libs')
+    <script>
+        document.getElementById('flexCheckChecked').addEventListener('change', function() {
+            const additionalInput = document.getElementById('additionalInput');
+            if (this.checked) {
+                additionalInput.style.display = 'block'; // Hiển thị ô input
+            } else {
+                additionalInput.style.display = 'none'; // Ẩn ô input
+            }
+        });
+    </script>
+    <script>
+        // Lấy phần tử hình ảnh và modal
+        var img = document.getElementById("myImg");
+        var modal = document.getElementById("myModal");
+        var modalImg = document.getElementById("imgModal");
+        var closeBtn = document.getElementById("closeBtn");
+
+        // Khi người dùng nhấp vào hình ảnh, mở modal và hiển thị hình ảnh lớn
+        img.onclick = function() {
+            modal.style.display = "block";
+            modalImg.src = this.src; // Đặt hình ảnh modal với hình ảnh đã nhấp
+        }
+
+        // Khi người dùng nhấp vào nút đóng, đóng modal
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Khi người dùng nhấp ngoài modal, đóng modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <script src="{{ asset('themes') }}/admin/vendor/libs/cleavejs/cleave.js"></script>
+    <script src="{{ asset('themes') }}/admin/vendor/libs/cleavejs/cleave-phone.js"></script>
+    <script src="{{ asset('themes') }}/admin/js/app-ecommerce-order-details.js"></script>
 @endsection

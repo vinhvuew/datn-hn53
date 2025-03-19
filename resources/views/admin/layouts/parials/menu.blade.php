@@ -6,8 +6,8 @@
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item">
-            <a href="#" class="menu-link">
+        <li class="menu-item @yield('item-dashboards')">
+            <a href="{{ route('admin.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div class="text-truncate" data-i18n="Dashboards">
                     Dashboards
@@ -15,7 +15,7 @@
                 <span class="badge badge-center rounded-pill bg-danger ms-auto">5</span>
             </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item @yield('item-order')">
             <a href="{{ route('orders.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-cart"></i>
                 <div class="text-truncate" data-i18n="Đơn hàng">
