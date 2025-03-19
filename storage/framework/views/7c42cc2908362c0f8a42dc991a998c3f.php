@@ -82,8 +82,10 @@
 
                                     <?php $__currentLoopData = $address; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="address-box">
-                                            <input type="radio" name="address" class="address-checkbox" value="<?php echo e($a->id); ?>"
-                                                <?php echo e($loop->first ? 'checked' : ''); ?> onchange="getSelectedAddresses()">
+                                            <input type="radio" name="address" class="address-checkbox"
+                                                value="<?php echo e($a->id); ?>" <?php echo e($loop->first ? 'checked' : ''); ?>
+
+                                                onchange="getSelectedAddresses()">
                                             <p><strong><?php echo e($a->full_name); ?></strong></p>
                                             <p>📞 <?php echo e($a->phone); ?></p>
                                             <p>📍 <?php echo e($a->address); ?>, <?php echo e($a->ward); ?>, <?php echo e($a->district); ?>,
@@ -199,11 +201,10 @@
                                     
                                     <ul>
                                         <li class="clearfix">
-                                            <em><?php echo e($order->quantity); ?>x <?php echo e($order->variant->product->name); ?>
+                                            <em><?php echo e($order->quantity); ?>X__ <?php echo e($order->variant->product->name); ?>
 
-                                                (<?php echo e($order->variant->name); ?>)
                                             </em>
-                                            <span><?php echo e(number_format($order->variant->selling_price, 0, ',', '.')); ?>
+                                            <span><?php echo e(number_format($order->total_amount, 0, ',', '.')); ?>
 
                                                 VNĐ</span>
                                         </li>
@@ -212,7 +213,7 @@
                                     
                                     <ul>
                                         <li class="clearfix">
-                                            <em><?php echo e($order->quantity); ?>x <?php echo e($order->product->name); ?></em>
+                                            <em><?php echo e($order->quantity); ?>X__ <?php echo e($order->product->name); ?></em>
                                             <span><?php echo e(number_format($order->total_amount, 0, ',', '.')); ?> VNĐ</span>
                                         </li>
                                     </ul>

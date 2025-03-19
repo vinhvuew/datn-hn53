@@ -211,7 +211,7 @@
                                                         </tr>
                                                     <?php else: ?>
                                                         <tr>
-                                                            <td>
+                                                            <>
                                                                 <div
                                                                     class="d-flex justify-content-start align-items-center mb-1">
                                                                     <div class="avatar me-2 pe-1">
@@ -240,13 +240,27 @@
                                                                         <?php endif; ?>
                                                                         <?php echo e($attribute->attributeValue->value); ?>.
                                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                                </span>
-                                                            </td>
-                                                            <td><?php echo e(number_format($item->variant->selling_price, 0, ',', '.')); ?>
 
-                                                            </td>
-                                                            <td><?php echo e($item->quantity); ?></td>
-                                                            <td><?php echo e(number_format($item->total_price, 0, ',', '.')); ?></td>
+                                                                </span>
+
+                                                                <?php if($item->variant->product->price_sale == ''): ?>
+                                                                    <td>
+                                                                        <?php echo e(number_format($item->variant->product->base_price, 0, ',', '.')); ?>
+
+                                                                    </td>
+                                                                <?php else: ?>
+                                                                    <td>
+                                                                        <?php echo e(number_format($item->variant->product->price_sale, 0, ',', '.')); ?>
+
+                                                                    </td>
+                                                                <?php endif; ?>
+
+                                                                
+                                                                </td>
+                                                                <td><?php echo e($item->quantity); ?></td>
+                                                                <td><?php echo e(number_format($item->total_price, 0, ',', '.')); ?>
+
+                                                                </td>
                                                         </tr>
                                                     <?php endif; ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

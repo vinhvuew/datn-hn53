@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id(); // Cột id tự động tăng
             $table->foreignIdFor(Category::class)->constrained();
             $table->foreignIdFor(Brand::class)->constrained();
-            $table->string('name'); // Cột tên sản phẩm
+            $table->text('name'); // Cột tên sản phẩm
             $table->string('sku');
             $table->string('slug')->unique(); // Cột slug cho sản phẩm (để tạo URL thân thiện)
-            $table->string('description')->nullable();
-            $table->text('content')->nullable();
-            $table->text('user_manual')->nullable();
+            $table->text('description')->nullable(); // ~65,535 ký tự
+            $table->longText('content')->nullable(); // ~4 tỷ ký tự
+            $table->longText('user_manual')->nullable(); // ~4 tỷ ký tự
             $table->integer('quantity'); // số lượng
             $table->unsignedDecimal('base_price', 15, 2);
             $table->unsignedBigInteger('price_sale')->nullable();

@@ -3,7 +3,8 @@
 @section('content')
     <main>
         <div class="container margin_30">
-            <div class="countdown_inner">-20% This offer ends in <div data-countdown="2025/05/15" class="countdown"></div>
+            <div class="">
+                <div class="countdown"></div>
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -48,7 +49,7 @@
                                 <i class="icon-star voted"></i><i class="icon-star voted"></i>
                                 <i class="icon-star"></i><em>4 reviews</em>
                             </span>
-                            <p><small>SKU: {{ $product->sku }}</small><br>{{ $product->description }}</p>
+                            <p><small>Mã SP: {{ $product->sku }}</small><br>{{ $product->description }}</p>
                             @if ($product->variants->isNotEmpty())
                                 {{-- Nếu có biến thể --}}
                                 <div class="prod_options">
@@ -153,11 +154,17 @@
                                 <div class="col-lg-5 col-md-6">
                                     <div class="price_main">
                                         <label for=""> <strong>Đơn giá:</strong> </label>
-                                        <span class="new_price ">{{ number_format($product->price_sale, 0, ',', '.') }}
-                                            VND</span>
-                                        {{-- <span class="percentage">-20%</span>
-                                        <span class="old_price">$160.00</span> --}}
+
+                                        @if ($product->price_sale > 0 && $product->price_sale < $product->base_price)
+                                            <span class="new_price text-danger">{{ number_format($product->price_sale, 0, ',', '.') }} VND</span>
+                                            <span class="old_price text-muted" style="text-decoration: line-through;">
+                                                {{ number_format($product->base_price, 0, ',', '.') }} VND
+                                            </span>
+                                        @else
+                                            <span class="new_price">{{ number_format($product->base_price, 0, ',', '.') }} VND</span>
+                                        @endif
                                     </div>
+
                                 </div>
                                 <div class="col-lg-5 col-md-6">
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -173,17 +180,7 @@
                             </div>
                         </div>
                     </form>
-                    <!-- /prod_info -->
-                    <div class="product_actions">
-                        <ul>
-                            <li>
-                                <a href="#"><i class="ti-heart"></i><span>Add to Wishlist</span></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="ti-control-shuffle"></i><span>Add to Compare</span></a>
-                            </li>
-                        </ul>
-                    </div>
+
                     <!-- /product_actions -->
                 </div>
             </div>
@@ -195,8 +192,7 @@
             <div class="container">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab"
-                            role="tab">Bình
+                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab" role="tab">Bình
                             luận</a>
                     </li>
                     <li class="nav-item">

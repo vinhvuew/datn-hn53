@@ -32,7 +32,7 @@
                             <th>Hình ảnh</th>
                             <th>Số lượng</th>
                             <th>Giá cơ bản</th>
-                            <th>Giá bán</th>
+                            <th>Giá tùy chỉnh</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -57,22 +57,16 @@
                                             <thead>
                                                 <tr>
                                                     <th>Sku</th>
-                                                    <th>Giá nhập</th>
-                                                    <th>Giá bán</th>
                                                     <th>Tồn Kho</th>
                                                     <th>Ảnh biến thể</th>
                                                     <th>Thuộc Tính</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-
                                                 <?php $__currentLoopData = $item->variants; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variant): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <tr>
                                                         <td><?php echo e($variant->sku); ?></td>
-                                                        <td><?php echo e(number_format($variant->wholesale_price, 0, ',', '.')); ?> VND
-                                                        </td>
-                                                        <td><?php echo e(number_format($variant->selling_price, 0, ',', '.')); ?> VND
-                                                        </td>
+
                                                         <td><?php echo e($variant->quantity); ?></td>
                                                         <td>
                                                             <?php if($variant->image): ?>
