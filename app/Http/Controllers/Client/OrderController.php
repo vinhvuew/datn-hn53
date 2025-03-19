@@ -103,12 +103,15 @@ class OrderController extends Controller
     {
         try {
             foreach ($items as $item) {
-                $price = 0;
-                if (isset($item->product_id)) {
-                    $price = Product::find($item->product_id)->base_price;
-                } else {
-                    $price = Variant::find($item->variant_id)->selling_price;
-                }
+                // $price = 0;
+                // if (isset($item->product_id)) {
+                //     $price = Product::find($item->product_id)->base_price;
+                // } else {
+                //     $price = Variant::find($item->variant_id)->selling_price;
+                // }
+                $price = Product::where('id', $item->product_id)->value('price_sale')
+                    ?? Product::where('id', $item->product_id)->value('base_price')
+                    ?? 0;
 
                 $order = new OrderDetail();
                 $order->order_id = $orderId;

@@ -84,8 +84,9 @@
 
                                     @foreach ($address as $index => $a)
                                         <div class="address-box">
-                                            <input type="radio" name="address" class="address-checkbox" value="{{ $a->id }}"
-                                                {{ $loop->first ? 'checked' : '' }} onchange="getSelectedAddresses()">
+                                            <input type="radio" name="address" class="address-checkbox"
+                                                value="{{ $a->id }}" {{ $loop->first ? 'checked' : '' }}
+                                                onchange="getSelectedAddresses()">
                                             <p><strong>{{ $a->full_name }}</strong></p>
                                             <p>📞 {{ $a->phone }}</p>
                                             <p>📍 {{ $a->address }}, {{ $a->ward }}, {{ $a->district }},
@@ -201,10 +202,9 @@
                                     {{-- Nếu có biến thể, hiển thị thông tin biến thể --}}
                                     <ul>
                                         <li class="clearfix">
-                                            <em>{{ $order->quantity }}x {{ $order->variant->product->name }}
-                                                ({{ $order->variant->name }})
+                                            <em>{{ $order->quantity }}X__ {{ $order->variant->product->name }}
                                             </em>
-                                            <span>{{ number_format($order->variant->selling_price, 0, ',', '.') }}
+                                            <span>{{ number_format($order->total_amount, 0, ',', '.') }}
                                                 VNĐ</span>
                                         </li>
                                     </ul>
@@ -212,7 +212,7 @@
                                     {{-- Nếu không có biến thể, hiển thị thông tin sản phẩm gốc --}}
                                     <ul>
                                         <li class="clearfix">
-                                            <em>{{ $order->quantity }}x {{ $order->product->name }}</em>
+                                            <em>{{ $order->quantity }}X__ {{ $order->product->name }}</em>
                                             <span>{{ number_format($order->total_amount, 0, ',', '.') }} VNĐ</span>
                                         </li>
                                     </ul>

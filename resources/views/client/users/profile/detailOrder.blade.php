@@ -209,7 +209,7 @@
                                                         </tr>
                                                     @else
                                                         <tr>
-                                                            <td>
+                                                            <>
                                                                 <div
                                                                     class="d-flex justify-content-start align-items-center mb-1">
                                                                     <div class="avatar me-2 pe-1">
@@ -237,12 +237,24 @@
                                                                         @endif
                                                                         {{ $attribute->attributeValue->value }}.
                                                                     @endforeach
+
                                                                 </span>
-                                                            </td>
-                                                            <td>{{ number_format($item->variant->selling_price, 0, ',', '.') }}
-                                                            </td>
-                                                            <td>{{ $item->quantity }}</td>
-                                                            <td>{{ number_format($item->total_price, 0, ',', '.') }}</td>
+
+                                                                @if ($item->variant->product->price_sale == '')
+                                                                    <td>
+                                                                        {{ number_format($item->variant->product->base_price, 0, ',', '.') }}
+                                                                    </td>
+                                                                @else
+                                                                    <td>
+                                                                        {{ number_format($item->variant->product->price_sale, 0, ',', '.') }}
+                                                                    </td>
+                                                                @endif
+
+                                                                {{-- <td>{{ number_format($item->variant->selling_price, 0, ',', '.') }} --}}
+                                                                </td>
+                                                                <td>{{ $item->quantity }}</td>
+                                                                <td>{{ number_format($item->total_price, 0, ',', '.') }}
+                                                                </td>
                                                         </tr>
                                                     @endif
                                                 @endforeach

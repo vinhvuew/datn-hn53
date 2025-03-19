@@ -41,20 +41,20 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="mb-3">
-                                        <label class="form-label" for="ecommerce-product-name">Name</label>
+                                        <label class="form-label" for="ecommerce-product-name">Tên sản phẩm</label>
                                         <input type="text" class="form-control" id="ecommerce-product-name"
                                             placeholder="Product Name" name="name" aria-label="name"
                                             value="{{ $product->name }}">
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="col"><label class="form-label"
-                                                for="ecommerce-product-sku">SKU</label>
+                                        <div class="col"><label class="form-label" for="ecommerce-product-sku">Mã
+                                                sp</label>
                                             <input type="text" class="form-control" id="ecommerce-product-sku"
                                                 placeholder="sku" name="sku" aria-label="Product sku"
                                                 value="{{ $product->sku }}">
                                         </div>
-                                        <div class="col"><label class="form-label"
-                                                for="ecommerce-product-sku">Quantity</label>
+                                        <div class="col"><label class="form-label" for="ecommerce-product-sku">Số
+                                                lượng</label>
                                             <input type="number" class="form-control" id="ecommerce-product-quantity"
                                                 placeholder="quantity" name="quantity" value="{{ $product->quantity }}">
                                         </div>
@@ -62,24 +62,23 @@
 
                                     <!-- Description -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="ecommerce-product-name">Description</label>
+                                        <label class="form-label" for="ecommerce-product-name">Mô tả</label>
                                         <textarea type="text" class="form-control" id="ecommerce-product-name" placeholder="description" name="description"
                                             aria-label="description">{{ $product->description }}</textarea>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="content">Content</label>
+                                        <label class="form-label" for="content">Nội dung</label>
                                         <textarea type="text" class="form-control" id="content" placeholder="content" name="content" aria-label="content">{{ $product->content }}</textarea>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="content">Image</label>
+                                        <label class="form-label" for="content">Hình ảnh</label>
                                         <input type="file" class="form-control" name="img_thumbnail">
                                         <img src="{{ Storage::url($product->img_thumbnail) }}" width="50px"
                                             class="rounded mt-2">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="content">User manual</label>
-                                        <input type="text" class="form-control" name="user_manual"
-                                            value="{{ $product->user_manual }}">
+                                        <label class="form-label" for="content">Hướng dẫn bảo quản</label>
+                                        <textarea type="text" class="form-control" name="user_manual">{{ $product->user_manual }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -140,17 +139,6 @@
                                                             value="{{ $variant->sku }}">
                                                     </div>
 
-                                                    <div class="mb-3">
-                                                        <label for="variant_selling_price_{{ $variantIndex }}">Giá điều
-                                                            chỉnh</label>
-                                                        <input type="number"
-                                                            id="variant_selling_price_{{ $variantIndex }}"
-                                                            name="variants[{{ $variant->id }}][selling_price]"
-                                                            class="form-control" step="0.01"
-                                                            placeholder="Giá điều chỉnh" max="99999999"
-                                                            value="{{ $variant->selling_price }}">
-                                                    </div>
-
                                                     <div class="mb-4">
                                                         <label for="variant_quantity_{{ $variantIndex }}">Số lượng tồn
                                                             kho</label>
@@ -204,7 +192,7 @@
                             <!-- /danh mục -->
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Pricing</h5>
+                                    <h5 class="card-title mb-0">Danh mục & Thương hiệu</h5>
                                 </div>
                                 <div class="card-body">
                                     {{-- danh mục --}}
@@ -240,20 +228,20 @@
                             <!-- Pricing Card -->
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Pricing</h5>
+                                    <h5 class="card-title mb-0">Giá tiền</h5>
                                 </div>
                                 <div class="card-body">
                                     <!-- Base Price -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="base_price">Base Price</label>
+                                        <label class="form-label" for="base_price">Giá cơ bản</label>
                                         <input type="number" class="form-control" id="base_price"
                                             placeholder="base_price" name="base_price" aria-label="base_price"
                                             value="{{ $product->base_price }}">
                                     </div>
                                     <!-- Discounted Price -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="ecommerce-product-discount-price">Price
-                                            sale</label>
+                                        <label class="form-label" for="ecommerce-product-discount-price">Giá tùy
+                                            chỉnh</label>
                                         <input type="number" class="form-control" id="price_sale"
                                             placeholder="price_sale" name="price_sale" aria-label="price_sale"
                                             value="{{ $product->price_sale }}">
@@ -327,11 +315,6 @@
         <div class="mb-3">
             <label for="variant_sku_${variantIndex}">Mã biến thể</label>
             <input type="text" id="variant_sku_${variantIndex}" name="variants[new_${variantIndex}][sku]" placeholder="Mã biến thể" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label for="variant_selling_price_${variantIndex}">Giá điều chỉnh</label>
-            <input type="number" id="variant_selling_price_${variantIndex}" name="variants[new_${variantIndex}][selling_price]" max="99999999" class="form-control" step="0.01" placeholder="Giá điều chỉnh">
         </div>
 
         <div class="mb-4">

@@ -53,7 +53,7 @@
                                         <p class="owl-slide-animated owl-slide-subtitle">
                                             Lightweight cushioning and durable support with a Phylon midsole
                                         </p>
-                                        
+
                                     </div>
                                 </div>
                             </div>
