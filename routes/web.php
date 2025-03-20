@@ -55,6 +55,8 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::post('/update/password', [ProfileController::class, 'updatePassword'])->name('updatePassword'); // cập nhật mk
     Route::get('/myOder', [ProfileController::class, 'myOder'])->name('myOder'); // đơn hàng của tôi
     Route::get('myOder/show/{id}', [ProfileController::class, 'show'])->name('detailOrder');
+    Route::put('/orders/{order}/cancel', [ProfileController::class, 'cancel'])->name('orders.cancel');
+Route::put('/orders/{order}/confirm', [ProfileController::class, 'confirm'])->name('orders.confirm');
 });
 
 // router phan tin tuc

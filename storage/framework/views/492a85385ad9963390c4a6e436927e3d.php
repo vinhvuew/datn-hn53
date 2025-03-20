@@ -211,56 +211,56 @@
                                                         </tr>
                                                     <?php else: ?>
                                                         <tr>
-                                                            <>
-                                                                <div
-                                                                    class="d-flex justify-content-start align-items-center mb-1">
-                                                                    <div class="avatar me-2 pe-1">
-                                                                        <?php if($item->variant && $item->variant->product->img_thumbnail): ?>
-                                                                            <img class="rounded-2"
-                                                                                src="<?php echo e(Storage::url($item->variant->product->img_thumbnail)); ?>"
-                                                                                width="50px" alt="">
-                                                                        <?php else: ?>
-                                                                            <img src="<?php echo e(asset('images/default-thumbnail.png')); ?>"
-                                                                                width="50px" alt="Default Image">
-                                                                        <?php endif; ?>
-                                                                    </div>
-                                                                    <div>
-                                                                        <strong><?php echo e(optional($item->variant)->product->name); ?>
 
-                                                                        </strong>
-                                                                    </div>
+                                                            <div
+                                                                class="d-flex justify-content-start align-items-center mb-1">
+                                                                <div class="avatar me-2 pe-1">
+                                                                    <?php if($item->variant && $item->variant->product->img_thumbnail): ?>
+                                                                        <img class="rounded-2"
+                                                                            src="<?php echo e(Storage::url($item->variant->product->img_thumbnail)); ?>"
+                                                                            width="50px" alt="">
+                                                                    <?php else: ?>
+                                                                        <img src="<?php echo e(asset('images/default-thumbnail.png')); ?>"
+                                                                            width="50px" alt="Default Image">
+                                                                    <?php endif; ?>
                                                                 </div>
-                                                                <span>
-                                                                    <?php $__currentLoopData = $item->variant->attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                        <?php if(!$loop->first): ?>
-                                                                            <br>
-                                                                        <?php endif; ?>
-                                                                        <?php echo e($attribute->attribute->name); ?>:
-                                                                        <?php if(!$loop->first): ?>
-                                                                        <?php endif; ?>
-                                                                        <?php echo e($attribute->attributeValue->value); ?>.
-                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                <div>
+                                                                    <strong><?php echo e(optional($item->variant)->product->name); ?>
 
-                                                                </span>
+                                                                    </strong>
+                                                                </div>
+                                                            </div>
+                                                            <span>
+                                                                <?php $__currentLoopData = $item->variant->attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <?php if(!$loop->first): ?>
+                                                                        <br>
+                                                                    <?php endif; ?>
+                                                                    <?php echo e($attribute->attribute->name); ?>:
+                                                                    <?php if(!$loop->first): ?>
+                                                                    <?php endif; ?>
+                                                                    <?php echo e($attribute->attributeValue->value); ?>.
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                                                <?php if($item->variant->product->price_sale == ''): ?>
-                                                                    <td>
-                                                                        <?php echo e(number_format($item->variant->product->base_price, 0, ',', '.')); ?>
+                                                            </span>
 
-                                                                    </td>
-                                                                <?php else: ?>
-                                                                    <td>
-                                                                        <?php echo e(number_format($item->variant->product->price_sale, 0, ',', '.')); ?>
-
-                                                                    </td>
-                                                                <?php endif; ?>
-
-                                                                
-                                                                </td>
-                                                                <td><?php echo e($item->quantity); ?></td>
-                                                                <td><?php echo e(number_format($item->total_price, 0, ',', '.')); ?>
+                                                            <?php if($item->variant->product->price_sale == ''): ?>
+                                                                <td>
+                                                                    <?php echo e(number_format($item->variant->product->base_price, 0, ',', '.')); ?>
 
                                                                 </td>
+                                                            <?php else: ?>
+                                                                <td>
+                                                                    <?php echo e(number_format($item->variant->product->price_sale, 0, ',', '.')); ?>
+
+                                                                </td>
+                                                            <?php endif; ?>
+
+                                                            
+                                                            </td>
+                                                            <td><?php echo e($item->quantity); ?></td>
+                                                            <td><?php echo e(number_format($item->total_price, 0, ',', '.')); ?>
+
+                                                            </td>
                                                         </tr>
                                                     <?php endif; ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -369,8 +369,11 @@
                                 </div>
                             </div>
                             <div class="col-12 col-lg-4">
+
                                 <div class="card mb-4">
+
                                     <div class="card-body">
+
                                         <h6 class="card-title mb-4">Chi tiết khách hàng</h6>
                                         <div class="d-flex justify-content-start align-items-center mb-4">
                                             <div class="avatar me-2">
