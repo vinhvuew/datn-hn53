@@ -353,7 +353,6 @@
         });
     </script>
     
-    
     <script>
         $(document).ready(function() {
             $('#btn-submit-coupon').click(function() {

@@ -183,17 +183,14 @@
                                                                 VNĐ</strong>
                                                         </p>
                                                     </div>
-                                                    <a href="<?php echo e(route('profile.detailOrder', $order->id)); ?>">Trạng thái</a>
-                                                    <button class="btn btn-primary toggle-details"
+                                                    <a class="btn btn-label-success"
+                                                        href="<?php echo e(route('profile.detailOrder', $order->id)); ?>">Trạng
+                                                        thái</a>
+                                                    <button class="btn btn-label-warning toggle-details"
                                                         data-target="#orderDetails<?php echo e($order->id); ?>">Xem chi
                                                         tiết</button>
                                                 </div>
-                                                <div class="d-flex align-items-end">
-                                                    <button class="btn btn-label-danger"
-                                                        data-order-id="<?php echo e($order->id); ?>">
-                                                        ❌ Hủy đơn hàng
-                                                    </button>
-                                                </div>
+                                                
                                                 <!-- Danh sách sản phẩm trong đơn hàng -->
                                                 <div class="collapse mt-3" id="orderDetails<?php echo e($order->id); ?>">
                                                     <ul class="list-group">

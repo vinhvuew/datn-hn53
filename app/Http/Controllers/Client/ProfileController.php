@@ -155,4 +155,26 @@ class ProfileController extends Controller
 
         return view('client.users.profile.detailOrder', compact('order', 'events'));
     }
+
+    // Xử lý hủy đơn hàng
+    public function cancel(Order $order)
+    {
+        if ($order->status == 'Chờ xác nhận') {
+            $order->status = 'Đã hủy';
+            $order->save();
+            return redirect()->back()->with('success', 'Đơn hàng đã được hủy.');
+        }
+        return redirect()->back()->with('error', 'Không thể hủy đơn hàng này.');
+    }
+
+    // Xử lý xác nhận đã nhận hàng
+    public function confirm(Order $order)
+    {
+        if ($order->status == 'Giao hàng thành công') {
+            $order->status = 'Đã nhận hàng';
+            $order->save();
+            return redirect()->back()->with('success', 'Bạn đã xác nhận nhận hàng.');
+        }
+        return redirect()->back()->with('error', 'Không thể xác nhận đơn hàng này.');
+    }
 }
