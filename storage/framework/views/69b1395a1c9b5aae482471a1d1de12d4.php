@@ -3,7 +3,7 @@
         <div id="carousel-home">
             <div class="owl-carousel owl-theme">
                 <div class="owl-slide cover"
-                    style="background-image: url(<?php echo e(asset('client')); ?>/img/slides/slide_home_2.jpg);">
+                    style="background-image: url(<?php echo e(asset('client.home')); ?>/img/slides/slide_home_2.jpg);">
                     <div class="opacity-mask d-flex align-items-center" data-opacity-mask="rgba(0, 0, 0, 0.5)">
                         <div class="container">
                             <div class="row justify-content-center justify-content-md-end">
@@ -118,7 +118,7 @@
             <div class="main_title">
                 <h2>SALE SẢN PHẨM</h2>
                 <span>SẢN PHẨM GIẢM GIÁ</span>
-               
+
             </div>
 
             <div class="carousel-inner">
@@ -359,6 +359,7 @@
             showSlide(currentIndex);
         }
 
+
         function prevSlide() {
             currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
             showSlide(currentIndex);
@@ -370,6 +371,7 @@
         // Hiển thị slide đầu tiên
         showSlide(currentIndex);
     </script>
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/admin/datn-hn53/resources/views/client/home.blade.php ENDPATH**/ ?>

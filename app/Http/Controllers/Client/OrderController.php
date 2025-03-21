@@ -10,6 +10,9 @@ use App\Models\CartDetail;
 use App\Models\Order;
 
 use App\Models\OrderDetail;
+use App\Models\Product;
+use App\Models\Shipping;
+use App\Models\Variant;
 use App\Models\Voucher;
 use DB;
 use Illuminate\Http\Request;
@@ -31,108 +34,120 @@ class OrderController extends Controller
         $cart = Cart::where('user_id', Auth::id())->first();
         // dd($cart->id);
         $cart_detail = CartDetail::where('cart_id', $cart->id)
-            ->where('is_selected', 1)
+            ->where('is_selected', CartDetail::SELECTED)
             ->get();
-        // dd($cart_detail);
 
-        // dd($cart_detail);
-        // return response()->json($cart_detail);
-        // dd($cart_detail);
 
         try {
             if ($cart_detail->isEmpty())
                 return response()->json(['error' => 'Giỏ hàng trống'], 400);
             switch ($request->payment_method) {
                 case "VNPAY_DECOD":
+                    // dd($request->all());
                     $order = $this->createOrder($request, 'Chờ thanh toán');
-                    $this->orderItems($cart_detail, $order->id, $cart->id);
+
+
+                    $this->orderItems($cart_detail, $order->id);
+
                     $this->vnpay_service->VNpay_Payment($order->total_price, 'vn', $request->ip(), $order->id);
                     break;
                 case "MOMO":
-                    dd(1);
+                    // dd(1);
                     break;
                 case "COD":
                     // dd($cart_detail);
-                    $order = $this->createOrder($request, 'Thanh toán khi nhận hàng');
-                    // dd($order);
-                    $orderdatail = $this->orderItems($cart_detail, $order->id, $cart->id);
-                    // dd($orderdatail);
-                    if (!$orderdatail) {
-                        return response()->json(['status' => 'error', 'message' => 'Lỗi khi thêm chi tiết đơn hàng!'], 500);
+                    try {
+                        $order = $this->createOrder($request, 'Thanh toán khi nhận hàng');
+                        // dd($order);
+                        $orderdatail = $this->orderItems($cart_detail, $order->id);
+                        // dd($orderdatail);
+                        if (!$orderdatail) {
+                            return response()->json(['status' => 'error', 'message' => 'Lỗi khi thêm chi tiết đơn hàng!'], 500);
+                        }
+                    } catch (\Throwable $th) {
+                        //throw $th;
                     }
-                    // dd($orderdatail);
                     return view('client.checkout.complete');
                     break;
                 default:
                     return response()->json(['status' => 'error', 'message' => 'Phương thức thanh toán không hợp lệ!'], 400);
             }
         } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => 'Lỗi khi đặt hàng: ' . $e->getMessage()]);
+            return response()->json(['status' => 'error', 'message' => 'Lỗi khi đặt hàng: ' . $e]);
         }
     }
     private function createOrder($request, $status)
     {
         try {
-            $order = Order::create([
-                'user_id' => Auth::id(),
-                'status_id' => 1,
-                'total_price' => $request->total_price,
-                'address_id' => $request->address_id,
-                'payment_method' => $request->payment_method,
-                'payment_status' => $status,
-                'order_date' => now(),
-                'voucher_id' => $request->voucher_id ?? null,
-            ]);
 
-            return $order; // Trả về đơn hàng vừa tạo nếu thành công
+            $order = new Order();
+            $order->user_id = Auth::id();
+            $order->status = Order::PENDING;
+            $order->total_price = $request->total_price;
+            $order->address_id = $request->address_id;
+            $order->payment_method = $request->payment_method;
+            $order->payment_status = $status;
+            $order->order_date = now();
+            $order->voucher_id = $request->voucher_id ?? null;
+            if ($order->save()) {
+
+                return $order;
+            }
         } catch (\Exception $e) {
             Log::error('Lỗi khi tạo đơn hàng: ' . $e->getMessage());
-            return null; // Hoặc có thể throw exception để xử lý ở tầng cao hơn
+            return null;
         }
     }
-    private function orderItems($items, $orderId, $cart_id)
+
+    private function orderItems($items, $orderId)
     {
         try {
             foreach ($items as $item) {
-                // dd($item);
-                $oder = OrderDetail::create([
-                    'order_id' => $orderId,
-                    'product_id' => $item->product_id ?? null,
-                    'variant_id' => $item->variant_id ?? null,
-                    'quantity' => $item->quantity,
-                    'product_name' => $item->product->name ?? $item->variant->product->name,
-                    'price' => $item->variant_id
-                        ? optional($item->variant)->selling_price ?? 0
-                        : optional($item->product)->base_price ?? 0,
-                    'total_price' => $item->total_amount,
-                ]);
-                $cartDetail = CartDetail::query()->with('cart')->find($item->id);
+                // $price = 0;
+                // if (isset($item->product_id)) {
+                //     $price = Product::find($item->product_id)->base_price;
+                // } else {
+                //     $price = Variant::find($item->variant_id)->selling_price;
+                // }
+                $price = Product::where('id', $item->product_id)->value('price_sale')
+                    ?? Product::where('id', $item->product_id)->value('base_price')
+                    ?? 0;
 
-                if (!$cartDetail) {
-                    return back()->with('error', 'Giỏ hàng không tồn tại!');
-                }
-                // Lấy cart_id trước khi xóa chi tiết
-                $cartId = $cartDetail->cart_id;
-                // Xóa chi tiết giỏ hàng
-                $cartDetail->delete();
+                $order = new OrderDetail();
+                $order->order_id = $orderId;
+                $order->product_id = $item->product_id ?? null;
+                $order->variant_id = $item->variant_id ?? null;
+                $order->quantity = $item->quantity;
+                $order->price = $price;
+                $order->total_price = $item->total_amount;
+                $order->product_name = $item->product->name ?? $item->variant->product->name;
+                $order->save();
+
+                CartDetail::find($item->id)->delete();
+                // Trạng Thái đơn hàng
 
                 // Kiểm tra nếu giỏ hàng không còn sản phẩm nào thì xóa luôn
-                $remainingItems = CartDetail::where('cart_id', $cartId)->count();
+                $remainingItems = CartDetail::where('cart_id', $item->cart_id)->count();
                 if ($remainingItems === 0) {
-                    Cart::where('id', $cartId)->delete();
+                    Cart::where('id', $item->cart_id)->delete();
                 }
-                return back()->with('success', 'Bạn đã đặt hàng thành công!');
-                // dd($oder);
+                // return back()->with('success', 'Bạn đã đặt hàng thành công!');
+                // Thằng ngu bỏ nó ra ngoài vòng lặp
             }
-            // Xóa sản phẩm trong giỏ hàng sau khi đã tạo chi tiết đơn hàng
+            // Trạng Thái đơn hàng
+            try {
+                Shipping::create([
+                    'order_id' => $orderId,
+                    'name' => 'Đơn hàng của bạn đã được đặt thành công',
+                    'note' => 'Đơn hàng đang đợi được xác nhận',
+                ]);
+            } catch (\Exception $e) {
+                Log::error('Lỗi khi tạo đơn hàng: ' . $e->getMessage());
+            }
+            return back()->with('success', 'Bạn đã đặt hàng thành công!');
         } catch (\Exception $e) {
             Log::error('Lỗi khi thêm sản phẩm vào đơn hàng: ' . $e->getMessage());
-
-            // Nếu có lỗi, có thể ném ngoại lệ hoặc trả về false để xử lý sau
-            return false;
         }
-
-        return true; // Trả về true nếu không có lỗi
     }
 
 

@@ -11,7 +11,7 @@ class CreateNewsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function news()
     {
         $news = CreateNews::all(); // Lấy danh sách tin tức
         return view('client.news.index', compact('news'));

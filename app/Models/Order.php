@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
+    const PENDING = "pending";
+    const CONFIRMED = "confirmed";
+    const SHIPPING = "shipping";
+    const DELIVERED = "delivered";
+    const COMPLETED = "completed";
+    const CANCELED = "canceled";
+    const ADMIN_CANCELED = "admin_canceled";
     protected $fillable = [
         'user_id',
         'total_price',
@@ -43,14 +50,9 @@ class Order extends Model
         return self::getStatusList()[$this->status] ?? 'Không xác định';
     }
 
-    public $table = 'orders';
     public $timestamps = false;
     protected $dates = ['deleted_at'];
 
-    public function users()
-    {
-        return $this->belongsTo(User::class);
-    }
     //trong admin
     public function user()
     {
@@ -74,5 +76,15 @@ class Order extends Model
     public function variant()
     {
         return $this->belongsTo(Variant::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
+
+    public function shippings()
+    {
+        return $this->hasMany(Shipping::class, 'order_id', 'id');
     }
 }

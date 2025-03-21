@@ -60,9 +60,11 @@ class ProductsController extends Controller
 
     public function addToCart(Request $request)
     {
+        if (!Auth::check()) {
+            return back()->with('error', 'Bạn cần đăng nhập để mua hàng!');
+        }
         try {
             $user = Auth::user();
-            // dd($user);
             $cart = Cart::firstOrCreate(['user_id' =>  $user->id]);
             $productId = $request->input('product_id');
             $variantAttributeIds = $request->input('variant_attributes.attribute_value_id', []);
@@ -99,14 +101,16 @@ class ProductsController extends Controller
 
                 if ($cartDetail) {
                     $cartDetail->quantity += $quantity;
-                    $cartDetail->total_amount += $variant->selling_price * $quantity;
+                    $cartDetail->total_amount += $price * $quantity;
+                    // $cartDetail->total_amount += $variant->selling_price * $quantity;
                     $cartDetail->save();
                 } else {
                     CartDetail::create([
                         'cart_id' => $cart->id,
                         'variant_id' => $variant->id,
                         'quantity' => $quantity,
-                        'total_amount' => $variant->selling_price * $quantity,
+                        'total_amount' => $price * $quantity,
+                        // 'total_amount' => $variant->selling_price * $quantity,
                     ]);
                 }
 
