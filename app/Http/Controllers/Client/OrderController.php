@@ -103,12 +103,7 @@ class OrderController extends Controller
     {
         try {
             foreach ($items as $item) {
-                // $price = 0;
-                // if (isset($item->product_id)) {
-                //     $price = Product::find($item->product_id)->base_price;
-                // } else {
-                //     $price = Variant::find($item->variant_id)->selling_price;
-                // }
+
                 $price = Product::where('id', $item->product_id)->value('price_sale')
                     ?? Product::where('id', $item->product_id)->value('base_price')
                     ?? 0;
@@ -122,17 +117,28 @@ class OrderController extends Controller
                 $order->total_price = $item->total_amount;
                 $order->product_name = $item->product->name ?? $item->variant->product->name;
                 $order->save();
-
+                // Trừ số lượng tồn kho
+                if ($item->variant_id) {
+                    $variant = Variant::find($item->variant_id);
+                    if ($variant) {
+                        $variant->quantity -= $item->quantity;
+                        $variant->save();
+                    }
+                } else {
+                    $product = Product::find($item->product_id);
+                    if ($product) {
+                        $product->quantity -= $item->quantity;
+                        $product->save();
+                    }
+                }
+                // Xóa sản phẩm khỏi giỏ hàng
                 CartDetail::find($item->id)->delete();
-                // Trạng Thái đơn hàng
 
                 // Kiểm tra nếu giỏ hàng không còn sản phẩm nào thì xóa luôn
                 $remainingItems = CartDetail::where('cart_id', $item->cart_id)->count();
                 if ($remainingItems === 0) {
                     Cart::where('id', $item->cart_id)->delete();
                 }
-                // return back()->with('success', 'Bạn đã đặt hàng thành công!');
-                // Thằng ngu bỏ nó ra ngoài vòng lặp
             }
             // Trạng Thái đơn hàng
             try {

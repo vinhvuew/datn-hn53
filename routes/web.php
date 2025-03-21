@@ -1,22 +1,15 @@
 <?php
 
-
-
-use App\Http\Controllers\Admin\AttributesValuesController;
-use App\Http\Controllers\Client\AddressController;
-use App\Http\Controllers\Client\OrderController;
-use App\Http\Controllers\Client\Payment\VNPayController;
 use Illuminate\Support\Facades\Route;
 // client
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductsController;
 use App\Http\Controllers\Client\LoginRegisterController;
 use App\Http\Controllers\Client\PolicyController;
-
-
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
-
+use App\Http\Controllers\Admin\AttributesValuesController;
+use App\Http\Controllers\Client\AddressController;
+use App\Http\Controllers\Client\OrderController;
+use App\Http\Controllers\Client\Payment\VNPayController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Client\CreateNewsController;
@@ -55,9 +48,11 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::put('/update/avatar', [ProfileController::class, 'updateAvatar'])->name('updateAvatar'); // cập nhật avatar
     Route::post('/update/password', [ProfileController::class, 'updatePassword'])->name('updatePassword'); // cập nhật mk
     Route::get('/myOder', [ProfileController::class, 'myOder'])->name('myOder'); // đơn hàng của tôi
-    Route::get('myOder/show/{id}', [ProfileController::class, 'show'])->name('detailOrder');
-    Route::put('/orders/{order}/cancel', [ProfileController::class, 'cancel'])->name('orders.cancel');
-Route::put('/orders/{order}/confirm', [ProfileController::class, 'confirm'])->name('orders.confirm');
+    Route::get('myOder/show/{id}/', [ProfileController::class, 'show'])->name('detailOrder');
+    // Hủy đơn hàng (Chỉ khi trạng thái là "pending")
+    Route::put('/myOder/{id}/cancel', [ProfileController::class, 'cancel'])->name('orders.cancel');
+    // Xác nhận đã nhận hàng (Chỉ khi trạng thái là "delivered")
+    Route::post('/myOder/{id}/confirm', [ProfileController::class, 'confirmReceived'])->name('confirm');
 });
 
 // router phan tin tuc
@@ -188,5 +183,4 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/news/{id}/edit', [NewsController::class, 'edit'])->name('news.edit');
     Route::put('/news/{id}/update', [NewsController::class, 'update'])->name('news.update');
     Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
-
 });
