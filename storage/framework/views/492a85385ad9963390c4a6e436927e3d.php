@@ -279,9 +279,24 @@
                                     </div>
                                 </div>
                                 <div class="card mb-4">
-                                    <div class="card-header">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="card-title m-0">Hoạt động vận chuyển</h5>
+                                        <?php if($order->status === 'pending'): ?>
+                                            <form action="<?php echo e(route('profile.orders.cancel', $order->id)); ?>"
+                                                method="POST"
+                                                onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('PUT'); ?>
+                                                <button type="submit" class="btn btn-danger btn-sm">Hủy đơn hàng</button>
+                                            </form>
+                                        <?php elseif($order->status === 'canceled'): ?>
+                                            <button class="btn btn-danger btn-sm" disabled>Đơn hàng đã hủy</button>
+                                        <?php else: ?>
+                                            <button class="btn btn-primary btn-sm" disabled>Đơn hàng đang được xử
+                                                lý</button>
+                                        <?php endif; ?>
                                     </div>
+
                                     <div class="card-body mt-3">
                                         <ul class="timeline pb-0 mb-0">
                                             <?php
