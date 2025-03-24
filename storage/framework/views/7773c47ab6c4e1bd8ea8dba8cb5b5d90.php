@@ -216,12 +216,14 @@
                                                                 VNĐ</strong>
                                                         </p>
                                                     </div>
-                                                    <a class="btn btn-label-success"
-                                                        href="<?php echo e(route('profile.detailOrder', $order->id)); ?>">Trạng
-                                                        thái</a>
-                                                    <button class="btn btn-label-warning toggle-details"
-                                                        data-target="#orderDetails<?php echo e($order->id); ?>">Xem chi
-                                                        tiết</button>
+
+                                                    <button class="btn btn-label-warning toggle-details">
+                                                        <a class=""
+                                                            href="<?php echo e(route('profile.detailOrder', $order->id)); ?>">Xem chi
+                                                            tiết
+                                                        </a>
+                                                    </button>
+                                                    
                                                 </div>
 
                                                 <!-- Danh sách sản phẩm trong đơn hàng -->

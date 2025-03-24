@@ -52,7 +52,8 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     // Hủy đơn hàng (Chỉ khi trạng thái là "pending")
     Route::put('/myOder/{id}/cancel', [ProfileController::class, 'cancel'])->name('orders.cancel');
     // Xác nhận đã nhận hàng (Chỉ khi trạng thái là "delivered")
-    Route::post('/myOder/{id}/confirm', [ProfileController::class, 'confirmReceived'])->name('confirm');
+    Route::put('/orders/{id}/confirm-received', [ProfileController::class, 'confirmReceived'])
+        ->name('orders.confirm-received');
 });
 
 // router phan tin tuc
