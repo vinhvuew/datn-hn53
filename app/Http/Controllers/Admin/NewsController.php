@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
 use App\Models\CreateNews;
@@ -157,6 +158,4 @@ class NewsController extends Controller
 
         return redirect()->route('news.index')->with('success', 'Tin tức đã được xóa.');
     }
-
-
 }

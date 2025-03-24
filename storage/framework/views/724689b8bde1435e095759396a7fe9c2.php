@@ -33,7 +33,7 @@
                                 <a href="<?php echo e(route('policies')); ?>">Chính sách</a>
                             </li>
                             <li>
-                                <a href="blog.html">Bài viết</a>
+                                <a href="<?php echo e(route('news')); ?>">Bài viết</a>
                             </li>
                             <li>
                                 <a href="" target="_parent">Liên hệ</a>

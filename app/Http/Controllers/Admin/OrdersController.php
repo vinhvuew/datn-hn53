@@ -87,7 +87,7 @@ class OrdersController extends Controller
     public function shipping($id)
     {
         $order = Order::findOrFail($id);
-
+// dd($order);
         if ($order->status === 'confirmed') {
             $order->update([
                 'status' => 'shipping',

@@ -22,10 +22,10 @@ class ThongKeController extends Controller
 
         // Doanh thu theo tuần
         $doanhThuTuan = Order::selectRaw('YEAR(created_at) as nam, WEEK(created_at, 1) as tuan, SUM(total_price) as doanh_thu')
-        ->groupBy('nam', 'tuan')
-        ->orderByDesc('nam')
-        ->orderByDesc('tuan')
-        ->get();
+            ->groupBy('nam', 'tuan')
+            ->orderByDesc('nam')
+            ->orderByDesc('tuan')
+            ->get();
 
 
 
@@ -42,7 +42,8 @@ class ThongKeController extends Controller
             ->orderBy('nam', 'DESC')
             ->get();
 
-            return view('admin.thongke.index', compact('doanhThuNgay', 'doanhThuTuan', 'doanhThuThang', 'doanhThuNam'));
-
+        return view('admin.thongke.index', compact('doanhThuNgay', 'doanhThuTuan', 'doanhThuThang', 'doanhThuNam'));
     }
+
+    // thống kê
 }

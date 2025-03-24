@@ -84,21 +84,25 @@
                                 <div class="card-body text-center">
                                     <a href="<?php echo e(route('productDetail', $product->slug)); ?>"
                                         class="text-dark text-decoration-none">
-                                        <h4 class="fw-bold product-title"><?php echo e($product->name); ?></h4>
+                                        <h4 class="fw-bold product-title"><?php echo e(Str::limit($product->name, 20)); ?></h4>
                                     </a>
-                                    <p class="small text-muted"><?php echo e(Str::limit($product->description, 50)); ?>...</p>
+                                    <p class="small text-muted"><?php echo e(Str::limit($product->description, 50)); ?></p>
 
                                     <div class="price_box">
-                                        <span class="old_price text-muted text-decoration-line-through">
-                                            <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
-                                        </span>
-
-                                        <?php if($product->price_sale): ?>
+                                        <?php if($product->price_sale && $product->price_sale < $product->base_price): ?>
+                                            <span class="old_price text-muted text-decoration-line-through">
+                                                <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
+                                            </span>
                                             <span class="new_price text-danger fw-bold">
                                                 <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?> VND
                                             </span>
+                                        <?php else: ?>
+                                            <span class="new_price text-danger fw-bold">
+                                                <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
+                                            </span>
                                         <?php endif; ?>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

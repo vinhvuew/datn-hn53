@@ -2,7 +2,7 @@
 
 @section('content')
     <main>
-        @if ($carts->isNotEmpty())
+        @if ($carts)
             <div class="container mt-4">
                 <h2 class="text-center mb-4">🛒 Giỏ Hàng</h2>
                 <table class="table">
