@@ -2,14 +2,14 @@
 
 @section('content')
     <main>
-        @if ($carts)
+        @if ($carts->isNotEmpty())
             <div class="container mt-4">
                 <h2 class="text-center mb-4">🛒 Giỏ Hàng</h2>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>
-                                Tất cả <input type="checkbox" id="select-all">
+                                Tất cả<input type="checkbox" id="select-all">
                             </th>
                             <th>Hình ảnh</th>
                             <th>Tên sản phẩm</th>
@@ -36,7 +36,11 @@
                                             class="rounded-2"></td>
                                     <td>{{ Str::limit($cart->variant->product->name, 30) }}</td>
                                     <td>
-                                        {{ number_format($cart->variant->selling_price, 0, ',', '.') }} VNĐ
+                                        @if ($cart->variant->product->price_sale)
+                                            {{ number_format($cart->variant->product->price_sale, 0, ',', '.') }} VNĐ
+                                        @else
+                                            {{ number_format($cart->variant->product->base_price, 0, ',', '.') }} VNĐ
+                                        @endif
                                     </td>
                                     <td class="col-2">
                                         <form class="update-cart-form" data-cart-id="{{ $cart->id }}">
@@ -143,7 +147,6 @@
                     </div>
                 </form>
 
-
             </div>
         @else
             <div class="empty-cart-box text-center" id="empty-cart" style=" margin-top: 140px;">
@@ -162,11 +165,22 @@
 @section('script-libs')
     <script>
         $(document).ready(function() {
+            function updateOverallTotal() {
+                let total = 0;
+                $('.cart-item-checkbox:checked').each(function() {
+                    let itemId = $(this).data('id');
+                    let itemTotal = parseFloat($('#total-amount-' + itemId).text().replace(/[^\d]/g, ''));
+                    total += itemTotal;
+                });
+                $('#overall-total').text(total.toLocaleString('vi-VN') + ' VNĐ');
+            }
+
+            // Cập nhật số lượng sản phẩm
             $('.quantity-input').on('input', function() {
                 let id = $(this).data('id');
                 let quantity = $(this).val();
 
-                if (quantity < 0) {
+                if (quantity < 1) {
                     alert('Số lượng không hợp lệ!');
                     return;
                 }
@@ -180,14 +194,10 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            // Hiển thị thông báo thành công
-                            notyf.success(response.message);
-
-                            // Cập nhật tổng tiền cho từng sản phẩm
                             $('#total-amount-' + id).text(response.totalAmountFormatted);
 
-                            // Cập nhật tổng tiền giỏ hàng
-                            $('#overall-total').text(response.overallTotalFormatted);
+                            // Gọi lại hàm cập nhật tổng tiền
+                            updateOverallTotal();
                         } else {
                             alert(response.message);
                         }
@@ -198,43 +208,47 @@
                 });
             });
 
-            // Xóa sản phẩm khỏi giỏ hàng
-            $(document).ready(function() {
-                $('.btn-delete').on('click', function() {
-                    let id = $(this).data('id');
+            // Cập nhật tổng tiền khi chọn/bỏ chọn sản phẩm
+            $('.cart-item-checkbox').on('change', function() {
+                updateOverallTotal();
+            });
+        });
 
-                    if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
-                        return;
-                    }
+        // Xóa sản phẩm khỏi giỏ hàng
+        $(document).ready(function() {
+            $('.btn-delete').on('click', function() {
+                let id = $(this).data('id');
 
-                    $.ajax({
-                        url: '/cart/delete/' + id, // Cập nhật đường dẫn API đúng chuẩn
-                        type: 'DELETE', // Sử dụng phương thức DELETE đúng chuẩn RESTful
-                        data: {
-                            _token: '{{ csrf_token() }}' // Bảo mật CSRF token
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                // Xóa sản phẩm khỏi giao diện
-                                $('#cart-item-' + id).remove();
+                if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+                    return;
+                }
 
-                                // Cập nhật tổng tiền giỏ hàng
-                                $('#overall-total').text(response
-                                    .overallTotalFormatted);
-                            } else {
-                                alert(response.message);
-                            }
-                        },
-                        error: function(xhr) {
-                            alert(xhr.responseJSON.message);
+                $.ajax({
+                    url: '/cart/delete/' + id, // Cập nhật đường dẫn API đúng chuẩn
+                    type: 'DELETE', // Sử dụng phương thức DELETE đúng chuẩn RESTful
+                    data: {
+                        _token: '{{ csrf_token() }}' // Bảo mật CSRF token
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Xóa sản phẩm khỏi giao diện
+                            $('#cart-item-' + id).remove();
+
+                            // Cập nhật tổng tiền giỏ hàng
+                            $('#overall-total').text(response
+                                .overallTotalFormatted);
+                        } else {
+                            alert(response.message);
                         }
-                    });
+                    },
+                    error: function(xhr) {
+                        alert(xhr.responseJSON.message);
+                    }
                 });
             });
         });
     </script>
     {{--  --}}
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let selectAllCheckbox = document.getElementById('select-all');
@@ -283,29 +297,28 @@
         });
     </script>
     <script>
-        $(document).ready(function() {
-            $('.cart-item-checkbox').on('change', function() {
-                let id = $(this).data('id');
-                let isSelected = $(this).prop('checked') ? 1 : 0;
+        $('.cart-item-checkbox').on('change', function() {
+            let id = $(this).data('id');
+            let isSelected = $(this).prop('checked') ? 1 : 0;
 
-                $.ajax({
-                    url: '/cart/update-selection/' + id,
-                    type: 'PUT',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        is_selected: isSelected
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            console.log(response.message);
-                        } else {
-                            alert(response.message);
-                        }
-                    },
-                    error: function(xhr) {
-                        alert('Có lỗi xảy ra! Vui lòng thử lại.');
+            $.ajax({
+                url: '/cart/update-selection/' + id,
+                type: 'PUT',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    is_selected: isSelected
+                },
+                success: function(response) {
+                    if (response.success) {
+                        console.log(response.message);
+                        $('#overall-total').text(response.overallTotalFormatted);
+                    } else {
+                        alert(response.message);
                     }
-                });
+                },
+                error: function(xhr) {
+                    alert('Có lỗi xảy ra! Vui lòng thử lại.');
+                }
             });
         });
     </script>

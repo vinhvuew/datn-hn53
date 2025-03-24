@@ -25,7 +25,7 @@ class LoginRegisterController extends Controller
             'login'    => ['required', 'string'],
             'password' => ['required', 'min:6'],
         ], [
-            'login.required'    => 'Vui lòng nhập email hoặc số điện thoại.',
+            'login.required'    => 'Vui lòng nhập email',
             'password.required' => 'Vui lòng nhập mật khẩu.',
             'password.min'      => 'Mật khẩu phải có ít nhất 6 ký tự.',
         ]);
@@ -130,7 +130,7 @@ class LoginRegisterController extends Controller
             return back()->withErrors(['code' => 'Mã xác thực không đúng.']);
         }
 
-         // Kiểm tra thời gian mã hết hạn 
+         // Kiểm tra thời gian mã hết hạn
     if ($user->verification_code_expires_at && now()->greaterThan($user->verification_code_expires_at)) {
         return back()->withErrors(['code' => 'Mã xác thực đã hết hạn. Vui lòng yêu cầu gửi lại mã.']);
     }
@@ -232,7 +232,7 @@ class LoginRegisterController extends Controller
 
         return view('client.auth.verify_reset_code');
     }
-    
+
     public function resendVerificationForPassword()
 {
     $email = session('password_reset_email');
@@ -331,7 +331,7 @@ class LoginRegisterController extends Controller
         return redirect()->route('login.show')->with('success', 'Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập.');
     }
 
-    
+
     public function logout()
     {
         Auth::logout();

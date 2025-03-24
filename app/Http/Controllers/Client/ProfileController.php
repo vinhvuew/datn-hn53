@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -129,14 +130,51 @@ class ProfileController extends Controller
 
         // Lấy danh sách đơn hàng của người dùng kèm theo thông tin sản phẩm và biến thể
         $orders = Order::with([
-            'orderDetails.product',// Lấy sản phẩm trong đơn hàng
-            'orderDetails.variant.attributes.attribute',      
+            'orderDetails.product', // Lấy sản phẩm trong đơn hàng
+            'orderDetails.variant.attributes.attribute',
             'orderDetails.variant.attributes.attributeValue' // Lấy biến thể và thuộc tính biến thể
         ])
             ->where('user_id', $user->id)
             ->orderBy('id', 'desc')
             ->get();
-// dd($orders);
+        // dd($orders);
         return view('client.users.profile.order', compact('orders'));
+    }
+
+    public function show($id)
+    {
+        // dd($id);
+        $order = Order::query()->with(
+            'orderDetails',
+            'user',
+            'address'
+        )->findOrFail($id);
+        // dd($orders);
+        // dd(gettype($order->order_date), $order->order_date);
+        $events = Shipping::where('order_id', $id)->orderBy('created_at', 'DESC')->get();
+
+        return view('client.users.profile.detailOrder', compact('order', 'events'));
+    }
+
+    // Xử lý hủy đơn hàng
+    public function cancel(Order $order)
+    {
+        if ($order->status == 'Chờ xác nhận') {
+            $order->status = 'Đã hủy';
+            $order->save();
+            return redirect()->back()->with('success', 'Đơn hàng đã được hủy.');
+        }
+        return redirect()->back()->with('error', 'Không thể hủy đơn hàng này.');
+    }
+
+    // Xử lý xác nhận đã nhận hàng
+    public function confirm(Order $order)
+    {
+        if ($order->status == 'Giao hàng thành công') {
+            $order->status = 'Đã nhận hàng';
+            $order->save();
+            return redirect()->back()->with('success', 'Bạn đã xác nhận nhận hàng.');
+        }
+        return redirect()->back()->with('error', 'Không thể xác nhận đơn hàng này.');
     }
 }

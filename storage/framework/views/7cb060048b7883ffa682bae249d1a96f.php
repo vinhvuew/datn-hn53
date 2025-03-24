@@ -70,6 +70,11 @@
         </div>
         <!-- / Content -->
 
+        <!-- Footer -->
+        <div class="content-backdrop fade"></div>
+
+
+
     </div>
     <script>
         const btn = document.querySelectorAll('#submit-form');

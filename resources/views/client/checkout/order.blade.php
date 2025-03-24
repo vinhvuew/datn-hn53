@@ -18,6 +18,28 @@
             transform: scale(1.2);
         }
 
+        .address-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .address-actions i {
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .address-actions i.ti-pencil:hover {
+            color: #007bff;
+        }
+
+        .address-actions i.ti-trash:hover {
+            color: #dc3545;
+        }
+
         h3 {
             margin-top: 20px;
         }
@@ -75,7 +97,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#tab_2" role="tab"
-                                    aria-controls="tab_2" aria-selected="false">Thêm Địa Chỉ Mới</a>
+                                    aria-controls="tab_2" aria-selected="false" > Thêm Địa Chỉ Mới</a>
                             </li>
                         </ul>
                         <div class="tab-content checkout">
@@ -84,12 +106,17 @@
 
                                     @foreach ($address as $index => $a)
                                         <div class="address-box">
-                                            <input type="radio" name="address" class="address-checkbox" value="{{ $a->id }}"
-                                                {{ $loop->first ? 'checked' : '' }} onchange="getSelectedAddresses()">
+                                            <input type="radio" name="address" class="address-checkbox"
+                                                value="{{ $a->id }}" {{ $loop->first ? 'checked' : '' }}
+                                                onchange="getSelectedAddresses()">
                                             <p><strong>{{ $a->full_name }}</strong></p>
                                             <p>📞 {{ $a->phone }}</p>
                                             <p>📍 {{ $a->address }}, {{ $a->ward }}, {{ $a->district }},
                                                 {{ $a->province }}</p>
+                                            <div class="address-actions">
+                                                <i class="ti-pencil edit-address" data-address-id="{{ $a->id }}" title="Sửa địa chỉ"></i>
+                                                <i class="ti-trash delete-address" data-address-id="{{ $a->id }}" title="Xóa địa chỉ"></i>
+                                            </div>
                                         </div>
                                     @endforeach
                                 </div>
@@ -98,22 +125,23 @@
                             <div class="tab-pane fade" id="tab_2" role="tabpanel" aria-labelledby="tab_2"
                                 style="position: relative;">
 
-                                <form action="{{ route('addresses.store') }}" method="POST">
+                                <form id="addressForm" action="{{ route('addresses.store') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="address_id" id="edit_address_id">
                                     <div class="form-group">
                                         <label for="full_name">Họ và Tên</label>
-                                        <input type="text" class="form-control" name="full_name" required>
+                                        <input type="text" class="form-control" name="full_name" id="full_name" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="email" class="form-control" name="email" required>
+                                        <input type="email" class="form-control" name="email" id="email" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="phone">Số Điện Thoại</label>
-                                        <input type="text" class="form-control" name="phone" required>
+                                        <input type="text" class="form-control" name="phone" id="phone" required>
                                     </div>
 
                                     <div class="form-group">
@@ -144,12 +172,12 @@
 
                                     <div class="form-group">
                                         <label for="address">Địa Chỉ Cụ Thể</label>
-                                        <input type="text" class="form-control" name="address" required>
+                                        <input type="text" class="form-control" name="address" id="address" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="note">Ghi Chú</label>
-                                        <textarea class="form-control" name="note"></textarea>
+                                        <textarea class="form-control" name="note" id="note"></textarea>
                                     </div>
 
                                     <div class="form-check">
@@ -201,10 +229,9 @@
                                     {{-- Nếu có biến thể, hiển thị thông tin biến thể --}}
                                     <ul>
                                         <li class="clearfix">
-                                            <em>{{ $order->quantity }}x {{ $order->variant->product->name }}
-                                                ({{ $order->variant->name }})
+                                            <em>{{ $order->quantity }}x __  {{ $order->variant->product->name }}
                                             </em>
-                                            <span>{{ number_format($order->variant->selling_price, 0, ',', '.') }}
+                                            <span>{{ number_format($order->total_amount, 0, ',', '.') }}
                                                 VNĐ</span>
                                         </li>
                                     </ul>
@@ -212,7 +239,7 @@
                                     {{-- Nếu không có biến thể, hiển thị thông tin sản phẩm gốc --}}
                                     <ul>
                                         <li class="clearfix">
-                                            <em>{{ $order->quantity }}x {{ $order->product->name }}</em>
+                                            <em>{{ $order->quantity }}x__ {{ $order->product->name }}</em>
                                             <span>{{ number_format($order->total_amount, 0, ',', '.') }} VNĐ</span>
                                         </li>
                                     </ul>
@@ -245,6 +272,7 @@
                         </form>
                     </div>
                 </div>
+             
             </div>
         </div>
 
@@ -291,13 +319,14 @@
                     });
             };
 
-            // Hàm điền dữ liệu vào dropdown
-            const populateSelect = (selectId, data, placeholder, valueKey, textKey) => {
+            // Hàm điền dữ liệu vào dropdown và chọn giá trị nếu có
+            const populateSelect = (selectId, data, placeholder, valueKey, textKey, selectedValue = '') => {
                 let select = $("#" + selectId);
                 select.empty().append(`<option value="">${placeholder}</option>`);
                 data.forEach(item => {
+                    let selected = item[textKey] === selectedValue ? 'selected' : '';
                     select.append(
-                        `<option value="${item[valueKey]}" data-text="${item[textKey]}">${item[textKey]}</option>`
+                        `<option value="${item[valueKey]}" data-text="${item[textKey]}" ${selected}>${item[textKey]}</option>`
                     );
                 });
             };
@@ -316,7 +345,7 @@
                     fetchData(districtUrl, data => {
                         let filteredDistricts = data.filter(item => item.ProvinceId == provinceId);
                         populateSelect("District", filteredDistricts, "Chọn Quận/Huyện", "Id",
-                            "Name");
+                            "Name", $("#district_name").val());
                     });
                 }
             });
@@ -333,7 +362,7 @@
                 if (districtId) {
                     fetchData(wardUrl, data => {
                         let filteredWards = data.filter(item => item.DistrictId == districtId);
-                        populateSelect("Ward", filteredWards, "Chọn Xã/Phường", "Id", "Name");
+                        populateSelect("Ward", filteredWards, "Chọn Xã/Phường", "Id", "Name", $("#ward_name").val());
                     });
                 }
             });
@@ -346,86 +375,72 @@
 
             // Gọi API khi trang load
             fetchData(provinceUrl, data => {
-                populateSelect("Province", data, "Chọn Tỉnh/Thành Phố", "Id", "Name");
+                populateSelect("Province", data, "Chọn Tỉnh/Thành Phố", "Id", "Name", $("#province_name").val());
+            });
+
+            // Xử lý khi click nút sửa địa chỉ
+            $('.edit-address').click(function() {
+                let addressId = $(this).data('address-id');
+                
+                // Chuyển sang tab thêm địa chỉ và đổi tên tab
+                $('#profile-tab').tab('show');
+                $('#profile-tab').text('Sửa Địa Chỉ');
+                
+                // Gọi API lấy thông tin địa chỉ
+                $.ajax({
+                    url: `/addresses/${addressId}`,
+                    type: 'GET',
+                    success: function(response) {
+                        // Fill dữ liệu vào form
+                        $('#edit_address_id').val(response.id);
+                        $('#full_name').val(response.full_name);
+                        $('#email').val(response.email);
+                        $('#phone').val(response.phone);
+                        $('#address').val(response.address);
+                        $('#note').val(response.note);
+                        
+                        // Lưu giá trị tỉnh/huyện/xã vào input ẩn
+                        $('#province_name').val(response.province);
+                        $('#district_name').val(response.district);
+                        $('#ward_name').val(response.ward);
+                        
+                        // Load và chọn tỉnh
+                        fetchData(provinceUrl, data => {
+                            populateSelect("Province", data, "Chọn Tỉnh/Thành Phố", "Id", "Name", response.province);
+                            
+                            // Sau khi load tỉnh, tìm ID tỉnh đã chọn
+                            let selectedProvince = $("#Province").val();
+                            if(selectedProvince) {
+                                // Load và chọn huyện
+                                fetchData(districtUrl, districtData => {
+                                    let filteredDistricts = districtData.filter(item => item.ProvinceId == selectedProvince);
+                                    populateSelect("District", filteredDistricts, "Chọn Quận/Huyện", "Id", "Name", response.district);
+                                    
+                                    // Sau khi load huyện, tìm ID huyện đã chọn
+                                    let selectedDistrict = $("#District").val();
+                                    if(selectedDistrict) {
+                                        // Load và chọn xã
+                                        fetchData(wardUrl, wardData => {
+                                            let filteredWards = wardData.filter(item => item.DistrictId == selectedDistrict);
+                                            populateSelect("Ward", filteredWards, "Chọn Xã/Phường", "Id", "Name", response.ward);
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                        
+                        // Thay đổi text nút submit và action form
+                        $('#addressForm button[type="submit"]').text('Cập nhật địa chỉ');
+                        $('#addressForm').attr('action', `/addresses/${addressId}`);
+                        $('#addressForm').append('<input type="hidden" name="_method" value="PUT">');
+                    },
+                    error: function(xhr) {
+                        alert('Có lỗi xảy ra khi lấy thông tin địa chỉ');
+                    }
+                });
             });
         });
     </script>
-    {{-- <script>
-        const province_url = "https://api.npoint.io/ac646cb54b295b9555be";
-        const district_url = "https://api.npoint.io/34608ea16bebc5cffd42";
-        const ward_url = "https://api.npoint.io/dd278dc276e65c68cdf5";
-
-        let province_list = [],
-            district_list = [],
-            ward_list = [];
-
-        const fetchData = (url, callback) => {
-            $.getJSON(url, function(data) {
-                callback(data);
-            });
-        };
-
-        const populateSelect = (selectId, data, placeholder, valueKey, textKey) => {
-            let select = $("#" + selectId);
-            select.empty().append(`<option value="">${placeholder}</option>`);
-            data.forEach(item => {
-                select.append(
-                    `<option value="${item[valueKey]}" data-text="${item[textKey]}">${item[textKey]}</option>`
-                );
-            });
-        };
-
-        $("#Province").on("change", function() {
-            let provinceId = $(this).val();
-            let provinceName = $(this).find("option:selected").data("text");
-            $("#province_name").val(provinceName);
-
-            $("#District").empty().append(`<option value="">Chọn Quận/Huyện</option>`);
-            $("#Ward").empty().append(`<option value="">Chọn Xã/Phường</option>`);
-
-            if (provinceId) {
-                let filteredDistricts = district_list.filter(item => item.ProvinceId == provinceId);
-                populateSelect("District", filteredDistricts, "Chọn Quận/Huyện", "Id", "Name");
-            }
-        });
-
-        $("#District").on("change", function() {
-            let districtId = $(this).val();
-            let districtName = $(this).find("option:selected").data("text");
-            $("#district_name").val(districtName);
-
-            $("#Ward").empty().append(`<option value="">Chọn Xã/Phường</option>`);
-
-            if (districtId) {
-                let filteredWards = ward_list.filter(item => item.DistrictId == districtId);
-                populateSelect("Ward", filteredWards, "Chọn Xã/Phường", "Id", "Name");
-            }
-        });
-
-        $("#Ward").on("change", function() {
-            let wardName = $(this).find("option:selected").data("text");
-            $("#ward_name").val(wardName);
-        });
-
-        const initDropdowns = () => {
-            fetchData(province_url, data => {
-                province_list = data;
-                populateSelect("Province", province_list, "Chọn Tỉnh/Thành Phố", "Id", "Name");
-            });
-
-            fetchData(district_url, data => {
-                district_list = data;
-            });
-
-            fetchData(ward_url, data => {
-                ward_list = data;
-            });
-        };
-
-        $(document).ready(function() {
-            initDropdowns();
-        });
-    </script> --}}
     {{-- voucher --}}
     <script>
         $(document).ready(function() {
@@ -469,6 +484,73 @@
                         console.error(xhr.responseText);
                     }
                 });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Reset form khi chuyển tab
+            $('#home-tab').click(function() {
+                $('#addressForm')[0].reset();
+                $('#edit_address_id').val('');
+                $('#addressForm button[type="submit"]').text('Thêm địa chỉ');
+                $('#addressForm').attr('action', '{{ route('addresses.store') }}');
+                $('#addressForm input[name="_method"]').remove();
+                $('#profile-tab').text('Thêm Địa Chỉ Mới');
+            });
+
+            // Submit form
+            $('#addressForm').submit(function(e) {
+                e.preventDefault();
+                let formData = $(this).serialize();
+                let url = $(this).attr('action');
+                let method = $('#edit_address_id').val() ? 'PUT' : 'POST';
+
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: formData,
+                    success: function(response) {
+                        if(response.success) {
+                            alert(response.message);
+                            location.reload(); 
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Có lỗi xảy ra khi lưu địa chỉ');
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Xử lý xóa địa chỉ
+            $('.delete-address').click(function() {
+                if(confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')) {
+                    let addressId = $(this).data('address-id');
+                    
+                    $.ajax({
+                        url: `/addresses/${addressId}`,
+                        type: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if(response.success) {
+                                alert(response.message);
+                                location.reload();
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr) {
+                            alert('Có lỗi xảy ra khi xóa địa chỉ');
+                        }
+                    });
+                }
             });
         });
     </script>

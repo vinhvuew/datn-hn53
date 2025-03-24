@@ -1,10 +1,10 @@
 <?php $__env->startSection('content'); ?>
     <div class="container my-4">
-        
+
         <h1 class="text-center mb-4">Quản Lý Bình Luận</h1>
 
-       <a href="<?php echo e(route('comment.create')); ?>" class="btn btn-success" >Các Nội Dung Vi Phạm Cộng Đồng</a> 
-    
+       <a href="<?php echo e(route('comment.create')); ?>" class="btn btn-success" >Các Nội Dung Vi Phạm Cộng Đồng</a>
+
 
         <?php if(session('success')): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -20,10 +20,10 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif; ?>
-   
-   
+
+
         <div class="table-responsive my-3">
-            
+
             <table id="example" class="table table-bordered table-striped table-hover align-middle text-center">
                 <thead class="table-primary">
                     <tr>
@@ -36,7 +36,7 @@
                         <th scope="col">Thời gian tạo</th>
                         <th scope="col">Thời gian cập nhật</th>
                         <th scope="col">Chức Năng</th>
-                      
+
                     </tr>
                 </thead>
                 <tbody>
@@ -50,11 +50,11 @@
                             <td><?php echo e($value->content); ?></td>
                             <td><?php echo e($value->created_at); ?></td>
                             <td><?php echo e($value->updated_at); ?></td>
-                           
+
                             <td>
 
                                 <div class="d-flex justify-content-center">
-                                
+
                                     <form action="<?php echo e(route('comment.destroy', $value->id)); ?>" method="POST" class="d-inline">
                                         <?php echo csrf_field(); ?>
                                         <?php echo method_field('DELETE'); ?>
@@ -62,7 +62,7 @@
                                                 onclick="return confirm('Bạn có chắc chắn muốn xóa bình luận này?')">
                                             Xóa
                                         </button>
-                                    </form> 
+                                    </form>
                                 </div>
                             </td>
                         </tr>

@@ -20,11 +20,11 @@
                     </a>
                     <!-- Mobile menu button -->
                     <div class="main-menu">
-                        <div id="header_menu">
+                        {{-- <div id="header_menu">
                             <a href="index.html"><img src="{{ asset('client') }}/img/logo_black.svg" alt=""
                                     width="100" height="35"></a>
                             <a href="#" class="open_close" id="close_in"><i class="ti-close"></i></a>
-                        </div>
+                        </div> --}}
                         <ul>
                             <li>
                                 <a href="{{ route('home') }}" class="show-submenu">Trang chủ</a>
@@ -34,10 +34,10 @@
 
                             </li>
                             <li>
-                                <a href="{{ route('policies')}}">Chính sách</a>
+                                <a href="{{ route('policies') }}">Chính sách</a>
                             </li>
                             <li>
-                                <a href="blog.html">Bài viết</a>
+                                <a href="{{ route('news') }}">Bài viết</a>
                             </li>
                             <li>
                                 <a href="" target="_parent">Liên hệ</a>
