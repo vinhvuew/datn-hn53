@@ -27,16 +27,9 @@
                         <td class="align-middle"><?php echo e($brand->text); ?></td>
                         <td class="text-center align-middle">
                             <a href="<?php echo e(route('brands.edit', $brand)); ?>" class="btn btn-warning btn-sm">
-                                <i class="fas fa-edit"></i> Sửa
+                                <i class="fas fa-edit me-2"></i> Sửa
                             </a>
-                            <form action="<?php echo e(route('brands.destroy', $brand)); ?>" method="POST" class="d-inline">
-                                <?php echo csrf_field(); ?>
-                                <?php echo method_field('DELETE'); ?>
-                                <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Bạn có chắc muốn xóa?')">
-                                    <i class="fas fa-trash-alt"></i> Xóa
-                                </button>
-                            </form>
+                            
                         </td>
                     </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

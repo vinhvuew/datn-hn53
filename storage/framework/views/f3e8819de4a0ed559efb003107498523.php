@@ -1,6 +1,6 @@
 <?php $__env->startSection('content'); ?>
     <main>
-        <?php if($carts->isNotEmpty()): ?>
+        <?php if($carts): ?>
             <div class="container mt-4">
                 <h2 class="text-center mb-4">🛒 Giỏ Hàng</h2>
                 <table class="table">

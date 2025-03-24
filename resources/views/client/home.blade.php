@@ -87,21 +87,25 @@
                                 <div class="card-body text-center">
                                     <a href="{{ route('productDetail', $product->slug) }}"
                                         class="text-dark text-decoration-none">
-                                        <h4 class="fw-bold product-title">{{ $product->name }}</h4>
+                                        <h4 class="fw-bold product-title">{{ Str::limit($product->name, 20) }}</h4>
                                     </a>
-                                    <p class="small text-muted">{{ Str::limit($product->description, 50) }}...</p>
+                                    <p class="small text-muted">{{ Str::limit($product->description, 50) }}</p>
 
                                     <div class="price_box">
-                                        <span class="old_price text-muted text-decoration-line-through">
-                                            {{ number_format($product->base_price, 0, ',', '.') }} VND
-                                        </span>
-
-                                        @if ($product->price_sale)
+                                        @if ($product->price_sale && $product->price_sale < $product->base_price)
+                                            <span class="old_price text-muted text-decoration-line-through">
+                                                {{ number_format($product->base_price, 0, ',', '.') }} VND
+                                            </span>
                                             <span class="new_price text-danger fw-bold">
                                                 {{ number_format($product->price_sale, 0, ',', '.') }} VND
                                             </span>
+                                        @else
+                                            <span class="new_price text-danger fw-bold">
+                                                {{ number_format($product->base_price, 0, ',', '.') }} VND
+                                            </span>
                                         @endif
                                     </div>
+
                                 </div>
                             </div>
                         </div>
