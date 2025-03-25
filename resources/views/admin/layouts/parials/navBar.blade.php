@@ -22,19 +22,20 @@
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                    <div class="avatar avatar-online">
-                        <img src="{{ asset('admin') }}/assets/img/avatars/1.png" alt
-                            class="w-px-40 h-auto rounded-circle" />
+                    <div class="avatar avatar-online d-flex align-items-center justify-content-center">
+                        <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt
+                            class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;" />
                     </div>
                 </a>
+                
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                        <a class="dropdown-item" href="pages-account-settings-account.html">
+                        <a class="dropdown-item" >
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
-                                    <div class="avatar avatar-online">
-                                        <img src="{{ asset('admin') }}/assets/img/avatars/1.png" alt
-                                            class="w-px-40 h-auto rounded-circle" />
+                                    <div class="avatar avatar-online d-flex align-items-center justify-content-center">
+                                        <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt
+                                            class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;" />
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
@@ -44,7 +45,7 @@
                             </div>
                         </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
@@ -58,7 +59,7 @@
                             <i class="bx bx-cog me-2"></i>
                             <span class="align-middle">Cài đặt</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>
