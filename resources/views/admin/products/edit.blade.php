@@ -134,9 +134,7 @@
                                                     <h5 class="mt-3">Thuộc Tính 1</h5>
                                                     <div class="mb-3">
                                                         <label for="variant_sku_0">Mã biến thể</label>
-                                                        {{-- @error('sku')
-                                                <div class="text-danger mt-1">{{ $message }}</div>
-                                            @enderror --}}
+                                                       
                                                         <input type="text" id="variant_sku_0" name="variants[0][sku]"
                                                             placeholder="Mã biến thể" class="form-control"
                                                             value="{{ old('variant_sku_0') }}">
@@ -144,9 +142,7 @@
 
                                                     <div class="mb-4">
                                                         <label for="variant_quantity_0">Số lượng tồn kho</label>
-                                                        {{-- @error('quantity')
-                                                <div class="text-danger mt-1">{{ $message }}</div>
-                                            @enderror --}}
+
                                                         <input type="number" id="variant_quantity_0"
                                                             name="variants[0][quantity]" class="form-control"
                                                             placeholder="Số lượng tồn kho"
