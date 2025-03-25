@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->integer('quantity');
             $table->decimal('total_price', 10, 2);
+            $table->string('product_name');
             $table->timestamps();
         });
     }

@@ -5,7 +5,9 @@
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-4">
+
                 <span class="text-muted fw-light">Danh mục /</span> Danh sách danh mục
+
             </h4>
 
             <div class="app-ecommerce-category">
@@ -17,7 +19,9 @@
                     </div>
                     <!-- Add Category Button -->
                     <a href="<?php echo e(route('category.create')); ?>" class="btn btn-primary">
+
                         + Thêm mới danh mục
+
                     </a>
                 </div>
 
@@ -35,9 +39,11 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+
                                     <th>Tên danh mục</th>
                                     <th class="text-center">Trạng thái</th>
                                     <th class="text-center">Hành động</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,11 +52,13 @@
                                         <td><?php echo e($item->id); ?></td>
                                         <td><?php echo e($item->name); ?></td>
                                         <td class="text-center">
+
                                             <span class="badge bg-success">Kích hoạt</span>
                                         </td>
                                         <td class="text-center">
                                             <a href="<?php echo e(route('category.edit', $item->id)); ?>"
                                                 class="btn btn-sm btn-primary">Chỉnh sửa</a>
+
                                         </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -61,6 +69,12 @@
             </div>
         </div>
         <!-- / Content -->
+
+        <!-- Footer -->
+        <div class="content-backdrop fade"></div>
+
+
+
     </div>
     <script>
         const btn = document.querySelectorAll('#submit-form');
