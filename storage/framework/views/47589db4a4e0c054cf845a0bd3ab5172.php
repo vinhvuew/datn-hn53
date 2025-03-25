@@ -171,18 +171,28 @@
                                                                             <?php echo e($value->value); ?>
 
                                                                         </option>
-                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                                </select>
-                                                            </div>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                        <?php $__currentLoopData = $attribute->values; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                            <option <?php if($variant->attributes->contains('attribute_value_id', $value->id)): echo 'selected'; endif; ?>
+                                                                                value="<?php echo e($value->id); ?>">
+                                                                                <?php echo e($value->value); ?>
+
+                                                                            </option>
+                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                    </select>
+                                                                </div>
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                        </div>
                                                     </div>
+
                                                 </div>
+
                                             </div>
                                             <button type="button" id="add-variant" class="btn btn-primary "><i
                                                     class="mdi mdi-plus me-0 me-sm-1"></i>Thêm Thuộc
                                                 Tính</button>
                                         </div>
                                     <?php else: ?>
+
                                         <div id="variantsSection" <?php if($product->variants && $product->variants->count() === 0): ?> class="d-none" <?php endif; ?>>
                                             <div id="variants" class="mb-3">
                                                 <?php $__currentLoopData = $product->variants; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variantIndex => $variant): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -245,6 +255,7 @@
                                                     class="mdi mdi-plus me-0 me-sm-1"></i>Thêm Thuộc
                                                 Tính</button>
                                         </div>
+
                                     <?php endif; ?>
 
                                 </div>

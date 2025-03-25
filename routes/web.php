@@ -72,6 +72,9 @@ Route::get('/comments/{productId}', [ProductsController::class, 'showComments'])
 
 // address
 Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store')->middleware('auth');
+Route::get('/addresses/{id}', [AddressController::class, 'show'])->name('addresses.show')->middleware('auth');
+Route::put('/addresses/{id}', [AddressController::class, 'update'])->name('addresses.update')->middleware('auth');
+Route::delete('/addresses/{id}', [AddressController::class, 'destroy'])->name('addresses.destroy')->middleware('auth');
 Route::post('/apply-voucher', [OrderController::class, 'applyVoucher'])->name('apply.voucher');
 
 Route::get('/vnpay-return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
@@ -83,8 +86,9 @@ Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.u
 Route::delete('/cart/delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');
 
 // check out
+Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
+Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout.post');
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
 Route::post('/checkout/store', [OrderController::class, 'placeOrder'])->name('checkout.store');
 Route::put('/cart/update-selection/{id}', [CartController::class, 'updateSelection']);
 
@@ -127,6 +131,7 @@ Route::get('/policies', [PolicyController::class, 'index'])->name('policies');
 Route::prefix('admin')->middleware(['admin'])->group(function () {
 
     Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');
+
     Route::resource('products', ProductController::class);
     Route::resource("category", CategoryController::class);
     Route::resource('attributes', AttributesNameController::class);
