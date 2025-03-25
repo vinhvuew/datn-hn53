@@ -33,7 +33,7 @@
                             <th>Hình ảnh</th>
                             <th>Số lượng</th>
                             <th>Giá cơ bản</th>
-                            <th>Giá bán</th>
+                            <th>Giá tùy chỉnh</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -58,22 +58,16 @@
                                             <thead>
                                                 <tr>
                                                     <th>Sku</th>
-                                                    <th>Giá nhập</th>
-                                                    <th>Giá bán</th>
                                                     <th>Tồn Kho</th>
                                                     <th>Ảnh biến thể</th>
                                                     <th>Thuộc Tính</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-
                                                 @foreach ($item->variants as $variant)
                                                     <tr>
                                                         <td>{{ $variant->sku }}</td>
-                                                        <td>{{ number_format($variant->wholesale_price, 0, ',', '.') }} VND
-                                                        </td>
-                                                        <td>{{ number_format($variant->selling_price, 0, ',', '.') }} VND
-                                                        </td>
+
                                                         <td>{{ $variant->quantity }}</td>
                                                         <td>
                                                             @if ($variant->image)

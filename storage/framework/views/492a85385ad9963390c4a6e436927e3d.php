@@ -211,42 +211,56 @@
                                                         </tr>
                                                     <?php else: ?>
                                                         <tr>
-                                                            <td>
-                                                                <div
-                                                                    class="d-flex justify-content-start align-items-center mb-1">
-                                                                    <div class="avatar me-2 pe-1">
-                                                                        <?php if($item->variant && $item->variant->product->img_thumbnail): ?>
-                                                                            <img class="rounded-2"
-                                                                                src="<?php echo e(Storage::url($item->variant->product->img_thumbnail)); ?>"
-                                                                                width="50px" alt="">
-                                                                        <?php else: ?>
-                                                                            <img src="<?php echo e(asset('images/default-thumbnail.png')); ?>"
-                                                                                width="50px" alt="Default Image">
-                                                                        <?php endif; ?>
-                                                                    </div>
-                                                                    <div>
-                                                                        <strong><?php echo e(optional($item->variant)->product->name); ?>
 
-                                                                        </strong>
-                                                                    </div>
+                                                            <div
+                                                                class="d-flex justify-content-start align-items-center mb-1">
+                                                                <div class="avatar me-2 pe-1">
+                                                                    <?php if($item->variant && $item->variant->product->img_thumbnail): ?>
+                                                                        <img class="rounded-2"
+                                                                            src="<?php echo e(Storage::url($item->variant->product->img_thumbnail)); ?>"
+                                                                            width="50px" alt="">
+                                                                    <?php else: ?>
+                                                                        <img src="<?php echo e(asset('images/default-thumbnail.png')); ?>"
+                                                                            width="50px" alt="Default Image">
+                                                                    <?php endif; ?>
                                                                 </div>
-                                                                <span>
-                                                                    <?php $__currentLoopData = $item->variant->attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                        <?php if(!$loop->first): ?>
-                                                                            <br>
-                                                                        <?php endif; ?>
-                                                                        <?php echo e($attribute->attribute->name); ?>:
-                                                                        <?php if(!$loop->first): ?>
-                                                                        <?php endif; ?>
-                                                                        <?php echo e($attribute->attributeValue->value); ?>.
-                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                                </span>
-                                                            </td>
-                                                            <td><?php echo e(number_format($item->variant->selling_price, 0, ',', '.')); ?>
+                                                                <div>
+                                                                    <strong><?php echo e(optional($item->variant)->product->name); ?>
 
+                                                                    </strong>
+                                                                </div>
+                                                            </div>
+                                                            <span>
+                                                                <?php $__currentLoopData = $item->variant->attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <?php if(!$loop->first): ?>
+                                                                        <br>
+                                                                    <?php endif; ?>
+                                                                    <?php echo e($attribute->attribute->name); ?>:
+                                                                    <?php if(!$loop->first): ?>
+                                                                    <?php endif; ?>
+                                                                    <?php echo e($attribute->attributeValue->value); ?>.
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                                                            </span>
+
+                                                            <?php if($item->variant->product->price_sale == ''): ?>
+                                                                <td>
+                                                                    <?php echo e(number_format($item->variant->product->base_price, 0, ',', '.')); ?>
+
+                                                                </td>
+                                                            <?php else: ?>
+                                                                <td>
+                                                                    <?php echo e(number_format($item->variant->product->price_sale, 0, ',', '.')); ?>
+
+                                                                </td>
+                                                            <?php endif; ?>
+
+                                                            
                                                             </td>
                                                             <td><?php echo e($item->quantity); ?></td>
-                                                            <td><?php echo e(number_format($item->total_price, 0, ',', '.')); ?></td>
+                                                            <td><?php echo e(number_format($item->total_price, 0, ',', '.')); ?>
+
+                                                            </td>
                                                         </tr>
                                                     <?php endif; ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -265,9 +279,24 @@
                                     </div>
                                 </div>
                                 <div class="card mb-4">
-                                    <div class="card-header">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="card-title m-0">Hoạt động vận chuyển</h5>
+                                        <?php if($order->status === 'pending'): ?>
+                                            <form action="<?php echo e(route('profile.orders.cancel', $order->id)); ?>"
+                                                method="POST"
+                                                onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('PUT'); ?>
+                                                <button type="submit" class="btn btn-danger btn-sm">Hủy đơn hàng</button>
+                                            </form>
+                                        <?php elseif($order->status === 'canceled'): ?>
+                                            <button class="btn btn-danger btn-sm" disabled>Đơn hàng đã hủy</button>
+                                        <?php else: ?>
+                                            <button class="btn btn-primary btn-sm" disabled>Đơn hàng đang được xử
+                                                lý</button>
+                                        <?php endif; ?>
                                     </div>
+
                                     <div class="card-body mt-3">
                                         <ul class="timeline pb-0 mb-0">
                                             <?php
@@ -355,8 +384,11 @@
                                 </div>
                             </div>
                             <div class="col-12 col-lg-4">
+
                                 <div class="card mb-4">
+
                                     <div class="card-body">
+
                                         <h6 class="card-title mb-4">Chi tiết khách hàng</h6>
                                         <div class="d-flex justify-content-start align-items-center mb-4">
                                             <div class="avatar me-2">

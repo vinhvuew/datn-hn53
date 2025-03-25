@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="content">Hình ảnh</label>
-                                    <img src="<?php echo e(asset('storage/' . $product->img_thumbnail)); ?>" alt="Product Image">
+                                    <img src="<?php echo e(asset('storage/' . $product->img_thumbnail)); ?> alt="Product Image">
 
                                 </div>
                                 <div class="mb-3">

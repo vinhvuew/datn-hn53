@@ -1,0 +1,1 @@
+[2025-03-21 23:58:39] local.ERROR: Lỗi khi thêm sản phẩm vào đơn hàng: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'stock' in 'field list' (Connection: mysql, SQL: update `products` set `stock` = -1, `products`.`updated_at` = 2025-03-21 23:58:39 where `id` = 1)  

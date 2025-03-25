@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
 use App\Models\CreateNews;
 use Illuminate\Http\Request;
@@ -25,35 +26,51 @@ class NewsController extends Controller
         return view('admin.news.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
+        // Validate dữ liệu đầu vào
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,webp,jpg,gif|max:2048',
+        ]);
 
-            // Validate dữ liệu đầu vào
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'content' => 'required',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
+        $imagePath = null;
 
-            // Xử lý upload hình ảnh
-            $imagePath = null;
-            if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('news', 'public');
-            }
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
 
-            // Tạo tin tức mới
-            CreateNews::create([
-                'title' => $request->title,
-                'content' => $request->content,
-                'image' => $imagePath,
-            ]);
+            // Lấy kích thước gốc của ảnh
+            list($width, $height) = getimagesize($image);
 
-            return redirect()->route('news.index')->with('success', 'Tin tức đã được thêm thành công.');
+            // Resize ảnh
+            $newWidth = 800;
+            $newHeight = (int)(($newWidth / $width) * $height);
+            $img = imagecreatetruecolor($newWidth, $newHeight);
 
+            // Lấy ảnh gốc và resize
+            $imageResource = imagecreatefromstring(file_get_contents($image));
+            imagecopyresampled($img, $imageResource, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+
+            // Lưu ảnh và giải phóng bộ nhớ
+            $imagePath = 'news/' . $imageName;
+            imagejpeg($img, storage_path('app/public/news/' . $imageName), 90);
+            imagedestroy($img);
+            imagedestroy($imageResource);
+        }
+
+        // Tạo tin tức mới
+        CreateNews::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image' => $imagePath,
+        ]);
+
+        return redirect()->route('news.index')->with('success', 'Tin tức đã được thêm thành công.');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -74,40 +91,71 @@ class NewsController extends Controller
         return view('admin.news.edit', compact('news'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
         $news = CreateNews::findOrFail($id);
+
+        // Validate dữ liệu
         $request->validate([
-        'title' => 'required|max:255',
-        'content' => 'required',
-    ]);
+            'title' => 'required|max:255',
+            'content' => 'required',
+        ]);
 
-    $news->update([
-        'title' => $request->title,
-        'content' => $request->content,
-    ]);
+        // Giữ nguyên ảnh cũ nếu không có ảnh mới
+        $imagePath = $news->image;
+        if ($request->hasFile('image')) {
+            // Xóa ảnh cũ nếu có
+            if ($news->image && file_exists(storage_path('app/public/' . $news->image))) {
+                unlink(storage_path('app/public/' . $news->image));
+            }
 
-    return redirect()->route('news.index',$id)->with('success', 'Tin tức đã cập nhật lại.');
+            // Xử lý ảnh mới
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            list($width, $height) = getimagesize($image);
 
+            // Resize ảnh
+            $newWidth = 800;
+            $newHeight = (int)(($newWidth / $width) * $height);
+            $img = imagecreatetruecolor($newWidth, $newHeight);
+            $imageResource = imagecreatefromstring(file_get_contents($image));
+            imagecopyresampled($img, $imageResource, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+
+            // Lưu ảnh
+            $imagePath = 'news/' . $imageName;
+            imagejpeg($img, storage_path('app/public/news/' . $imageName), 90);
+            imagedestroy($img);
+            imagedestroy($imageResource);
+        }
+
+        // Cập nhật tin tức
+        $news->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image' => $imagePath,
+        ]);
+
+        return redirect()->route('news.index')->with('success', 'Tin tức đã được cập nhật.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
+
     public function destroy($id)
     {
-        $news =  CreateNews::find($id);
+        $news = CreateNews::find($id);
+
         if (!$news) {
             return redirect()->route('news.index')->with('error', 'Tin tức không tồn tại.');
         }
 
-
+        // Xóa ảnh và tin tức
+        if ($news->image && file_exists(storage_path('app/public/' . $news->image))) {
+            unlink(storage_path('app/public/' . $news->image));
+        }
 
         $news->delete();
+
         return redirect()->route('news.index')->with('success', 'Tin tức đã được xóa.');
     }
-
 }

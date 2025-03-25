@@ -209,40 +209,52 @@
                                                         </tr>
                                                     @else
                                                         <tr>
-                                                            <td>
-                                                                <div
-                                                                    class="d-flex justify-content-start align-items-center mb-1">
-                                                                    <div class="avatar me-2 pe-1">
-                                                                        @if ($item->variant && $item->variant->product->img_thumbnail)
-                                                                            <img class="rounded-2"
-                                                                                src="{{ Storage::url($item->variant->product->img_thumbnail) }}"
-                                                                                width="50px" alt="">
-                                                                        @else
-                                                                            <img src="{{ asset('images/default-thumbnail.png') }}"
-                                                                                width="50px" alt="Default Image">
-                                                                        @endif
-                                                                    </div>
-                                                                    <div>
-                                                                        <strong>{{ optional($item->variant)->product->name }}
-                                                                        </strong>
-                                                                    </div>
+
+                                                            <div
+                                                                class="d-flex justify-content-start align-items-center mb-1">
+                                                                <div class="avatar me-2 pe-1">
+                                                                    @if ($item->variant && $item->variant->product->img_thumbnail)
+                                                                        <img class="rounded-2"
+                                                                            src="{{ Storage::url($item->variant->product->img_thumbnail) }}"
+                                                                            width="50px" alt="">
+                                                                    @else
+                                                                        <img src="{{ asset('images/default-thumbnail.png') }}"
+                                                                            width="50px" alt="Default Image">
+                                                                    @endif
                                                                 </div>
-                                                                <span>
-                                                                    @foreach ($item->variant->attributes as $attribute)
-                                                                        @if (!$loop->first)
-                                                                            <br>
-                                                                        @endif
-                                                                        {{ $attribute->attribute->name }}:
-                                                                        @if (!$loop->first)
-                                                                        @endif
-                                                                        {{ $attribute->attributeValue->value }}.
-                                                                    @endforeach
-                                                                </span>
-                                                            </td>
-                                                            <td>{{ number_format($item->variant->selling_price, 0, ',', '.') }}
+                                                                <div>
+                                                                    <strong>{{ optional($item->variant)->product->name }}
+                                                                    </strong>
+                                                                </div>
+                                                            </div>
+                                                            <span>
+                                                                @foreach ($item->variant->attributes as $attribute)
+                                                                    @if (!$loop->first)
+                                                                        <br>
+                                                                    @endif
+                                                                    {{ $attribute->attribute->name }}:
+                                                                    @if (!$loop->first)
+                                                                    @endif
+                                                                    {{ $attribute->attributeValue->value }}.
+                                                                @endforeach
+
+                                                            </span>
+
+                                                            @if ($item->variant->product->price_sale == '')
+                                                                <td>
+                                                                    {{ number_format($item->variant->product->base_price, 0, ',', '.') }}
+                                                                </td>
+                                                            @else
+                                                                <td>
+                                                                    {{ number_format($item->variant->product->price_sale, 0, ',', '.') }}
+                                                                </td>
+                                                            @endif
+
+                                                            {{-- <td>{{ number_format($item->variant->selling_price, 0, ',', '.') }} --}}
                                                             </td>
                                                             <td>{{ $item->quantity }}</td>
-                                                            <td>{{ number_format($item->total_price, 0, ',', '.') }}</td>
+                                                            <td>{{ number_format($item->total_price, 0, ',', '.') }}
+                                                            </td>
                                                         </tr>
                                                     @endif
                                                 @endforeach
@@ -261,9 +273,24 @@
                                     </div>
                                 </div>
                                 <div class="card mb-4">
-                                    <div class="card-header">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="card-title m-0">Hoạt động vận chuyển</h5>
+                                        @if ($order->status === 'pending')
+                                            <form action="{{ route('profile.orders.cancel', $order->id) }}"
+                                                method="POST"
+                                                onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-danger btn-sm">Hủy đơn hàng</button>
+                                            </form>
+                                        @elseif ($order->status === 'canceled')
+                                            <button class="btn btn-danger btn-sm" disabled>Đơn hàng đã hủy</button>
+                                        @else
+                                            <button class="btn btn-primary btn-sm" disabled>Đơn hàng đang được xử
+                                                lý</button>
+                                        @endif
                                     </div>
+
                                     <div class="card-body mt-3">
                                         <ul class="timeline pb-0 mb-0">
                                             @php
@@ -348,8 +375,11 @@
                                 </div>
                             </div>
                             <div class="col-12 col-lg-4">
+
                                 <div class="card mb-4">
+
                                     <div class="card-body">
+
                                         <h6 class="card-title mb-4">Chi tiết khách hàng</h6>
                                         <div class="d-flex justify-content-start align-items-center mb-4">
                                             <div class="avatar me-2">

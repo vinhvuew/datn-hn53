@@ -84,8 +84,9 @@
 
                                     @foreach ($address as $index => $a)
                                         <div class="address-box">
-                                            <input type="radio" name="address" class="address-checkbox" value="{{ $a->id }}"
-                                                {{ $loop->first ? 'checked' : '' }} onchange="getSelectedAddresses()">
+                                            <input type="radio" name="address" class="address-checkbox"
+                                                value="{{ $a->id }}" {{ $loop->first ? 'checked' : '' }}
+                                                onchange="getSelectedAddresses()">
                                             <p><strong>{{ $a->full_name }}</strong></p>
                                             <p>📞 {{ $a->phone }}</p>
                                             <p>📍 {{ $a->address }}, {{ $a->ward }}, {{ $a->district }},
@@ -201,10 +202,9 @@
                                     {{-- Nếu có biến thể, hiển thị thông tin biến thể --}}
                                     <ul>
                                         <li class="clearfix">
-                                            <em>{{ $order->quantity }}x {{ $order->variant->product->name }}
-                                                ({{ $order->variant->name }})
+                                            <em>{{ $order->quantity }}X__ {{ $order->variant->product->name }}
                                             </em>
-                                            <span>{{ number_format($order->variant->selling_price, 0, ',', '.') }}
+                                            <span>{{ number_format($order->total_amount, 0, ',', '.') }}
                                                 VNĐ</span>
                                         </li>
                                     </ul>
@@ -212,7 +212,7 @@
                                     {{-- Nếu không có biến thể, hiển thị thông tin sản phẩm gốc --}}
                                     <ul>
                                         <li class="clearfix">
-                                            <em>{{ $order->quantity }}x {{ $order->product->name }}</em>
+                                            <em>{{ $order->quantity }}X__ {{ $order->product->name }}</em>
                                             <span>{{ number_format($order->total_amount, 0, ',', '.') }} VNĐ</span>
                                         </li>
                                     </ul>
@@ -350,82 +350,6 @@
             });
         });
     </script>
-    {{-- <script>
-        const province_url = "https://api.npoint.io/ac646cb54b295b9555be";
-        const district_url = "https://api.npoint.io/34608ea16bebc5cffd42";
-        const ward_url = "https://api.npoint.io/dd278dc276e65c68cdf5";
-
-        let province_list = [],
-            district_list = [],
-            ward_list = [];
-
-        const fetchData = (url, callback) => {
-            $.getJSON(url, function(data) {
-                callback(data);
-            });
-        };
-
-        const populateSelect = (selectId, data, placeholder, valueKey, textKey) => {
-            let select = $("#" + selectId);
-            select.empty().append(`<option value="">${placeholder}</option>`);
-            data.forEach(item => {
-                select.append(
-                    `<option value="${item[valueKey]}" data-text="${item[textKey]}">${item[textKey]}</option>`
-                );
-            });
-        };
-
-        $("#Province").on("change", function() {
-            let provinceId = $(this).val();
-            let provinceName = $(this).find("option:selected").data("text");
-            $("#province_name").val(provinceName);
-
-            $("#District").empty().append(`<option value="">Chọn Quận/Huyện</option>`);
-            $("#Ward").empty().append(`<option value="">Chọn Xã/Phường</option>`);
-
-            if (provinceId) {
-                let filteredDistricts = district_list.filter(item => item.ProvinceId == provinceId);
-                populateSelect("District", filteredDistricts, "Chọn Quận/Huyện", "Id", "Name");
-            }
-        });
-
-        $("#District").on("change", function() {
-            let districtId = $(this).val();
-            let districtName = $(this).find("option:selected").data("text");
-            $("#district_name").val(districtName);
-
-            $("#Ward").empty().append(`<option value="">Chọn Xã/Phường</option>`);
-
-            if (districtId) {
-                let filteredWards = ward_list.filter(item => item.DistrictId == districtId);
-                populateSelect("Ward", filteredWards, "Chọn Xã/Phường", "Id", "Name");
-            }
-        });
-
-        $("#Ward").on("change", function() {
-            let wardName = $(this).find("option:selected").data("text");
-            $("#ward_name").val(wardName);
-        });
-
-        const initDropdowns = () => {
-            fetchData(province_url, data => {
-                province_list = data;
-                populateSelect("Province", province_list, "Chọn Tỉnh/Thành Phố", "Id", "Name");
-            });
-
-            fetchData(district_url, data => {
-                district_list = data;
-            });
-
-            fetchData(ward_url, data => {
-                ward_list = data;
-            });
-        };
-
-        $(document).ready(function() {
-            initDropdowns();
-        });
-    </script> --}}
     {{-- voucher --}}
     <script>
         $(document).ready(function() {

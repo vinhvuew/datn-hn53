@@ -29,7 +29,7 @@ class CartController extends Controller
             $cart = Cart::where('user_id', Auth::id())->first();
             // dd($cart);
             // Nếu không có giỏ hàng, trả về danh sách rỗng
-            $carts = $cart ? $cart->cartDetails()->with(['product', 'variant', 'variant.attributes', 'variant.attributeValue'])->get() : [];
+            $carts = $cart ? $cart->cartDetails()->with(['product', 'variant', 'variant.product', 'variant.attributes', 'variant.attributeValue'])->get() : [];
             // dd($cart);
             return view('client.cart.listCart', compact('carts'));
         } catch (\Exception $e) {
@@ -138,49 +138,23 @@ class CartController extends Controller
         }
 
 
-        // Xóa sản phẩm nếu số lượng <= 0
-        // if ($request->quantity <= 0) {
-        //     $cartDetail->delete();
-
-        //     // Nếu giỏ hàng không còn sản phẩm nào thì xóa luôn giỏ hàng
-        //     if ($cartDetail->cart->cartDetails()->count() === 0) {
-        //         $cartDetail->cart->delete();
-        //         return response()->json([
-        //             'success' => true,
-        //             'message' => 'Tất cả sản phẩm đã bị xóa khỏi giỏ hàng!',
-        //         ], 200);
-        //     }
-
-        //     $overallTotal = $cartDetail->cart->cartDetails->sum('total_amount');
-
-        //     return response()->json([
-        //         'success' => true,
-        //         'message' => 'Sản phẩm đã được xóa khỏi giỏ hàng!',
-        //         'overallTotalFormatted' => number_format($overallTotal, 0, ',', '.') . ' VNĐ',
-        //     ], 200);
-        // }
-
-
         $variant = $cartDetail->variant;
-        $product = $cartDetail->product;
-        // dd($product);
-        if ($variant) {
-            // Kiểm tra giá sale từ session
-            // $productsOnSale = session('productsOnSale', []);
-            // $saleProduct = collect($productsOnSale)->firstWhere('id', $variant->product_id);
-            $price = $variant->selling_price;
-        } elseif ($product) {
-            // Kiểm tra giá sale từ session
-            // $productsOnSale = session('productsOnSale', []);
-            // $saleProduct = collect($productsOnSale)->firstWhere('id', $product->id);
-            $price = $product->price_sale ?? $product->base_price;
+        $product = $cartDetail->product ?? ($variant ? $variant->product : null);
+
+        if (!$product) {
+            return redirect()->back()->with('error', 'Sản phẩm không tồn tại.');
         }
 
-        // Cập nhật số lượng và tổng số tiền
-        $cartDetail->quantity = $request->quantity;
-        $cartDetail->total_amount = $request->quantity * $price;
-        $cartDetail->save();
+        // Lấy giá của sản phẩm, nếu có giảm giá thì dùng giá sale
+        $price = $product->price_sale ?? $product->base_price;
 
+        // Đảm bảo số lượng hợp lệ (>= 1)
+        $quantity = max(1, (int) $request->quantity);
+
+        // Cập nhật số lượng và tổng tiền
+        $cartDetail->quantity = $quantity;
+        $cartDetail->total_amount = $quantity * $price;
+        $cartDetail->save();
         // Tính lại tổng tiền giỏ hàng
         $overallTotal = $cartDetail->cart->cartDetails->sum('total_amount');
 
