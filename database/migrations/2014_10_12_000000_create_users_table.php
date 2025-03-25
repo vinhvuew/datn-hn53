@@ -15,6 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();  // Khóa chính tự động tăng
+            
             $table->string('name');  // Cột tên người dùng
             $table->string('address')->nullable();
             $table->string('email')->unique()->nullable();  // Cột email duy nhất
@@ -23,8 +24,8 @@ class CreateUsersTable extends Migration
             $table->enum('role', ['admin', 'user', 'moderator']);  // Cột vai trò, mặc định là 'user'
             $table->rememberToken();  // Cột để lưu token "Remember me"
 
-            $table->string('avatar')->nullable(); 
-            $table->timestamp('email_verified_at')->nullable(); 
+            $table->string('avatar')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('verification_code')->nullable(); // Mã xác thực email
             $table->timestamp('verification_code_sent_at')->nullable(); // Thời gian gửi mã
             $table->timestamp('verification_code_expires_at')->nullable(); // Thời gian hết hạn
