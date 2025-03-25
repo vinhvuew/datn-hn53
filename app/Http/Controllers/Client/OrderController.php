@@ -12,11 +12,7 @@ use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Variant;
 use App\Models\Voucher;
-<<<<<<< HEAD
 use Carbon\Carbon;
-use DB;
-=======
->>>>>>> 07f87dce931671650e5060f4a4d1ad27d46a62ca
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
