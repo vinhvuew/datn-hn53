@@ -448,7 +448,13 @@
         $(document).ready(function() {
             $('#btn-submit-coupon').click(function() {
                 let couponCode = $('#input-coupon').val().trim();
-                let totalAmount = <?php echo e($totalAmount); ?>;
+                
+                // Lấy giá trị từ text hiển thị và xử lý chuỗi
+                let totalAmountText = $('#total_amount_display').text().replace('VNĐ', '').trim();
+                let totalAmount = totalAmountText.replace(/[,\.]/g, '');
+                
+                console.log('Total amount text:', totalAmountText);
+                console.log('Total amount before sending:', totalAmount);
 
                 if (!couponCode) {
                     alert('Vui lòng nhập mã giảm giá!');
@@ -464,17 +470,15 @@
                         _token: "<?php echo e(csrf_token()); ?>"
                     },
                     success: function(response) {
+                        console.log('Server response:', response);
                         if (response.status === 'success') {
-                            document.querySelector('#total_price').value = response.final_total;
+                            // Cập nhật giá trị input ẩn
+                            $('#total_price').val(response.final_total);
+                            $('#voucher_id').val(response.voucher_id);
 
-                            document.querySelector('#voucher_id').value = response.voucher_id;
-
-                            $('#total_amount_display').text(
-                                new Intl.NumberFormat('vi-VN').format(response
-                                    .final_total) + " VNĐ"
-                            );
-                            $('#discount_value span').text("-" + new Intl.NumberFormat('vi-VN')
-                                .format(response.discount_amount) + "VNĐ");
+                            // Cập nhật hiển thị
+                            $('#total_amount_display').text(new Intl.NumberFormat('vi-VN').format(response.final_total) + " VNĐ");
+                            $('#discount_value span').text("-" + new Intl.NumberFormat('vi-VN').format(response.discount_amount) + " VNĐ");
 
                             alert(response.message);
                         } else {
@@ -482,8 +486,8 @@
                         }
                     },
                     error: function(xhr) {
+                        console.log('Error response:', xhr.responseText);
                         alert("Có lỗi xảy ra! Vui lòng thử lại.");
-                        console.error(xhr.responseText);
                     }
                 });
             });

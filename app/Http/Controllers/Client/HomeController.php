@@ -34,19 +34,8 @@ class HomeController extends Controller
         }
 
         if ($request->isMethod('post')) {
-            // Xử lý logic cho POST request
-            // Validate dữ liệu
-            $validatedData = $request->validate([
-                'address_id' => 'required',
-                'payment_method' => 'required',
-                // thêm các validation rules khác nếu cần
-            ]);
-
-            // Xử lý logic checkout và trả về response phù hợp
-            return response()->json([
-                'success' => true,
-                'message' => 'Checkout successful'
-            ]);
+            // Chuyển hướng đến trang thanh toán
+            return redirect()->route('checkout.view');
         }
 
         // Logic cho GET request (hiển thị form)
@@ -67,7 +56,6 @@ class HomeController extends Controller
                 'name' => 'VNPAY',
                 'value' => 'VNPAY_DECOD'
             ],
-       
             [
                 'name' => 'Thanh Toán Khi Nhận Hàng',
                 'value' => 'COD'
