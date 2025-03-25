@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use App\Models\Shipping;
+use Illuminate\Support\Facades\DB;
+use App\Models\Cart;
+use App\Models\CartDetail;
 
 class VNPayController extends Controller
 {
@@ -69,19 +74,65 @@ class VNPayController extends Controller
     }
     public function handleReturn()
     {
-        $id = $_GET['vnp_TxnRef'];
-        $status = $_GET['vnp_ResponseCode'];
-        if($status == 00){
-           $obj = Order::find($id);
-           $obj->payment_status = "Thanh toán thành công";
-           if($obj->save()){
-            return view('client.checkout.complete');
-           }
+        try {
+            if (!isset($_GET['vnp_TxnRef']) || !isset($_GET['vnp_ResponseCode'])) {
+                Log::error('VNPAY return: Missing required parameters');
+                return view('client.checkout.failed');
+            }
 
-        }else{
+            $orderId = $_GET['vnp_TxnRef'];
+            $responseCode = $_GET['vnp_ResponseCode'];
+
+            $order = Order::with('orderDetails')->find($orderId);
+            if (!$order) {
+                Log::error('VNPAY return: Order not found', ['order_id' => $orderId]);
+                return view('client.checkout.failed');
+            }
+
+            if ($responseCode == '00') {
+                DB::beginTransaction();
+                try {
+                    $order->payment_status = "Thanh toán thành công";
+                    $order->status = "confirmed";
+                    
+                    if ($order->save()) {
+                        // Tạo shipping status
+                        Shipping::create([
+                            'order_id' => $order->id,
+                            'name' => 'Đơn hàng đã được thanh toán',
+                            'note' => 'Thanh toán thành công qua VNPAY'
+                        ]);
+
+                        // Xóa sản phẩm khỏi giỏ hàng
+                        $cart = Cart::where('user_id', $order->user_id)->first();
+                        if ($cart) {
+                            CartDetail::where('cart_id', $cart->id)
+                                ->where('is_selected', CartDetail::SELECTED)
+                                ->delete();
+
+                            // Kiểm tra và xóa giỏ hàng nếu không còn sản phẩm
+                            if (CartDetail::where('cart_id', $cart->id)->count() === 0) {
+                                $cart->delete();
+                            }
+                        }
+                        
+                        DB::commit();
+                        return view('client.checkout.complete');
+                    }
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    Log::error('VNPAY return: Error processing successful payment', [
+                        'order_id' => $orderId,
+                        'error' => $e->getMessage()
+                    ]);
+                    return view('client.checkout.failed');
+                }
+            }
+
             return view('client.checkout.failed');
-
+        } catch (\Exception $e) {
+            Log::error('VNPAY return: Unexpected error', ['error' => $e->getMessage()]);
+            return view('client.checkout.failed');
         }
-
     }
 }
