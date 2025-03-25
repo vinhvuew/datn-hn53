@@ -131,6 +131,7 @@ Route::get('/policies', [PolicyController::class, 'index'])->name('policies');
 Route::prefix('admin')->middleware(['admin'])->group(function () {
 
     Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');
+
     Route::resource('products', ProductController::class);
     Route::resource("category", CategoryController::class);
     Route::resource('attributes', AttributesNameController::class);
