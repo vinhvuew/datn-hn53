@@ -217,11 +217,11 @@ class ProfileController extends Controller
         try {
             $order = Order::findOrFail($id);
 
-            if ($order->status_order !== 'delivered') {
+            if ($order->status !== 'delivered') {
                 return back()->with('error', 'Bạn chỉ có thể xác nhận khi đơn hàng đã giao!');
             }
 
-            $order->update(['status_order' => 'received']);
+            $order->update(['status' => 'completed']);
 
             // Lưu trạng thái nhận hàng vào bảng Shipping
             Shipping::create([

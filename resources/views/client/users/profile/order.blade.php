@@ -215,12 +215,16 @@
                                                                 VNĐ</strong>
                                                         </p>
                                                     </div>
-                                                    <a class="btn btn-label-success"
-                                                        href="{{ route('profile.detailOrder', $order->id) }}">Trạng
-                                                        thái</a>
-                                                    <button class="btn btn-label-warning toggle-details"
-                                                        data-target="#orderDetails{{ $order->id }}">Xem chi
-                                                        tiết</button>
+
+                                                    <button class="btn btn-label-warning toggle-details">
+                                                        <a class=""
+                                                            href="{{ route('profile.detailOrder', $order->id) }}">Xem chi
+                                                            tiết
+                                                        </a>
+                                                    </button>
+                                                    {{-- <button class="btn btn-label-warning toggle-details"
+                                                        data-target="#orderDetails{{ $order->id }}">Xem chi tiết
+                                                    </button> --}}
                                                 </div>
 
                                                 <!-- Danh sách sản phẩm trong đơn hàng -->

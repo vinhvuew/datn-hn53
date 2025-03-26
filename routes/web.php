@@ -52,7 +52,8 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     // Hủy đơn hàng (Chỉ khi trạng thái là "pending")
     Route::put('/myOder/{id}/cancel', [ProfileController::class, 'cancel'])->name('orders.cancel');
     // Xác nhận đã nhận hàng (Chỉ khi trạng thái là "delivered")
-    Route::post('/myOder/{id}/confirm', [ProfileController::class, 'confirmReceived'])->name('confirm');
+    Route::put('/orders/{id}/confirm-received', [ProfileController::class, 'confirmReceived'])
+        ->name('orders.confirm-received');
 });
 
 // router phan tin tuc
@@ -71,6 +72,9 @@ Route::get('/comments/{productId}', [ProductsController::class, 'showComments'])
 
 // address
 Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store')->middleware('auth');
+Route::get('/addresses/{id}', [AddressController::class, 'show'])->name('addresses.show')->middleware('auth');
+Route::put('/addresses/{id}', [AddressController::class, 'update'])->name('addresses.update')->middleware('auth');
+Route::delete('/addresses/{id}', [AddressController::class, 'destroy'])->name('addresses.destroy')->middleware('auth');
 Route::post('/apply-voucher', [OrderController::class, 'applyVoucher'])->name('apply.voucher');
 
 Route::get('/vnpay-return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
@@ -82,8 +86,9 @@ Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.u
 Route::delete('/cart/delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');
 
 // check out
+Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
+Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout.post');
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
 Route::post('/checkout/store', [OrderController::class, 'placeOrder'])->name('checkout.store');
 Route::put('/cart/update-selection/{id}', [CartController::class, 'updateSelection']);
 

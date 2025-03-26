@@ -4,8 +4,6 @@
 <?php $__env->startSection('content'); ?>
     <div class="container mt-5">
         <h1>Thêm Thương Hiệu</h1>
-
-        
         <?php if($errors->any()): ?>
             <div class="alert alert-danger">
                 <ul>
@@ -27,8 +25,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" 
-                    id="name" name="name" value="<?php echo e(old('name')); ?>" required>
+unset($__errorArgs, $__bag); ?>" id="name" name="name"
+                    value="<?php echo e(old('name')); ?>" required>
                 <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

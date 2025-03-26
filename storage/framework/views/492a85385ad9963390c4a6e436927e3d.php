@@ -211,38 +211,38 @@
                                                         </tr>
                                                     <?php else: ?>
                                                         <tr>
+                                                            <td>
+                                                                <div
+                                                                    class="d-flex justify-content-start align-items-center mb-1">
+                                                                    <div class="avatar me-2 pe-1">
+                                                                        <?php if($item->variant && $item->variant->product->img_thumbnail): ?>
+                                                                            <img class="rounded-2"
+                                                                                src="<?php echo e(Storage::url($item->variant->product->img_thumbnail)); ?>"
+                                                                                width="50px" alt="">
+                                                                        <?php else: ?>
+                                                                            <img src="<?php echo e(asset('images/default-thumbnail.png')); ?>"
+                                                                                width="50px" alt="Default Image">
+                                                                        <?php endif; ?>
+                                                                    </div>
+                                                                    <div>
+                                                                        <strong><?php echo e(optional($item->variant)->product->name); ?>
 
-                                                            <div
-                                                                class="d-flex justify-content-start align-items-center mb-1">
-                                                                <div class="avatar me-2 pe-1">
-                                                                    <?php if($item->variant && $item->variant->product->img_thumbnail): ?>
-                                                                        <img class="rounded-2"
-                                                                            src="<?php echo e(Storage::url($item->variant->product->img_thumbnail)); ?>"
-                                                                            width="50px" alt="">
-                                                                    <?php else: ?>
-                                                                        <img src="<?php echo e(asset('images/default-thumbnail.png')); ?>"
-                                                                            width="50px" alt="Default Image">
-                                                                    <?php endif; ?>
+                                                                        </strong>
+                                                                    </div>
                                                                 </div>
-                                                                <div>
-                                                                    <strong><?php echo e(optional($item->variant)->product->name); ?>
+                                                                <span>
+                                                                    <?php $__currentLoopData = $item->variant->attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                        <?php if(!$loop->first): ?>
+                                                                            <br>
+                                                                        <?php endif; ?>
+                                                                        <?php echo e($attribute->attribute->name); ?>:
+                                                                        <?php if(!$loop->first): ?>
+                                                                        <?php endif; ?>
+                                                                        <?php echo e($attribute->attributeValue->value); ?>.
+                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                                                    </strong>
-                                                                </div>
-                                                            </div>
-                                                            <span>
-                                                                <?php $__currentLoopData = $item->variant->attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                    <?php if(!$loop->first): ?>
-                                                                        <br>
-                                                                    <?php endif; ?>
-                                                                    <?php echo e($attribute->attribute->name); ?>:
-                                                                    <?php if(!$loop->first): ?>
-                                                                    <?php endif; ?>
-                                                                    <?php echo e($attribute->attributeValue->value); ?>.
-                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-                                                            </span>
-
+                                                                </span>
+                                                            </td>
                                                             <?php if($item->variant->product->price_sale == ''): ?>
                                                                 <td>
                                                                     <?php echo e(number_format($item->variant->product->base_price, 0, ',', '.')); ?>
@@ -291,10 +291,25 @@
                                             </form>
                                         <?php elseif($order->status === 'canceled'): ?>
                                             <button class="btn btn-danger btn-sm" disabled>Đơn hàng đã hủy</button>
+                                        <?php elseif($order->status === 'delivered'): ?>
+                                            <form action="<?php echo e(route('profile.orders.confirm-received', $order->id)); ?>"
+                                                method="POST">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('PUT'); ?>
+                                                <button type="submit" class="btn btn-success"
+                                                    onclick="return confirm('Bạn có chắc chắn đã nhận hàng?');">
+                                                    Xác nhận đã nhận hàng
+                                                </button>
+                                            </form>
+                                        <?php elseif($order->status === 'completed'): ?>
+                                            <button class="btn btn-success btn-sm" disabled>
+                                                Đơn hàng đã hoàn thành
+                                            </button>
                                         <?php else: ?>
                                             <button class="btn btn-primary btn-sm" disabled>Đơn hàng đang được xử
                                                 lý</button>
                                         <?php endif; ?>
+
                                     </div>
 
                                     <div class="card-body mt-3">
@@ -304,7 +319,7 @@
                                             ?>
 
                                             <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <?php if($item->name === 'Giao hàng thành công'): ?>
+                                                <?php if($item->name === 'Đơn hàng đã được nhận'): ?>
                                                     <?php $hasReceived = true; ?>
                                                 <?php endif; ?>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -439,6 +454,12 @@
                                         </p>
                                     </div>
                                 </div>
+                                <div class="mt-auto d-flex justify-content-end">
+                                    <a class="btn btn-outline-secondary" href="<?php echo e(route('profile.myOder')); ?>">
+                                        <i class="mdi mdi-arrow-left"></i> Quay lại
+                                    </a>
+                                </div>
+
                             </div>
                         </div>
                     </div>

@@ -3,6 +3,7 @@
 <?php $__env->startSection('item-category-create', 'active'); ?>
 
 <?php $__env->startSection('content'); ?>
+
     <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
@@ -50,5 +51,6 @@ unset($__errorArgs, $__bag); ?>
         <!-- / Content -->
     </div>
 <?php $__env->stopSection(); ?>
+
 
 <?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/admin/datn-hn53/resources/views/admin/categories/create.blade.php ENDPATH**/ ?>
