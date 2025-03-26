@@ -127,7 +127,59 @@
 
                                     <!-- Biến thể sản phẩm (ẩn theo mặc định) -->
 
-                                    @if ($product->variants)
+                                    @if ($product->variants->isEmpty())
+                                        <div id="variantsSection" style="display: none;">
+                                            <div id="variants" class="mb-3">
+                                                <div class="variant border p-3">
+                                                    <h5 class="mt-3">Thuộc Tính 1</h5>
+                                                    <div class="mb-3">
+                                                        <label for="variant_sku_0">Mã biến thể</label>
+                                                       
+                                                        <input type="text" id="variant_sku_0" name="variants[0][sku]"
+                                                            placeholder="Mã biến thể" class="form-control"
+                                                            value="{{ old('variant_sku_0') }}">
+                                                    </div>
+
+                                                    <div class="mb-4">
+                                                        <label for="variant_quantity_0">Số lượng tồn kho</label>
+
+                                                        <input type="number" id="variant_quantity_0"
+                                                            name="variants[0][quantity]" class="form-control"
+                                                            placeholder="Số lượng tồn kho"
+                                                            value="{{ old('variants[0][quantity]') }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <input type="file" id="variant_image_0"
+                                                            name="variants[0][image]" class="form-control">
+                                                    </div>
+                                                    <!-- Thuộc tính của biến thể -->
+                                                    <div id="attributesSection_0 mb-3">
+                                                        @foreach ($attributes as $attribute)
+                                                            <div class="mt-3">
+                                                                <label
+                                                                    for="variant_attribute_{{ $attribute->id }}_0">{{ $attribute->name }}</label>
+                                                                <select class="select2 form-select"
+                                                                    id="variant_attribute_{{ $attribute->id }}_0"
+                                                                    name="variants[0][attributes][{{ $attribute->id }}]"
+                                                                    class="form-control">
+                                                                    <option value="">Chọn {{ $attribute->name }}
+                                                                    </option>
+                                                                    @foreach ($attribute->values as $value)
+                                                                        <option value="{{ $value->id }}">
+                                                                            {{ $value->value }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" id="add-variant" class="btn btn-primary "><i
+                                                    class="mdi mdi-plus me-0 me-sm-1"></i>Thêm Thuộc
+                                                Tính</button>
+                                        </div>
+                                    @else
                                         <div id="variantsSection" @if ($product->variants && $product->variants->count() === 0) class="d-none" @endif>
                                             <div id="variants" class="mb-3">
                                                 @foreach ($product->variants as $variantIndex => $variant)
@@ -188,8 +240,6 @@
                                                     class="mdi mdi-plus me-0 me-sm-1"></i>Thêm Thuộc
                                                 Tính</button>
                                         </div>
-                                    @else
-                                    bhjgu
                                     @endif
 
                                 </div>

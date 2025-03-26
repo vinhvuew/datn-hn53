@@ -53,8 +53,10 @@
                                     </td>
                                     <td id="total-amount-<?php echo e($cart->id); ?>">
                                         <?php
-                                            $money = $cart->total_amount;
-                                            $totalAmount += $money;
+                                            if ($cart->is_selected) {
+                                                $money = $cart->total_amount;
+                                                $totalAmount += $money;
+                                            }
                                         ?>
                                         <?php echo e(number_format($cart->total_amount, 0, ',', '.')); ?> VNĐ
 
@@ -105,8 +107,10 @@
                                     </td>
                                     <td id="total-amount-<?php echo e($cart->id); ?>">
                                         <?php
-                                            $money = $cart->total_amount;
-                                            $totalAmount += $money;
+                                            if ($cart->is_selected) {
+                                                $money = $cart->total_amount;
+                                                $totalAmount += $money;
+                                            }
                                         ?>
 
                                         <?php echo e(number_format($cart->total_amount, 0, ',', '.')); ?> VNĐ
@@ -131,7 +135,7 @@
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
-                <form id="checkout-form" action="<?php echo e(route('checkout.view')); ?>" method="POST">
+                <form id="checkout-form" action="<?php echo e(route('checkout.post')); ?>" method="POST">
                     <?php echo csrf_field(); ?>
                     <div class="text-end mb-5 p-4">
                         <h4 class="fw-bold text-primary">
@@ -193,8 +197,6 @@
                     success: function(response) {
                         if (response.success) {
                             $('#total-amount-' + id).text(response.totalAmountFormatted);
-
-                            // Gọi lại hàm cập nhật tổng tiền
                             updateOverallTotal();
                         } else {
                             alert(response.message);
@@ -210,6 +212,35 @@
             $('.cart-item-checkbox').on('change', function() {
                 updateOverallTotal();
             });
+
+            // Xử lý form thanh toán
+            $('#checkout-form').on('submit', function(e) {
+                e.preventDefault();
+                
+                let selectedItems = $('.cart-item-checkbox:checked');
+                if (selectedItems.length === 0) {
+                    alert('Vui lòng chọn ít nhất một sản phẩm để thanh toán!');
+                    return;
+                }
+
+                // Cập nhật trạng thái chọn sản phẩm
+                let updatePromises = selectedItems.map(function() {
+                    let id = $(this).data('id');
+                    return $.ajax({
+                        url: '/cart/update-selection/' + id,
+                        type: 'PUT',
+                        data: {
+                            _token: '<?php echo e(csrf_token()); ?>',
+                            is_selected: 1
+                        }
+                    });
+                });
+
+                // Sau khi cập nhật xong, submit form
+                Promise.all(updatePromises).then(function() {
+                    e.target.submit();
+                });
+            });
         });
 
         // Xóa sản phẩm khỏi giỏ hàng
@@ -220,21 +251,17 @@
                 if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
                     return;
                 }
-
+                
                 $.ajax({
-                    url: '/cart/delete/' + id, // Cập nhật đường dẫn API đúng chuẩn
-                    type: 'DELETE', // Sử dụng phương thức DELETE đúng chuẩn RESTful
+                    url: '/cart/delete/' + id,
+                    type: 'DELETE',
                     data: {
-                        _token: '<?php echo e(csrf_token()); ?>' // Bảo mật CSRF token
+                        _token: '<?php echo e(csrf_token()); ?>'
                     },
                     success: function(response) {
                         if (response.success) {
-                            // Xóa sản phẩm khỏi giao diện
                             $('#cart-item-' + id).remove();
-
-                            // Cập nhật tổng tiền giỏ hàng
-                            $('#overall-total').text(response
-                                .overallTotalFormatted);
+                            $('#overall-total').text(response.overallTotalFormatted);
                         } else {
                             alert(response.message);
                         }
@@ -246,7 +273,6 @@
             });
         });
     </script>
-    
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let selectAllCheckbox = document.getElementById('select-all');
