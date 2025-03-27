@@ -12,8 +12,14 @@ class VouchersController extends Controller
     /**
      * Hiển thị danh sách voucher.
      */
+    const OBJECT = 'vouchers';
     public function index()
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         $vouchers = Voucher::all(); // Lấy tất cả các voucher
         return view('admin.vouchers.index', compact('vouchers'));
     }
@@ -23,6 +29,11 @@ class VouchersController extends Controller
      */
     public function create()
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         return view('admin.vouchers.create');
     }
 
@@ -56,6 +67,11 @@ class VouchersController extends Controller
      */
     public function edit($id)
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         $voucher = Voucher::findOrFail($id); // Lấy voucher theo id
         return view('admin.vouchers.edit', compact('voucher')); // Truyền biến voucher vào view
     }
@@ -91,6 +107,11 @@ class VouchersController extends Controller
      */
     public function destroy($id)
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         try {
             Voucher::findOrFail($id)->delete();
             return redirect()->route('vouchers.index')->with('success', 'Xóa voucher thành công!');
