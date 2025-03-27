@@ -135,7 +135,7 @@
                                                     <h5 class="mt-3">Thuộc Tính 1</h5>
                                                     <div class="mb-3">
                                                         <label for="variant_sku_0">Mã biến thể</label>
-                                                        
+
                                                         <input type="text" id="variant_sku_0" name="variants[0][sku]"
                                                             placeholder="Mã biến thể" class="form-control"
                                                             value="<?php echo e(old('variant_sku_0')); ?>">
@@ -143,7 +143,7 @@
 
                                                     <div class="mb-4">
                                                         <label for="variant_quantity_0">Số lượng tồn kho</label>
-                                                        
+
                                                         <input type="number" id="variant_quantity_0"
                                                             name="variants[0][quantity]" class="form-control"
                                                             placeholder="Số lượng tồn kho"
@@ -270,7 +270,7 @@
                                     <h5 class="card-title mb-0">Danh mục & Thương hiệu</h5>
                                 </div>
                                 <div class="card-body">
-                                    
+
                                     <div class="mb-3">
                                         <label for="category_id" class="form-label">Danh mục</label>
                                         <select name="category_id" class="form-select">

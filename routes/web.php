@@ -26,8 +26,8 @@ use App\Http\Controllers\Admin\OderDeltailController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ThongKeController;
 use App\Http\Controllers\Admin\NewsController;
-
-
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/brands', [HomeController::class, 'index_brands'])->name('brand');
@@ -131,6 +131,34 @@ Route::get('/policies', [PolicyController::class, 'index'])->name('policies');
 Route::prefix('admin')->middleware(['admin'])->group(function () {
 
     Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');
+
+    // Permission
+    Route::prefix('permissions')
+    ->as('permissions.')
+    ->group(function () {
+    Route::get('/', [PermissionController::class, 'index'])->name('index');
+    Route::get('create', [PermissionController::class, 'create'])->name('create');
+    Route::get('access/{id}', [PermissionController::class, 'access'])->name('access');
+    Route::post('updateGant', [PermissionController::class, 'updateGant'])->name('updateGant');
+    Route::post('store', [PermissionController::class, 'store'])->name('store');
+    Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
+    Route::get('edit/{id}', [PermissionController::class, 'edit'])->name('edit');
+    Route::put('update/{id}', [PermissionController::class, 'update'])->name('update');
+    Route::delete('destroy/{id}', [PermissionController::class, 'destroy'])->name('destroy');
+});
+
+// Role
+Route::prefix('roles')
+    ->as('roles.')
+    ->group(function () {
+    Route::get('/', [RoleController::class, 'index'])->name('index');
+    Route::get('create', [RoleController::class, 'create'])->name('create');
+    Route::post('store', [RoleController::class, 'store'])->name('store');
+    Route::get('show/{id}', [RoleController::class, 'show'])->name('show');
+    Route::get('edit/{id}', [RoleController::class, 'edit'])->name('edit');
+    Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
+    Route::delete('destroy/{id}', [RoleController::class, 'destroy'])->name('destroy');
+});
 
     Route::resource('products', ProductController::class);
     Route::resource("category", CategoryController::class);
