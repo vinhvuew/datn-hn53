@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-
-
-=======
->>>>>>> ea6a7cd349b709be7207fb79d4af2e80f8c6e1ca
 <?php $__env->startSection('content'); ?>
     <div class="container my-4">
         <h1 class="text-center mb-4">📊 Thống Kê Doanh Thu</h1>

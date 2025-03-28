@@ -69,46 +69,39 @@
             <div class="main_title">
                 <h2>Sản phẩm mới ra</h2>
                 <span>Sản phẩm Mới</span>
-
             </div>
-            <div class="row small-gutters">
-                <div class="row g-4">
-                    <?php $__currentLoopData = $latestProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <div class="col-6 col-md-4 col-xl-3">
-                            <div class="card border-0 shadow-sm rounded overflow-hidden position-relative product-card">
-                                <a href="<?php echo e(route('productDetail', $product->slug)); ?>" class="d-block">
-                                    <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
-                                        class="card-img-top img-fluid rounded product-image" alt="<?php echo e($product->name); ?>">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-4">
+                <?php $__currentLoopData = $latestProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="col">
+                        <div class="card border-0 shadow-sm rounded overflow-hidden position-relative h-100 product-card">
+                            <a href="<?php echo e(route('productDetail', $product->slug)); ?>" class="d-block">
+                                <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
+                                    class="card-img-top img-fluid product-image" alt="<?php echo e($product->name); ?>">
+                            </a>
+                            <div class="card-body d-flex flex-column">
+                                <a href="<?php echo e(route('productDetail', $product->slug)); ?>"
+                                    class="text-dark text-decoration-none">
+                                    <h4 class="fw-bold product-title"><?php echo e(Str::limit($product->name, 20)); ?></h4>
                                 </a>
-
-                                <div class="card-body text-center">
-                                    <a href="<?php echo e(route('productDetail', $product->slug)); ?>"
-                                        class="text-dark text-decoration-none">
-                                        <h4 class="fw-bold product-title"><?php echo e(Str::limit($product->name, 20)); ?></h4>
-                                    </a>
-                                    <p class="small text-muted"><?php echo e(Str::limit($product->description, 50)); ?></p>
-
-                                    <div class="price_box">
-                                        <?php if($product->price_sale && $product->price_sale < $product->base_price): ?>
-                                            <span class="old_price text-muted text-decoration-line-through">
-                                                <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
-                                            </span>
-                                            <span class="new_price text-danger fw-bold">
-                                                <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?> VND
-                                            </span>
-                                        <?php else: ?>
-                                            <span class="new_price text-danger fw-bold">
-                                                <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
-                                            </span>
-                                        <?php endif; ?>
-                                    </div>
-
+                                <p class="small text-muted flex-grow-1"><?php echo e(Str::limit($product->description, 50)); ?></p>
+                                <div class="price_box mt-auto">
+                                    <?php if($product->price_sale && $product->price_sale < $product->base_price): ?>
+                                        <span class="old_price text-muted text-decoration-line-through">
+                                            <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
+                                        </span>
+                                        <span class="new_price text-danger fw-bold">
+                                            <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?> VND
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="new_price text-danger fw-bold">
+                                            <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </div>
-
+                    </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </div>
 
@@ -136,9 +129,14 @@
                                     </figure>
                                     <h3><?php echo e($product->name); ?></h3>
                                     <div class="price_box">
-                                        <span class="new_price">$<?php echo e($product->price_sale); ?></span>
-                                        <span class="old_price">$<?php echo e($product->base_price); ?></span>
+                                        <span class="new_price"><?php echo e(number_format($product->price_sale, 0, ',', '.')); ?>
+
+                                            VND</span>
+                                        <span class="old_price text-muted text-decoration-line-through">
+                                            <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
+                                        </span>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -156,44 +154,40 @@
             <div class="main_title">
                 <h2>Sản phẩm bán chạy</h2>
                 <span>Sản phẩm HOT</span>
-
             </div>
-            <div class="row small-gutters">
-                <div class="row g-4">
-                    <?php $__currentLoopData = $topSellingProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <div class="col-6 col-md-4 col-xl-3">
-                            <div class="card border-0 shadow-sm rounded overflow-hidden position-relative product-card">
-                                <a href="<?php echo e(route('productDetail', $product->slug)); ?>" class="d-block">
-                                    <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
-                                        class="card-img-top img-fluid rounded product-image" alt="<?php echo e($product->name); ?>">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-4">
+                <?php $__currentLoopData = $topSellingProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="col">
+                        <div class="card product-card border-0 shadow-sm rounded overflow-hidden position-relative h-100">
+                            <a href="<?php echo e(route('productDetail', $product->slug)); ?>" class="d-block">
+                                <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
+                                    class="card-img-top img-fluid product-image" alt="<?php echo e($product->name); ?>">
+                            </a>
+                            <div class="card-body d-flex flex-column text-center">
+                                <a href="<?php echo e(route('productDetail', $product->slug)); ?>"
+                                    class="text-dark text-decoration-none">
+                                    <h6 class="fw-bold product-title"><?php echo e($product->name); ?></h6>
                                 </a>
+                                <p class="small text-muted flex-grow-1">
+                                    <?php echo e(Str::limit($product->description, 50)); ?>
 
-                                <div class="card-body text-center">
-                                    <a href="<?php echo e(route('productDetail', $product->slug)); ?>"
-                                        class="text-dark text-decoration-none">
-                                        <h6 class="fw-bold product-title"><?php echo e($product->name); ?></h6>
-                                    </a>
-                                    <p class="small text-muted"><?php echo e(Str::limit($product->description, 50)); ?></p>
-                                    <div class="price_box">
-                                        <span class="old_price text-muted text-decoration-line-through">
-                                            <?php echo e(number_format($product->base_price, 0, ',', '.')); ?>đ
+                                </p>
+                                <div class="price_box mt-auto">
+                                    <span class="old_price text-muted text-decoration-line-through">
+                                        <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
+                                    </span>
+                                    <?php if($product->price_sale): ?>
+                                        <span class="new_price text-danger fw-bold">
+                                            <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?> VND
                                         </span>
-
-                                        <?php if($product->price_sale): ?>
-                                            <span class="new_price text-danger fw-bold">
-                                                <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?>đ
-                                            </span>
-                                        <?php endif; ?>
-                                    </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </div>
-
+                    </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </div>
-
 
         <!-- /container -->
 
@@ -242,6 +236,32 @@
     <!-- /row -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Đảm bảo tất cả ảnh sản phẩm có kích thước đồng đều */
+        .product-card {
+            overflow: hidden;
+            /* Ngăn ảnh phóng to vượt ra ngoài */
+            position: relative;
+        }
+
+        /* Ảnh sản phẩm ban đầu */
+        .product-image {
+            width: 100%;
+            height: 250px;
+            /* Điều chỉnh chiều cao theo mong muốn */
+            object-fit: cover;
+            /* Giữ tỷ lệ ảnh */
+            transition: transform 0.4s ease-in-out;
+            /* Tạo hiệu ứng mượt */
+        }
+
+        /* Khi hover vào card, ảnh sẽ phóng to */
+        .card:hover .product-image {
+            transform: scale(1.1);
+            /* Zoom 10% */
+        }
+
+
+
         .carousel {
             position: relative;
             overflow: hidden;

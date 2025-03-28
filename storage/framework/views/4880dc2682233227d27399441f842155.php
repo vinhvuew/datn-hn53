@@ -241,7 +241,7 @@ unset($__errorArgs, $__bag); ?>
                         </div>
                         <!-- Second column -->
                         <div class="col-12 col-lg-4">
-                            <!-- /danh mục -->
+                            
                             <div class="card mb-4 p-3">
                                 <div class="mb-3 form-check form-switch">
                                     <input type="checkbox" name="is_active" class="form-check-input" value="1"
@@ -267,13 +267,13 @@ unset($__errorArgs, $__bag); ?>
                                     <label class="form-check-label" for="is_show_home">Hiển thị trên trang chủ</label>
                                 </div>
                             </div>
-
+                            
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <h5 class="card-title mb-0">Danh mục & thương hiệu</h5>
                                 </div>
                                 <div class="card-body">
-                                    
+
                                     <div class="mb-3">
                                         <label for="category_id" class="form-label">Danh mục</label>
 
@@ -473,13 +473,11 @@ unset($__errorArgs, $__bag); ?>
             }
         });
     </script>
-    <script>
-        < script >
-            $(document).ready(function() {
-                $(".form-check-input").bootstrapSwitch();
-            });
-    </script>
 
+    <script>
+        $(document).ready(function() {
+            $(".form-check-input").bootstrapSwitch();
+        });
     </script>
 <?php $__env->stopSection(); ?>
 
