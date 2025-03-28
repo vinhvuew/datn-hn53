@@ -35,95 +35,11 @@
 
         <div class="row">
             <!-- User Sidebar -->
-            <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
-                <!-- User Card -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="user-avatar-section">
-                            <div class=" d-flex align-items-center flex-column">
-                                <img class="img-fluid rounded mb-3 mt-4"
-                                    src="<?php echo e(asset('themes')); ?>/admin/img/avatars/10.png" height="120" width="120"
-                                    alt="User avatar" />
-                                <div class="user-info text-center">
-                                    <h4><?php echo e($role->name); ?></h4>
-                                    <span class="badge bg-label-info rounded-pill"><?php echo e($role->name); ?></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-between flex-wrap my-2 py-3">
-                            <div class="d-flex align-items-center me-4 mt-3 gap-3">
-                                <div class="avatar">
-                                    <div class="avatar-initial bg-label-primary rounded">
-                                        <i class='mdi mdi-check mdi-24px'></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="mb-0">1.23k</h4>
-                                    <span>Tasks Done</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mt-3 gap-3">
-                                <div class="avatar">
-                                    <div class="avatar-initial bg-label-primary rounded">
-                                        <i class='mdi mdi-star-outline mdi-24px'></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="mb-0">568</h4>
-                                    <span>Projects Done</span>
-                                </div>
-                            </div>
-                        </div>
-                        <h5 class="pb-3 border-bottom mb-3">Details</h5>
-                        <div class="info-container">
-                            <ul class="list-unstyled mb-4">
-                                <li class="mb-3">
-                                    <span class="h6">Username:</span>
-                                    <span>@violet.dev</span>
-                                </li>
-                                <li class="mb-3">
-                                    <span class="h6">Email:</span>
-                                    <span>vafgot@vultukir.org</span>
-                                </li>
-                                <li class="mb-3">
-                                    <span class="h6">Status:</span>
-                                    <span class="badge bg-label-success rounded-pill">Active</span>
-                                </li>
-                                <li class="mb-3">
-                                    <span class="h6">Role:</span>
-                                    <span>Author</span>
-                                </li>
-                                <li class="mb-3">
-                                    <span class="h6">Tax id:</span>
-                                    <span>Tax-8965</span>
-                                </li>
-                                <li class="mb-3">
-                                    <span class="h6">Contact:</span>
-                                    <span>(123) 456-7890</span>
-                                </li>
-                                <li class="mb-3">
-                                    <span class="h6">Languages:</span>
-                                    <span>French</span>
-                                </li>
-                                <li class="mb-3">
-                                    <span class="h6">Country:</span>
-                                    <span>England</span>
-                                </li>
-                            </ul>
-                            <div class="d-flex justify-content-center">
-                                <a href="javascript:;" class="btn btn-primary me-3" data-bs-target="#editUser"
-                                    data-bs-toggle="modal">Edit</a>
-                                <a href="javascript:;" class="btn btn-outline-danger suspend-user">Suspend</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /User Card -->
-            </div>
+            
             <!--/ User Sidebar -->
 
             <!-- User Content -->
-            <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
+            <div class="col-xl-12 col-lg-7 col-md-7 order-0 order-md-1">
                 <!--/ User Tabs -->
 
                 <!-- Project table -->
