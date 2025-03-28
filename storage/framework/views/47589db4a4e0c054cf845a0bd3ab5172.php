@@ -171,28 +171,18 @@
                                                                             <?php echo e($value->value); ?>
 
                                                                         </option>
-                                                                        <?php $__currentLoopData = $attribute->values; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                            <option <?php if($variant->attributes->contains('attribute_value_id', $value->id)): echo 'selected'; endif; ?>
-                                                                                value="<?php echo e($value->id); ?>">
-                                                                                <?php echo e($value->value); ?>
-
-                                                                            </option>
-                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                                    </select>
-                                                                </div>
-                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        </div>
+                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                </select>
+                                                            </div>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </div>
-
                                                 </div>
-
                                             </div>
                                             <button type="button" id="add-variant" class="btn btn-primary "><i
                                                     class="mdi mdi-plus me-0 me-sm-1"></i>Thêm Thuộc
                                                 Tính</button>
                                         </div>
-                                    <?php else: ?>
-
+                                    <?php elseif($product): ?>
                                         <div id="variantsSection" <?php if($product->variants && $product->variants->count() === 0): ?> class="d-none" <?php endif; ?>>
                                             <div id="variants" class="mb-3">
                                                 <?php $__currentLoopData = $product->variants; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variantIndex => $variant): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -255,7 +245,6 @@
                                                     class="mdi mdi-plus me-0 me-sm-1"></i>Thêm Thuộc
                                                 Tính</button>
                                         </div>
-
                                     <?php endif; ?>
 
                                 </div>
@@ -264,13 +253,40 @@
                         </div>
                         <!-- Second column -->
                         <div class="col-12 col-lg-4">
+                            
+                            <div class="card mb-4 p-3">
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_active" class="form-check-input" value="1"
+                                        id="is_active" <?php echo e($product->is_active ? 'checked' : ''); ?>>
+                                    <label class="form-check-label" for="is_active">Kích hoạt</label>
+                                </div>
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_good_deal" class="form-check-input" value="1"
+                                        id="is_good_deal" <?php echo e($product->is_good_deal ? 'checked' : ''); ?>>
+                                    <label class="form-check-label" for="is_good_deal">Ưu đãi tốt</label>
+                                </div>
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_new" class="form-check-input" value="1"
+                                        id="is_new" <?php echo e($product->is_new ? 'checked' : ''); ?>>
+                                    <label class="form-check-label" for="is_new">Sản phẩm mới</label>
+                                </div>
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_show_home" class="form-check-input" value="1"
+                                        id="is_show_home" <?php echo e($product->is_show_home ? 'checked' : ''); ?>>
+                                    <label class="form-check-label" for="is_show_home">Hiển thị trên trang chủ</label>
+                                </div>
+                            </div>
+
                             <!-- /danh mục -->
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <h5 class="card-title mb-0">Danh mục & Thương hiệu</h5>
                                 </div>
                                 <div class="card-body">
-
+                                    
                                     <div class="mb-3">
                                         <label for="category_id" class="form-label">Danh mục</label>
                                         <select name="category_id" class="form-select">
@@ -452,6 +468,11 @@ unset($__errorArgs, $__bag); ?>
                     variantElement.remove();
                 }
             }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(".form-check-input").bootstrapSwitch();
         });
     </script>
 <?php $__env->stopSection(); ?>

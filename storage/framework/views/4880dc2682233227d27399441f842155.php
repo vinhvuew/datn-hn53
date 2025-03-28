@@ -242,6 +242,32 @@ unset($__errorArgs, $__bag); ?>
                         <!-- Second column -->
                         <div class="col-12 col-lg-4">
                             <!-- /danh mục -->
+                            <div class="card mb-4 p-3">
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_active" class="form-check-input" value="1"
+                                        id="is_active">
+                                    <label class="form-check-label" for="is_active">Kích hoạt</label>
+                                </div>
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_good_deal" class="form-check-input" value="1"
+                                        id="is_good_deal">
+                                    <label class="form-check-label" for="is_good_deal">Ưu đãi tốt</label>
+                                </div>
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_new" class="form-check-input" value="1"
+                                        id="is_new">
+                                    <label class="form-check-label" for="is_new">Sản phẩm mới</label>
+                                </div>
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_show_home" class="form-check-input" value="1"
+                                        id="is_show_home">
+                                    <label class="form-check-label" for="is_show_home">Hiển thị trên trang chủ</label>
+                                </div>
+                            </div>
+
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <h5 class="card-title mb-0">Danh mục & thương hiệu</h5>
@@ -446,6 +472,14 @@ unset($__errorArgs, $__bag); ?>
                 }
             }
         });
+    </script>
+    <script>
+        < script >
+            $(document).ready(function() {
+                $(".form-check-input").bootstrapSwitch();
+            });
+    </script>
+
     </script>
 <?php $__env->stopSection(); ?>
 
