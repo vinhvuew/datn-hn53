@@ -80,6 +80,7 @@
                                             </a>
                                         @endif
                                     @endif
+
                                 </div>
                                 <a href="javascript:void(0);" class="text-muted"><i
                                         class="mdi mdi-content-copy mdi-20px"></i></a>
