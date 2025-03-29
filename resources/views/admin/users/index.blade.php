@@ -2,17 +2,17 @@
 @section('item-user')
     open
 @endsection
-
 @section('user-index')
     active
 @endsection
+
 @section('content')
     <main>
         <div class="container mt-4">
             <div id="alert-container"></div>
 
             <div class="card shadow-sm border-0 rounded">
-                <div class="card-header  text-white d-flex justify-content-between align-items-center">
+                <div class="card-header text-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Quản Lý Người Dùng</h5>
                     <form action="{{ route('users.index') }}" method="GET" class="d-flex">
                         <input type="text" name="search" value="{{ request('search') }}"
@@ -24,8 +24,8 @@
                             <a href="{{ route('users.index') }}" class="btn btn-warning btn-sm">Quay Lại</a>
                         @endif
                     </form>
-
                 </div>
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover">
@@ -35,40 +35,45 @@
                                     <th>Tên</th>
                                     <th>Email</th>
                                     <th>Số Điện Thoại</th>
+                                    <th>Địa Chỉ</th>
                                     <th>Vai Trò</th>
-                                    <th class="text-center">Chức Năng</th>
+                                    {{-- <th class="text-center">Chức Năng</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($users as $user)
-                                    <tr id="user-row-{{ $user->id }}">
-                                        <td class="text-center align-middle">{{ $user->id }}</td>
-                                        <td class="align-middle">{{ $user->name }}</td>
-                                        <td class="align-middle">{{ $user->email ?? '-' }}</td>
-                                        <td class="align-middle">{{ $user->phone ?? '-' }}</td>
-                                        <td class="align-middle">
-                                            <select name="role" class="form-select form-select-sm role-select"
-                                                data-user-id="{{ $user->id }}" data-old-role="{{ $user->role }}">
-                                                <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User
-                                                </option>
-                                                <option value="moderator"
-                                                    {{ $user->role == 'moderator' ? 'selected' : '' }}>
-                                                    Moderator</option>
-                                                <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin
-                                                </option>
-                                            </select>
-                                        </td>
-                                        <td class="text-center align-middle">
-                                            <form class="delete-form d-inline" data-user-id="{{ $user->id }}"
-                                                data-user-name="{{ $user->name }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" class="btn btn-danger btn-sm delete-user">
-                                                    <i class="fas fa-trash-alt"></i> Xóa
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                    @if ($user->role_id == 2)
+                                        {{-- Chỉ hiển thị User --}}
+                                        <tr id="user-row-{{ $user->id }}">
+                                            <td class="text-center align-middle">{{ $user->id }}</td>
+                                            <td class="align-middle">{{ $user->name }}</td>
+                                            <td class="align-middle">{{ $user->email ?? '-' }}</td>
+                                            <td class="align-middle">{{ $user->phone ?? '-' }}</td>
+                                            <td class="align-middle">{{ $user->address }}</td>
+                                            <td class="align-middle">
+                                                <select name="role" class="form-select form-select-sm role-select"
+                                                    data-user-id="{{ $user->id }}"
+                                                    data-old-role="{{ $user->role_id }}">
+                                                    @foreach ($roles as $role)
+                                                        <option value="{{ $role->id }}"
+                                                            {{ $user->role_id == $role->id ? 'selected' : '' }}>
+                                                            {{ $role->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            {{-- <td class="text-center align-middle">
+                                                <form class="delete-form d-inline" data-user-id="{{ $user->id }}"
+                                                    data-user-name="{{ $user->name }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-danger btn-sm delete-user">
+                                                        <i class="fas fa-trash-alt"></i> Xóa
+                                                    </button>
+                                                </form>
+                                            </td> --}}
+                                        </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -82,7 +87,8 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Xác nhận xóa user
+            // Xử lý sự kiện XÓA người dùng bằng SweetAlert2 + AJAX
+
             document.querySelectorAll('.delete-user').forEach(button => {
                 button.addEventListener('click', function() {
                     let form = this.closest('form');
@@ -101,41 +107,44 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             fetch(`{{ route('users.destroy', '') }}/${userId}`, {
-                                    method: "POST",
+                                    method: "DELETE",
                                     headers: {
                                         "X-CSRF-TOKEN": "{{ csrf_token() }}",
                                         "Content-Type": "application/json"
-                                    },
-                                    body: JSON.stringify({
-                                        _method: "DELETE"
-                                    })
-                                }).then(response => response.json())
+                                    }
+                                })
+                                .then(response => response.json())
                                 .then(data => {
-                                    Swal.fire({
-                                        title: "Đã xóa!",
-                                        text: "Người dùng đã bị xóa thành công.",
-                                        icon: "success"
-                                    });
-                                    document.getElementById(`user-row-${userId}`)
-                                        .remove();
-                                }).catch(error => {
-                                    Swal.fire({
-                                        title: "Lỗi!",
-                                        text: "Không thể xóa người dùng.",
-                                        icon: "error"
-                                    });
+                                    console.log(
+                                        data); // Debug kiểm tra phản hồi từ server
+                                    if (data.success) {
+                                        Swal.fire("Đã xóa!", "Người dùng đã bị xóa.",
+                                            "success");
+                                        document.getElementById(`user-row-${userId}`)
+                                            .remove();
+                                    } else {
+                                        Swal.fire("Lỗi!", data.message ||
+                                            "Không thể xóa người dùng.", "error");
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error(error);
+                                    Swal.fire("Lỗi!",
+                                        "Đã xảy ra lỗi khi gửi yêu cầu xóa.",
+                                        "error");
                                 });
+
                         }
                     });
                 });
             });
 
-            // Xác nhận thay đổi vai trò
+            // Xử lý sự kiện THAY ĐỔI VAI TRÒ bằng SweetAlert2 + AJAX
             document.querySelectorAll('.role-select').forEach(select => {
                 select.addEventListener('change', function() {
                     let userId = this.getAttribute('data-user-id');
-                    let newRole = this.value;
-                    let oldRole = this.getAttribute('data-old-role');
+                    let newRoleId = this.value;
+                    let oldRoleId = this.getAttribute('data-old-role');
 
                     Swal.fire({
                         title: "Xác nhận thay đổi?",
@@ -156,26 +165,31 @@
                                     },
                                     body: JSON.stringify({
                                         user_id: userId,
-                                        role: newRole
+                                        role_id: newRoleId
                                     })
                                 }).then(response => response.json())
                                 .then(data => {
-                                    Swal.fire({
-                                        title: "Thành công!",
-                                        text: "Vai trò đã được cập nhật.",
-                                        icon: "success"
-                                    });
-                                    select.setAttribute('data-old-role', newRole);
+                                    if (data.message ===
+                                        "Cập nhật vai trò thành công!") {
+                                        Swal.fire("Thành công!",
+                                            "Vai trò đã được cập nhật.", "success");
+                                        if (newRoleId == 3 || newRoleId == 4) {
+                                            document.getElementById(
+                                                    `user-row-${userId}`).style
+                                                .display = "none";
+                                        }
+                                        select.setAttribute('data-old-role', newRoleId);
+                                    } else {
+                                        Swal.fire("Lỗi!", data.message, "error");
+                                        select.value = oldRoleId;
+                                    }
                                 }).catch(error => {
-                                    Swal.fire({
-                                        title: "Lỗi!",
-                                        text: "Không thể thay đổi vai trò.",
-                                        icon: "error"
-                                    });
-                                    select.value = oldRole;
+                                    Swal.fire("Lỗi!", "Không thể thay đổi vai trò.",
+                                        "error");
+                                    select.value = oldRoleId;
                                 });
                         } else {
-                            select.value = oldRole;
+                            select.value = oldRoleId;
                         }
                     });
                 });

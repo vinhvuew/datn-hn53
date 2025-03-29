@@ -60,6 +60,13 @@ class User extends Authenticatable
     }
     public function role()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class,'role_id');
     }
-}
+      // Kiểm tra user có phải admin không
+     
+    public function isAdmin()
+    {
+        return $this->role_id == 1; // Vai trò 1 là Admin
+    }
+      
+    }

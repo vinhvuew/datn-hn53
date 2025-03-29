@@ -9,7 +9,8 @@
                     <thead>
                         <tr>
                             <th>
-                                Tất cả<input type="checkbox" id="select-all">
+                                Chọn
+                                {{-- <input type="checkbox" id="select-all"> --}}
                             </th>
                             <th>Hình ảnh</th>
                             <th>Tên sản phẩm</th>
@@ -218,7 +219,7 @@
             // Xử lý form thanh toán
             $('#checkout-form').on('submit', function(e) {
                 e.preventDefault();
-                
+
                 let selectedItems = $('.cart-item-checkbox:checked');
                 if (selectedItems.length === 0) {
                     alert('Vui lòng chọn ít nhất một sản phẩm để thanh toán!');
@@ -253,7 +254,7 @@
                 if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
                     return;
                 }
-                
+
                 $.ajax({
                     url: '/cart/delete/' + id,
                     type: 'DELETE',

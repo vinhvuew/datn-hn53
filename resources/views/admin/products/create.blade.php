@@ -93,7 +93,7 @@
                                         @error('user_manual')
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                         @enderror
-                                        <label class="form-label" for="content">Hướng dẫn sử dụng</label>
+                                        <label class="form-label" for="content">Hướng dẫn bảo quản</label>
                                         <textarea type="text" class="form-control" name="user_manual" value="{{ old('user_manual') }}"></textarea>
                                     </div>
                                 </div>
@@ -196,11 +196,11 @@
                         <div class="col-12 col-lg-4">
                             {{-- kích hoạt --}}
                             <div class="card mb-4 p-3">
-                                <div class="mb-3 form-check form-switch">
+                                {{-- <div class="mb-3 form-check form-switch">
                                     <input type="checkbox" name="is_active" class="form-check-input" value="1"
                                         id="is_active">
                                     <label class="form-check-label" for="is_active">Kích hoạt</label>
-                                </div>
+                                </div> --}}
 
                                 <div class="mb-3 form-check form-switch">
                                     <input type="checkbox" name="is_good_deal" class="form-check-input" value="1"
@@ -208,16 +208,16 @@
                                     <label class="form-check-label" for="is_good_deal">Ưu đãi tốt</label>
                                 </div>
 
-                                <div class="mb-3 form-check form-switch">
+                                {{-- <div class="mb-3 form-check form-switch">
                                     <input type="checkbox" name="is_new" class="form-check-input" value="1"
                                         id="is_new">
                                     <label class="form-check-label" for="is_new">Sản phẩm mới</label>
-                                </div>
+                                </div> --}}
 
                                 <div class="mb-3 form-check form-switch">
                                     <input type="checkbox" name="is_show_home" class="form-check-input" value="1"
                                         id="is_show_home">
-                                    <label class="form-check-label" for="is_show_home">Hiển thị trên trang chủ</label>
+                                    <label class="form-check-label" for="is_show_home">Sản phẩm nổi bật</label>
                                 </div>
                             </div>
                             {{-- danh mục thuong hieu --}}
@@ -272,7 +272,8 @@
                                     </div>
                                     <!-- Discounted Price -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="ecommerce-product-discount-price">giá bán</label>
+                                        <label class="form-label" for="ecommerce-product-discount-price">giá ưu
+                                            đãi</label>
                                         <input type="number" class="form-control" id="price_sale"
                                             placeholder="price_sale" name="price_sale" aria-label="price_sale">
                                         @error('price_sale')

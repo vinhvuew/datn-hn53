@@ -19,7 +19,7 @@
                                     <?php echo method_field('PUT'); ?>
 
                                     <div class="position-relative d-inline-block">
-                                        
+
                                         <img src="<?php echo e(asset('storage/' . Auth::user()->avatar)); ?>" alt="user image"
                                             class="d-block rounded-circle user-profile-img"
                                             style="width: 100px; height: 100px; object-fit: cover;">
@@ -42,27 +42,7 @@
                                             <ul
                                                 class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
 
-                                                <li class="list-inline-item">
-                                                    <i class='mdi mdi-invert-colors me-1 mdi-20px'></i>
-                                                    <span class="fw-medium">
-                                                        <?php switch(Auth::user()->role):
-                                                            case ('user'): ?>
-                                                                Thành viên
-                                                            <?php break; ?>
 
-                                                            <?php case ('admin'): ?>
-                                                                Quản trị
-                                                            <?php break; ?>
-
-                                                            <?php case ('moderator'): ?>
-                                                                Nhân viên
-                                                            <?php break; ?>
-
-                                                            <?php default: ?>
-                                                                Không xác định
-                                                        <?php endswitch; ?>
-                                                    </span>
-                                                </li>
 
                                                 <li class="list-inline-item">
                                                     <i class='mdi mdi-map-marker-outline me-1 mdi-20px'></i>
@@ -103,29 +83,6 @@
                                             tên: </span> <span><?php echo e(Auth::user()->name); ?></span>
                                     </li>
 
-                                    <li class="d-flex align-items-center mb-3"><i
-                                            class="mdi mdi-star-outline mdi-24px"></i><span class="fw-medium mx-2">Vai
-                                            trò:</span>
-                                        <span>
-                                            <?php switch(Auth::user()->role):
-                                                case ('user'): ?>
-                                                    Thành viên
-                                                <?php break; ?>
-
-                                                <?php case ('admin'): ?>
-                                                    Quản trị
-                                                <?php break; ?>
-
-                                                <?php case ('moderator'): ?>
-                                                    Nhân viên
-                                                <?php break; ?>
-
-                                                <?php default: ?>
-                                                    Không xác định
-                                            <?php endswitch; ?>
-                                        </span>
-                                    </li>
-
                                     <li class="d-flex align-items-center mb-3">
                                         <i class='mdi mdi-map-marker-outline mdi-24px'></i>
                                         <span class="fw-medium mx-2">Địa chỉ:
@@ -135,7 +92,7 @@
                                         <span class="fw-medium mx-2">Quốc
                                             gia:</span> <span>Việt Nam</span>
                                     </li>
-                                  
+
                                 </ul>
                                 <small class="card-text text-uppercase">Liên hệ</small>
                                 <ul class="list-unstyled my-3 py-1">
@@ -166,7 +123,7 @@
                             </div>
                             <div class="card-body pt-3 pb-0">
                                 <ul class="timeline card-timeline mb-0">
-                                    
+
                                 </ul>
                             </div>
                         </div>
