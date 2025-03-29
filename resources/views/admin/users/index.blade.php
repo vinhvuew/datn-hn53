@@ -1,5 +1,11 @@
 @extends('admin.layouts.master')
+@section('item-user')
+    open
+@endsection
 
+@section('user-index')
+    active
+@endsection
 @section('content')
     <main>
         <div class="container mt-4">

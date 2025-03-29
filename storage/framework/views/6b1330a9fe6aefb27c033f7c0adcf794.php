@@ -1,3 +1,10 @@
+<?php $__env->startSection('item-user'); ?>
+    open
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('user-index'); ?>
+    active
+<?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
     <main>
         <div class="container mt-4">

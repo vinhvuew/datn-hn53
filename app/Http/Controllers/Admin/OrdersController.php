@@ -12,11 +12,14 @@ use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    const OBJECT = 'orders';
     public function index()
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         $query = Order::query();
 
         $orders = $query->orderBy('created_at', 'desc')->paginate(10);
@@ -87,7 +90,7 @@ class OrdersController extends Controller
     public function shipping($id)
     {
         $order = Order::findOrFail($id);
-
+        // dd($order);
         if ($order->status === 'confirmed') {
             $order->update([
                 'status' => 'shipping',
@@ -126,6 +129,11 @@ class OrdersController extends Controller
      */
     public function edit($id)
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         $order = Order::with('status')->findOrFail($id);
         $statusList = Status_order::all(); // Lấy danh sách trạng thái để chọn
         return view('admin.orders.edit', compact('order', 'statusList'));
@@ -164,6 +172,11 @@ class OrdersController extends Controller
      */
     public function destroy($id)
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         try {
             // Tìm đơn hàng theo ID và xóa
             DB::table('orders')->where('id', $id)->delete();

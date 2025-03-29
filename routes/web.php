@@ -1,21 +1,15 @@
 <?php
 
-
-
-use App\Http\Controllers\Admin\AttributesValuesController;
-use App\Http\Controllers\Client\AddressController;
-use App\Http\Controllers\Client\OrderController;
-use App\Http\Controllers\Client\Payment\VNPayController;
 use Illuminate\Support\Facades\Route;
 // client
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductsController;
 use App\Http\Controllers\Client\LoginRegisterController;
 use App\Http\Controllers\Client\PolicyController;
-
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
-
+use App\Http\Controllers\Admin\AttributesValuesController;
+use App\Http\Controllers\Client\AddressController;
+use App\Http\Controllers\Client\OrderController;
+use App\Http\Controllers\Client\Payment\VNPayController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Client\CreateNewsController;
@@ -32,8 +26,8 @@ use App\Http\Controllers\Admin\OderDeltailController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ThongKeController;
 use App\Http\Controllers\Admin\NewsController;
-
-
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/brands', [HomeController::class, 'index_brands'])->name('brand');
@@ -54,15 +48,18 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::put('/update/avatar', [ProfileController::class, 'updateAvatar'])->name('updateAvatar'); // cập nhật avatar
     Route::post('/update/password', [ProfileController::class, 'updatePassword'])->name('updatePassword'); // cập nhật mk
     Route::get('/myOder', [ProfileController::class, 'myOder'])->name('myOder'); // đơn hàng của tôi
-    Route::get('myOder/show/{id}', [ProfileController::class, 'show'])->name('detailOrder');
-    Route::put('/orders/{order}/cancel', [ProfileController::class, 'cancel'])->name('orders.cancel');
-Route::put('/orders/{order}/confirm', [ProfileController::class, 'confirm'])->name('orders.confirm');
+    Route::get('myOder/show/{id}/', [ProfileController::class, 'show'])->name('detailOrder');
+    // Hủy đơn hàng (Chỉ khi trạng thái là "pending")
+    Route::put('/myOder/{id}/cancel', [ProfileController::class, 'cancel'])->name('orders.cancel');
+    // Xác nhận đã nhận hàng (Chỉ khi trạng thái là "delivered")
+    Route::put('/orders/{id}/confirm-received', [ProfileController::class, 'confirmReceived'])
+        ->name('orders.confirm-received');
 });
 
 // router phan tin tuc
 
-Route::get('/news', [CreateNewsController::class, 'index']);
-Route::get('/news/{id}', [CreateNewsController::class, 'show'])->name('news.show');
+Route::get('/new', [CreateNewsController::class, 'news'])->name('news');
+Route::get('/news/{id}', [CreateNewsController::class, 'show'])->name('news.shows');
 
 Route::get('/product', [ProductsController::class, 'statistical'])->name('product.show');
 // Route cho trang sản phẩm với các tham số lọc
@@ -75,6 +72,9 @@ Route::get('/comments/{productId}', [ProductsController::class, 'showComments'])
 
 // address
 Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store')->middleware('auth');
+Route::get('/addresses/{id}', [AddressController::class, 'show'])->name('addresses.show')->middleware('auth');
+Route::put('/addresses/{id}', [AddressController::class, 'update'])->name('addresses.update')->middleware('auth');
+Route::delete('/addresses/{id}', [AddressController::class, 'destroy'])->name('addresses.destroy')->middleware('auth');
 Route::post('/apply-voucher', [OrderController::class, 'applyVoucher'])->name('apply.voucher');
 
 Route::get('/vnpay-return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
@@ -86,8 +86,9 @@ Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.u
 Route::delete('/cart/delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');
 
 // check out
+Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
+Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout.post');
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
 Route::post('/checkout/store', [OrderController::class, 'placeOrder'])->name('checkout.store');
 Route::put('/cart/update-selection/{id}', [CartController::class, 'updateSelection']);
 
@@ -130,6 +131,35 @@ Route::get('/policies', [PolicyController::class, 'index'])->name('policies');
 Route::prefix('admin')->middleware(['admin'])->group(function () {
 
     Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');
+
+    // Permission
+    Route::prefix('permissions')
+    ->as('permissions.')
+    ->group(function () {
+    Route::get('/', [PermissionController::class, 'index'])->name('index');
+    Route::get('create', [PermissionController::class, 'create'])->name('create');
+    Route::get('access/{id}', [PermissionController::class, 'access'])->name('access');
+    Route::post('updateGant', [PermissionController::class, 'updateGant'])->name('updateGant');
+    Route::post('store', [PermissionController::class, 'store'])->name('store');
+    Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
+    Route::get('edit/{id}', [PermissionController::class, 'edit'])->name('edit');
+    Route::put('update/{id}', [PermissionController::class, 'update'])->name('update');
+    Route::delete('destroy/{id}', [PermissionController::class, 'destroy'])->name('destroy');
+});
+
+// Role
+Route::prefix('roles')
+    ->as('roles.')
+    ->group(function () {
+    Route::get('/', [RoleController::class, 'index'])->name('index');
+    Route::get('create', [RoleController::class, 'create'])->name('create');
+    Route::post('store', [RoleController::class, 'store'])->name('store');
+    Route::get('show/{id}', [RoleController::class, 'show'])->name('show');
+    Route::get('edit/{id}', [RoleController::class, 'edit'])->name('edit');
+    Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
+    Route::delete('destroy/{id}', [RoleController::class, 'destroy'])->name('destroy');
+});
+
     Route::resource('products', ProductController::class);
     Route::resource("category", CategoryController::class);
     Route::resource('attributes', AttributesNameController::class);
@@ -187,5 +217,4 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/news/{id}/edit', [NewsController::class, 'edit'])->name('news.edit');
     Route::put('/news/{id}/update', [NewsController::class, 'update'])->name('news.update');
     Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
-
 });

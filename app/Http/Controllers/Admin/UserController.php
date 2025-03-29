@@ -37,7 +37,7 @@ class UserController extends Controller
 
             $user = Auth::user();
 
-            if (!in_array($user->role, ['admin', 'moderator'])) {
+            if (!in_array($user->role_id, [1, 3, 4, 5])) {
 
                 Auth::logout();
                 return back()->with('error', 'Bạn không có quyền truy cập.');
@@ -58,17 +58,17 @@ class UserController extends Controller
     }
 
 
-    public function index( Request $request)
+    public function index(Request $request)
     {
-        $query =User::query();
+        $query = User::query();
 
         $search = $request->input('search');
 
-        if(!empty($search)){
-            $query->Where(function($q) use ($search){
-                $q->Where('name','LIKE', "%{$search}%")
-                ->orWhere('email', 'LIKE', "%{$search}%")
-                ->orWhere('phone', 'LIKE', "%{$search}%");
+        if (!empty($search)) {
+            $query->Where(function ($q) use ($search) {
+                $q->Where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%")
+                    ->orWhere('phone', 'LIKE', "%{$search}%");
             });
         }
         $users = $query->paginate(10);
