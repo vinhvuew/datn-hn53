@@ -1,5 +1,8 @@
 <?php
 
+
+
+use App\Http\Controllers\MessagesController;
 use Illuminate\Support\Facades\Route;
 // client
 use App\Http\Controllers\Client\HomeController;
@@ -29,6 +32,7 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 
+
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/brands', [HomeController::class, 'index_brands'])->name('brand');
 
@@ -55,6 +59,8 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::put('/orders/{id}/confirm-received', [ProfileController::class, 'confirmReceived'])
         ->name('orders.confirm-received');
 });
+
+// chat box
 
 // router phan tin tuc
 
