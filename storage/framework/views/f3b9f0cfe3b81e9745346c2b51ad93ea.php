@@ -293,9 +293,11 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="product-description">
-                                            <h4>Thông tin sản phẩm: <?php echo e($product->name); ?></h4>
-                                            <p>Mô tả: <strong><?php echo e($product->description); ?></strong>
-                                            <p>
+                                            <h4>Thông tin sản phẩm:</h4> <?php echo e($product->name); ?>
+
+                                           <h4>Đặc Điểm Nổi Bật:</h4> <?php echo e($product->content); ?>
+
+                                            
 
                                         </div>
                                     </div>
@@ -502,7 +504,16 @@
                 });
             });
         });
+        // cách dòng trong mô tả
+        document.addEventListener("DOMContentLoaded", function() {
+    let productContent = document.querySelector(".product-description p");
+    if (productContent) {
+        productContent.innerHTML = productContent.innerHTML.replace(/\.\s*/g, '.<br>');
+    }
+});
+
     </script>
+    
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/product/productDetail.blade.php ENDPATH**/ ?>

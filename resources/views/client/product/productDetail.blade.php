@@ -292,9 +292,9 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="product-description">
-                                            <h4>Thông tin sản phẩm: {{ $product->name }}</h4>
-                                            <p>Mô tả: <strong>{{ $product->description }}</strong>
-                                            <p>
+                                            <h4>Thông tin sản phẩm:</h4> {{ $product->name }}
+                                           <h4>Đặc Điểm Nổi Bật:</h4> {{ $product->content }}
+                                            
 
                                         </div>
                                     </div>
@@ -500,5 +500,14 @@
                 });
             });
         });
+        // cách dòng trong mô tả
+        document.addEventListener("DOMContentLoaded", function() {
+    let productContent = document.querySelector(".product-description p");
+    if (productContent) {
+        productContent.innerHTML = productContent.innerHTML.replace(/\.\s*/g, '.<br>');
+    }
+});
+
     </script>
+    
 @endsection

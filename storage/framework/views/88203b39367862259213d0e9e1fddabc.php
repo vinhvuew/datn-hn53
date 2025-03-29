@@ -116,14 +116,14 @@
                                             <td><?php echo e($item->name); ?></td>
                                             <td><?php echo e($item->email); ?></td>
                                             <td>
-                                                <?php if($item->role->name == 'Admin'): ?>
+                                                <?php if($item->role_id == 1): ?>
                                                     <span
                                                         class="d-flex align-items-center text-heading justify-content-center">
                                                         <i class="bx bx-laptop text-danger me-2"></i>
                                                         <?php echo e($item->role->name); ?>
 
                                                     </span>
-                                                <?php elseif($item->role->name == 'User'): ?>
+                                                <?php elseif($item->role_id == 2): ?>
                                                     <span
                                                         class="d-flex align-items-center text-heading justify-content-center">
                                                         <i class="bx bx-user text-danger me-2"></i>

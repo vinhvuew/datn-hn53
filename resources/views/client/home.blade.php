@@ -72,46 +72,39 @@
             <div class="main_title">
                 <h2>Sản phẩm mới ra</h2>
                 <span>Sản phẩm Mới</span>
-
             </div>
-            <div class="row small-gutters">
-                <div class="row g-4">
-                    @foreach ($latestProducts as $product)
-                        <div class="col-6 col-md-4 col-xl-3">
-                            <div class="card border-0 shadow-sm rounded overflow-hidden position-relative product-card">
-                                <a href="{{ route('productDetail', $product->slug) }}" class="d-block">
-                                    <img src="{{ Storage::url($product->img_thumbnail) }}"
-                                        class="card-img-top img-fluid rounded product-image" alt="{{ $product->name }}">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-4">
+                @foreach ($latestProducts as $product)
+                    <div class="col">
+                        <div class="card border-0 shadow-sm rounded overflow-hidden position-relative h-100 product-card">
+                            <a href="{{ route('productDetail', $product->slug) }}" class="d-block">
+                                <img src="{{ Storage::url($product->img_thumbnail) }}"
+                                    class="card-img-top img-fluid product-image" alt="{{ $product->name }}">
+                            </a>
+                            <div class="card-body d-flex flex-column">
+                                <a href="{{ route('productDetail', $product->slug) }}"
+                                    class="text-dark text-decoration-none">
+                                    <h4 class="fw-bold product-title">{{ Str::limit($product->name, 20) }}</h4>
                                 </a>
-
-                                <div class="card-body text-center">
-                                    <a href="{{ route('productDetail', $product->slug) }}"
-                                        class="text-dark text-decoration-none">
-                                        <h4 class="fw-bold product-title">{{ Str::limit($product->name, 20) }}</h4>
-                                    </a>
-                                    <p class="small text-muted">{{ Str::limit($product->description, 50) }}</p>
-
-                                    <div class="price_box">
-                                        @if ($product->price_sale && $product->price_sale < $product->base_price)
-                                            <span class="old_price text-muted text-decoration-line-through">
-                                                {{ number_format($product->base_price, 0, ',', '.') }} VND
-                                            </span>
-                                            <span class="new_price text-danger fw-bold">
-                                                {{ number_format($product->price_sale, 0, ',', '.') }} VND
-                                            </span>
-                                        @else
-                                            <span class="new_price text-danger fw-bold">
-                                                {{ number_format($product->base_price, 0, ',', '.') }} VND
-                                            </span>
-                                        @endif
-                                    </div>
-
+                                <p class="small text-muted flex-grow-1">{{ Str::limit($product->description, 50) }}</p>
+                                <div class="price_box mt-auto">
+                                    @if ($product->price_sale && $product->price_sale < $product->base_price)
+                                        <span class="old_price text-muted text-decoration-line-through">
+                                            {{ number_format($product->base_price, 0, ',', '.') }} VND
+                                        </span>
+                                        <span class="new_price text-danger fw-bold">
+                                            {{ number_format($product->price_sale, 0, ',', '.') }} VND
+                                        </span>
+                                    @else
+                                        <span class="new_price text-danger fw-bold">
+                                            {{ number_format($product->base_price, 0, ',', '.') }} VND
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-
+                    </div>
+                @endforeach
             </div>
         </div>
 
@@ -139,9 +132,13 @@
                                     </figure>
                                     <h3>{{ $product->name }}</h3>
                                     <div class="price_box">
-                                        <span class="new_price">${{ $product->price_sale }}</span>
-                                        <span class="old_price">${{ $product->base_price }}</span>
+                                        <span class="new_price">{{ number_format($product->price_sale, 0, ',', '.') }}
+                                            VND</span>
+                                        <span class="old_price text-muted text-decoration-line-through">
+                                            {{ number_format($product->base_price, 0, ',', '.') }} VND
+                                        </span>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -159,44 +156,39 @@
             <div class="main_title">
                 <h2>Sản phẩm bán chạy</h2>
                 <span>Sản phẩm HOT</span>
-
             </div>
-            <div class="row small-gutters">
-                <div class="row g-4">
-                    @foreach ($topSellingProducts as $product)
-                        <div class="col-6 col-md-4 col-xl-3">
-                            <div class="card border-0 shadow-sm rounded overflow-hidden position-relative product-card">
-                                <a href="{{ route('productDetail', $product->slug) }}" class="d-block">
-                                    <img src="{{ Storage::url($product->img_thumbnail) }}"
-                                        class="card-img-top img-fluid rounded product-image" alt="{{ $product->name }}">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-4">
+                @foreach ($topSellingProducts as $product)
+                    <div class="col">
+                        <div class="card product-card border-0 shadow-sm rounded overflow-hidden position-relative h-100">
+                            <a href="{{ route('productDetail', $product->slug) }}" class="d-block">
+                                <img src="{{ Storage::url($product->img_thumbnail) }}"
+                                    class="card-img-top img-fluid product-image" alt="{{ $product->name }}">
+                            </a>
+                            <div class="card-body d-flex flex-column text-center">
+                                <a href="{{ route('productDetail', $product->slug) }}"
+                                    class="text-dark text-decoration-none">
+                                    <h6 class="fw-bold product-title">{{ $product->name }}</h6>
                                 </a>
-
-                                <div class="card-body text-center">
-                                    <a href="{{ route('productDetail', $product->slug) }}"
-                                        class="text-dark text-decoration-none">
-                                        <h6 class="fw-bold product-title">{{ $product->name }}</h6>
-                                    </a>
-                                    <p class="small text-muted">{{ Str::limit($product->description, 50) }}</p>
-                                    <div class="price_box">
-                                        <span class="old_price text-muted text-decoration-line-through">
-                                            {{ number_format($product->base_price, 0, ',', '.') }}đ
+                                <p class="small text-muted flex-grow-1">
+                                    {{ Str::limit($product->description, 50) }}
+                                </p>
+                                <div class="price_box mt-auto">
+                                    <span class="old_price text-muted text-decoration-line-through">
+                                        {{ number_format($product->base_price, 0, ',', '.') }} VND
+                                    </span>
+                                    @if ($product->price_sale)
+                                        <span class="new_price text-danger fw-bold">
+                                            {{ number_format($product->price_sale, 0, ',', '.') }} VND
                                         </span>
-
-                                        @if ($product->price_sale)
-                                            <span class="new_price text-danger fw-bold">
-                                                {{ number_format($product->price_sale, 0, ',', '.') }}đ
-                                            </span>
-                                        @endif
-                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-
+                    </div>
+                @endforeach
             </div>
         </div>
-
 
         <!-- /container -->
 
@@ -252,6 +244,32 @@
     <!-- /row -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Đảm bảo tất cả ảnh sản phẩm có kích thước đồng đều */
+        .product-card {
+            overflow: hidden;
+            /* Ngăn ảnh phóng to vượt ra ngoài */
+            position: relative;
+        }
+
+        /* Ảnh sản phẩm ban đầu */
+        .product-image {
+            width: 100%;
+            height: 250px;
+            /* Điều chỉnh chiều cao theo mong muốn */
+            object-fit: cover;
+            /* Giữ tỷ lệ ảnh */
+            transition: transform 0.4s ease-in-out;
+            /* Tạo hiệu ứng mượt */
+        }
+
+        /* Khi hover vào card, ảnh sẽ phóng to */
+        .card:hover .product-image {
+            transform: scale(1.1);
+            /* Zoom 10% */
+        }
+
+
+
         .carousel {
             position: relative;
             overflow: hidden;

@@ -1,4 +1,5 @@
 <?php $__env->startSection('content'); ?>
+<main>
     <div class="container">
 
         <h1 class="text-center">CHÍNH SÁCH CỦA CHÚNG TÔI</h1>
@@ -35,6 +36,7 @@
         </ul>
         <p>Nếu có bất kỳ câu hỏi nào, vui lòng liên hệ <strong>[hotline/email]</strong>.</p>
     </div>
+</main>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/policy/index.blade.php ENDPATH**/ ?>

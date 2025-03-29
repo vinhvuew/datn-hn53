@@ -1,6 +1,7 @@
 @extends('client.layouts.master')
 
 @section('content')
+<main>
     <div class="container">
 
         <h1 class="text-center">CHÍNH SÁCH CỦA CHÚNG TÔI</h1>
@@ -37,4 +38,5 @@
         </ul>
         <p>Nếu có bất kỳ câu hỏi nào, vui lòng liên hệ <strong>[hotline/email]</strong>.</p>
     </div>
+</main>
 @endsection
