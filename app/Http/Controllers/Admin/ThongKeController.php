@@ -12,8 +12,16 @@ class ThongKeController extends Controller
     /**
      * Hiển thị thống kê doanh thu theo ngày, tuần, tháng, năm.
      */
+    const PATH_VIEW = 'admin.thongke.';
+
+    const OBJECT = 'roles';
     public function statistical()
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         // Doanh thu theo ngày
         $doanhThuNgay = Order::selectRaw('DATE(created_at) as ngay, SUM(total_price) as doanh_thu')
             ->groupBy('ngay')

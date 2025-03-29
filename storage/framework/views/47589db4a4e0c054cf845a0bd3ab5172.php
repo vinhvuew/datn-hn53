@@ -255,11 +255,7 @@
                         <div class="col-12 col-lg-4">
                             
                             <div class="card mb-4 p-3">
-                                <div class="mb-3 form-check form-switch">
-                                    <input type="checkbox" name="is_active" class="form-check-input" value="1"
-                                        id="is_active" <?php echo e($product->is_active ? 'checked' : ''); ?>>
-                                    <label class="form-check-label" for="is_active">Kích hoạt</label>
-                                </div>
+                                
 
                                 <div class="mb-3 form-check form-switch">
                                     <input type="checkbox" name="is_good_deal" class="form-check-input" value="1"
@@ -267,16 +263,12 @@
                                     <label class="form-check-label" for="is_good_deal">Ưu đãi tốt</label>
                                 </div>
 
-                                <div class="mb-3 form-check form-switch">
-                                    <input type="checkbox" name="is_new" class="form-check-input" value="1"
-                                        id="is_new" <?php echo e($product->is_new ? 'checked' : ''); ?>>
-                                    <label class="form-check-label" for="is_new">Sản phẩm mới</label>
-                                </div>
+                                
 
                                 <div class="mb-3 form-check form-switch">
                                     <input type="checkbox" name="is_show_home" class="form-check-input" value="1"
                                         id="is_show_home" <?php echo e($product->is_show_home ? 'checked' : ''); ?>>
-                                    <label class="form-check-label" for="is_show_home">Hiển thị trên trang chủ</label>
+                                    <label class="form-check-label" for="is_show_home">Sản phẩm nổi bật</label>
                                 </div>
                             </div>
 
@@ -345,8 +337,8 @@ unset($__errorArgs, $__bag); ?>
                                     </div>
                                     <!-- Discounted Price -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="ecommerce-product-discount-price">Giá tùy
-                                            chỉnh</label>
+                                        <label class="form-label" for="ecommerce-product-discount-price">Giá ưu
+                                            đãi</label>
                                         <input type="number" class="form-control" id="price_sale"
                                             placeholder="price_sale" name="price_sale" aria-label="price_sale"
                                             value="<?php echo e($product->price_sale); ?>">

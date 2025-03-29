@@ -22,7 +22,7 @@ class OrdersController extends Controller
         }
         $query = Order::query();
 
-        $orders = $query->orderBy('created_at', 'desc')->paginate(10);
+        $orders = $query->orderBy('created_at', 'desc')->get();
         return view('admin.orders.index', compact('orders'));
     }
 

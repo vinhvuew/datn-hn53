@@ -127,7 +127,7 @@
                                     <th>Tên người dùng</th>
                                     <th>Email</th>
                                     <th>Vai trò</th>
-                                    <th>Hành động</th>
+                                    {{-- <th>Hành động</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -137,6 +137,7 @@
                                             <td>{{ $item->id }}</td>
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item->email }}</td>
+
                                             <td>
                                                 @if ($item->role_id == 1)
                                                     <span
@@ -158,7 +159,7 @@
                                                     </span>
                                                 @endif
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 <div class="d-flex justify-content-center align-content-center">
                                                     <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Xem"
                                                         class="btn btn-info btn-sm me-1"
@@ -179,7 +180,7 @@
                                                         </button>
                                                     </form>
                                                 </div>
-                                            </td>
+                                            </td> --}}
                                         </tr>
                                     @endforeach
                                 @endforeach
@@ -194,7 +195,7 @@
 
         <!--  Modal -->
         <!-- Add Role Modal -->
-        <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
+        {{-- <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
                 <div class="modal-content p-3 p-md-5">
                     <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -376,7 +377,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection
 

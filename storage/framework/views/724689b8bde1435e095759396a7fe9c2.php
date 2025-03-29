@@ -135,7 +135,8 @@
                                         <ul>
                                             
                                             <li>
-                                                <a href="my-orders.html"><i class="ti-package"></i>Đơn hàng của
+                                                <a href="<?php echo e(route('profile.myOder')); ?>"><i class="ti-package"></i>Đơn
+                                                    hàng của
                                                     tôi</a>
                                             </li>
                                             <li>

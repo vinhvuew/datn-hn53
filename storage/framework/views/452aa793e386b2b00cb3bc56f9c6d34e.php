@@ -85,7 +85,6 @@
                                         <div class="price_box">
                                             <?php if($product->price_sale): ?>
                                                 <span class="new_price text-danger fw-bold">
-<<<<<<< HEAD
                                                     <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?>VND
                                                 </span>
                                                 <span class="old_price text-muted text-decoration-line-through ms-2">
@@ -94,16 +93,7 @@
                                             <?php else: ?>
                                                 <span class="new_price fw-bold">
                                                     <?php echo e(number_format($product->base_price, 0, ',', '.')); ?>VND
-=======
-                                                    <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?>đ
-                                                </span>
-                                                <span class="old_price text-muted text-decoration-line-through ms-2">
-                                                    <?php echo e(number_format($product->base_price, 0, ',', '.')); ?>đ
-                                                </span>
-                                            <?php else: ?>
-                                                <span class="new_price fw-bold">
-                                                    <?php echo e(number_format($product->base_price, 0, ',', '.')); ?>đ
->>>>>>> f68c24408cd8fe2298b3c9489bd54a48773a5d7a
+
                                                 </span>
                                             <?php endif; ?>
                                         </div>
