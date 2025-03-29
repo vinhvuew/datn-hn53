@@ -155,19 +155,25 @@
                         <div data-i18n="Khách hàng">Khách hàng</div>
                     </a>
                 </li>
-
-                <li class="menu-item @yield('user-role')">
-                    <a href="{{ route('roles.index') }}" class="menu-link">
-                        <div data-i18n="Vai Trò">Vai Trò</div>
-                    </a>
-                </li>
-                {{-- <li class="menu-item @yield('user-permission')">
-                    <a href="{{ route('permissions.index') }}" class="menu-link">
-                        <div data-i18n="Quyền Truy Cập">Quyền Truy Cập</div>
-                    </a>
-                </li> --}}
+        
+                @if(auth()->user()->role_id == 1) {{-- Chỉ hiển thị nếu là Admin --}}
+                    <li class="menu-item @yield('user-role')">
+                        <a href="{{ route('roles.index') }}" class="menu-link">
+                            <div data-i18n="Vai Trò">Vai Trò</div>
+                        </a>
+                    </li>
+                @endif
+        
+                {{-- @if(auth()->user()->role_id == 1) --}}
+                {{--     <li class="menu-item @yield('user-permission')"> --}}
+                {{--         <a href="{{ route('permissions.index') }}" class="menu-link"> --}}
+                {{--             <div data-i18n="Quyền Truy Cập">Quyền Truy Cập</div> --}}
+                {{--         </a> --}}
+                {{--     </li> --}}
+                {{-- @endif --}}
             </ul>
         </li>
+        
 
         <li class="menu-item">
             <a href="{{ route('comment.index') }}" class="menu-link">
