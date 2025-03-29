@@ -17,7 +17,7 @@ class AdminAuthenticate
     public function handle(Request $request, Closure $next): Response
     {
         // Kiểm tra nếu chưa đăng nhập hoặc không có quyền admin/moderator
-        if (!Auth::check() || !in_array(Auth::user()->role_id, [1, 3, 4, 5])) {
+        if (!Auth::check() || !in_array(Auth::user()->role_id, [1, 3, 4])) {
             return redirect()->route('logad')->with('error', 'Bạn cần đăng nhập với quyền admin.');
         }
 

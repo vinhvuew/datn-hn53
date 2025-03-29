@@ -68,7 +68,7 @@ class ProductController extends Controller
             $dataProduct['is_new'] = isset($dataProduct['is_new']) ? 1 : 0;
             $dataProduct['is_show_home'] = isset($dataProduct['is_show_home']) ? 1 : 0;
             $dataProduct['slug'] = Str::slug($dataProduct['name']);
-            // dd($dataProduct['slug']);
+            // dd($dataProduct);
 
             if ($request->hasFile('img_thumbnail')) {
                 $dataProduct['img_thumbnail'] = Storage::put('products', $request->file('img_thumbnail'));

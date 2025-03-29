@@ -93,6 +93,7 @@
                                             @else
                                                 <span class="new_price fw-bold">
                                                     {{ number_format($product->base_price, 0, ',', '.') }}VND
+
                                                 </span>
                                             @endif
                                         </div>

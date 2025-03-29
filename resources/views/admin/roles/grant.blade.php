@@ -35,7 +35,7 @@
 
         <div class="row">
             <!-- User Sidebar -->
-            <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
+            {{-- <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
                 <!-- User Card -->
                 <div class="card mb-4">
                     <div class="card-body">
@@ -93,22 +93,7 @@
                                     <span class="h6">Role:</span>
                                     <span>Author</span>
                                 </li>
-                                <li class="mb-3">
-                                    <span class="h6">Tax id:</span>
-                                    <span>Tax-8965</span>
-                                </li>
-                                <li class="mb-3">
-                                    <span class="h6">Contact:</span>
-                                    <span>(123) 456-7890</span>
-                                </li>
-                                <li class="mb-3">
-                                    <span class="h6">Languages:</span>
-                                    <span>French</span>
-                                </li>
-                                <li class="mb-3">
-                                    <span class="h6">Country:</span>
-                                    <span>England</span>
-                                </li>
+
                             </ul>
                             <div class="d-flex justify-content-center">
                                 <a href="javascript:;" class="btn btn-primary me-3" data-bs-target="#editUser"
@@ -119,11 +104,11 @@
                     </div>
                 </div>
                 <!-- /User Card -->
-            </div>
+            </div> --}}
             <!--/ User Sidebar -->
 
             <!-- User Content -->
-            <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
+            <div class="col-xl-12 col-lg-7 col-md-7 order-0 order-md-1">
                 <!--/ User Tabs -->
 
                 <!-- Project table -->

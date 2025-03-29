@@ -38,7 +38,7 @@ class UserController extends Controller
 
             $user = Auth::user();
 
-            if (!in_array($user->role_id, [1, 3, 4, 5])) {
+            if (!in_array($user->role_id, [1, 3, 4])) {
 
                 Auth::logout();
                 return back()->with('error', 'Bạn không có quyền truy cập.');
