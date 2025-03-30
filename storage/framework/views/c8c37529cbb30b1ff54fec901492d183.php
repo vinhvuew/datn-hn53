@@ -1,8 +1,7 @@
-@extends('admin.layouts.master')
-@section('item-atribute', 'open')
+<?php $__env->startSection('item-atribute', 'open'); ?>
 
-@section('item-atribute-index', 'active')
-@section('content')
+<?php $__env->startSection('item-atribute-index', 'active'); ?>
+<?php $__env->startSection('content'); ?>
     <!-- Content wrapper -->
     <!-- Content -->
     <div class="container mt-5">
@@ -10,15 +9,16 @@
             <span class="text-muted fw-light">Thuộc Tính /</span> Danh Sách Thuộc Tính
         </h4>
 
-        @if (session()->has('success'))
+        <?php if(session()->has('success')): ?>
             <div class="alert alert-success fw-bold">
-                {{ session()->get('success') }}
+                <?php echo e(session()->get('success')); ?>
+
             </div>
-        @endif
+        <?php endif; ?>
         <!-- Category List Table -->
         <div class="card">
             <div class="card-header d-flex justify-content-end align-items-center">
-                <a class="btn btn-primary me-2" href="{{ route('attributes.create') }}">
+                <a class="btn btn-primary me-2" href="<?php echo e(route('attributes.create')); ?>">
                     <i class="mdi mdi-plus me-0 me-sm-1"></i>
                     + THÊM THUỘC TÍNH</a>
             </div>
@@ -36,26 +36,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($attributes as $attribute)
+                        <?php $__currentLoopData = $attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <!-- Placeholder Rows -->
                             <tr class="text-center">
-                                <td>{{ $attribute->id }}</td>
-                                <td>{{ $attribute->name }}</td>
-                                <td>{{ $attribute->created_at }}</td>
-                                <td>{{ $attribute->updated_at }}</td>
+                                <td><?php echo e($attribute->id); ?></td>
+                                <td><?php echo e($attribute->name); ?></td>
+                                <td><?php echo e($attribute->created_at); ?></td>
+                                <td><?php echo e($attribute->updated_at); ?></td>
                                 <td>
 
-                                    <a href="{{ route('attributes.edit', $attribute->id) }}" class="btn btn-warning">Sửa</a>
-                                    <form action="{{ route('attributes.destroy', $attribute->id) }}" method="POST"
+                                    <a href="<?php echo e(route('attributes.edit', $attribute->id)); ?>" class="btn btn-warning">Sửa</a>
+                                    <form action="<?php echo e(route('attributes.destroy', $attribute->id)); ?>" method="POST"
                                         style="display:inline-block;">
-                                        @csrf
-                                        @method('DELETE')
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('DELETE'); ?>
                                         <button type="submit" class="btn btn-danger"
                                             onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
                                     </form>
                                 </td>
                             </tr>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
             </div>
@@ -67,5 +67,7 @@
     <!-- Footer -->
     <div class="content-backdrop fade"></div>
     <!-- Content wrapper -->
-@endsection
-@include('admin.layouts.parials.datatable')
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.parials.datatable', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+<?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/attributes/index.blade.php ENDPATH**/ ?>

@@ -16,12 +16,16 @@
         @endif
 
         <!-- Nút tạo voucher mới -->
-        <a href="{{ route('vouchers.create') }}" class="btn btn-primary mb-3">Tạo Voucher Mới</a>
 
         <!-- Bảng danh sách voucher -->
         <div class="card">
+            <div class="card-header d-flex justify-content-end align-items-center">
+                <a href="{{ route('vouchers.create') }}" class="btn btn-primary mb-3">Tạo Voucher Mới</a>
+
+            </div>
             <div class="card-body">
-                <table id="example" class="text-center table table-bordered dt-responsive nowrap table-striped align-middle"
+                <table id="example"
+                    class="text-center table table-bordered dt-responsive nowrap table-striped align-middle"
                     style="width:100%">
                     <thead>
                         <tr>

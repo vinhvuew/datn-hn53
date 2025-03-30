@@ -43,11 +43,13 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "name" => "required|max:50",
+            "name" => "required|max:50|unique:categories,name",
         ], [
             'name.required' => 'Bạn không được để trống tên danh mục',
-            'name.max' => 'Bạn khôg được điền quá :max kí tự'
+            'name.max' => 'Bạn không được điền quá :max kí tự',
+            'name.unique' => 'Tên danh mục đã tồn tại, vui lòng chọn tên khác'
         ]);
+
         $params = $request->all();
         $obj = Category::create($params);
         if ($obj) {

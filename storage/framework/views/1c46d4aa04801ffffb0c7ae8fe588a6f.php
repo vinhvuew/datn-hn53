@@ -1,9 +1,8 @@
-@extends('admin.layouts.master')
-@section('title')
+<?php $__env->startSection('title'); ?>
     Chi tiết đơn hàng
-@endsection
-@section('item-order', 'active')
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('item-order', 'active'); ?>
+<?php $__env->startSection('content'); ?>
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4">
@@ -14,36 +13,37 @@
 
             <div class="d-flex flex-column justify-content-center">
                 <div class="d-flex">
-                    <h5 class="mb-0">Order #{{ $order->id }}</h5>
-                    @php
+                    <h5 class="mb-0">Order #<?php echo e($order->id); ?></h5>
+                    <?php
                         $statusClasses = [
                             'Chờ thanh toán' => 'bg-label-warning mx-2 rounded-pill text-dark',
                             'Thanh toán khi nhận hàng' => 'bg-label-secondary mx-2 rounded-pill text-white',
                             'Thanh toán thành công' => 'bg-label-success mx-2 rounded-pill',
                         ];
-                    @endphp
-                    <span class="badge {{ $statusClasses[$order->payment_status] ?? 'bg-secondary' }}">
-                        {{ $order->payment_status ?? 'Không rõ' }}
+                    ?>
+                    <span class="badge <?php echo e($statusClasses[$order->payment_status] ?? 'bg-secondary'); ?>">
+                        <?php echo e($order->payment_status ?? 'Không rõ'); ?>
+
                     </span>
                     <span
                         class="badge
-                        @switch($order->status)
-                            @case('pending') bg-label-warning rounded-pill text-dark @break
-                            @case('confirmed') bg-label-secondary rounded-pill text-white @break
-                            @case('shipping') bg-label-primary rounded-pill @break
-                            @case('delivered') bg-label-success rounded-pill @break
-                            @case('completed') bg-label-info rounded-pill @break
-                            @case('canceled') bg-label-danger rounded-pill @break
-                            @case('admin_canceled') bg-label-danger rounded-pill @break
-                            @case('return_request') bg-label-danger rounded-pill @break
-                            @case('refuse_return') bg-label-danger rounded-pill @break
-                            @case('sent_information') bg-label-primary rounded-pill @break
-                            @case('return_approved') bg-label-danger rounded-pill @break
-                            @case('returned_item_received') bg-label-danger rounded-pill @break
-                            @case('refund_completed') bg-label-danger rounded-pill @break
-                            @default bg-secondary
-                        @endswitch">
-                        {{ [
+                        <?php switch($order->status):
+                            case ('pending'): ?> bg-label-warning rounded-pill text-dark <?php break; ?>
+                            <?php case ('confirmed'): ?> bg-label-secondary rounded-pill text-white <?php break; ?>
+                            <?php case ('shipping'): ?> bg-label-primary rounded-pill <?php break; ?>
+                            <?php case ('delivered'): ?> bg-label-success rounded-pill <?php break; ?>
+                            <?php case ('completed'): ?> bg-label-info rounded-pill <?php break; ?>
+                            <?php case ('canceled'): ?> bg-label-danger rounded-pill <?php break; ?>
+                            <?php case ('admin_canceled'): ?> bg-label-danger rounded-pill <?php break; ?>
+                            <?php case ('return_request'): ?> bg-label-danger rounded-pill <?php break; ?>
+                            <?php case ('refuse_return'): ?> bg-label-danger rounded-pill <?php break; ?>
+                            <?php case ('sent_information'): ?> bg-label-primary rounded-pill <?php break; ?>
+                            <?php case ('return_approved'): ?> bg-label-danger rounded-pill <?php break; ?>
+                            <?php case ('returned_item_received'): ?> bg-label-danger rounded-pill <?php break; ?>
+                            <?php case ('refund_completed'): ?> bg-label-danger rounded-pill <?php break; ?>
+                            <?php default: ?> bg-secondary
+                        <?php endswitch; ?>">
+                        <?php echo e([
                             'pending' => 'Chờ xác nhận',
                             'confirmed' => 'Xác nhận',
                             'shipping' => 'Chờ giao hàng',
@@ -57,72 +57,67 @@
                             'return_approved' => 'Chấp nhận trả hàng',
                             'returned_item_received' => 'Đã nhận được hàng trả lại',
                             'refund_completed' => 'Hoàn tiền thành công',
-                        ][$order->status] ?? 'Không rõ' }}
+                        ][$order->status] ?? 'Không rõ'); ?>
+
                     </span>
                 </div>
-                @php
+                <?php
                     use Carbon\Carbon;
                     $orderDate = $order->order_date
                         ? Carbon::parse($order->order_date)->setTimezone('Asia/Ho_Chi_Minh')
                         : null;
-                @endphp
+                ?>
                 <p class="mt-1 mb-0">
-                    Ngày {{ $orderDate?->format('d') }},
-                    Tháng {{ $orderDate?->format('m') }}
-                    Năm {{ $orderDate?->format('Y') }},
-                    {{ $orderDate?->format('h:i A') }}
+                    Ngày <?php echo e($orderDate?->format('d')); ?>,
+                    Tháng <?php echo e($orderDate?->format('m')); ?>
+
+                    Năm <?php echo e($orderDate?->format('Y')); ?>,
+                    <?php echo e($orderDate?->format('h:i A')); ?>
+
                 </p>
             </div>
             <div class="d-flex align-content-center flex-wrap gap-2">
-                <a class="btn btn-info" href="{{ route('orders.index') }}">Quay Lại</a>
-                {{-- @if (isset($rufund) && $rufund->order_id === $order->id)
-                    <a class="btn btn-success" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#rufund">Lý
-                        do
-                        hoàn hàng</a>
-                @endif --}}
+                <a class="btn btn-info" href="<?php echo e(route('orders.index')); ?>">Quay Lại</a>
+                
 
-                @if ($order->status == 'pending')
-                    {{-- <form action="{{ route('orders.cancel', $order->id) }}" method="post">
-                        @csrf
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancel">Hủy
-                            đơn</button>
-                    </form> --}}
-                    <form action="{{ route('orders.confirmed', $order->id) }}" method="post">
-                        @csrf
+                <?php if($order->status == 'pending'): ?>
+                    
+                    <form action="<?php echo e(route('orders.confirmed', $order->id)); ?>" method="post">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc chắn?')">Xác
                             nhận</button>
                     </form>
-                @elseif ($order->status == 'confirmed')
-                    <form action="{{ route('orders.shipping', $order->id) }}" method="post">
-                        @csrf
+                <?php elseif($order->status == 'confirmed'): ?>
+                    <form action="<?php echo e(route('orders.shipping', $order->id)); ?>" method="post">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="btn btn-warning" onclick="return confirm('Bạn có chắc chắn?')">Chờ
                             giao hàng</button>
                     </form>
-                @elseif ($order->status == 'shipping')
-                    <form action="{{ route('orders.delivered', $order->id) }}" method="post">
-                        @csrf
+                <?php elseif($order->status == 'shipping'): ?>
+                    <form action="<?php echo e(route('orders.delivered', $order->id)); ?>" method="post">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="btn btn-success" onclick="return confirm('Bạn có chắc chắn?')">Đang
                             giao hàng</button>
                     </form>
-                @elseif ($order->status == 'canceled')
+                <?php elseif($order->status == 'canceled'): ?>
                     <form action="" method="post">
-                        @csrf
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="btn btn-danger">Xóa</button>
                     </form>
-                @elseif ($order->status == 'return_request')
+                <?php elseif($order->status == 'return_request'): ?>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#refuse">Từ
                         chối</button>
-                @elseif ($order->status == 'return_approved')
-                    <form action="{{ route('orders.returned_item_received', $order->id) }}" method="post">
-                        @csrf
+                <?php elseif($order->status == 'return_approved'): ?>
+                    <form action="<?php echo e(route('orders.returned_item_received', $order->id)); ?>" method="post">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="btn btn-danger">Kiểm tra hàng hoàn</button>
                     </form>
-                @elseif ($order->status == 'returned_item_received' || $order->status == 'sent_information')
-                    <form action="{{ route('orders.refund_completed', $order->id) }}" method="post">
-                        @csrf
+                <?php elseif($order->status == 'returned_item_received' || $order->status == 'sent_information'): ?>
+                    <form action="<?php echo e(route('orders.refund_completed', $order->id)); ?>" method="post">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="btn btn-danger">Hoàn tiền</button>
                     </form>
-                @endif
+                <?php endif; ?>
             </div>
         </div>
         <!-- Order Details Table -->
@@ -143,79 +138,81 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($order->orderDetails as $item)
-                                    @if ($item->product)
+                                <?php $__currentLoopData = $order->orderDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php if($item->product): ?>
                                         <tr>
                                             <td>
                                                 <div class="d-flex justify-content-start align-items-center">
                                                     <div class="avatar me-2 pe-1">
-                                                        @if ($item->product->img_thumbnail)
+                                                        <?php if($item->product->img_thumbnail): ?>
                                                             <img class="rounded-2"
-                                                                src="{{ Storage::url($item->product->img_thumbnail) }}"
+                                                                src="<?php echo e(Storage::url($item->product->img_thumbnail)); ?>"
                                                                 width="50px" alt="">
-                                                        @else
-                                                            <img src="{{ asset('images/default-thumbnail.png') }}"
+                                                        <?php else: ?>
+                                                            <img src="<?php echo e(asset('images/default-thumbnail.png')); ?>"
                                                                 width="50px" alt="Default Image">
-                                                        @endif
+                                                        <?php endif; ?>
                                                     </div>
                                                     <div>
-                                                        <span>{{ $item->product->name }}
+                                                        <span><?php echo e($item->product->name); ?>
+
                                                         </span>
                                                     </div>
                                                 </div>
                                             </td>
-                                            @if ($item->product->price_sale == '')
-                                                <td>{{ number_format($item->product->base_price, 0, ',', '.') }}</td>
-                                            @else
-                                                <td>{{ number_format($item->product->price_sale, 0, ',', '.') }}</td>
-                                            @endif
-                                            <td>{{ $item->quantity }}</td>
-                                            <td>{{ number_format($item->total_price, 0, ',', '.') }} VND</td>
+                                            <?php if($item->product->price_sale == ''): ?>
+                                                <td><?php echo e(number_format($item->product->base_price, 0, ',', '.')); ?></td>
+                                            <?php else: ?>
+                                                <td><?php echo e(number_format($item->product->price_sale, 0, ',', '.')); ?></td>
+                                            <?php endif; ?>
+                                            <td><?php echo e($item->quantity); ?></td>
+                                            <td><?php echo e(number_format($item->total_price, 0, ',', '.')); ?> VND</td>
                                         </tr>
-                                    @else
+                                    <?php else: ?>
                                         <tr>
                                             <td>
                                                 <div class="d-flex justify-content-start align-items-center mb-1">
                                                     <div class="avatar me-2 pe-1">
-                                                        @if ($item->variant && $item->variant->product->img_thumbnail)
+                                                        <?php if($item->variant && $item->variant->product->img_thumbnail): ?>
                                                             <img class="rounded-2"
-                                                                src="{{ Storage::url($item->variant->product->img_thumbnail) }}"
+                                                                src="<?php echo e(Storage::url($item->variant->product->img_thumbnail)); ?>"
                                                                 width="50px" alt="">
-                                                        @else
-                                                            <img src="{{ asset('images/default-thumbnail.png') }}"
+                                                        <?php else: ?>
+                                                            <img src="<?php echo e(asset('images/default-thumbnail.png')); ?>"
                                                                 width="50px" alt="Default Image">
-                                                        @endif
+                                                        <?php endif; ?>
                                                     </div>
                                                     <div>
-                                                        <strong>{{ optional($item->variant)->product->name }}
+                                                        <strong><?php echo e(optional($item->variant)->product->name); ?>
+
                                                         </strong>
                                                     </div>
                                                 </div>
                                                 <span>
-                                                    @foreach ($item->variant->attributes as $attribute)
-                                                        @if (!$loop->first)
+                                                    <?php $__currentLoopData = $item->variant->attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php if(!$loop->first): ?>
                                                             <br>
-                                                        @endif
-                                                        {{ $attribute->attribute->name }}:
-                                                        @if (!$loop->first)
-                                                        @endif
-                                                        {{ $attribute->attributeValue->value }}.
-                                                    @endforeach
+                                                        <?php endif; ?>
+                                                        <?php echo e($attribute->attribute->name); ?>:
+                                                        <?php if(!$loop->first): ?>
+                                                        <?php endif; ?>
+                                                        <?php echo e($attribute->attributeValue->value); ?>.
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </span>
                                             </td>
-                                            <td>{{ number_format($item->variant->selling_price, 0, ',', '.') }}</td>
-                                            <td>{{ $item->quantity }}</td>
-                                            <td>{{ number_format($item->total_price, 0, ',', '.') }}</td>
+                                            <td><?php echo e(number_format($item->variant->selling_price, 0, ',', '.')); ?></td>
+                                            <td><?php echo e($item->quantity); ?></td>
+                                            <td><?php echo e(number_format($item->total_price, 0, ',', '.')); ?></td>
                                         </tr>
-                                    @endif
-                                @endforeach
+                                    <?php endif; ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>
                         </table>
                         <div class="d-flex justify-content-end align-items-center m-3 p-1">
                             <div class="order-calculations">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <span class="w-px-100 text-heading fw-bold">Tổng cộng:</span>
-                                    <h6 class="mb-0">{{ number_format($item->order->total_price, 0, ',', '.') }} VND
+                                    <h6 class="mb-0"><?php echo e(number_format($item->order->total_price, 0, ',', '.')); ?> VND
                                     </h6>
                                 </div>
                             </div>
@@ -228,35 +225,36 @@
                     </div>
                     <div class="card-body mt-3">
                         <ul class="timeline pb-0 mb-0">
-                            @php
+                            <?php
                                 $hasReceived = false;
-                            @endphp
+                            ?>
 
-                            @foreach ($events as $item)
-                                @if ($item->name === 'Giao hàng thành công')
-                                    @php $hasReceived = true; @endphp
-                                @endif
-                            @endforeach
+                            <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($item->name === 'Giao hàng thành công'): ?>
+                                    <?php $hasReceived = true; ?>
+                                <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                            @foreach ($events as $item)
-                                @if ($item->name !== 'Đang giao hàng' && $item->name !== 'Giao hàng thành công')
+                            <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($item->name !== 'Đang giao hàng' && $item->name !== 'Giao hàng thành công'): ?>
                                     <li
-                                        class="timeline-item timeline-item-transparent {{ !$loop->last ? 'border-primary' : 'border-transparent' }}">
+                                        class="timeline-item timeline-item-transparent <?php echo e(!$loop->last ? 'border-primary' : 'border-transparent'); ?>">
                                         <span class="timeline-point-wrapper"> <span
                                                 class="timeline-point timeline-point-primary"></span> </span>
                                         <div class="timeline-event">
                                             <div class="timeline-header">
-                                                <h6 class="mb-0">{{ $item->name }}</h6>
-                                                <span class="text-muted">{{ date('d/m/Y', strtotime($item->created_at)) }}
+                                                <h6 class="mb-0"><?php echo e($item->name); ?></h6>
+                                                <span class="text-muted"><?php echo e(date('d/m/Y', strtotime($item->created_at))); ?>
+
                                                     |
-                                                    {{ $item->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('h:i A') }}</span>
+                                                    <?php echo e($item->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('h:i A')); ?></span>
                                             </div>
-                                            <p class="mt-2">{{ $item->note }}</p>
+                                            <p class="mt-2"><?php echo e($item->note); ?></p>
                                         </div>
                                     </li>
-                                @elseif ($item->name === 'Đang giao hàng')
-                                    {{-- Hiển thị "Giao hàng thành công" nếu chưa có trong danh sách --}}
-                                    @if (!$hasReceived)
+                                <?php elseif($item->name === 'Đang giao hàng'): ?>
+                                    
+                                    <?php if(!$hasReceived): ?>
                                         <li class="timeline-item timeline-item-transparent">
                                             <span class="timeline-point-wrapper"> <span
                                                     class="timeline-point timeline-point-secondary"></span> </span>
@@ -266,39 +264,41 @@
                                                 </div>
                                             </div>
                                         </li>
-                                    @endif
-                                    {{-- Hiển thị trạng thái "Đang giao hàng" --}}
+                                    <?php endif; ?>
+                                    
                                     <li
-                                        class="timeline-item timeline-item-transparent {{ !$loop->last ? 'border-primary' : 'border-transparent' }}">
+                                        class="timeline-item timeline-item-transparent <?php echo e(!$loop->last ? 'border-primary' : 'border-transparent'); ?>">
                                         <span class="timeline-point-wrapper"> <span
                                                 class="timeline-point timeline-point-primary"></span> </span>
                                         <div class="timeline-event">
                                             <div class="timeline-header">
-                                                <h6 class="mb-0">{{ $item->name }}</h6>
-                                                <span class="text-muted">{{ date('d/m/Y', strtotime($item->created_at)) }}
+                                                <h6 class="mb-0"><?php echo e($item->name); ?></h6>
+                                                <span class="text-muted"><?php echo e(date('d/m/Y', strtotime($item->created_at))); ?>
+
                                                     |
-                                                    {{ $item->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('h:i A') }}</span>
+                                                    <?php echo e($item->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('h:i A')); ?></span>
                                             </div>
-                                            <p class="mt-2">{{ $item->note }}</p>
+                                            <p class="mt-2"><?php echo e($item->note); ?></p>
                                         </div>
                                     </li>
-                                @elseif ($item->name === 'Giao hàng thành công')
+                                <?php elseif($item->name === 'Giao hàng thành công'): ?>
                                     <li
-                                        class="timeline-item timeline-item-transparent {{ !$loop->last ? 'border-primary' : 'border-transparent' }}">
+                                        class="timeline-item timeline-item-transparent <?php echo e(!$loop->last ? 'border-primary' : 'border-transparent'); ?>">
                                         <span class="timeline-point-wrapper"> <span
                                                 class="timeline-point timeline-point-primary"></span></span>
                                         <div class="timeline-event">
                                             <div class="timeline-header">
-                                                <h6 class="mb-0">{{ $item->name }}</h6>
-                                                <span class="text-muted">{{ date('d/m/Y', strtotime($item->created_at)) }}
+                                                <h6 class="mb-0"><?php echo e($item->name); ?></h6>
+                                                <span class="text-muted"><?php echo e(date('d/m/Y', strtotime($item->created_at))); ?>
+
                                                     |
-                                                    {{ $item->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('h:i A') }}</span>
+                                                    <?php echo e($item->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('h:i A')); ?></span>
                                             </div>
-                                            <p class="mt-2">{{ $item->note }}</p>
+                                            <p class="mt-2"><?php echo e($item->note); ?></p>
                                         </div>
                                     </li>
-                                @endif
-                            @endforeach
+                                <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </ul>
                     </div>
                 </div>
@@ -309,33 +309,33 @@
                         <h6 class="card-title mb-4">Chi tiết khách hàng</h6>
                         <div class="d-flex justify-content-start align-items-center mb-4">
                             <div class="avatar me-2">
-                                @if ($order->user->avatar)
-                                    <img src="{{ Storage::url($order->user->avatar) }}" alt="Avatar"
+                                <?php if($order->user->avatar): ?>
+                                    <img src="<?php echo e(Storage::url($order->user->avatar)); ?>" alt="Avatar"
                                         class="rounded-circle">
-                                @else
-                                    <img src="{{ asset('themes/image/logo.jpg') }}" alt="Avatar"
+                                <?php else: ?>
+                                    <img src="<?php echo e(asset('themes/image/logo.jpg')); ?>" alt="Avatar"
                                         class="rounded-circle">
-                                @endif
+                                <?php endif; ?>
 
                             </div>
                             <div class="d-flex flex-column">
                                 <a href="app-user-view-account.html">
-                                    <h6 class="mb-1">{{ $order->user->name }}</h6>
+                                    <h6 class="mb-1"><?php echo e($order->user->name); ?></h6>
                                 </a>
-                                <small>Mã khách hàng: #{{ $order->user->id }}</small>
+                                <small>Mã khách hàng: #<?php echo e($order->user->id); ?></small>
                             </div>
                         </div>
                         <div class="d-flex justify-content-start align-items-center mb-4">
                             <span
                                 class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i
                                     class='mdi mdi-cart-plus mdi-24px'></i></span>
-                            <h6 class="text-nowrap mb-0">{{ $order->count('user_id') }} Đơn Hàng</h6>
+                            <h6 class="text-nowrap mb-0"><?php echo e($order->count('user_id')); ?> Đơn Hàng</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-2">Thông tin liên lạc</h6>
                         </div>
-                        <p class=" mb-1">Email: {{ $order->user->email }}</p>
-                        <p class=" mb-0">Số điện thoại: {{ $order->user->phone }}</p>
+                        <p class=" mb-1">Email: <?php echo e($order->user->email); ?></p>
+                        <p class=" mb-0">Số điện thoại: <?php echo e($order->user->phone); ?></p>
                     </div>
                 </div>
 
@@ -345,17 +345,20 @@
                         <h6 class="card-title m-0">Địa chỉ giao hàng</h6>
                     </div>
                     <div class="card-body">
-                        <p class="mb-0">Địa chỉ: {{ $order->address->address }}, {{ $order->address->ward }}
-                            <br> {{ $order->address->district }}
-                            <br>Tỉnh/Thành Phố: {{ $order->address->province }}
-                            {{ $order->user_address }}<br>Việt Nam
+                        <p class="mb-0">Địa chỉ: <?php echo e($order->address->address); ?>, <?php echo e($order->address->ward); ?>
+
+                            <br> <?php echo e($order->address->district); ?>
+
+                            <br>Tỉnh/Thành Phố: <?php echo e($order->address->province); ?>
+
+                            <?php echo e($order->user_address); ?><br>Việt Nam
                         </p>
                     </div>
                 </div>
             </div>
         </div>
 
-        @if (isset($rufund) && $rufund->order_id === $order->id)
+        <?php if(isset($rufund) && $rufund->order_id === $order->id): ?>
             <!-- Refund Modal-->
             <div class="modal fade" id="rufund" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-simple modal-edit-user">
@@ -367,12 +370,12 @@
                                 <h3 class="mb-2">Yêu cầu trả hàng / hoàn tiền</h3>
                                 <p class="pt-1">Thông tin chi tiết Yêu cầu trả hàng / hoàn tiền</p>
                             </div>
-                            <form action="{{ route('orders.return_request', $order->id) }}" class="row g-4"
+                            <form action="<?php echo e(route('orders.return_request', $order->id)); ?>" class="row g-4"
                                 method="POST">
-                                @csrf
+                                <?php echo csrf_field(); ?>
                                 <div class="col-12 col-md-6">
                                     <div class="form-floating form-floating-outline">
-                                        <input type="text" class="form-control" value="{{ $rufund->reason }}"
+                                        <input type="text" class="form-control" value="<?php echo e($rufund->reason); ?>"
                                             disabled />
                                         <label for="reason">Lý do trả hàng / hoàn tiền</label>
                                     </div>
@@ -380,62 +383,62 @@
                                 <div class="col-12 col-md-6">
                                     <div class="form-floating form-floating-outline">
                                         <input type="text" class="form-control"
-                                            value="{{ number_format($rufund->total_amount, 0, ',', '.') }} VNĐ"
+                                            value="<?php echo e(number_format($rufund->total_amount, 0, ',', '.')); ?> VNĐ"
                                             disabled />
                                         <label for="total_amount">Số tiền hoàn lại</label>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-12">
                                     <div class="form-floating form-floating-outline">
-                                        <input type="text" class="form-control" value="{{ $rufund->refund_on }}"
+                                        <input type="text" class="form-control" value="<?php echo e($rufund->refund_on); ?>"
                                             disabled />
                                         <label for="refund_on">Hoàn tiền vào ( Ngân Hàng/STK/Chủ Tài Khoản )</label>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-12">
                                     <div class="form-floating form-floating-outline">
-                                        <textarea class="form-control" cols="30" rows="10" disabled>{{ $rufund->note }}</textarea>
+                                        <textarea class="form-control" cols="30" rows="10" disabled><?php echo e($rufund->note); ?></textarea>
                                         <label for="modalEditUserEmail">Mô tả</label>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-12 mt-2">
                                     <label for="modalEditUserEmail">Ảnh chứng minh</label>
                                     <div class="form-floating form-floating-outline">
-                                        @foreach ($prove_refunds as $item)
-                                            @if ($item->image)
+                                        <?php $__currentLoopData = $prove_refunds; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if($item->image): ?>
                                                 <img id="myImg" class="rounded-2"
-                                                    src="{{ Storage::url($item->image) }}" width="80px">
-                                            @endif
-                                        @endforeach
+                                                    src="<?php echo e(Storage::url($item->image)); ?>" width="80px">
+                                            <?php endif; ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-12 mt-2">
                                     <label for="modalEditUserEmail">Video chứng minh</label>
                                     <div class="form-floating form-floating-outline">
-                                        @foreach ($prove_refunds as $item)
-                                            @if ($item->video)
-                                                <video class="rounded-2" controls src="{{ Storage::url($item->video) }}"
+                                        <?php $__currentLoopData = $prove_refunds; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if($item->video): ?>
+                                                <video class="rounded-2" controls src="<?php echo e(Storage::url($item->video)); ?>"
                                                     width="80px"></video>
-                                            @endif
-                                        @endforeach
+                                            <?php endif; ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-12">
                                     <div class="form-floating form-floating-outline">
-                                        <input type="text" class="form-control" value="{{ $rufund->email }}"
+                                        <input type="text" class="form-control" value="<?php echo e($rufund->email); ?>"
                                             disabled />
                                         <label for="Email">Email</label>
                                     </div>
                                 </div>
                                 <div class="col-12 text-center">
-                                    @if ($order->status === 'return_request')
+                                    <?php if($order->status === 'return_request'): ?>
                                         <button type="submit" class="btn btn-primary me-sm-3 me-1">Xác nhận</button>
                                         <button type="button" data-bs-dismiss="modal" aria-label="Close"
                                             class="btn btn-outline-secondary">
                                             Quay lại
                                         </button>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </form>
                         </div>
@@ -443,7 +446,7 @@
                 </div>
             </div>
             <!--/ Refund Modal -->
-        @endif
+        <?php endif; ?>
         <div class="col-6">
             <div id="myModal" class="modal col-6">
                 <span class="close" id="closeBtn">&times;</span>
@@ -460,24 +463,7 @@
                             <h3 class="mb-2">Lý do từ chối yêu cầu trả hàng / hoàn tiền</h3>
                             <p class="pt-1">Thông tin sẽ được gửi đến người mua hàng</p>
                         </div>
-                        {{-- <form action="{{ route('orders.refuse_return', $order->id) }}" class="row g-4" method="POST">
-                            @csrf
-                            <div class="col-12 col-md-12">
-                                <div class="form-floating form-floating-outline">
-                                    <textarea name="note"cols="30" rows="10" class="form-control"></textarea>
-                                    <label for="modalEditUserFirstName">Lý do từ chối</label>
-                                </div>
-                                @error('note')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Gửi</button>
-                                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal"
-                                    aria-label="Close">Hủy bỏ</button>
-                            </div>
-                        </form> --}}
+                        
                     </div>
                 </div>
             </div>
@@ -492,32 +478,15 @@
                             <h3 class="mb-2">Lý do hủy đơn hàng</h3>
                             <p class="pt-1">Thông tin sẽ được gửi đến người mua hàng</p>
                         </div>
-                        {{-- <form action="{{ route('orders.cancel', $order->id) }}" class="row g-4" method="POST">
-                            @csrf
-                            <div class="col-12 col-md-12">
-                                <div class="form-floating form-floating-outline">
-                                    <textarea name="note"cols="30" rows="10" class="form-control" placeholder="Lý do từ chối..."></textarea>
-                                    <label for="note">Lý do từ chối</label>
-                                </div>
-                                @error('note')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Gửi</button>
-                                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal"
-                                    aria-label="Close">Hủy bỏ</button>
-                            </div>
-                        </form> --}}
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- / Content -->
-@endsection
-@section('style-libs')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('style-libs'); ?>
     <style>
         .modal-contents {
             margin: 15% auto;
@@ -526,8 +495,8 @@
             max-width: 600px;
         }
     </style>
-@endsection
-@section('script-libs')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script-libs'); ?>
     <script>
         document.getElementById('flexCheckChecked').addEventListener('change', function() {
             const additionalInput = document.getElementById('additionalInput');
@@ -563,7 +532,9 @@
             }
         }
     </script>
-    <script src="{{ asset('themes') }}/admin/vendor/libs/cleavejs/cleave.js"></script>
-    <script src="{{ asset('themes') }}/admin/vendor/libs/cleavejs/cleave-phone.js"></script>
-    <script src="{{ asset('themes') }}/admin/js/app-ecommerce-order-details.js"></script>
-@endsection
+    <script src="<?php echo e(asset('themes')); ?>/admin/vendor/libs/cleavejs/cleave.js"></script>
+    <script src="<?php echo e(asset('themes')); ?>/admin/vendor/libs/cleavejs/cleave-phone.js"></script>
+    <script src="<?php echo e(asset('themes')); ?>/admin/js/app-ecommerce-order-details.js"></script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/orders/show.blade.php ENDPATH**/ ?>

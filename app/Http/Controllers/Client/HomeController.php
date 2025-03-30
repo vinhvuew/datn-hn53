@@ -18,12 +18,11 @@ class HomeController extends Controller
 
     public function home()
     {
-        $latestProducts = Product::all();
-        $discountedProducts = Product::all();
-        $topSellingProducts = Product::all();
-        $brands = Brand::all();
+        $featuredProducts = Product::where('is_show_home', true)->latest()->limit(8)->get();
+        $goodDeals = Product::where('is_good_deal', true)->orderBy('price_sale', 'asc')->get();
+        $newProducts = Product::orderBy('created_at', 'desc')->limit(8)->get();
 
-        return view(self::PATH_VIEW . __FUNCTION__, compact('latestProducts', 'discountedProducts', 'topSellingProducts', 'brands'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('featuredProducts', 'goodDeals', 'newProducts'));
     }
 
 

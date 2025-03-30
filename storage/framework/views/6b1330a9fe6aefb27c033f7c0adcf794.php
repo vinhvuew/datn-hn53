@@ -36,7 +36,7 @@
                                     <th>Số Điện Thoại</th>
                                     <th>Địa Chỉ</th>
                                     <th>Vai Trò</th>
-                                    <th class="text-center">Chức Năng</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,16 +62,7 @@
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </td>
-                                            <td class="text-center align-middle">
-                                                <form class="delete-form d-inline" data-user-id="<?php echo e($user->id); ?>"
-                                                    data-user-name="<?php echo e($user->name); ?>">
-                                                    <?php echo csrf_field(); ?>
-                                                    <?php echo method_field('DELETE'); ?>
-                                                    <button type="button" class="btn btn-danger btn-sm delete-user">
-                                                        <i class="fas fa-trash-alt"></i> Xóa
-                                                    </button>
-                                                </form>
-                                            </td>
+                                            
                                         </tr>
                                     <?php endif; ?>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -116,7 +107,7 @@
                                 .then(response => response.json())
                                 .then(data => {
                                     console.log(
-                                    data); // Debug kiểm tra phản hồi từ server
+                                        data); // Debug kiểm tra phản hồi từ server
                                     if (data.success) {
                                         Swal.fire("Đã xóa!", "Người dùng đã bị xóa.",
                                             "success");
@@ -134,12 +125,12 @@
                                         "error");
                                 });
 
-                            }
+                        }
                     });
                 });
             });
 
-            // Xử lý sự kiện THAY ĐỔI VAI TRÒ bằng SweetAlert2 + AJAX 
+            // Xử lý sự kiện THAY ĐỔI VAI TRÒ bằng SweetAlert2 + AJAX
             document.querySelectorAll('.role-select').forEach(select => {
                 select.addEventListener('change', function() {
                     let userId = this.getAttribute('data-user-id');

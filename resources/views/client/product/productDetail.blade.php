@@ -156,12 +156,15 @@
                                         <label for=""> <strong>Đơn giá:</strong> </label>
 
                                         @if ($product->price_sale > 0 && $product->price_sale < $product->base_price)
-                                            <span class="new_price text-danger">{{ number_format($product->price_sale, 0, ',', '.') }} VND</span>
+                                            <span
+                                                class="new_price text-danger">{{ number_format($product->price_sale, 0, ',', '.') }}
+                                                VND</span>
                                             <span class="old_price text-muted" style="text-decoration: line-through;">
                                                 {{ number_format($product->base_price, 0, ',', '.') }} VND
                                             </span>
                                         @else
-                                            <span class="new_price">{{ number_format($product->base_price, 0, ',', '.') }} VND</span>
+                                            <span class="new_price">{{ number_format($product->base_price, 0, ',', '.') }}
+                                                VND</span>
                                         @endif
                                     </div>
 
@@ -293,8 +296,8 @@
                                     <div class="col-lg-6">
                                         <div class="product-description">
                                             <h4>Thông tin sản phẩm:</h4> {{ $product->name }}
-                                           <h4>Đặc Điểm Nổi Bật:</h4> {{ $product->content }}
-                                            
+                                            <h4>Đặc Điểm Nổi Bật:</h4> {{ $product->content }}
+
 
                                         </div>
                                     </div>
@@ -319,9 +322,8 @@
 
         <div class="container margin_60_35">
             <div class="main_title">
-                <h2>Sản phẩm cùng danh mục</h2>
-                <span>Products</span>
-                <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
+                <h2>SẢN PHẨM CÙNG DANH MỤC</h2>
+                <span>SẢN PHẨM CÙNG DANH MỤC</span>
             </div>
             <div class="owl-carousel owl-theme products_carousel">
 
@@ -366,7 +368,7 @@
                         </div>
                     @endforeach
                 @else
-                    <p>Không có sản phẩm cùng danh mục.</p>
+                    <h3 class="">KHÔNG CÓ SẢN PHẨM CÙNG DANH MỤC</h3>
                 @endif
                 <!-- /item -->
             </div>
@@ -502,12 +504,10 @@
         });
         // cách dòng trong mô tả
         document.addEventListener("DOMContentLoaded", function() {
-    let productContent = document.querySelector(".product-description p");
-    if (productContent) {
-        productContent.innerHTML = productContent.innerHTML.replace(/\.\s*/g, '.<br>');
-    }
-});
-
+            let productContent = document.querySelector(".product-description p");
+            if (productContent) {
+                productContent.innerHTML = productContent.innerHTML.replace(/\.\s*/g, '.<br>');
+            }
+        });
     </script>
-    
 @endsection

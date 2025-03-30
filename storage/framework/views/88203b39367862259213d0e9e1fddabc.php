@@ -106,7 +106,7 @@
                                     <th>Tên người dùng</th>
                                     <th>Email</th>
                                     <th>Vai trò</th>
-                                    <th>Hành động</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -116,6 +116,7 @@
                                             <td><?php echo e($item->id); ?></td>
                                             <td><?php echo e($item->name); ?></td>
                                             <td><?php echo e($item->email); ?></td>
+
                                             <td>
                                                 <?php if($item->role_id == 1): ?>
                                                     <span
@@ -140,28 +141,7 @@
                                                     </span>
                                                 <?php endif; ?>
                                             </td>
-                                            <td>
-                                                <div class="d-flex justify-content-center align-content-center">
-                                                    <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Xem"
-                                                        class="btn btn-info btn-sm me-1"
-                                                        href="<?php echo e(route('permissions.edit', $value->id)); ?>">
-                                                        <i class="bx bxs-show"></i>
-                                                    </a>
-
-                                                    <form id="delete-form-<?php echo e($value->id); ?>"
-                                                        action="<?php echo e(route('permissions.destroy', $value->id)); ?>"
-                                                        method="POST" class="d-inline">
-                                                        <?php echo csrf_field(); ?>
-                                                        <?php echo method_field('delete'); ?>
-                                                        <button type="button" data-bs-toggle="tooltip"
-                                                            data-bs-placement="top" data-bs-title="Xóa"
-                                                            class="btn btn-danger btn-sm me-1"
-                                                            onclick="confirmDelete(<?php echo e($value->id); ?>)">
-                                                            <i class='bx bxs-trash'></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
+                                            
                                         </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -176,191 +156,7 @@
 
         <!--  Modal -->
         <!-- Add Role Modal -->
-        <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
-                <div class="modal-content p-3 p-md-5">
-                    <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <div class="modal-body p-md-0">
-                        <div class="text-center mb-4">
-                            <h3 class="role-title mb-2 pb-0">Thêm vai trò mới</h3>
-                            <p>Thiết lập quyền vai trò</p>
-                        </div>
-                        <!-- Add role form -->
-                        <form action="<?php echo e(route('permissions.updateGant')); ?>" id="addRoleForm" class="row g-3"
-                            method="POST">
-                            <?php echo csrf_field(); ?>
-                            <div class="col-12">
-                                <h5>Quyền vai trò</h5>
-                                <!-- Permission table -->
-                                <div class="table-responsive">
-                                    <table class="table table-flush-spacing">
-                                        <tbody>
-                                            <tr>
-                                                <td class="text-nowrap fw-medium">Quyền truy cập của quản trị viên <i
-                                                        class="mdi mdi-information-outline" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top"
-                                                        title="Cho phép truy cập đầy đủ vào hệ thống"></i></td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="selectAll" />
-                                                        <label class="form-check-label" for="selectAll">
-                                                            Chọn tất cả
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-nowrap fw-medium">Quản lý người dùng</td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <?php
-                                                            $category = [
-                                                                'categories.index' => 'Xem',
-                                                                'categories.create' => 'Thêm',
-                                                                'categories.edit' => 'Sửa',
-                                                            ];
-                                                            $products = [
-                                                                'products.index' => 'Xem',
-                                                                'products.create' => 'Thêm',
-                                                                'products.edit' => 'Sửa',
-                                                            ];
-                                                            $attribute = [
-                                                                'attributes.index' => 'Xem',
-                                                                'attributes.create' => 'Thêm',
-                                                                'attributes.edit' => 'Sửa',
-                                                            ];
-                                                            $attribute_value = [
-                                                                'attribute_values.index' => 'Xem',
-                                                                'attribute_values.create' => 'Thêm',
-                                                                'attribute_values.edit' => 'Sửa',
-                                                            ];
-                                                            $permissions = [
-                                                                'permissions.index' => 'Xem',
-                                                                'permissions.create' => 'Thêm',
-                                                                'permissions.edit' => 'Sửa',
-                                                            ];
-                                                        ?>
-
-                                                        <?php $__currentLoopData = $permissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $slug => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <?php if($item->slug == $slug): ?>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" id="role_id"
-                                                                        type="checkbox"
-                                                                        <?php echo e($item->roles->contains(1) ? 'checked' : ''); ?>
-
-                                                                        name="permissions[][]"
-                                                                        value="<?php echo e($item->id); ?>" />
-                                                                    <label class="form-check-label" for="permissions[]">
-                                                                        <?php echo e($label); ?>
-
-                                                                    </label>
-                                                                </div>
-                                                            <?php endif; ?>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-nowrap fw-medium">Quản lý danh mục</td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <div class="form-check me-3 me-lg-5">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="dbManagementRead" />
-                                                            <label class="form-check-label" for="dbManagementRead">
-                                                                Đọc
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check me-3 me-lg-5">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="dbManagementWrite" />
-                                                            <label class="form-check-label" for="dbManagementWrite">
-                                                                Viết
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="dbManagementCreate" />
-                                                            <label class="form-check-label" for="dbManagementCreate">
-                                                                Tạo
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-nowrap fw-medium">Quản lý sản phẩm</td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <div class="form-check me-3 me-lg-5">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="finManagementRead" />
-                                                            <label class="form-check-label" for="finManagementRead">
-                                                                Đọc
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check me-3 me-lg-5">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="finManagementWrite" />
-                                                            <label class="form-check-label" for="finManagementWrite">
-                                                                Viết
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="finManagementCreate" />
-                                                            <label class="form-check-label" for="finManagementCreate">
-                                                                Tạo
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-nowrap fw-medium">Quản lý thuộc tính</td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <div class="form-check me-3 me-lg-5">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="reportingRead" />
-                                                            <label class="form-check-label" for="reportingRead">
-                                                                Đọc
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check me-3 me-lg-5">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="reportingWrite" />
-                                                            <label class="form-check-label" for="reportingWrite">
-                                                                Viết
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="reportingCreate" />
-                                                            <label class="form-check-label" for="reportingCreate">
-                                                                Tạo
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- Permission table -->
-                            </div>
-                            <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Xác Nhận</button>
-                                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal"
-                                    aria-label="Close">Hủy bỏ</button>
-                            </div>
-                        </form>
-                        <!--/ Add role form -->
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
 <?php $__env->stopSection(); ?>
 

@@ -37,7 +37,7 @@
                                     <th>Số Điện Thoại</th>
                                     <th>Địa Chỉ</th>
                                     <th>Vai Trò</th>
-                                    <th class="text-center">Chức Năng</th>
+                                    {{-- <th class="text-center">Chức Năng</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,7 +62,7 @@
                                                     @endforeach
                                                 </select>
                                             </td>
-                                            <td class="text-center align-middle">
+                                            {{-- <td class="text-center align-middle">
                                                 <form class="delete-form d-inline" data-user-id="{{ $user->id }}"
                                                     data-user-name="{{ $user->name }}">
                                                     @csrf
@@ -71,7 +71,7 @@
                                                         <i class="fas fa-trash-alt"></i> Xóa
                                                     </button>
                                                 </form>
-                                            </td>
+                                            </td> --}}
                                         </tr>
                                     @endif
                                 @endforeach
@@ -116,7 +116,7 @@
                                 .then(response => response.json())
                                 .then(data => {
                                     console.log(
-                                    data); // Debug kiểm tra phản hồi từ server
+                                        data); // Debug kiểm tra phản hồi từ server
                                     if (data.success) {
                                         Swal.fire("Đã xóa!", "Người dùng đã bị xóa.",
                                             "success");
@@ -134,12 +134,12 @@
                                         "error");
                                 });
 
-                            }
+                        }
                     });
                 });
             });
 
-            // Xử lý sự kiện THAY ĐỔI VAI TRÒ bằng SweetAlert2 + AJAX 
+            // Xử lý sự kiện THAY ĐỔI VAI TRÒ bằng SweetAlert2 + AJAX
             document.querySelectorAll('.role-select').forEach(select => {
                 select.addEventListener('change', function() {
                     let userId = this.getAttribute('data-user-id');
