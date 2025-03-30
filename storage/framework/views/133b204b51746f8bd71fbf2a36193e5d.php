@@ -6,13 +6,21 @@
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item">
-            <a href="#" class="menu-link">
+        <li class="menu-item <?php echo $__env->yieldContent('item-dashboards'); ?>">
+            <a href="<?php echo e(route('admin.dashboard')); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div class="text-truncate" data-i18n="Dashboards">
                     Dashboards
                 </div>
                 <span class="badge badge-center rounded-pill bg-danger ms-auto">5</span>
+            </a>
+        </li>
+        <li class="menu-item <?php echo $__env->yieldContent('item-order'); ?>">
+            <a href="<?php echo e(route('orders.index')); ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-cart"></i>
+                <div class="text-truncate" data-i18n="Đơn hàng">
+                    Đơn hàng
+                </div>
             </a>
         </li>
         
@@ -135,27 +143,37 @@
             </ul>
 
         </li>
-        <li class="menu-item">
-            <a href="<?php echo e(route('orders')); ?>" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div class="text-truncate" data-i18n="Đơn hàng">
-                    Đơn hàng
-                </div>
-            </a>
-        </li>
-        <li class="menu-item">
+
+        <li class="menu-item <?php echo $__env->yieldContent('item-user'); ?>">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-user"></i>
-                <div class="text-truncate" data-i18n="Users">Users</div>
+                <div data-i18n="Tài Khoản">Tài Khoản</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item <?php echo $__env->yieldContent('user-index'); ?>">
                     <a href="<?php echo e(route('users.index')); ?>" class="menu-link">
-                        <div class="text-truncate" data-i18n="Danh Sách Tài Khoản">Danh Sách Tài Khoản</div>
+                        <div data-i18n="Khách hàng">Khách hàng</div>
                     </a>
                 </li>
+        
+                <?php if(auth()->user()->role_id == 1): ?> 
+                    <li class="menu-item <?php echo $__env->yieldContent('user-role'); ?>">
+                        <a href="<?php echo e(route('roles.index')); ?>" class="menu-link">
+                            <div data-i18n="Vai Trò">Vai Trò</div>
+                        </a>
+                    </li>
+                <?php endif; ?>
+        
+                
+                
+                
+                
+                
+                
+                
             </ul>
         </li>
+        
 
         <li class="menu-item">
             <a href="<?php echo e(route('comment.index')); ?>" class="menu-link">
@@ -163,19 +181,19 @@
                 <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>
             </a>
         </li>
-
-
         <li class="menu-item">
             <a href="<?php echo e(route('thongke.statistical')); ?>" class="menu-link">
                 <i class=" menu-icon fa-sharp fa-solid fa-chart-simple"></i>
                 <div class="text-truncate" data-i18n="Thống Kê">Thống Kê</div>
             </a>
         </li>
-
-
-
-
-
+        <li class="menu-item">
+            <a href="<?php echo e(route('news.index')); ?>" class="menu-link">
+                <i class="menu-icon fa-regular fa-newspaper"></i>
+                
+                <div class="text-truncate" data-i18n="Tin Tức">Tin Tức</div>
+            </a>
+        </li>
     </ul>
 </aside>
 <?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/layouts/parials/menu.blade.php ENDPATH**/ ?>

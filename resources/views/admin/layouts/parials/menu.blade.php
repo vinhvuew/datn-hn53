@@ -6,13 +6,21 @@
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item">
-            <a href="#" class="menu-link">
+        <li class="menu-item @yield('item-dashboards')">
+            <a href="{{ route('admin.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div class="text-truncate" data-i18n="Dashboards">
                     Dashboards
                 </div>
                 <span class="badge badge-center rounded-pill bg-danger ms-auto">5</span>
+            </a>
+        </li>
+        <li class="menu-item @yield('item-order')">
+            <a href="{{ route('orders.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-cart"></i>
+                <div class="text-truncate" data-i18n="Đơn hàng">
+                    Đơn hàng
+                </div>
             </a>
         </li>
         {{-- danh mục --}}
@@ -135,27 +143,37 @@
             </ul>
 
         </li>
-        <li class="menu-item">
-            <a href="{{ route('orders') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div class="text-truncate" data-i18n="Đơn hàng">
-                    Đơn hàng
-                </div>
-            </a>
-        </li>
-        <li class="menu-item">
+
+        <li class="menu-item @yield('item-user')">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-user"></i>
-                <div class="text-truncate" data-i18n="Users">Users</div>
+                <div data-i18n="Tài Khoản">Tài Khoản</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item @yield('user-index')">
                     <a href="{{ route('users.index') }}" class="menu-link">
-                        <div class="text-truncate" data-i18n="Danh Sách Tài Khoản">Danh Sách Tài Khoản</div>
+                        <div data-i18n="Khách hàng">Khách hàng</div>
                     </a>
                 </li>
+        
+                @if(auth()->user()->role_id == 1) {{-- Chỉ hiển thị nếu là Admin --}}
+                    <li class="menu-item @yield('user-role')">
+                        <a href="{{ route('roles.index') }}" class="menu-link">
+                            <div data-i18n="Vai Trò">Vai Trò</div>
+                        </a>
+                    </li>
+                @endif
+        
+                {{-- @if(auth()->user()->role_id == 1) --}}
+                {{--     <li class="menu-item @yield('user-permission')"> --}}
+                {{--         <a href="{{ route('permissions.index') }}" class="menu-link"> --}}
+                {{--             <div data-i18n="Quyền Truy Cập">Quyền Truy Cập</div> --}}
+                {{--         </a> --}}
+                {{--     </li> --}}
+                {{-- @endif --}}
             </ul>
         </li>
+        
 
         <li class="menu-item">
             <a href="{{ route('comment.index') }}" class="menu-link">
@@ -163,18 +181,18 @@
                 <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>
             </a>
         </li>
-
-
         <li class="menu-item">
             <a href="{{ route('thongke.statistical') }}" class="menu-link">
                 <i class=" menu-icon fa-sharp fa-solid fa-chart-simple"></i>
                 <div class="text-truncate" data-i18n="Thống Kê">Thống Kê</div>
             </a>
         </li>
-
-
-
-
-
+        <li class="menu-item">
+            <a href="{{ route('news.index') }}" class="menu-link">
+                <i class="menu-icon fa-regular fa-newspaper"></i>
+                {{-- <i class=" menu-icon fa-sharp fa-solid fa-chart-simple"></i> --}}
+                <div class="text-truncate" data-i18n="Tin Tức">Tin Tức</div>
+            </a>
+        </li>
     </ul>
 </aside>

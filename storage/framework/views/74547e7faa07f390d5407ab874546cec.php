@@ -3,7 +3,7 @@
         <div id="carousel-home">
             <div class="owl-carousel owl-theme">
                 <div class="owl-slide cover"
-                    style="background-image: url(<?php echo e(asset('client.home')); ?>/img/slides/slide_home_2.jpg);">
+                    style="background-image: url(<?php echo e(asset('client')); ?>/img/slides/slide_home_1.jpg);">
                     <div class="opacity-mask d-flex align-items-center" data-opacity-mask="rgba(0, 0, 0, 0.5)">
                         <div class="container">
                             <div class="row justify-content-center justify-content-md-end">
@@ -23,19 +23,17 @@
                 </div>
                 <!--/owl-slide-->
                 <div class="owl-slide cover"
-                    style="background-image: url(<?php echo e(asset('client')); ?>/img/slides/slide_home_1.jpg);">
+                    style="background-image: url(<?php echo e(asset('client')); ?>/img/slides/slide_home_2.jpg);">
                     <div class="opacity-mask d-flex align-items-center" data-opacity-mask="rgba(0, 0, 0, 0.5)">
                         <div class="container">
                             <div class="row justify-content-center justify-content-md-start">
                                 <div class="col-lg-6 static">
                                     <div class="slide-text white">
-                                        <h2 class="owl-slide-animated owl-slide-title">Attack Air<br>VaporMax
-                                            Flyknit 3</h2>
+                                        <h2 class="owl-slide-animated owl-slide-title">Attack Air<br>VaporMax Flyknit 3</h2>
                                         <p class="owl-slide-animated owl-slide-subtitle">
                                             Limited items available at this price
                                         </p>
-                                        <div class="owl-slide-animated owl-slide-cta"><a class="btn_1"
-                                                href="listing-grid-1-full.html" role="button">Shop Now</a></div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -55,8 +53,7 @@
                                         <p class="owl-slide-animated owl-slide-subtitle">
                                             Lightweight cushioning and durable support with a Phylon midsole
                                         </p>
-                                        <div class="owl-slide-animated owl-slide-cta"><a class="btn_1"
-                                                href="listing-grid-1-full.html" role="button">Shop Now</a></div>
+
                                     </div>
                                 </div>
                             </div>
@@ -70,44 +67,41 @@
 
         <div class="container margin_60_35">
             <div class="main_title">
-                <h2>Sản phẩm mới ra</h2>
-                <span>Sản phẩm Mới</span>
-
+                <h2>Sản Phẩm Nổi Bật</h2>
+                <span>Sản Phẩm Nổi Bật</span>
             </div>
-            <div class="row small-gutters">
-                <div class="row g-4">
-                    <?php $__currentLoopData = $latestProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <div class="col-6 col-md-4 col-xl-3">
-                            <div class="card border-0 shadow-sm rounded overflow-hidden position-relative product-card">
-                                <a href="<?php echo e(route('productDetail', $product->slug)); ?>" class="d-block">
-                                    <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
-                                        class="card-img-top img-fluid rounded product-image" alt="<?php echo e($product->name); ?>">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-4">
+                <?php $__currentLoopData = $featuredProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="col">
+                        <div class="card border-0 shadow-sm rounded overflow-hidden position-relative h-100 product-card">
+                            <a href="<?php echo e(route('productDetail', $product->slug)); ?>" class="d-block">
+                                <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
+                                    class="card-img-top img-fluid product-image" alt="<?php echo e($product->name); ?>">
+                            </a>
+                            <div class="card-body d-flex flex-column">
+                                <a href="<?php echo e(route('productDetail', $product->slug)); ?>"
+                                    class="text-dark text-decoration-none">
+                                    <h4 class="fw-bold product-title"><?php echo e(Str::limit($product->name, 20)); ?></h4>
                                 </a>
-
-                                <div class="card-body text-center">
-                                    <a href="<?php echo e(route('productDetail', $product->slug)); ?>"
-                                        class="text-dark text-decoration-none">
-                                        <h4 class="fw-bold product-title"><?php echo e($product->name); ?></h4>
-                                    </a>
-                                    <p class="small text-muted"><?php echo e(Str::limit($product->description, 50)); ?>...</p>
-
-                                    <div class="price_box">
+                                <p class="small text-muted flex-grow-1"><?php echo e(Str::limit($product->description, 50)); ?></p>
+                                <div class="price_box mt-auto">
+                                    <?php if($product->price_sale && $product->price_sale < $product->base_price): ?>
                                         <span class="old_price text-muted text-decoration-line-through">
                                             <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
                                         </span>
-
-                                        <?php if($product->price_sale): ?>
-                                            <span class="new_price text-danger fw-bold">
-                                                <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?> VND
-                                            </span>
-                                        <?php endif; ?>
-                                    </div>
+                                        <span class="new_price text-danger fw-bold">
+                                            <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?> VND
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="new_price text-danger fw-bold">
+                                            <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </div>
-
+                    </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </div>
 
@@ -115,29 +109,35 @@
 
         <div class="container margin_60_35">
             <div class="main_title">
-                <h2>SALE SẢN PHẨM</h2>
-                <span>SẢN PHẨM GIẢM GIÁ</span>
+                <h2>SẢN PHẨM GIÁ TỐT</h2>
+                <span>SẢN PHẨM GIÁ TỐT</span>
 
             </div>
-
             <div class="carousel-inner">
-                <?php $__currentLoopData = $discountedProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $__currentLoopData = $goodDeals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="carousel-item <?php if($key == 0): ?> active <?php endif; ?>">
                         <div class="row justify-content-center">
                             <div class="col-md-8"> <!-- Thay đổi từ col-md-4 thành col-md-8 để rộng hơn -->
                                 <div class="grid_item" style="width: 100%; margin: 0 auto;">
                                     <figure>
-                                        <a href="#">
-                                            <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
-                                                style="width: 100%; height: 300px; object-fit: cover; display: block; margin: 0 auto;"
+                                        <a href="<?php echo e(route('productDetail', $product->slug)); ?>">
+                                            <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>" width="100%"
+                                                height="350"
+                                                style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); object-fit: cover;"
                                                 alt="Product Image">
                                         </a>
                                     </figure>
-                                    <h3><?php echo e($product->name); ?></h3>
+                                    <h3><a href="<?php echo e(route('productDetail', $product->slug)); ?>"><?php echo e($product->name); ?></a>
+                                    </h3>
                                     <div class="price_box">
-                                        <span class="new_price">$<?php echo e($product->price_sale); ?></span>
-                                        <span class="old_price">$<?php echo e($product->base_price); ?></span>
+                                        <span class="new_price"><?php echo e(number_format($product->price_sale, 0, ',', '.')); ?>
+
+                                            VND</span>
+                                        <span class="old_price text-muted text-decoration-line-through">
+                                            <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
+                                        </span>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -145,54 +145,48 @@
                     </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
-
         </div>
-
 
         <!-- /featured -->
 
         <div class="container margin_60_35">
             <div class="main_title">
-                <h2>Sản phẩm bán chạy</h2>
-                <span>Sản phẩm HOT</span>
-
+                <h2>SẢN PHẨM MỚI</h2>
+                <span>SẢN PHẨM MỚI</span>
             </div>
-            <div class="row small-gutters">
-                <div class="row g-4">
-                    <?php $__currentLoopData = $topSellingProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <div class="col-6 col-md-4 col-xl-3">
-                            <div class="card border-0 shadow-sm rounded overflow-hidden position-relative product-card">
-                                <a href="<?php echo e(route('productDetail', $product->slug)); ?>" class="d-block">
-                                    <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
-                                        class="card-img-top img-fluid rounded product-image" alt="<?php echo e($product->name); ?>">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-4">
+                <?php $__currentLoopData = $newProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="col">
+                        <div class="card product-card border-0 shadow-sm rounded overflow-hidden position-relative h-100">
+                            <a href="<?php echo e(route('productDetail', $product->slug)); ?>" class="d-block">
+                                <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
+                                    class="card-img-top img-fluid product-image" alt="<?php echo e($product->name); ?>">
+                            </a>
+                            <div class="card-body d-flex flex-column text-center">
+                                <a href="<?php echo e(route('productDetail', $product->slug)); ?>"
+                                    class="text-dark text-decoration-none">
+                                    <h6 class="fw-bold product-title"><?php echo e($product->name); ?></h6>
                                 </a>
+                                <p class="small text-muted flex-grow-1">
+                                    <?php echo e(Str::limit($product->description, 50)); ?>
 
-                                <div class="card-body text-center">
-                                    <a href="<?php echo e(route('productDetail', $product->slug)); ?>"
-                                        class="text-dark text-decoration-none">
-                                        <h6 class="fw-bold product-title"><?php echo e($product->name); ?></h6>
-                                    </a>
-                                    <p class="small text-muted"><?php echo e(Str::limit($product->description, 50)); ?></p>
-                                    <div class="price_box">
-                                        <span class="old_price text-muted text-decoration-line-through">
-                                            <?php echo e(number_format($product->base_price, 0, ',', '.')); ?>đ
+                                </p>
+                                <div class="price_box mt-auto">
+                                    <span class="old_price text-muted text-decoration-line-through">
+                                        <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
+                                    </span>
+                                    <?php if($product->price_sale): ?>
+                                        <span class="new_price text-danger fw-bold">
+                                            <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?> VND
                                         </span>
-
-                                        <?php if($product->price_sale): ?>
-                                            <span class="new_price text-danger fw-bold">
-                                                <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?>đ
-                                            </span>
-                                        <?php endif; ?>
-                                    </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </div>
-
+                    </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </div>
-
 
         <!-- /container -->
 
@@ -201,8 +195,7 @@
                 <div id="brands" class="owl-carousel owl-theme">
                     <div class="item">
                         <a href="#0"><img src="<?php echo e(asset('client')); ?>/img/brands/placeholder_brands.png"
-                                data-src="<?php echo e(asset('client')); ?>/img/brands/logo_1.png" alt=""
-                                class="owl-lazy"></a>
+                                data-src="<?php echo e(asset('client')); ?>/img/brands/logo_1.png" alt="" class="owl-lazy"></a>
                     </div>
 
                 </div>
@@ -211,29 +204,6 @@
             <!-- /container -->
         </div>
         <!-- /bg_gray -->
-
-        <div class="container margin_60_35">
-
-            <div class="row">
-                <div class="col-lg-6">
-
-                </div>
-                <!-- /box_news -->
-                <div class="container margin_60_35">
-                    <div class="main_title">
-                        <h2>Top Thương hiệu</h2>
-                        <span>THương hiệu uy tín</span>
-
-                    </div>
-                    <div class="row">
-                        
-                    </div>
-                </div>
-
-
-
-            </div>
-        </div>
         <!-- /container -->
     </main>
     <!-- /main -->
@@ -242,6 +212,32 @@
     <!-- /row -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Đảm bảo tất cả ảnh sản phẩm có kích thước đồng đều */
+        .product-card {
+            overflow: hidden;
+            /* Ngăn ảnh phóng to vượt ra ngoài */
+            position: relative;
+        }
+
+        /* Ảnh sản phẩm ban đầu */
+        .product-image {
+            width: 100%;
+            height: 250px;
+            /* Điều chỉnh chiều cao theo mong muốn */
+            object-fit: cover;
+            /* Giữ tỷ lệ ảnh */
+            transition: transform 0.4s ease-in-out;
+            /* Tạo hiệu ứng mượt */
+        }
+
+        /* Khi hover vào card, ảnh sẽ phóng to */
+        .card:hover .product-image {
+            transform: scale(1.1);
+            /* Zoom 10% */
+        }
+
+
+
         .carousel {
             position: relative;
             overflow: hidden;

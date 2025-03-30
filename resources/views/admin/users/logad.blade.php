@@ -86,7 +86,7 @@
                 <span class="error-text">{{ $message }}</span>
             @enderror
 
-            <span class="forgot-password"><a href="#">Quên mật khẩu?</a></span>
+            <span class="forgot-password"><a href="{{ route('password.forgot.form') }}">Quên mật khẩu?</a></span>
 
             <button type="submit" class="login-button" id="login-button">Đăng nhập</button>
         </form>

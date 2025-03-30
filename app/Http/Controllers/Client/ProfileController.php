@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Product;
+use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
+use App\Models\Variant;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -129,14 +132,112 @@ class ProfileController extends Controller
 
         // Lấy danh sách đơn hàng của người dùng kèm theo thông tin sản phẩm và biến thể
         $orders = Order::with([
-            'orderDetails.product',// Lấy sản phẩm trong đơn hàng
-            'orderDetails.variant.attributes.attribute',      
+            'orderDetails.product', // Lấy sản phẩm trong đơn hàng
+            'orderDetails.variant.attributes.attribute',
             'orderDetails.variant.attributes.attributeValue' // Lấy biến thể và thuộc tính biến thể
         ])
             ->where('user_id', $user->id)
             ->orderBy('id', 'desc')
             ->get();
-// dd($orders);
+        // dd($orders);
         return view('client.users.profile.order', compact('orders'));
+    }
+
+    public function show($id)
+    {
+        // dd($id);
+        $order = Order::query()->with(
+            'orderDetails',
+            'user',
+            'address'
+        )->findOrFail($id);
+        // dd($orders);
+        // dd(gettype($order->order_date), $order->order_date);
+        $events = Shipping::where('order_id', $id)->orderBy('created_at', 'DESC')->get();
+
+        return view('client.users.profile.detailOrder', compact('order', 'events'));
+    }
+
+    // Xử lý hủy đơn hàng
+    public function cancel(Request $request, $id)
+    {
+        try {
+            $order = Order::findOrFail($id);
+            if ($order->status === 'canceled') {
+                return back()->with('error', 'Đơn hàng đã bị hủy trước đó!');
+            }
+            if ($order->status !== 'pending') {
+                return back()->with('error', 'Bạn không thể hủy đơn hàng đã xử lý!');
+            }
+
+            $orderDetails = $order->orderDetails;
+
+            foreach ($orderDetails as $orderDetail) {
+                if ($orderDetail->variant_id) {
+                    // Nếu có biến thể, cập nhật stock của biến thể
+                    $variant = Variant::find($orderDetail->variant_id);
+                    if ($variant) {
+                        $variant->quantity += $orderDetail->quantity;
+                        $variant->save();
+                    }
+                } else {
+                    // Nếu không có biến thể, cập nhật stock của sản phẩm
+                    $product = Product::find($orderDetail->product_id);
+                    if ($product) {
+                        $product->quantity += $orderDetail->quantity;
+                        $product->save();
+                    }
+                }
+            }
+            // Cập nhật trạng thái đơn hàng thành "canceled"
+            $order->update(['status' => 'canceled']);
+
+            // Lưu vào bảng Shipping để theo dõi
+            Shipping::create([
+                'order_id' => $order->id,
+                'name' => 'Đơn hàng đã bị hủy',
+                'note' => 'Khách hàng đã hủy đơn hàng',
+            ]);
+
+            return back()->with('success', 'Đơn hàng đã hủy thành công!');
+        } catch (Exception $exception) {
+            Log::error('Hủy đơn hàng thất bại.', [
+                'error' => $exception->getMessage(),
+                'order_id' => $id,
+            ]);
+
+            return back()->with('error', 'Có lỗi xảy ra khi hủy đơn hàng.');
+        }
+    }
+
+
+    // Xử lý xác nhận đã nhận hàng
+    public function confirmReceived(Request $request, $id)
+    {
+        try {
+            $order = Order::findOrFail($id);
+
+            if ($order->status !== 'delivered') {
+                return back()->with('error', 'Bạn chỉ có thể xác nhận khi đơn hàng đã giao!');
+            }
+
+            $order->update(['status' => 'completed']);
+
+            // Lưu trạng thái nhận hàng vào bảng Shipping
+            Shipping::create([
+                'order_id' => $order->id,
+                'name' => 'Đơn hàng đã được nhận',
+                'note' => 'Khách hàng xác nhận đã nhận hàng',
+            ]);
+
+            return back()->with('success', 'Cảm ơn bạn! Đơn hàng đã được xác nhận.');
+        } catch (Exception $exception) {
+            Log::error('Lỗi khi xác nhận đã nhận hàng.', [
+                'error' => $exception->getMessage(),
+                'order_id' => $id,
+            ]);
+
+            return back()->with('error', 'Có lỗi xảy ra khi xác nhận đơn hàng.');
+        }
     }
 }

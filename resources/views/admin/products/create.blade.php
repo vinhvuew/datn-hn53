@@ -72,14 +72,15 @@
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                         @enderror
                                         <textarea type="text" class="form-control" id="ecommerce-product-name" placeholder="description" name="description"
-                                            aria-label="description"></textarea>
+                                            aria-label="description" value="{{ old('description') }}"></textarea>
                                     </div>
                                     <div class="mb-3">
                                         @error('content')
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                         @enderror
                                         <label class="form-label" for="content">Nội dung</label>
-                                        <textarea type="text" class="form-control" id="content" placeholder="content" name="content" aria-label="content"></textarea>
+                                        <textarea type="text" class="form-control" id="content" placeholder="content" name="content" aria-label="content"
+                                            value="{{ old('content') }}"></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="content">Hình ảnh</label>
@@ -92,8 +93,8 @@
                                         @error('user_manual')
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                         @enderror
-                                        <label class="form-label" for="content">Hướng dẫn sử dụng</label>
-                                        <textarea type="text" class="form-control" name="user_manual"></textarea>
+                                        <label class="form-label" for="content">Hướng dẫn bảo quản</label>
+                                        <textarea type="text" class="form-control" name="user_manual" value="{{ old('user_manual') }}"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -146,26 +147,6 @@
                                                         value="{{ old('variant_sku_0') }}">
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <label for="variant_wholesale_price_0">Giá nhập sỉ</label>
-                                                    {{-- @error('wholesale_price')
-                                                        <div class="text-danger mt-1">{{ $message }}</div>
-                                                    @enderror --}}
-                                                    <input type="number" id="variant_wholesale_price_0"
-                                                        name="variants[0][wholesale_price]" class="form-control"
-                                                        step="0.01" placeholder="Giá nhập" max="99999999"
-                                                        value="{{ old('variants[0][wholesale_price]') }}">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="variant_selling_price_0">Giá điều chỉnh</label>
-                                                    {{-- @error('selling_price')
-                                                        <div class="text-danger mt-1">{{ $message }}</div>
-                                                    @enderror --}}
-                                                    <input type="number" id="variant_selling_price_0"
-                                                        name="variants[0][selling_price]" class="form-control"
-                                                        step="0.01" placeholder="Giá điều chỉnh" max="99999999"
-                                                        value="{{ old('variants[0][selling_price]') }}">
-                                                </div>
                                                 <div class="mb-4">
                                                     <label for="variant_quantity_0">Số lượng tồn kho</label>
                                                     {{-- @error('quantity')
@@ -213,13 +194,39 @@
                         </div>
                         <!-- Second column -->
                         <div class="col-12 col-lg-4">
-                            <!-- /danh mục -->
+                            {{-- kích hoạt --}}
+                            <div class="card mb-4 p-3">
+                                {{-- <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_active" class="form-check-input" value="1"
+                                        id="is_active">
+                                    <label class="form-check-label" for="is_active">Kích hoạt</label>
+                                </div> --}}
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_good_deal" class="form-check-input" value="1"
+                                        id="is_good_deal">
+                                    <label class="form-check-label" for="is_good_deal">Ưu đãi tốt</label>
+                                </div>
+
+                                {{-- <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_new" class="form-check-input" value="1"
+                                        id="is_new">
+                                    <label class="form-check-label" for="is_new">Sản phẩm mới</label>
+                                </div> --}}
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_show_home" class="form-check-input" value="1"
+                                        id="is_show_home">
+                                    <label class="form-check-label" for="is_show_home">Sản phẩm nổi bật</label>
+                                </div>
+                            </div>
+                            {{-- danh mục thuong hieu --}}
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Danh mục & thương hiệu/h5>
+                                    <h5 class="card-title mb-0">Danh mục & thương hiệu</h5>
                                 </div>
                                 <div class="card-body">
-                                    {{-- danh mục --}}
+
                                     <div class="mb-3">
                                         <label for="category_id" class="form-label">Danh mục</label>
 
@@ -265,7 +272,8 @@
                                     </div>
                                     <!-- Discounted Price -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="ecommerce-product-discount-price">giá bán</label>
+                                        <label class="form-label" for="ecommerce-product-discount-price">giá ưu
+                                            đãi</label>
                                         <input type="number" class="form-control" id="price_sale"
                                             placeholder="price_sale" name="price_sale" aria-label="price_sale">
                                         @error('price_sale')
@@ -343,11 +351,6 @@
                 <input type="text" id="variant_sku_${variantIndex}" name="variants[${variantIndex}][sku]" placeholder="Mã biến thể" class="form-control">
             </div>
 
-            <div class="mb-3">
-                <label for="variant_selling_price_${variantIndex}">Giá điều chỉnh</label>
-                <input type="number" id="variant_selling_price_${variantIndex}" name="variants[${variantIndex}][selling_price]" max="99999999" class="form-control" step="0.01" placeholder="Giá điều chỉnh">
-            </div>
-
             <div class="mb-4">
                 <label for="variant_quantity_${variantIndex}">Số lượng tồn kho</label>
                 <input type="number" id="variant_quantity_${variantIndex}" name="variants[${variantIndex}][quantity]" class="form-control" placeholder="Số lượng tồn kho">
@@ -394,6 +397,12 @@
                     variantElement.remove();
                 }
             }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(".form-check-input").bootstrapSwitch();
         });
     </script>
 @endsection

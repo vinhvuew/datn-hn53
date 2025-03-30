@@ -41,27 +41,7 @@
                                             <ul
                                                 class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
 
-                                                <li class="list-inline-item">
-                                                    <i class='mdi mdi-invert-colors me-1 mdi-20px'></i>
-                                                    <span class="fw-medium">
-                                                        <?php switch(Auth::user()->role):
-                                                            case ('user'): ?>
-                                                                Thành viên
-                                                            <?php break; ?>
-
-                                                            <?php case ('admin'): ?>
-                                                                Quản trị
-                                                            <?php break; ?>
-
-                                                            <?php case ('moderator'): ?>
-                                                                Nhân viên
-                                                            <?php break; ?>
-
-                                                            <?php default: ?>
-                                                                Không xác định
-                                                        <?php endswitch; ?>
-                                                    </span>
-                                                </li>
+                                                
 
                                                 <li class="list-inline-item">
                                                     <i class='mdi mdi-map-marker-outline me-1 mdi-20px'></i>
@@ -102,28 +82,7 @@
                                             tên: </span> <span><?php echo e(Auth::user()->name); ?></span>
                                     </li>
 
-                                    <li class="d-flex align-items-center mb-3"><i
-                                            class="mdi mdi-star-outline mdi-24px"></i><span class="fw-medium mx-2">Vai
-                                            trò:</span>
-                                        <span>
-                                            <?php switch(Auth::user()->role):
-                                                case ('user'): ?>
-                                                    Thành viên
-                                                <?php break; ?>
-
-                                                <?php case ('admin'): ?>
-                                                    Quản trị
-                                                <?php break; ?>
-
-                                                <?php case ('moderator'): ?>
-                                                    Nhân viên
-                                                <?php break; ?>
-
-                                                <?php default: ?>
-                                                    Không xác định
-                                            <?php endswitch; ?>
-                                        </span>
-                                    </li>
+                                    
 
                                     <li class="d-flex align-items-center mb-3">
                                         <i class='mdi mdi-map-marker-outline mdi-24px'></i>
@@ -175,7 +134,40 @@
                                                         <p>Ngày đặt: <?php echo e($order->order_date); ?></p>
                                                         <p>Trạng thái:
                                                             <span
-                                                                class="badge bg-warning"><?php echo e($order->payment_status ?? 'Đang xử lý'); ?></span>
+                                                                class="badge
+                                                                <?php switch($order->status):
+                                                                    case ('pending'): ?> bg-warning text-dark <?php break; ?>
+                                                                    <?php case ('confirmed'): ?> bg-secondary text-white <?php break; ?>
+                                                                    <?php case ('shipping'): ?> bg-primary <?php break; ?>
+                                                                    <?php case ('delivered'): ?> bg-success <?php break; ?>
+                                                                    <?php case ('completed'): ?> bg-info <?php break; ?>
+                                                                    <?php case ('canceled'): ?> bg-danger <?php break; ?>
+                                                                    <?php case ('admin_canceled'): ?> bg-danger <?php break; ?>
+                                                                    <?php case ('return_request'): ?> bg-danger <?php break; ?>
+                                                                    <?php case ('refuse_return'): ?> bg-danger <?php break; ?>
+                                                                    <?php case ('sent_information'): ?> bg-primary <?php break; ?>
+                                                                    <?php case ('return_approved'): ?> bg-danger <?php break; ?>
+                                                                    <?php case ('returned_item_received'): ?> bg-danger <?php break; ?>
+                                                                    <?php case ('refund_completed'): ?> bg-danger <?php break; ?>
+                                                                    <?php default: ?> bg-secondary
+                                                                <?php endswitch; ?>">
+                                                                <?php echo e([
+                                                                    'pending' => 'Chờ xác nhận',
+                                                                    'confirmed' => 'Xác nhận',
+                                                                    'shipping' => 'Chờ giao hàng',
+                                                                    'delivered' => 'Đang giao hàng',
+                                                                    'completed' => 'Giao hàng thành công',
+                                                                    'canceled' => 'Người mua đã hủy',
+                                                                    'admin_canceled' => 'Đã hủy bởi' . Auth::user()->name,
+                                                                    'return_request' => 'Yêu cầu trả hàng',
+                                                                    'refuse_return' => 'Từ chối trả hàng',
+                                                                    'sent_information' => 'Thông tin hoàn tiền',
+                                                                    'return_approved' => 'Chấp nhận trả hàng',
+                                                                    'returned_item_received' => 'Đã nhận được hàng trả lại',
+                                                                    'refund_completed' => 'Hoàn tiền thành công',
+                                                                ][$order->status] ?? 'Không rõ'); ?>
+
+                                                            </span>
                                                         </p>
                                                         <p>Tổng tiền:
                                                             <strong><?php echo e(number_format($order->total_price, 0, ',', '.')); ?>
@@ -183,16 +175,16 @@
                                                                 VNĐ</strong>
                                                         </p>
                                                     </div>
-                                                    <button class="btn btn-primary toggle-details"
-                                                        data-target="#orderDetails<?php echo e($order->id); ?>">Xem chi
-                                                        tiết</button>
-                                                </div>
-                                                <div class="d-flex align-items-end">
-                                                    <button class="btn btn-label-danger"
-                                                        data-order-id="<?php echo e($order->id); ?>">
-                                                        ❌ Hủy đơn hàng
+
+                                                    <button class="btn btn-label-warning toggle-details">
+                                                        <a class=""
+                                                            href="<?php echo e(route('profile.detailOrder', $order->id)); ?>">Xem chi
+                                                            tiết
+                                                        </a>
                                                     </button>
+                                                    
                                                 </div>
+
                                                 <!-- Danh sách sản phẩm trong đơn hàng -->
                                                 <div class="collapse mt-3" id="orderDetails<?php echo e($order->id); ?>">
                                                     <ul class="list-group">
@@ -271,6 +263,7 @@
 
                                 </div>
                             </div>
+
                         </div>
                         <!--/ Activity Timeline -->
                     </div>

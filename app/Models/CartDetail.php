@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+
 class CartDetail extends Model
 {
     use HasFactory;
-
+    const SELECTED = 1;
+    const DEFAULT = 0;
     protected $fillable = [
         'cart_id',
         'product_id',
