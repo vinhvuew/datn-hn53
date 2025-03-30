@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('has_role_permission', function (Blueprint $table) {
             $table->foreignIdFor(Permission::class)->constrained();
             $table->foreignIdFor(Role::class)->constrained();
-
             $table->primary(['permission_id', 'role_id']);
         });
     }

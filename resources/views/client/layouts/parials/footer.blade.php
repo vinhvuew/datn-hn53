@@ -31,9 +31,9 @@
                 <h3 data-bs-target="#collapse_3">Contacts</h3>
                 <div class="collapse dont-collapse-sm contacts" id="collapse_3">
                     <ul>
-                        <li><i class="ti-home"></i>97845 Baker st. 567<br>Los Angeles - US</li>
+                        {{-- <li><i class="ti-home"></i>97845 Baker st. 567<br>Los Angeles - US</li> --}}
                         <li><i class="ti-headphone-alt"></i>+94 423-23-221</li>
-                        <li><i class="ti-email"></i><a href="#0">info@allaia.com</a></li>
+                        <li><i class="ti-email"></i><a href="#0">adlegendshoes@gmail.com</a></li>
                     </ul>
                 </div>
             </div>
@@ -68,24 +68,14 @@
                     <li>
                         <div class="styled-select lang-selector">
                             <select>
-                                <option value="English" selected>English</option>
-                                <option value="French">French</option>
-                                <option value="Spanish">Spanish</option>
-                                <option value="Russian">Russian</option>
+                                <option value="English" selected>Tiếng Việt</option>
+                               
                             </select>
                         </div>
                     </li>
                     <li>
-                        <div class="styled-select currency-selector">
-                            <select>
-                                <option value="US Dollars" selected>US Dollars</option>
-                                <option value="Euro">Euro</option>
-                            </select>
-                        </div>
                     </li>
-                    <li><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                            data-src="img/cards_all.svg" alt="" width="198" height="30" class="lazy">
-                    </li>
+                  
                 </ul>
             </div>
             <div class="col-lg-6">

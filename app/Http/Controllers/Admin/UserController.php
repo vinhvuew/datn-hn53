@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -37,7 +38,7 @@ class UserController extends Controller
 
             $user = Auth::user();
 
-            if (!in_array($user->role_id, [1, 3, 4, 5])) {
+            if (!in_array($user->role_id, [1, 3, 4])) {
 
                 Auth::logout();
                 return back()->with('error', 'Bạn không có quyền truy cập.');
@@ -60,21 +61,33 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $query = User::query();
-
         $search = $request->input('search');
+        $currentUser = Auth::user();
 
-        if (!empty($search)) {
-            $query->Where(function ($q) use ($search) {
-                $q->Where('name', 'LIKE', "%{$search}%")
-                    ->orWhere('email', 'LIKE', "%{$search}%")
-                    ->orWhere('phone', 'LIKE', "%{$search}%");
-            });
+        if (!$currentUser) {
+            abort(403, 'Bạn không có quyền truy cập.');
         }
-        $users = $query->paginate(10);
 
-        return view(self::PATH_VIEW . 'index', compact('users', 'search'));
+        // Lấy danh sách users, ẩn Staff & Accountant nếu admin đã đổi sang các role này
+        $users = User::with('role')
+            ->when($search, function ($query) use ($search) {
+                return $query->where('name', 'like', "%$search%")
+                    ->orWhere('email', 'like', "%$search%")
+                    ->orWhere('phone', 'like', "%$search%");
+            })
+            ->when($currentUser->role_id != 1, function ($query) {
+                return $query->whereNotIn('role_id', [3, 4]); // Ẩn Staff & Accountant nếu không phải Admin
+            })
+            ->get();
+
+        $roles = Role::where('id', '!=', 1)->get(); // Không hiển thị Admin trong danh sách role
+
+        return view('admin.users.index', compact('users', 'roles'));
     }
+
+    
+    
+
 
     public function edit($id)
     {
@@ -109,41 +122,41 @@ class UserController extends Controller
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'role' => 'required|in:admin,moderator,user',
+            'role_id' => 'required|exists:roles,id',
         ]);
 
         $user = User::findOrFail($request->user_id);
         $currentUser = Auth::user();
 
-
-        if ($currentUser->role !== 'admin') {
+        // Chỉ Admin mới có quyền thay đổi vai trò
+        if ($currentUser->role_id != 1) {
             return response()->json(['message' => 'Bạn không có quyền thay đổi vai trò!'], 403);
         }
 
-
-        if ($currentUser->id == $user->id) {
-            return response()->json(['message' => 'Bạn không thể thay đổi vai trò của chính mình!'], 403);
+        // Không cho phép thay đổi vai trò thành Admin
+        if ($request->role_id == 1) {
+            return response()->json(['message' => 'Không thể thay đổi vai trò thành Admin!'], 403);
         }
 
-
-        $user->role = $request->role;
+        // Cập nhật vai trò
+        $user->role_id = $request->role_id;
         $user->save();
 
         return response()->json(['message' => 'Cập nhật vai trò thành công!']);
     }
-    public function destroy($id)
-    {
-        $user = User::findOrFail($id);
+    
 
-        if (Auth::id() == $id) {
-            return back()->with('error', 'Bạn không thể xóa chính mình.');
-        }
-
-        if ($user->role === 'admin') {
-            return back()->with('error', 'Không thể xóa tài khoản admin.');
-        }
-
+    public function destroy(User $user)
+{
+    try {
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'Xóa tài khoản thành công.');
+        return response()->json(['success' => true, 'message' => 'Xóa người dùng thành công!']);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => 'Không thể xóa người dùng.'], 500);
     }
+}
+
+
+    
+    
 }

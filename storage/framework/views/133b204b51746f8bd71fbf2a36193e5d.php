@@ -155,15 +155,25 @@
                         <div data-i18n="Khách hàng">Khách hàng</div>
                     </a>
                 </li>
-
-                <li class="menu-item <?php echo $__env->yieldContent('user-role'); ?>">
-                    <a href="<?php echo e(route('roles.index')); ?>" class="menu-link">
-                        <div data-i18n="Vai Trò">Vai Trò</div>
-                    </a>
-                </li>
+        
+                <?php if(auth()->user()->role_id == 1): ?> 
+                    <li class="menu-item <?php echo $__env->yieldContent('user-role'); ?>">
+                        <a href="<?php echo e(route('roles.index')); ?>" class="menu-link">
+                            <div data-i18n="Vai Trò">Vai Trò</div>
+                        </a>
+                    </li>
+                <?php endif; ?>
+        
+                
+                
+                
+                
+                
+                
                 
             </ul>
         </li>
+        
 
         <li class="menu-item">
             <a href="<?php echo e(route('comment.index')); ?>" class="menu-link">

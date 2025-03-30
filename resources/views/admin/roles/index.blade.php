@@ -80,6 +80,7 @@
                                             </a>
                                         @endif
                                     @endif
+
                                 </div>
                                 <a href="javascript:void(0);" class="text-muted"><i
                                         class="mdi mdi-content-copy mdi-20px"></i></a>
@@ -137,13 +138,13 @@
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item->email }}</td>
                                             <td>
-                                                @if ($item->role->name == 'Admin')
+                                                @if ($item->role_id == 1)
                                                     <span
                                                         class="d-flex align-items-center text-heading justify-content-center">
                                                         <i class="bx bx-laptop text-danger me-2"></i>
                                                         {{ $item->role->name }}
                                                     </span>
-                                                @elseif ($item->role->name == 'User')
+                                                @elseif ($item->role_id == 2)
                                                     <span
                                                         class="d-flex align-items-center text-heading justify-content-center">
                                                         <i class="bx bx-user text-danger me-2"></i>
