@@ -1,8 +1,6 @@
-@extends('client.layouts.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <main>
-        @if ($carts)
+        <?php if($carts): ?>
             <div class="container mt-4">
                 <h2 class="text-center mb-4">🛒 Giỏ Hàng</h2>
                 <table class="table">
@@ -19,49 +17,49 @@
                             <th>Hành động</th>
                         </tr>
                     </thead>
-                    @php
+                    <?php
                         $totalAmount = 0;
-                    @endphp
+                    ?>
 
-                    @foreach ($carts as $cart)
-                        @if ($cart->variant)
-                            <tbody id="cart-item-{{ $cart->id }}">
+                    <?php $__currentLoopData = $carts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cart): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php if($cart->variant): ?>
+                            <tbody id="cart-item-<?php echo e($cart->id); ?>">
                                 <tr>
                                     <td>
-                                        <input type="checkbox" class="cart-item-checkbox" data-id="{{ $cart->id }}"
-                                            data-price="{{ $cart->total_amount }}" name="selected_items[]"
-                                            value="{{ $cart->id }}" {{ $cart->is_selected ? 'checked' : '' }}>
+                                        <input type="checkbox" class="cart-item-checkbox" data-id="<?php echo e($cart->id); ?>"
+                                            data-price="<?php echo e($cart->total_amount); ?>" name="selected_items[]"
+                                            value="<?php echo e($cart->id); ?>" <?php echo e($cart->is_selected ? 'checked' : ''); ?>>
                                     </td>
-                                    <td><img src="{{ Storage::url($cart->variant->image) }}" alt="" width="50px"
+                                    <td><img src="<?php echo e(Storage::url($cart->variant->image)); ?>" alt="" width="50px"
                                             class="rounded-2"></td>
-                                    <td>{{ Str::limit($cart->variant->product->name, 30) }}</td>
+                                    <td><?php echo e(Str::limit($cart->variant->product->name, 30)); ?></td>
                                     <td>
-                                        {{ number_format($cart->variant->selling_price, 0, ',', '.') }} VNĐ
+                                        <?php echo e(number_format($cart->variant->selling_price, 0, ',', '.')); ?> VNĐ
                                     </td>
                                     <td class="col-2">
-                                        <form class="update-cart-form" data-cart-id="{{ $cart->id }}">
-                                            @csrf
-                                            @method('PUT')
+                                        <form class="update-cart-form" data-cart-id="<?php echo e($cart->id); ?>">
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('PUT'); ?>
                                             <div class="item-quantity d-flex align-items-center">
                                                 <input type="number" name="quantity"
-                                                    class="form-control quantity-input w-50" data-id="{{ $cart->id }}"
-                                                    value="{{ $cart->quantity }}" min="1">
+                                                    class="form-control quantity-input w-50" data-id="<?php echo e($cart->id); ?>"
+                                                    value="<?php echo e($cart->quantity); ?>" min="1">
                                             </div>
                                         </form>
                                     </td>
-                                    <td id="total-amount-{{ $cart->id }}">
-                                        @php
+                                    <td id="total-amount-<?php echo e($cart->id); ?>">
+                                        <?php
                                             $money = $cart->total_amount;
                                             $totalAmount += $money;
-                                        @endphp
-                                        {{ number_format($cart->total_amount, 0, ',', '.') }} VNĐ
+                                        ?>
+                                        <?php echo e(number_format($cart->total_amount, 0, ',', '.')); ?> VNĐ
 
                                     </td>
                                     <td>
-                                        <form class="delete-cart-form" data-id="{{ $cart->id }}"
-                                            action="{{ route('cart.delete', $cart->id) }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
+                                        <form class="delete-cart-form" data-id="<?php echo e($cart->id); ?>"
+                                            action="<?php echo e(route('cart.delete', $cart->id)); ?>" method="post">
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('DELETE'); ?>
                                             <button type="submit" class="btn btn-danger">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
@@ -69,51 +67,51 @@
                                     </td>
                                 </tr>
                             </tbody>
-                        @elseif ($cart->product)
-                            <tbody id="cart-item-{{ $cart->id }}">
+                        <?php elseif($cart->product): ?>
+                            <tbody id="cart-item-<?php echo e($cart->id); ?>">
                                 <tr>
                                     <td>
-                                        <input type="checkbox" class="cart-item-checkbox" data-id="{{ $cart->id }}"
-                                            data-price="{{ $cart->total_amount }}" name="selected_items[]"
-                                            value="{{ $cart->id }}" {{ $cart->is_selected ? 'checked' : '' }}>
+                                        <input type="checkbox" class="cart-item-checkbox" data-id="<?php echo e($cart->id); ?>"
+                                            data-price="<?php echo e($cart->total_amount); ?>" name="selected_items[]"
+                                            value="<?php echo e($cart->id); ?>" <?php echo e($cart->is_selected ? 'checked' : ''); ?>>
                                     </td>
 
-                                    <td><img src="{{ Storage::url($cart->product->img_thumbnail) }}" alt=""
+                                    <td><img src="<?php echo e(Storage::url($cart->product->img_thumbnail)); ?>" alt=""
                                             height="50px" width="40px">
                                     </td>
-                                    <td>{{ Str::limit($cart->product->name, 30) }} </td>
+                                    <td><?php echo e(Str::limit($cart->product->name, 30)); ?> </td>
                                     <td>
-                                        @if ($cart->product->price_sale)
-                                            {{ number_format($cart->product->price_sale, 0, ',', '.') }} VNĐ
-                                        @else
-                                            {{ number_format($cart->product->base_price, 0, ',', '.') }} VNĐ
-                                        @endif
+                                        <?php if($cart->product->price_sale): ?>
+                                            <?php echo e(number_format($cart->product->price_sale, 0, ',', '.')); ?> VNĐ
+                                        <?php else: ?>
+                                            <?php echo e(number_format($cart->product->base_price, 0, ',', '.')); ?> VNĐ
+                                        <?php endif; ?>
                                     </td>
                                     <td class="col-2">
-                                        <form class="update-cart-form" data-cart-id="{{ $cart->id }}">
-                                            @csrf
-                                            @method('PUT')
+                                        <form class="update-cart-form" data-cart-id="<?php echo e($cart->id); ?>">
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('PUT'); ?>
                                             <div class="item-quantity d-flex align-items-center">
                                                 <input type="number" name="quantity"
-                                                    class="form-control quantity-input w-50" data-id="{{ $cart->id }}"
-                                                    value="{{ $cart->quantity }}" min="1">
+                                                    class="form-control quantity-input w-50" data-id="<?php echo e($cart->id); ?>"
+                                                    value="<?php echo e($cart->quantity); ?>" min="1">
                                             </div>
 
                                         </form>
                                     </td>
-                                    <td id="total-amount-{{ $cart->id }}">
-                                        @php
+                                    <td id="total-amount-<?php echo e($cart->id); ?>">
+                                        <?php
                                             $money = $cart->total_amount;
                                             $totalAmount += $money;
-                                        @endphp
+                                        ?>
 
-                                        {{ number_format($cart->total_amount, 0, ',', '.') }} VNĐ
+                                        <?php echo e(number_format($cart->total_amount, 0, ',', '.')); ?> VNĐ
                                     </td>
                                     <td>
-                                        <form class="delete-cart-form" data-id="{{ $cart->id }}"
-                                            action="{{ route('cart.delete', $cart->id) }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
+                                        <form class="delete-cart-form" data-id="<?php echo e($cart->id); ?>"
+                                            action="<?php echo e(route('cart.delete', $cart->id)); ?>" method="post">
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('DELETE'); ?>
 
                                             <button type="submit" class="btn btn-danger">
                                                 <i class="fas fa-trash-alt"></i>
@@ -125,16 +123,16 @@
 
                                 </tr>
                             </tbody>
-                        @endif
-                    @endforeach
+                        <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
-                <form id="checkout-form" action="{{ route('checkout.view') }}" method="POST">
-                    @csrf
+                <form id="checkout-form" action="<?php echo e(route('checkout.view')); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
                     <div class="text-end mb-5 p-4">
                         <h4 class="fw-bold text-primary">
                             Tổng tiền: <span id="overall-total" class="text-danger">
-                                {{ number_format($totalAmount, 0, ',', '.') }} VNĐ
+                                <?php echo e(number_format($totalAmount, 0, ',', '.')); ?> VNĐ
                             </span>
                         </h4>
                         <button type="submit" class="btn btn-success btn-lg mt-2 px-4 fw-bold">
@@ -145,21 +143,21 @@
 
 
             </div>
-        @else
+        <?php else: ?>
             <div class="empty-cart-box text-center" id="empty-cart" style=" margin-top: 140px;">
                 <img class="mb-5" src="https://static-smember.cellphones.com.vn/smember/_nuxt/img/empty.db6deab.svg"
                     alt="Empty Cart" width="300px">
                 <h4 class="text-secondary mt-5" style="font-size: 18px; font-weight: 600;">Giỏ hàng trống</h4>
                 <p style="font-size: 14px; color: #888;">Giỏ hàng của bạn đang trống.
                     Hãy chọn thêm sản phẩm để mua sắm nhé</p>
-                <a href="{{ route('home') }}" class="btn btn-danger mb-5">
+                <a href="<?php echo e(route('home')); ?>" class="btn btn-danger mb-5">
                     Quay Lại Trang Chủ
                 </a>
             </div>
-        @endif
+        <?php endif; ?>
     </main>
-@endsection
-@section('script-libs')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script-libs'); ?>
     <script>
         $(document).ready(function() {
             $('.quantity-input').on('input', function() {
@@ -175,7 +173,7 @@
                     url: '/cart/update/' + id,
                     type: 'PUT',
                     data: {
-                        _token: '{{ csrf_token() }}',
+                        _token: '<?php echo e(csrf_token()); ?>',
                         quantity: quantity
                     },
                     success: function(response) {
@@ -211,7 +209,7 @@
                         url: '/cart/delete/' + id, // Cập nhật đường dẫn API đúng chuẩn
                         type: 'DELETE', // Sử dụng phương thức DELETE đúng chuẩn RESTful
                         data: {
-                            _token: '{{ csrf_token() }}' // Bảo mật CSRF token
+                            _token: '<?php echo e(csrf_token()); ?>' // Bảo mật CSRF token
                         },
                         success: function(response) {
                             if (response.success) {
@@ -233,7 +231,7 @@
             });
         });
     </script>
-    {{--  --}}
+    
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -292,7 +290,7 @@
                     url: '/cart/update-selection/' + id,
                     type: 'PUT',
                     data: {
-                        _token: '{{ csrf_token() }}',
+                        _token: '<?php echo e(csrf_token()); ?>',
                         is_selected: isSelected
                     },
                     success: function(response) {
@@ -309,4 +307,6 @@
             });
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\datn-hn53\resources\views/client/cart/listCart.blade.php ENDPATH**/ ?>
