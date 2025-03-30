@@ -1,11 +1,7 @@
 <?php $__env->startSection('content'); ?>
-<<<<<<< HEAD
 <main>
     <div class="container">
-=======
-    <main>
-        <div class="container">
->>>>>>> f68c24408cd8fe2298b3c9489bd54a48773a5d7a
+
 
             <h1 class="text-center">CHÍNH SÁCH CỦA CHÚNG TÔI</h1>
 
@@ -45,19 +41,6 @@
         <p>Nếu có bất kỳ câu hỏi nào, vui lòng liên hệ <strong>[hotline/email]</strong>.</p>
     </div>
 </main>
-=======
-            <h2>3. Chính Sách Bảo Mật</h2>
-            <p>Chúng tôi cam kết bảo vệ thông tin cá nhân của khách hàng:</p>
-            <ul>
-                <li>Thông tin của bạn chỉ được sử dụng để xử lý đơn hàng, chăm sóc khách hàng và không chia sẻ với bên thứ
-                    ba.
-                </li>
-                <li>Mọi giao dịch thanh toán trực tuyến đều được bảo mật.</li>
-            </ul>
-            <p>Nếu có bất kỳ câu hỏi nào, vui lòng liên hệ <strong>[hotline/email]</strong>.</p>
-        </div>
-    </main>
->>>>>>> f68c24408cd8fe2298b3c9489bd54a48773a5d7a
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/policy/index.blade.php ENDPATH**/ ?>
