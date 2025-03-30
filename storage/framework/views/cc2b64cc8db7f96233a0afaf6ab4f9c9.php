@@ -1,6 +1,4 @@
-@extends('client.layouts.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <main class="bg_gray">
     <div class="container">
         <div class="row justify-content-center">
@@ -26,9 +24,9 @@
         </div>
     </div>
 </main>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('style-libs')
+<?php $__env->startSection('style-libs'); ?>
 <style>
     #confirm {
         text-align: center;
@@ -66,4 +64,6 @@
         }
     }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/admin/datn-hn53/resources/views/client/checkout/complete.blade.php ENDPATH**/ ?>

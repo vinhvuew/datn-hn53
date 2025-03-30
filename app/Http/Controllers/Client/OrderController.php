@@ -12,11 +12,12 @@ use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Variant;
 use App\Models\Voucher;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Mail\OrderInvoice;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -60,15 +61,27 @@ class OrderController extends Controller
             switch ($request->payment_method) {
                 case "VNPAY_DECOD":
                     DB::commit();
-                    return $this->vnpay_service->VNpay_Payment($order->total_price, 'vn', $request->ip(), $order->id);
+                    return $this->vnpay_service->VNpay_Payment($order->id, $order->total_price);
                 
                 case "MOMO":
                     DB::rollback();
                     return response()->json(['status' => 'error', 'message' => 'Phương thức thanh toán MOMO chưa được hỗ trợ!'], 400);
                     
                 case "COD":
+                    // Gửi email xác nhận đơn hàng
+                    $order = Order::with(['orderDetails', 'orderDetails.product', 'orderDetails.variant', 'address', 'user'])->find($order->id);
+                    try {
+                        Mail::to($order->user->email)->send(new OrderInvoice($order, $order->orderDetails));
+                    } catch (\Exception $e) {
+                        Log::error('Lỗi gửi email hóa đơn COD: ' . $e->getMessage());
+                    }
+
                     DB::commit();
-                    return view('client.checkout.complete');
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Đặt hàng thành công',
+                        'order_id' => $order->id
+                    ]);
                     
                 default:
                     DB::rollback();

@@ -93,6 +93,9 @@ Route::delete('/cart/delete/{id}', [CartController::class, 'destroy'])->name('ca
 
 // check out
 Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
+Route::get('/checkout/complete', function () {
+    return view('client.checkout.complete');
+})->name('checkout.complete');
 Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout.post');
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('/checkout/store', [OrderController::class, 'placeOrder'])->name('checkout.store');
@@ -224,3 +227,5 @@ Route::prefix('roles')
     Route::put('/news/{id}/update', [NewsController::class, 'update'])->name('news.update');
     Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
 });
+
+

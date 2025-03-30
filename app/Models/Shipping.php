@@ -12,11 +12,11 @@ class Shipping extends Model
     protected $fillable = [
         'order_id',
         'name',
-        'note',
+        'note'
     ];
 
     public function order()
     {
-        return $this->belongsTo(Order::class, 'order_id', 'id');
+        return $this->belongsTo(Order::class);
     }
 }
