@@ -31,8 +31,6 @@
             <ul>
                 <li>Miễn phí vận chuyển áp dụng cho toàn bộ đơn hàng</li>
             </ul>
-
-<<<<<<< HEAD
         <h2>3. Chính Sách Bảo Mật</h2>
         <p>Chúng tôi cam kết bảo vệ thông tin cá nhân của khách hàng:</p>
         <ul>

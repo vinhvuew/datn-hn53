@@ -559,39 +559,42 @@
         });
     </script>
     <script>
-        // Xử lý submit form thanh toán
-        document.querySelector('.box_general.summary').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const paymentMethod = document.querySelector('.payment_method').value;
-            const form = this;
-            
-            if (paymentMethod === 'VNPAY_DECOD') {
-                // Đối với VNPAY, submit form trực tiếp
-                form.submit();
-            } else {
-                // Đối với các phương thức khác, sử dụng AJAX
-                fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        if (paymentMethod === 'COD') {
-                            window.location.href = '/checkout/complete';
-                        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.box_general.summary');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(this);
+                    const paymentMethod = document.querySelector('.payment_method').value;
+                    
+                    if (paymentMethod === 'VNPAY_DECOD') {
+                        // Đối với VNPAY, submit form trực tiếp
+                        this.submit();
                     } else {
-                        alert(data.message || 'Có lỗi xảy ra khi xử lý đơn hàng');
+                        // Đối với các phương thức khác, sử dụng AJAX
+                        fetch(this.action, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                if (paymentMethod === 'COD') {
+                                    window.location.href = '/checkout/complete';
+                                }
+                            } else {
+                                alert(data.message || 'Có lỗi xảy ra khi xử lý đơn hàng');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Có lỗi xảy ra khi xử lý thanh toán. Vui lòng thử lại sau.');
+                        });
                     }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Có lỗi xảy ra khi xử lý thanh toán. Vui lòng thử lại sau.');
                 });
             }
         });
