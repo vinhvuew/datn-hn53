@@ -40,6 +40,9 @@
                                 <a href="{{ route('news') }}">Bài viết</a>
                             </li>
                             <li>
+                                <a href="{{ route('chat.index') }}">chat</a>
+                            </li>
+                            <li>
                                 <a href="" target="_parent">Liên hệ</a>
                             </li>
                         </ul>
