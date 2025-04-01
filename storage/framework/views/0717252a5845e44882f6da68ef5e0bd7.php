@@ -1,10 +1,10 @@
 <!-- Favicons-->
-<link rel="shortcut icon" href="{{ asset('client') }}/img/logo16x16.png" type="image/x-icon">
-<link rel="apple-touch-icon" type="image/x-icon" href="{{ asset('client') }}/img/logo57x57.png">
+<link rel="shortcut icon" href="<?php echo e(asset('client')); ?>/img/favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon" type="image/x-icon" href="<?php echo e(asset('client')); ?>/img/apple-touch-icon-57x57-precomposed.png">
 <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72"
-    href="{{ asset('client') }}/{{ asset('client') }}/img/logo114x114.png">
+    href="<?php echo e(asset('client')); ?>/<?php echo e(asset('client')); ?>/img/apple-touch-icon-114x114-precomposed.png">
 <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144"
-    href="{{ asset('client') }}/img/logo144x144.png">
+    href="<?php echo e(asset('client')); ?>/img/apple-touch-icon-144x144-precomposed.png">
 
 <!-- GOOGLE WEB FONT -->
 <link rel="dns-prefetch" href="https://fonts.gstatic.com/">
@@ -47,14 +47,14 @@
 <link rel="preload" as="image" href="img/slides/slide_home_2.jpg">
 
 <!-- BASE CSS -->
-<link rel="preload" href="{{ asset('client') }}/css/bootstrap.min.css" as="style">
-<link rel="stylesheet" href="{{ asset('client') }}/css/bootstrap.min.css">
-<link rel="preload" href="{{ asset('client') }}/css/style.css" as="style">
-<link rel="stylesheet" href="{{ asset('client') }}/css/style.css">
+<link rel="preload" href="<?php echo e(asset('client')); ?>/css/bootstrap.min.css" as="style">
+<link rel="stylesheet" href="<?php echo e(asset('client')); ?>/css/bootstrap.min.css">
+<link rel="preload" href="<?php echo e(asset('client')); ?>/css/style.css" as="style">
+<link rel="stylesheet" href="<?php echo e(asset('client')); ?>/css/style.css">
 
 <!-- SPECIFIC CSS -->
-<link rel="preload" href="{{ asset('client') }}/css/home_1.css" as="style">
-<link rel="stylesheet" href="{{ asset('client') }}/css/home_1.css">
+<link rel="preload" href="<?php echo e(asset('client')); ?>/css/home_1.css" as="style">
+<link rel="stylesheet" href="<?php echo e(asset('client')); ?>/css/home_1.css">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -68,3 +68,4 @@
         /* Khoảng cách từ cạnh trên */
     }
 </style>
+<?php /**PATH /Users/admin/datn-hn53/resources/views/client/layouts/parials/css.blade.php ENDPATH**/ ?>

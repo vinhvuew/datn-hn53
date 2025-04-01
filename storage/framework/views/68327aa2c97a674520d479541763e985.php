@@ -19,7 +19,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon"
-        href="<?php echo e(asset('client')); ?>/img/logo16x16.png"/>
+        href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/favicon/favicon.ico" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com/" />
@@ -120,4 +120,4 @@
 </body>
 
 </html>
-<?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/layouts/master.blade.php ENDPATH**/ ?>
+<?php /**PATH /Users/admin/datn-hn53/resources/views/admin/layouts/master.blade.php ENDPATH**/ ?>
