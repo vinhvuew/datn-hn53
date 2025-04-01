@@ -7,7 +7,7 @@
                 <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                     <div id="logo">
                         <a href="{{ route('home') }}"><img src="{{ asset('client') }}/img/logoone.png" alt=""
-                                height="50" width="50px"></a>
+                                height="60" width="150px"></a>
                     </div>
                 </div>
                 <nav class="col-xl-6 col-lg-7">
