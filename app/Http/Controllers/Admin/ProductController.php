@@ -85,8 +85,8 @@ class ProductController extends Controller
                         'sku' => $variantData['sku'] ?? 0,
                         'image' => Storage::put('varians', $variantData['image']),
                         'quantity' => $variantData['quantity'] ?? 0,
-                        'wholesale_price' => $variantData['wholesale_price'] ?? 0,
-                        'selling_price' => $variantData['selling_price'] ?? 0
+                        // 'wholesale_price' => $variantData['wholesale_price'] ?? 0,
+                        // 'selling_price' => $variantData['selling_price'] ?? 0
                     ]);
                 }
                 if (!empty($variantData['attributes'])) {
@@ -190,7 +190,7 @@ class ProductController extends Controller
                         if (Str::startsWith($key, 'new_')) {
                             $newVariant = $product->variants()->create([
                                 'sku' => $variantData['sku'],
-                                'selling_price' => $variantData['selling_price'],
+
                                 'quantity' => $variantData['quantity'],
                                 'image' => '',
                             ]);
@@ -216,7 +216,7 @@ class ProductController extends Controller
                             if ($variant) {
                                 $variant->update([
                                     'sku' => $variantData['sku'],
-                                    'selling_price' => $variantData['selling_price'],
+                                    
                                     'quantity' => $variantData['quantity'],
                                 ]);
 

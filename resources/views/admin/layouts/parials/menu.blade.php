@@ -6,13 +6,21 @@
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item">
-            <a href="#" class="menu-link">
+        <li class="menu-item @yield('item-dashboards')">
+            <a href="{{ route('admin.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div class="text-truncate" data-i18n="Dashboards">
                     Dashboards
                 </div>
                 <span class="badge badge-center rounded-pill bg-danger ms-auto">5</span>
+            </a>
+        </li>
+        <li class="menu-item @yield('item-order')">
+            <a href="{{ route('orders.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-cart"></i>
+                <div class="text-truncate" data-i18n="Đơn hàng">
+                    Đơn hàng
+                </div>
             </a>
         </li>
         {{-- danh mục --}}
@@ -135,14 +143,7 @@
             </ul>
 
         </li>
-        <li class="menu-item">
-            <a href="{{ route('orders') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div class="text-truncate" data-i18n="Đơn hàng">
-                    Đơn hàng
-                </div>
-            </a>
-        </li>
+
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-user"></i>
@@ -159,9 +160,42 @@
 
         <li class="menu-item">
             <a href="{{ route('comment.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-chart"></i>
-                    <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>
+                <i class="menu-icon tf-icons bx bx-chart"></i>
+                <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>
             </a>
         </li>
+
+
+        <li class="menu-item">
+            <a href="{{ route('thongke.statistical') }}" class="menu-link">
+                <i class=" menu-icon fa-sharp fa-solid fa-chart-simple"></i>
+                <div class="text-truncate" data-i18n="Thống Kê">Thống Kê</div>
+            </a>
+        </li>
+
+
+
+
+
+        <li class="menu-item">
+            <a href="{{ route('news.index') }}" class="menu-link">
+                <i class="menu-icon fa-regular fa-newspaper"></i>
+                {{-- <i class=" menu-icon fa-sharp fa-solid fa-chart-simple"></i> --}}
+                <div class="text-truncate" data-i18n="Tin Tức">Tin Tức</div>
+            </a>
+        </li>
+
+
+        <li class="menu-item">
+            <a href="{{ route('admin.chat.index') }}" class="menu-link">
+                <i class="menu-icon fa-regular fa-newspaper"></i>
+                {{-- <i class=" menu-icon fa-sharp fa-solid fa-chart-simple"></i> --}}
+                <div class="text-truncate" data-i18n="chat">chat</div>
+            </a>
+        </li>
+
+
+
+
     </ul>
 </aside>

@@ -71,4 +71,9 @@ class Product extends Model
     {
         return $this->hasMany(CartDetail::class);
     }
+
+    public function getPriceAttribute()
+    {
+        return $this->price_sale ?? $this->base_price;
+    }
 }

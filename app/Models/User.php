@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,14 +18,18 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'role_id',
+        'address',
         'email',
         'password',
         'phone',
-        'role',
-    ];
-
-    protected $attributes = [
-        'role' => 'user',  // Sử dụng dấu `=>` để gán giá trị mặc định
+        'avatar',
+        'email_verified_at',
+        'verification_code',
+        'verification_code_sent_at',
+        'verification_code_expires_at',
+        'password_reset_sent_at',
+        'password_reset_expires_at'
     ];
 
     /**
@@ -37,6 +40,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'is_admin', 
     ];
 
     /**
@@ -46,6 +50,24 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'string',
+        'verification_code_sent_at' => 'datetime',
+        'verification_code_expires_at' => 'datetime',
+        'password_reset_sent_at' => 'datetime',
+        'password_reset_expires_at' => 'datetime',
     ];
-}
+    public function getAvataUrlAttribute()
+    {
+        return $this->avatar ? asset('storage/avatar/' . $this->avatar) : asset('images/default-avatar.png');
+    }
+    public function role()
+    {
+        // return $this->belongsTo(Role::class,);
+    }
+      // Kiểm tra user có phải admin không
+
+    public function isAdmin()
+    {
+        return $this->role_id == 1; // Vai trò 1 là Admin
+    }
+
+    }

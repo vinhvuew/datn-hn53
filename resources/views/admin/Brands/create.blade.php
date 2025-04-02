@@ -20,8 +20,8 @@
             @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">Tên Thương Hiệu</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror"
-                    id="name" name="name" value="{{ old('name') }}" required>
+                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
+                    value="{{ old('name') }}" required>
                 @error('name')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
