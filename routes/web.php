@@ -3,6 +3,7 @@
 
 
 use App\Http\Controllers\MessagesController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 // client
 use App\Http\Controllers\Client\HomeController;
@@ -58,10 +59,11 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     // Xác nhận đã nhận hàng (Chỉ khi trạng thái là "delivered")
     Route::put('/orders/{id}/confirm-received', [ProfileController::class, 'confirmReceived'])
         ->name('orders.confirm-received');
+    //
+
 });
 
 // chat box
-
 // router phan tin tuc
 
 Route::get('/new', [CreateNewsController::class, 'news'])->name('news');
@@ -143,31 +145,31 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
 
     // Permission
     Route::prefix('permissions')
-    ->as('permissions.')
-    ->group(function () {
-    Route::get('/', [PermissionController::class, 'index'])->name('index');
-    Route::get('create', [PermissionController::class, 'create'])->name('create');
-    Route::get('access/{id}', [PermissionController::class, 'access'])->name('access');
-    Route::post('updateGant', [PermissionController::class, 'updateGant'])->name('updateGant');
-    Route::post('store', [PermissionController::class, 'store'])->name('store');
-    Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
-    Route::get('edit/{id}', [PermissionController::class, 'edit'])->name('edit');
-    Route::put('update/{id}', [PermissionController::class, 'update'])->name('update');
-    Route::delete('destroy/{id}', [PermissionController::class, 'destroy'])->name('destroy');
-});
+        ->as('permissions.')
+        ->group(function () {
+            Route::get('/', [PermissionController::class, 'index'])->name('index');
+            Route::get('create', [PermissionController::class, 'create'])->name('create');
+            Route::get('access/{id}', [PermissionController::class, 'access'])->name('access');
+            Route::post('updateGant', [PermissionController::class, 'updateGant'])->name('updateGant');
+            Route::post('store', [PermissionController::class, 'store'])->name('store');
+            Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
+            Route::get('edit/{id}', [PermissionController::class, 'edit'])->name('edit');
+            Route::put('update/{id}', [PermissionController::class, 'update'])->name('update');
+            Route::delete('destroy/{id}', [PermissionController::class, 'destroy'])->name('destroy');
+        });
 
-// Role
-Route::prefix('roles')
-    ->as('roles.')
-    ->group(function () {
-    Route::get('/', [RoleController::class, 'index'])->name('index');
-    Route::get('create', [RoleController::class, 'create'])->name('create');
-    Route::post('store', [RoleController::class, 'store'])->name('store');
-    Route::get('show/{id}', [RoleController::class, 'show'])->name('show');
-    Route::get('edit/{id}', [RoleController::class, 'edit'])->name('edit');
-    Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
-    Route::delete('destroy/{id}', [RoleController::class, 'destroy'])->name('destroy');
-});
+    // Role
+    Route::prefix('roles')
+        ->as('roles.')
+        ->group(function () {
+            Route::get('/', [RoleController::class, 'index'])->name('index');
+            Route::get('create', [RoleController::class, 'create'])->name('create');
+            Route::post('store', [RoleController::class, 'store'])->name('store');
+            Route::get('show/{id}', [RoleController::class, 'show'])->name('show');
+            Route::get('edit/{id}', [RoleController::class, 'edit'])->name('edit');
+            Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
+            Route::delete('destroy/{id}', [RoleController::class, 'destroy'])->name('destroy');
+        });
 
     Route::resource('products', ProductController::class);
     Route::resource("category", CategoryController::class);
@@ -216,16 +218,12 @@ Route::prefix('roles')
 
     //Thống Kê
     Route::get('/thongke', [ThongKeController::class, 'statistical'])->name('thongke.statistical');
-
     // Tin Tức
     Route::get('/news', [NewsController::class, 'index'])->name('news.index');
     Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
-
     Route::post('/news/store', [NewsController::class, 'store'])->name('news.store');
     Route::delete('/news/{id}', [NewsController::class, 'destroy'])->name('news.destroy');
     Route::get('/news/{id}/edit', [NewsController::class, 'edit'])->name('news.edit');
     Route::put('/news/{id}/update', [NewsController::class, 'update'])->name('news.update');
     Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
 });
-
-

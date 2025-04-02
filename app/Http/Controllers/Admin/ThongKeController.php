@@ -23,29 +23,27 @@ class ThongKeController extends Controller
             return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
         }
         // Doanh thu theo ngày
-        $doanhThuNgay = Order::selectRaw('DATE(created_at) as ngay, SUM(total_price) as doanh_thu')
+        $doanhThuNgay = Order::selectRaw('DATE(order_date) as ngay, SUM(order_date) as doanh_thu')
             ->groupBy('ngay')
             ->orderBy('ngay', 'DESC')
             ->get();
 
         // Doanh thu theo tuần
-        $doanhThuTuan = Order::selectRaw('YEAR(created_at) as nam, WEEK(created_at, 1) as tuan, SUM(total_price) as doanh_thu')
+        $doanhThuTuan = Order::selectRaw('YEAR(order_date) as nam, WEEK(order_date, 1) as tuan, SUM(order_date) as doanh_thu')
             ->groupBy('nam', 'tuan')
             ->orderByDesc('nam')
             ->orderByDesc('tuan')
             ->get();
 
-
-
         // Doanh thu theo tháng
-        $doanhThuThang = Order::selectRaw('YEAR(created_at) as nam, MONTH(created_at) as thang, SUM(total_price) as doanh_thu')
+        $doanhThuThang = Order::selectRaw('YEAR(order_date) as nam, MONTH(order_date) as thang, SUM(order_date) as doanh_thu')
             ->groupBy('nam', 'thang')
             ->orderBy('nam', 'DESC')
             ->orderBy('thang', 'DESC')
             ->get();
 
         // Doanh thu theo năm
-        $doanhThuNam = Order::selectRaw('YEAR(created_at) as nam, SUM(total_price) as doanh_thu')
+        $doanhThuNam = Order::selectRaw('YEAR(order_date) as nam, SUM(order_date) as doanh_thu')
             ->groupBy('nam')
             ->orderBy('nam', 'DESC')
             ->get();
