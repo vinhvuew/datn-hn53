@@ -76,4 +76,6 @@ class Product extends Model
     {
         return $this->price_sale ?? $this->base_price;
     }
+
+   
 }
