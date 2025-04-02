@@ -227,9 +227,55 @@ class ProductsController extends Controller
         }
 
         // Phân trang
-        $products = $query->paginate(12);
+        $products = Product::where('is_active', 1)
+            ->latest()
+            ->limit(8)
+            ->paginate(12);
+        // $products = $query->paginate(12);
 
         // Trả về view với dữ liệu
         return view('client.product.products', compact('products', 'categories', 'brands'));
     }
+
+    // yêu thích
+    public function favorite()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để xem danh sách yêu thích.');
+        }
+
+        $favorites = Auth::user()->favoriteProducts()->get();
+
+        return view('client.product.favorites', compact('favorites'));
+    }
+
+
+    public function storefavorite(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để thêm vào yêu thích.');
+        }
+
+        $user = Auth::user();
+        $product_id = $request->input('product_id');
+
+        if (!$user->favoriteProducts()->where('product_id', $product_id)->exists()) {
+            $user->favoriteProducts()->attach($product_id);
+            return redirect()->back()->with('success', 'Đã thêm vào danh sách yêu thích.');
+        }
+
+        return redirect()->back()->with('error', 'Sản phẩm đã có trong danh sách yêu thích.');
+    }
+
+    public function destroyfavorite($id) {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để xóa sản phẩm yêu thích.');
+        }
+
+        $user = Auth::user();
+        $user->favoriteProducts()->detach($id);
+
+        return redirect()->back()->with('success', 'Đã xóa khỏi danh sách yêu thích.');
+    }
+
 }

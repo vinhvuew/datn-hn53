@@ -17,7 +17,7 @@
                 <div class="card border-<?php echo e($item['class']); ?> shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title text-<?php echo e($item['class']); ?> fw-bold"><?php echo e($item['title']); ?></h5>
-                        <p class="card-text fs-5"><?php echo e(number_format($item['value'])); ?> VNĐ</p>
+                        <p class="card-text fs-5"><?php echo e(number_format($item['value'] ?? 0, 0, ',', '.')); ?> VNĐ</p>
                     </div>
                 </div>
             </div>
@@ -44,6 +44,11 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
     const ctx = document.getElementById('doanhThuChart').getContext('2d');
+
+    // Hàm format tiền VNĐ
+    const formatCurrency = val => new Intl.NumberFormat('vi-VN').format(val) + ' VNĐ';
+
+    // Lấy dữ liệu mặc định
     let labels = <?php echo json_encode($doanhThuNgay->pluck('ngay'), 15, 512) ?>;
     let data = <?php echo json_encode($doanhThuNgay->pluck('doanh_thu'), 15, 512) ?>;
 
@@ -64,9 +69,7 @@
             plugins: {
                 legend: { display: true },
                 tooltip: {
-                    callbacks: {
-                        label: ctx => Number(ctx.raw).toLocaleString() + ' VNĐ'
-                    }
+                    callbacks: { label: ctx => formatCurrency(ctx.raw) }
                 },
                 title: {
                     display: true,
@@ -76,23 +79,17 @@
                 datalabels: {
                     anchor: 'end',
                     align: 'top',
-                    formatter: val => val.toLocaleString() + ' VNĐ',
+                    formatter: val => formatCurrency(val),
                     font: { weight: 'bold', size: 12 },
                     color: '#333'
                 }
             },
             scales: {
-                x: {
-                    grid: { display: true },
-                    ticks: { font: { size: 14 } }
-                },
+                x: { grid: { display: true }, ticks: { font: { size: 14 } } },
                 y: {
                     beginAtZero: true,
                     grid: { display: true },
-                    ticks: {
-                        font: { size: 14 },
-                        callback: val => val.toLocaleString() + ' VNĐ'
-                    }
+                    ticks: { font: { size: 14 }, callback: val => formatCurrency(val) }
                 }
             }
         }
@@ -117,8 +114,8 @@
                 data = <?php echo json_encode($doanhThuNam->pluck('doanh_thu'), 15, 512) ?>;
                 break;
         }
-        chart.data.labels = labels;
-        chart.data.datasets[0].data = data;
+        chart.data.labels = [...labels];
+        chart.data.datasets[0].data = [...data];
         chart.update();
     });
 </script>
