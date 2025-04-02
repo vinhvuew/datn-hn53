@@ -18,12 +18,26 @@ class HomeController extends Controller
 
     public function home()
     {
-        $featuredProducts = Product::where('is_show_home', true)->latest()->limit(8)->get();
-        $goodDeals = Product::where('is_good_deal', true)->orderBy('price_sale', 'asc')->get();
-        $newProducts = Product::orderBy('created_at', 'desc')->limit(8)->get();
+        $featuredProducts = Product::where('is_active', 1)
+            ->where('is_show_home', 1)
+            ->latest()
+            ->limit(8)
+            ->get();
+
+        $goodDeals = Product::where('is_active', 1)
+            ->where('is_good_deal', 1)
+            ->orderBy('price_sale', 'asc')
+            ->limit(8)
+            ->get();
+
+        $newProducts = Product::where('is_active', 1)
+            ->orderBy('created_at', 'desc')
+            ->limit(8)
+            ->get();
 
         return view(self::PATH_VIEW . __FUNCTION__, compact('featuredProducts', 'goodDeals', 'newProducts'));
     }
+
 
 
     public function checkout(Request $request)
