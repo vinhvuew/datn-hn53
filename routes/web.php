@@ -61,7 +61,7 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::put('/orders/{id}/confirm-received', [ProfileController::class, 'confirmReceived'])
         ->name('orders.confirm-received');
 });
-//yêu
+// sp yêu thích
 Route::middleware(['auth'])->group(function () {
     Route::get('/favorites', [ProductsController::class, 'favorite'])->name('favorites');
     Route::post('/favorites', [ProductsController::class, 'storefavorite'])->name('favorites.store');
