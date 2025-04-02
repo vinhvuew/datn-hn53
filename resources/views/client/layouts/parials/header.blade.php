@@ -7,7 +7,7 @@
                 <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                     <div id="logo">
                         <a href="{{ route('home') }}"><img src="{{ asset('client') }}/img/logoone.png" alt=""
-                                height="50" width="50px"></a>
+                                height="60" width="150px"></a>
                     </div>
                 </div>
                 <nav class="col-xl-6 col-lg-7">
@@ -46,10 +46,10 @@
                     </div>
                     <!--/main-menu -->
                 </nav>
-                <div class="col-xl-3 col-lg-2 d-lg-flex align-items-center justify-content-end text-end">
+                {{-- <div class="col-xl-3 col-lg-2 d-lg-flex align-items-center justify-content-end text-end">
                     <a class="phone_top" href="tel://9438843343"><strong>+94
                             423-23-221</strong></a>
-                </div>
+                </div> --}}
             </div>
             <!-- /row -->
         </div>
@@ -140,12 +140,14 @@
                                     <a href="{{ route('cart.view') }}" class="cart_bt ms-3"></a>
                                     <div class="dropdown-menu">
                                         <ul>
-                                            {{-- <li>
-                                                <a href="track-order.html"><i class="ti-truck"></i>Track your
-                                                    Order</a>
-                                            </li> --}}
                                             <li>
-                                                <a href="my-orders.html"><i class="ti-package"></i>Đơn hàng của
+                                                <a href="{{ route('favorites') }}">
+                                                    <i class="fas fa-heart me-2"></i> Sản phẩm yêu thích
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('profile.myOder') }}"><i class="ti-package"></i>Đơn
+                                                    hàng của
                                                     tôi</a>
                                             </li>
                                             <li>

@@ -70,44 +70,41 @@
 
         <div class="container margin_60_35">
             <div class="main_title">
-                <h2>Sản phẩm mới ra</h2>
-                <span>Sản phẩm Mới</span>
-
+                <h2>Sản Phẩm Nổi Bật</h2>
+                <span>Sản Phẩm Nổi Bật</span>
             </div>
-            <div class="row small-gutters">
-                <div class="row g-4">
-                    @foreach ($latestProducts as $product)
-                        <div class="col-6 col-md-4 col-xl-3">
-                            <div class="card border-0 shadow-sm rounded overflow-hidden position-relative product-card">
-                                <a href="{{ route('productDetail', $product->slug) }}" class="d-block">
-                                    <img src="{{ Storage::url($product->img_thumbnail) }}"
-                                        class="card-img-top img-fluid rounded product-image" alt="{{ $product->name }}">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-4">
+                @foreach ($featuredProducts as $product)
+                    <div class="col">
+                        <div class="card border-0 shadow-sm rounded overflow-hidden position-relative h-100 product-card">
+                            <a href="{{ route('productDetail', $product->slug) }}" class="d-block">
+                                <img src="{{ Storage::url($product->img_thumbnail) }}"
+                                    class="card-img-top img-fluid product-image" alt="{{ $product->name }}">
+                            </a>
+                            <div class="card-body d-flex flex-column">
+                                <a href="{{ route('productDetail', $product->slug) }}"
+                                    class="text-dark text-decoration-none">
+                                    <h4 class="fw-bold product-title">{{ Str::limit($product->name, 20) }}</h4>
                                 </a>
-
-                                <div class="card-body text-center">
-                                    <a href="{{ route('productDetail', $product->slug) }}"
-                                        class="text-dark text-decoration-none">
-                                        <h4 class="fw-bold product-title">{{ $product->name }}</h4>
-                                    </a>
-                                    <p class="small text-muted">{{ Str::limit($product->description, 50) }}...</p>
-
-                                    <div class="price_box">
+                                <p class="small text-muted flex-grow-1">{{ Str::limit($product->description, 50) }}</p>
+                                <div class="price_box mt-auto">
+                                    @if ($product->price_sale && $product->price_sale < $product->base_price)
                                         <span class="old_price text-muted text-decoration-line-through">
                                             {{ number_format($product->base_price, 0, ',', '.') }} VND
                                         </span>
-
-                                        @if ($product->price_sale)
-                                            <span class="new_price text-danger fw-bold">
-                                                {{ number_format($product->price_sale, 0, ',', '.') }} VND
-                                            </span>
-                                        @endif
-                                    </div>
+                                        <span class="new_price text-danger fw-bold">
+                                            {{ number_format($product->price_sale, 0, ',', '.') }} VND
+                                        </span>
+                                    @else
+                                        <span class="new_price text-danger fw-bold">
+                                            {{ number_format($product->base_price, 0, ',', '.') }} VND
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-
+                    </div>
+                @endforeach
             </div>
         </div>
 
@@ -115,29 +112,34 @@
 
         <div class="container margin_60_35">
             <div class="main_title">
-                <h2>SALE SẢN PHẨM</h2>
-                <span>SẢN PHẨM GIẢM GIÁ</span>
+                <h2>SẢN PHẨM GIÁ TỐT</h2>
+                <span>SẢN PHẨM GIÁ TỐT</span>
 
             </div>
-
             <div class="carousel-inner">
-                @foreach ($discountedProducts as $key => $product)
+                @foreach ($goodDeals as $key => $product)
                     <div class="carousel-item @if ($key == 0) active @endif">
                         <div class="row justify-content-center">
                             <div class="col-md-8"> <!-- Thay đổi từ col-md-4 thành col-md-8 để rộng hơn -->
                                 <div class="grid_item" style="width: 100%; margin: 0 auto;">
                                     <figure>
-                                        <a href="#">
-                                            <img src="{{ Storage::url($product->img_thumbnail) }}"
-                                                style="width: 100%; height: 300px; object-fit: cover; display: block; margin: 0 auto;"
+                                        <a href="{{ route('productDetail', $product->slug) }}">
+                                            <img src="{{ Storage::url($product->img_thumbnail) }}" width="100%"
+                                                height="350"
+                                                style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); object-fit: cover;"
                                                 alt="Product Image">
                                         </a>
                                     </figure>
-                                    <h3>{{ $product->name }}</h3>
+                                    <h3><a href="{{ route('productDetail', $product->slug) }}">{{ $product->name }}</a>
+                                    </h3>
                                     <div class="price_box">
-                                        <span class="new_price">${{ $product->price_sale }}</span>
-                                        <span class="old_price">${{ $product->base_price }}</span>
+                                        <span class="new_price">{{ number_format($product->price_sale, 0, ',', '.') }}
+                                            VND</span>
+                                        <span class="old_price text-muted text-decoration-line-through">
+                                            {{ number_format($product->base_price, 0, ',', '.') }} VND
+                                        </span>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -145,54 +147,47 @@
                     </div>
                 @endforeach
             </div>
-
         </div>
-
 
         <!-- /featured -->
 
         <div class="container margin_60_35">
             <div class="main_title">
-                <h2>Sản phẩm bán chạy</h2>
-                <span>Sản phẩm HOT</span>
-
+                <h2>SẢN PHẨM MỚI</h2>
+                <span>SẢN PHẨM MỚI</span>
             </div>
-            <div class="row small-gutters">
-                <div class="row g-4">
-                    @foreach ($topSellingProducts as $product)
-                        <div class="col-6 col-md-4 col-xl-3">
-                            <div class="card border-0 shadow-sm rounded overflow-hidden position-relative product-card">
-                                <a href="{{ route('productDetail', $product->slug) }}" class="d-block">
-                                    <img src="{{ Storage::url($product->img_thumbnail) }}"
-                                        class="card-img-top img-fluid rounded product-image" alt="{{ $product->name }}">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-4">
+                @foreach ($newProducts as $product)
+                    <div class="col">
+                        <div class="card product-card border-0 shadow-sm rounded overflow-hidden position-relative h-100">
+                            <a href="{{ route('productDetail', $product->slug) }}" class="d-block">
+                                <img src="{{ Storage::url($product->img_thumbnail) }}"
+                                    class="card-img-top img-fluid product-image" alt="{{ $product->name }}">
+                            </a>
+                            <div class="card-body d-flex flex-column text-center">
+                                <a href="{{ route('productDetail', $product->slug) }}"
+                                    class="text-dark text-decoration-none">
+                                    <h6 class="fw-bold product-title">{{ $product->name }}</h6>
                                 </a>
-
-                                <div class="card-body text-center">
-                                    <a href="{{ route('productDetail', $product->slug) }}"
-                                        class="text-dark text-decoration-none">
-                                        <h6 class="fw-bold product-title">{{ $product->name }}</h6>
-                                    </a>
-                                    <p class="small text-muted">{{ Str::limit($product->description, 50) }}</p>
-                                    <div class="price_box">
-                                        <span class="old_price text-muted text-decoration-line-through">
-                                            {{ number_format($product->base_price, 0, ',', '.') }}đ
+                                <p class="small text-muted flex-grow-1">
+                                    {{ Str::limit($product->description, 50) }}
+                                </p>
+                                <div class="price_box mt-auto">
+                                    <span class="old_price text-muted text-decoration-line-through">
+                                        {{ number_format($product->base_price, 0, ',', '.') }} VND
+                                    </span>
+                                    @if ($product->price_sale)
+                                        <span class="new_price text-danger fw-bold">
+                                            {{ number_format($product->price_sale, 0, ',', '.') }} VND
                                         </span>
-
-                                        @if ($product->price_sale)
-                                            <span class="new_price text-danger fw-bold">
-                                                {{ number_format($product->price_sale, 0, ',', '.') }}đ
-                                            </span>
-                                        @endif
-                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-
+                    </div>
+                @endforeach
             </div>
         </div>
-
 
         <!-- /container -->
 
@@ -210,36 +205,6 @@
             <!-- /container -->
         </div>
         <!-- /bg_gray -->
-
-        <div class="container margin_60_35">
-
-            <div class="row">
-                <div class="col-lg-6">
-
-                </div>
-                <!-- /box_news -->
-                <div class="container margin_60_35">
-                    <div class="main_title">
-                        <h2>Top Thương hiệu</h2>
-                        <span>THương hiệu uy tín</span>
-
-                    </div>
-                    <div class="row">
-                        {{-- @foreach ($brands as $brand)
-                            <div class="col-md-3 col-6">
-                                <div class="brand_item text-center">
-                                    <h3>{{ $brand->name }}</h3>
-                                    <p>{{ $brand->text }}</p>
-                                </div>
-                            </div>
-                        @endforeach --}}
-                    </div>
-                </div>
-
-
-
-            </div>
-        </div>
         <!-- /container -->
     </main>
     <!-- /main -->
@@ -248,6 +213,32 @@
     <!-- /row -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Đảm bảo tất cả ảnh sản phẩm có kích thước đồng đều */
+        .product-card {
+            overflow: hidden;
+            /* Ngăn ảnh phóng to vượt ra ngoài */
+            position: relative;
+        }
+
+        /* Ảnh sản phẩm ban đầu */
+        .product-image {
+            width: 100%;
+            height: 250px;
+            /* Điều chỉnh chiều cao theo mong muốn */
+            object-fit: cover;
+            /* Giữ tỷ lệ ảnh */
+            transition: transform 0.4s ease-in-out;
+            /* Tạo hiệu ứng mượt */
+        }
+
+        /* Khi hover vào card, ảnh sẽ phóng to */
+        .card:hover .product-image {
+            transform: scale(1.1);
+            /* Zoom 10% */
+        }
+
+
+
         .carousel {
             position: relative;
             overflow: hidden;

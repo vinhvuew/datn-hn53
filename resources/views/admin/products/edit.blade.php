@@ -126,49 +126,46 @@
                                         thể</label>
 
                                     <!-- Biến thể sản phẩm (ẩn theo mặc định) -->
-                                    <div id="variantsSection" @if ($product->variants && $product->variants->count() === 0) class="d-none" @endif>
-                                        <div id="variants" class="mb-3">
-                                            @foreach ($product->variants as $variantIndex => $variant)
-                                                <div class="variant border p-3 mb-3" id="variant[{{ $variantIndex }}]">
-                                                    <h5 class="mt-3">Thuộc tính {{ $loop->iteration }}</h5>
+
+                                    @if ($product->variants->isEmpty())
+                                        <div id="variantsSection" style="display: none;">
+                                            <div id="variants" class="mb-3">
+                                                <div class="variant border p-3">
+                                                    <h5 class="mt-3">Thuộc Tính 1</h5>
                                                     <div class="mb-3">
-                                                        <label for="variant_sku_{{ $variantIndex }}">Mã biến thể</label>
-                                                        <input type="text" id="variant_sku_{{ $variantIndex }}"
-                                                            name="variants[{{ $variant->id }}][sku]"
+                                                        <label for="variant_sku_0">Mã biến thể</label>
+
+                                                        <input type="text" id="variant_sku_0" name="variants[0][sku]"
                                                             placeholder="Mã biến thể" class="form-control"
-                                                            value="{{ $variant->sku }}">
+                                                            value="{{ old('variant_sku_0') }}">
                                                     </div>
 
                                                     <div class="mb-4">
-                                                        <label for="variant_quantity_{{ $variantIndex }}">Số lượng tồn
-                                                            kho</label>
-                                                        <input type="number" id="variant_quantity_{{ $variantIndex }}"
-                                                            name="variants[{{ $variant->id }}][quantity]"
-                                                            class="form-control" placeholder="Số lượng tồn kho"
-                                                            value="{{ $variant->quantity }}">
+                                                        <label for="variant_quantity_0">Số lượng tồn kho</label>
+
+                                                        <input type="number" id="variant_quantity_0"
+                                                            name="variants[0][quantity]" class="form-control"
+                                                            placeholder="Số lượng tồn kho"
+                                                            value="{{ old('variants[0][quantity]') }}">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <input type="file" id="variant_image_{{ $variantIndex }}"
-                                                            name="variants[{{ $variant->id }}][image]"
-                                                            class="form-control">
-                                                        <img src="{{ Storage::url($variant->image) }}" alt=""
-                                                            srcset="" width="50px" class="rounded mt-2">
+                                                        <input type="file" id="variant_image_0"
+                                                            name="variants[0][image]" class="form-control">
                                                     </div>
                                                     <!-- Thuộc tính của biến thể -->
-                                                    <div id="attributesSection_{{ $variantIndex }} mb-3">
+                                                    <div id="attributesSection_0 mb-3">
                                                         @foreach ($attributes as $attribute)
                                                             <div class="mt-3">
                                                                 <label
-                                                                    for="variant_attribute_{{ $attribute->id }}_{{ $variantIndex }}">{{ $attribute->name }}</label>
+                                                                    for="variant_attribute_{{ $attribute->id }}_0">{{ $attribute->name }}</label>
                                                                 <select class="select2 form-select"
-                                                                    id="variant_attribute_{{ $attribute->id }}_{{ $variantIndex }}"
-                                                                    name="variants[{{ $variant->id }}][attributes][{{ $attribute->id }}]"
+                                                                    id="variant_attribute_{{ $attribute->id }}_0"
+                                                                    name="variants[0][attributes][{{ $attribute->id }}]"
                                                                     class="form-control">
                                                                     <option value="">Chọn {{ $attribute->name }}
                                                                     </option>
                                                                     @foreach ($attribute->values as $value)
-                                                                        <option @selected($variant->attributes->contains('attribute_value_id', $value->id))
-                                                                            value="{{ $value->id }}">
+                                                                        <option value="{{ $value->id }}">
                                                                             {{ $value->value }}
                                                                         </option>
                                                                     @endforeach
@@ -177,18 +174,107 @@
                                                         @endforeach
                                                     </div>
                                                 </div>
-                                            @endforeach
+                                            </div>
+                                            <button type="button" id="add-variant" class="btn btn-primary "><i
+                                                    class="mdi mdi-plus me-0 me-sm-1"></i>Thêm Thuộc
+                                                Tính</button>
                                         </div>
-                                        <button type="button" id="add-variant" class="btn btn-primary "><i
-                                                class="mdi mdi-plus me-0 me-sm-1"></i>Thêm Thuộc
-                                            Tính</button>
-                                    </div>
+                                    @elseif($product)
+                                        <div id="variantsSection" @if ($product->variants && $product->variants->count() === 0) class="d-none" @endif>
+                                            <div id="variants" class="mb-3">
+                                                @foreach ($product->variants as $variantIndex => $variant)
+                                                    <div class="variant border p-3 mb-3"
+                                                        id="variant[{{ $variantIndex }}]">
+                                                        <h5 class="mt-3">Thuộc tính {{ $loop->iteration }}</h5>
+                                                        <div class="mb-3">
+                                                            <label for="variant_sku_{{ $variantIndex }}">Mã biến
+                                                                thể</label>
+                                                            <input type="text" id="variant_sku_{{ $variantIndex }}"
+                                                                name="variants[{{ $variant->id }}][sku]"
+                                                                placeholder="Mã biến thể" class="form-control"
+                                                                value="{{ $variant->sku }}">
+                                                        </div>
+
+                                                        <div class="mb-4">
+                                                            <label for="variant_quantity_{{ $variantIndex }}">Số lượng tồn
+                                                                kho</label>
+                                                            <input type="number"
+                                                                id="variant_quantity_{{ $variantIndex }}"
+                                                                name="variants[{{ $variant->id }}][quantity]"
+                                                                class="form-control" placeholder="Số lượng tồn kho"
+                                                                value="{{ $variant->quantity }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <input type="file" id="variant_image_{{ $variantIndex }}"
+                                                                name="variants[{{ $variant->id }}][image]"
+                                                                class="form-control">
+                                                            <img src="{{ Storage::url($variant->image) }}" alt=""
+                                                                srcset="" width="50px" class="rounded mt-2">
+                                                        </div>
+                                                        <!-- Thuộc tính của biến thể -->
+                                                        <div id="attributesSection_{{ $variantIndex }} mb-3">
+                                                            @foreach ($attributes as $attribute)
+                                                                <div class="mt-3">
+                                                                    <label
+                                                                        for="variant_attribute_{{ $attribute->id }}_{{ $variantIndex }}">{{ $attribute->name }}</label>
+                                                                    <select class="select2 form-select"
+                                                                        id="variant_attribute_{{ $attribute->id }}_{{ $variantIndex }}"
+                                                                        name="variants[{{ $variant->id }}][attributes][{{ $attribute->id }}]"
+                                                                        class="form-control">
+                                                                        <option value="">Chọn {{ $attribute->name }}
+                                                                        </option>
+                                                                        @foreach ($attribute->values as $value)
+                                                                            <option @selected($variant->attributes->contains('attribute_value_id', $value->id))
+                                                                                value="{{ $value->id }}">
+                                                                                {{ $value->value }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <button type="button" id="add-variant" class="btn btn-primary "><i
+                                                    class="mdi mdi-plus me-0 me-sm-1"></i>Thêm Thuộc
+                                                Tính</button>
+                                        </div>
+                                    @endif
+
                                 </div>
                             </div>
                             <!-- /Product Information -->
                         </div>
                         <!-- Second column -->
                         <div class="col-12 col-lg-4">
+                            {{-- kích hoạt --}}
+                            <div class="card mb-4 p-3">
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_active" class="form-check-input" value="1"
+                                        id="is_active" {{ $product->is_active ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_active">Hoạt động</label>
+                                </div>
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_good_deal" class="form-check-input" value="1"
+                                        id="is_good_deal" {{ $product->is_good_deal ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_good_deal">Ưu đãi tốt</label>
+                                </div>
+
+                                {{-- <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_new" class="form-check-input" value="1"
+                                        id="is_new" {{ $product->is_new ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_new">Sản phẩm mới</label>
+                                </div> --}}
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_show_home" class="form-check-input" value="1"
+                                        id="is_show_home" {{ $product->is_show_home ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_show_home">Sản phẩm nổi bật</label>
+                                </div>
+                            </div>
+
                             <!-- /danh mục -->
                             <div class="card mb-4">
                                 <div class="card-header">
@@ -240,8 +326,8 @@
                                     </div>
                                     <!-- Discounted Price -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="ecommerce-product-discount-price">Giá tùy
-                                            chỉnh</label>
+                                        <label class="form-label" for="ecommerce-product-discount-price">Giá ưu
+                                            đãi</label>
                                         <input type="number" class="form-control" id="price_sale"
                                             placeholder="price_sale" name="price_sale" aria-label="price_sale"
                                             value="{{ $product->price_sale }}">
@@ -363,6 +449,11 @@
                     variantElement.remove();
                 }
             }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(".form-check-input").bootstrapSwitch();
         });
     </script>
 @endsection

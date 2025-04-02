@@ -10,13 +10,13 @@
             <li class="nav-item">
                 <a class="nav-link @yield('order')" href="{{ route('profile.myOder') }}">
                     <i class='mdi mdi mdi-cart-check mdi-20px me-1'>
-                    </i>Đơn hàng</a>
+                    </i>Lịch Sử Đơn hàng</a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link @yield('History')" href="pages-profile-projects.html">
                     <i class='mdi mdi-history me-1 mdi-20px'>
                     </i>Lịch sử</a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 @if (Auth::check() && (Auth::user()->role === 'admin' || Auth::user()->role === 'moderator'))
                     <a class="nav-link @yield('Account')" href="{{ route('admin.logad') }}">
@@ -29,12 +29,13 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-            
-                <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+
+                <a href="#" class="nav-link"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="mdi mdi-logout me-1 mdi-20px"></i> Đăng xuất
                 </a>
             </li>
-            
+
         </ul>
     </div>
 </div>

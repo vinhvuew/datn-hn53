@@ -2,7 +2,7 @@
 <main class="bg_gray">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-5">
+            <div class="col-md-8">
                 <div id="confirm">
                     <div class="icon icon--order-success svg add_bottom_15">
                         <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72">
@@ -12,15 +12,58 @@
                             </g>
                         </svg>
                     </div>
-                <h2>Đặt hàng thành công!</h2>
-                <p>You will receive a confirmation email soon!</p>
+                    <h2>Đặt hàng thành công!</h2>
+                    <p>Cảm ơn bạn đã mua hàng tại Legend Shoes!</p>
+                    <p>Chúng tôi sẽ gửi email xác nhận đơn hàng cho bạn.</p>
+                    <div class="buttons">
+                        <a href="/" class="btn_1">Tiếp tục mua sắm</a>
+                        <a href="/profile/myOder" class="btn_1 outline">Xem đơn hàng</a>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- /row -->
     </div>
-    <!-- /container -->
-    
 </main>
 <?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('style-libs'); ?>
+<style>
+    #confirm {
+        text-align: center;
+        padding: 60px 0;
+    }
+    #confirm h2 {
+        margin-bottom: 25px;
+    }
+    #confirm .buttons {
+        margin-top: 30px;
+    }
+    #confirm .buttons .btn_1 {
+        margin: 0 10px;
+    }
+    .icon--order-success svg path {
+        animation: checkmark 0.25s ease-in-out 0.7s backwards;
+    }
+    .icon--order-success svg circle {
+        animation: checkmark-circle 0.6s ease-in-out backwards;
+    }
+    @keyframes checkmark {
+        0% {
+            stroke-dashoffset: 50px;
+        }
+        100% {
+            stroke-dashoffset: 0;
+        }
+    }
+    @keyframes checkmark-circle {
+        0% {
+            stroke-dashoffset: 240px;
+        }
+        100% {
+            stroke-dashoffset: 480px;
+        }
+    }
+</style>
+<?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/admin/datn-hn53/resources/views/client/checkout/complete.blade.php ENDPATH**/ ?>
