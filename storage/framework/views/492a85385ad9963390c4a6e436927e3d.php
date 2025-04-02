@@ -236,17 +236,11 @@
                                         <h5 class="card-title m-0">Hoạt động vận chuyển</h5>
                                         <?php if($order->status === 'pending'): ?>
                                             <?php if($order->payment_method === 'VNPAY_DECOD' && $order->payment_status === 'Chờ thanh toán'): ?>
-<<<<<<< HEAD
-                                                <form action="<?php echo e(route('vnpay.repay', $order->id)); ?>" method="POST" class="d-inline">
-                                                    <?php echo csrf_field(); ?>
-                                                    <button type="submit" class="btn btn-primary btn-sm">Thanh toán lại</button>
-=======
                                                 <form action="<?php echo e(route('vnpay.repay', $order->id)); ?>" method="POST"
                                                     class="d-inline">
                                                     <?php echo csrf_field(); ?>
                                                     <button type="submit" class="btn btn-primary btn-sm">Thanh toán
                                                         lại</button>
->>>>>>> 974fe6fee4137281fc0ce9c91b9a174e445bd586
                                                 </form>
                                             <?php endif; ?>
                                             <form action="<?php echo e(route('profile.orders.cancel', $order->id)); ?>"

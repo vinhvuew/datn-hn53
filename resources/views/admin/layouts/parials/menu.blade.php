@@ -200,6 +200,7 @@
             </ul>
         </li>
 
+
         <li class="menu-item">
             <a href="{{ route('news.index') }}" class="menu-link">
                 <i class="menu-icon fa-regular fa-newspaper"></i>

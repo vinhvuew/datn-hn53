@@ -48,7 +48,10 @@
     const ctx = document.getElementById('doanhThuChart').getContext('2d');
 
     // Hàm format tiền VNĐ
-    const formatCurrency = val => new Intl.NumberFormat('vi-VN').format(val) + ' VNĐ';
+    const formatCurrency = val => new Intl.NumberFormat('vi-VN', {
+        style: 'decimal',
+        maximumFractionDigits: 0
+    }).format(val) + ' VNĐ';
 
     // Lấy dữ liệu mặc định
     let labels = @json($doanhThuNgay->pluck('ngay'));
@@ -71,7 +74,9 @@
             plugins: {
                 legend: { display: true },
                 tooltip: {
-                    callbacks: { label: ctx => formatCurrency(ctx.raw) }
+                    callbacks: {
+                        label: ctx => formatCurrency(ctx.raw)
+                    }
                 },
                 title: {
                     display: true,
@@ -91,7 +96,10 @@
                 y: {
                     beginAtZero: true,
                     grid: { display: true },
-                    ticks: { font: { size: 14 }, callback: val => formatCurrency(val) }
+                    ticks: {
+                        font: { size: 14 },
+                        callback: val => formatCurrency(val)
+                    }
                 }
             }
         }
