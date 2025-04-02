@@ -1,236 +1,9 @@
-<<<<<<< HEAD
-[2025-03-14 22:34:07] local.ERROR: SQLSTATE[HY000] [1049] Unknown database 'datn_hn53' (Connection: mysql, SQL: select table_name as `name`, (data_length + index_length) as `size`, table_comment as `comment`, engine as `engine`, table_collation as `collation` from information_schema.tables where table_schema = 'datn_hn53' and table_type in ('BASE TABLE', 'SYSTEM VERSIONED') order by table_name) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'datn_hn53' (Connection: mysql, SQL: select table_name as `name`, (data_length + index_length) as `size`, table_comment as `comment`, engine as `engine`, table_collation as `collation` from information_schema.tables where table_schema = 'datn_hn53' and table_type in ('BASE TABLE', 'SYSTEM VERSIONED') order by table_name) at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
-[stacktrace]
-#0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('select table_na...', Array, Object(Closure))
-#1 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(414): Illuminate\\Database\\Connection->run('select table_na...', Array, Object(Closure))
-#2 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(401): Illuminate\\Database\\Connection->select('select table_na...', Array, false)
-#3 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\MySqlBuilder.php(41): Illuminate\\Database\\Connection->selectFromWriteConnection('select table_na...')
-#4 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\MySqlBuilder.php(147): Illuminate\\Database\\Schema\\MySqlBuilder->getTables()
-#5 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\WipeCommand.php(71): Illuminate\\Database\\Schema\\MySqlBuilder->dropAllTables()
-#6 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\WipeCommand.php(48): Illuminate\\Database\\Console\\WipeCommand->dropAllTables(NULL)
-#7 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Database\\Console\\WipeCommand->handle()
-#8 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
-#9 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
-#10 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
-#11 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
-#12 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(211): Illuminate\\Container\\Container->call(Array)
-#13 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Command\\Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArrayInput), Object(Illuminate\\Console\\OutputStyle))
-#14 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArrayInput), Object(Illuminate\\Console\\OutputStyle))
-#15 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Concerns\\CallsCommands.php(67): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArrayInput), Object(Symfony\\Component\\Console\\Output\\NullOutput))
-#16 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Concerns\\CallsCommands.php(40): Illuminate\\Console\\Command->runCommand('db:wipe', Array, Object(Symfony\\Component\\Console\\Output\\NullOutput))
-#17 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\FreshCommand.php(44): Illuminate\\Console\\Command->callSilent('db:wipe', Array)
-#18 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\View\\Components\\Task.php(37): Illuminate\\Database\\Console\\Migrations\\FreshCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
-#19 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\View\\Components\\Factory.php(58): Illuminate\\Console\\View\\Components\\Task->render('Dropping all ta...', Object(Closure))
-#20 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\FreshCommand.php(44): Illuminate\\Console\\View\\Components\\Factory->__call('task', Array)
-#21 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\FreshCommand->handle()
-#22 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
-#23 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
-#24 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
-#25 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
-#26 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(211): Illuminate\\Container\\Container->call(Array)
-#27 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Command\\Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
-#28 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
-#29 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php(1096): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#30 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php(324): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\FreshCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#31 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#32 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#33 C:\\laragon\\www\\datn-hn53\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#34 {main}
 
-[previous exception] [object] (PDOException(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'datn_hn53' at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php:65)
-[stacktrace]
-#0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(65): PDO->__construct('mysql:host=127....', 'root', Object(SensitiveParameterValue), Array)
-#1 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(44): Illuminate\\Database\\Connectors\\Connector->createPdoConnection('mysql:host=127....', 'root', '', Array)
-#2 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\MySqlConnector.php(24): Illuminate\\Database\\Connectors\\Connector->createConnection('mysql:host=127....', Array, Array)
-#3 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\ConnectionFactory.php(184): Illuminate\\Database\\Connectors\\MySqlConnector->connect(Array)
-#4 [internal function]: Illuminate\\Database\\Connectors\\ConnectionFactory->Illuminate\\Database\\Connectors\\{closure}()
-#5 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(1339): call_user_func(Object(Closure))
-#6 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(528): Illuminate\\Database\\Connection->getPdo()
-#7 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(423): Illuminate\\Database\\Connection->getPdoForSelect(false)
-#8 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(816): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}('select table_na...', Array)
-#9 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('select table_na...', Array, Object(Closure))
-#10 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(414): Illuminate\\Database\\Connection->run('select table_na...', Array, Object(Closure))
-#11 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(401): Illuminate\\Database\\Connection->select('select table_na...', Array, false)
-#12 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\MySqlBuilder.php(41): Illuminate\\Database\\Connection->selectFromWriteConnection('select table_na...')
-#13 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\MySqlBuilder.php(147): Illuminate\\Database\\Schema\\MySqlBuilder->getTables()
-#14 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\WipeCommand.php(71): Illuminate\\Database\\Schema\\MySqlBuilder->dropAllTables()
-#15 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\WipeCommand.php(48): Illuminate\\Database\\Console\\WipeCommand->dropAllTables(NULL)
-#16 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Database\\Console\\WipeCommand->handle()
-#17 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
-#18 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
-#19 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
-#20 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
-#21 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(211): Illuminate\\Container\\Container->call(Array)
-#22 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Command\\Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArrayInput), Object(Illuminate\\Console\\OutputStyle))
-#23 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArrayInput), Object(Illuminate\\Console\\OutputStyle))
-#24 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Concerns\\CallsCommands.php(67): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArrayInput), Object(Symfony\\Component\\Console\\Output\\NullOutput))
-#25 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Concerns\\CallsCommands.php(40): Illuminate\\Console\\Command->runCommand('db:wipe', Array, Object(Symfony\\Component\\Console\\Output\\NullOutput))
-#26 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\FreshCommand.php(44): Illuminate\\Console\\Command->callSilent('db:wipe', Array)
-#27 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\View\\Components\\Task.php(37): Illuminate\\Database\\Console\\Migrations\\FreshCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
-#28 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\View\\Components\\Factory.php(58): Illuminate\\Console\\View\\Components\\Task->render('Dropping all ta...', Object(Closure))
-#29 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\FreshCommand.php(44): Illuminate\\Console\\View\\Components\\Factory->__call('task', Array)
-#30 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\FreshCommand->handle()
-#31 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
-#32 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
-#33 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
-#34 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
-#35 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(211): Illuminate\\Container\\Container->call(Array)
-#36 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Command\\Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
-#37 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
-#38 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php(1096): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#39 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php(324): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\FreshCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#40 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#41 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#42 C:\\laragon\\www\\datn-hn53\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#43 {main}
-"} 
-[2025-03-14 22:34:21] local.ERROR: SQLSTATE[HY000] [1049] Unknown database 'datn_hn53' (Connection: mysql, SQL: select table_name as `name`, (data_length + index_length) as `size`, table_comment as `comment`, engine as `engine`, table_collation as `collation` from information_schema.tables where table_schema = 'datn_hn53' and table_type in ('BASE TABLE', 'SYSTEM VERSIONED') order by table_name) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'datn_hn53' (Connection: mysql, SQL: select table_name as `name`, (data_length + index_length) as `size`, table_comment as `comment`, engine as `engine`, table_collation as `collation` from information_schema.tables where table_schema = 'datn_hn53' and table_type in ('BASE TABLE', 'SYSTEM VERSIONED') order by table_name) at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
-[stacktrace]
-#0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('select table_na...', Array, Object(Closure))
-#1 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(414): Illuminate\\Database\\Connection->run('select table_na...', Array, Object(Closure))
-#2 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(401): Illuminate\\Database\\Connection->select('select table_na...', Array, false)
-#3 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\MySqlBuilder.php(41): Illuminate\\Database\\Connection->selectFromWriteConnection('select table_na...')
-#4 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\Builder.php(165): Illuminate\\Database\\Schema\\MySqlBuilder->getTables(false)
-#5 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\DatabaseMigrationRepository.php(184): Illuminate\\Database\\Schema\\Builder->hasTable('migrations')
-#6 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(727): Illuminate\\Database\\Migrations\\DatabaseMigrationRepository->repositoryExists()
-#7 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(140): Illuminate\\Database\\Migrations\\Migrator->repositoryExists()
-#8 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php(261): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}(1)
-#9 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(140): retry(1, Object(Closure), 0, Object(Closure))
-#10 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(116): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->repositoryExists()
-#11 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(84): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->prepareDatabase()
-#12 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(641): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
-#13 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(83): Illuminate\\Database\\Migrations\\Migrator->usingConnection(NULL, Object(Closure))
-#14 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->handle()
-#15 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
-#16 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
-#17 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
-#18 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
-#19 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(211): Illuminate\\Container\\Container->call(Array)
-#20 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Command\\Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
-#21 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
-#22 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php(1096): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#23 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php(324): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\MigrateCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#24 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#25 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#26 C:\\laragon\\www\\datn-hn53\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#27 {main}
-
-[previous exception] [object] (PDOException(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'datn_hn53' at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php:65)
-[stacktrace]
-#0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(65): PDO->__construct('mysql:host=127....', 'root', Object(SensitiveParameterValue), Array)
-#1 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(44): Illuminate\\Database\\Connectors\\Connector->createPdoConnection('mysql:host=127....', 'root', '', Array)
-#2 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\MySqlConnector.php(24): Illuminate\\Database\\Connectors\\Connector->createConnection('mysql:host=127....', Array, Array)
-#3 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\ConnectionFactory.php(184): Illuminate\\Database\\Connectors\\MySqlConnector->connect(Array)
-#4 [internal function]: Illuminate\\Database\\Connectors\\ConnectionFactory->Illuminate\\Database\\Connectors\\{closure}()
-#5 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(1339): call_user_func(Object(Closure))
-#6 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(528): Illuminate\\Database\\Connection->getPdo()
-#7 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(423): Illuminate\\Database\\Connection->getPdoForSelect(false)
-#8 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(816): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}('select table_na...', Array)
-#9 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('select table_na...', Array, Object(Closure))
-#10 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(414): Illuminate\\Database\\Connection->run('select table_na...', Array, Object(Closure))
-#11 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(401): Illuminate\\Database\\Connection->select('select table_na...', Array, false)
-#12 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\MySqlBuilder.php(41): Illuminate\\Database\\Connection->selectFromWriteConnection('select table_na...')
-#13 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\Builder.php(165): Illuminate\\Database\\Schema\\MySqlBuilder->getTables(false)
-#14 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\DatabaseMigrationRepository.php(184): Illuminate\\Database\\Schema\\Builder->hasTable('migrations')
-#15 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(727): Illuminate\\Database\\Migrations\\DatabaseMigrationRepository->repositoryExists()
-#16 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(140): Illuminate\\Database\\Migrations\\Migrator->repositoryExists()
-#17 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php(261): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}(1)
-#18 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(140): retry(1, Object(Closure), 0, Object(Closure))
-#19 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(116): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->repositoryExists()
-#20 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(84): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->prepareDatabase()
-#21 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(641): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
-#22 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(83): Illuminate\\Database\\Migrations\\Migrator->usingConnection(NULL, Object(Closure))
-#23 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->handle()
-#24 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
-#25 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
-#26 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
-#27 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
-#28 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(211): Illuminate\\Container\\Container->call(Array)
-#29 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Command\\Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
-#30 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
-#31 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php(1096): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#32 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php(324): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\MigrateCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#33 C:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#34 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#35 C:\\laragon\\www\\datn-hn53\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
-#36 {main}
-"} 
-[2025-03-14 22:34:49] local.ERROR: No application encryption key has been specified. {"exception":"[object] (Illuminate\\Encryption\\MissingAppKeyException(code: 0): No application encryption key has been specified. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Encryption\\EncryptionServiceProvider.php:79)
-[stacktrace]
-#0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php(320): Illuminate\\Encryption\\EncryptionServiceProvider->Illuminate\\Encryption\\{closure}('')
-#1 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Encryption\\EncryptionServiceProvider.php(77): tap('', Object(Closure))
-#2 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Encryption\\EncryptionServiceProvider.php(60): Illuminate\\Encryption\\EncryptionServiceProvider->key(Array)
-#3 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Encryption\\EncryptionServiceProvider.php(32): Illuminate\\Encryption\\EncryptionServiceProvider->parseKey(Array)
-#4 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(908): Illuminate\\Encryption\\EncryptionServiceProvider->Illuminate\\Encryption\\{closure}(Object(Illuminate\\Foundation\\Application), Array)
-#5 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(795): Illuminate\\Container\\Container->build(Object(Closure))
-#6 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(986): Illuminate\\Container\\Container->resolve('encrypter', Array, true)
-#7 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(731): Illuminate\\Foundation\\Application->resolve('encrypter', Array)
-#8 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(971): Illuminate\\Container\\Container->make('encrypter', Array)
-#9 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(1066): Illuminate\\Foundation\\Application->make('encrypter')
-#10 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(982): Illuminate\\Container\\Container->resolveClass(Object(ReflectionParameter))
-#11 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(943): Illuminate\\Container\\Container->resolveDependencies(Array)
-#12 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(795): Illuminate\\Container\\Container->build('App\\\\Http\\\\Middle...')
-#13 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(986): Illuminate\\Container\\Container->resolve('App\\\\Http\\\\Middle...', Array, true)
-#14 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(731): Illuminate\\Foundation\\Application->resolve('App\\\\Http\\\\Middle...', Array)
-#15 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(971): Illuminate\\Container\\Container->make('App\\\\Http\\\\Middle...', Array)
-#16 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(172): Illuminate\\Foundation\\Application->make('App\\\\Http\\\\Middle...')
-#17 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#18 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(805): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
-#19 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
-#20 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(748): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
-#21 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
-#22 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(200): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
-#23 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
-#24 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#25 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#26 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#27 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#28 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#29 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#30 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#31 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#32 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#33 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#34 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#35 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#36 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#37 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#38 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#39 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
-#40 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
-#41 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
-#42 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
-#43 {main}
-"} 
-[2025-03-14 22:34:50] local.ERROR: No application encryption key has been specified. {"exception":"[object] (Illuminate\\Encryption\\MissingAppKeyException(code: 0): No application encryption key has been specified. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Encryption\\EncryptionServiceProvider.php:79)
-[stacktrace]
-#0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php(320): Illuminate\\Encryption\\EncryptionServiceProvider->Illuminate\\Encryption\\{closure}('')
-#1 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Encryption\\EncryptionServiceProvider.php(77): tap('', Object(Closure))
-#2 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Encryption\\EncryptionServiceProvider.php(60): Illuminate\\Encryption\\EncryptionServiceProvider->key(Array)
-#3 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Encryption\\EncryptionServiceProvider.php(32): Illuminate\\Encryption\\EncryptionServiceProvider->parseKey(Array)
-#4 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(908): Illuminate\\Encryption\\EncryptionServiceProvider->Illuminate\\Encryption\\{closure}(Object(Illuminate\\Foundation\\Application), Array)
-#5 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(795): Illuminate\\Container\\Container->build(Object(Closure))
-#6 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(986): Illuminate\\Container\\Container->resolve('encrypter', Array, true)
-#7 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(731): Illuminate\\Foundation\\Application->resolve('encrypter', Array)
-#8 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(971): Illuminate\\Container\\Container->make('encrypter', Array)
-#9 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(1066): Illuminate\\Foundation\\Application->make('encrypter')
-#10 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(982): Illuminate\\Container\\Container->resolveClass(Object(ReflectionParameter))
-#11 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(943): Illuminate\\Container\\Container->resolveDependencies(Array)
-#12 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(795): Illuminate\\Container\\Container->build('App\\\\Http\\\\Middle...')
-#13 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(986): Illuminate\\Container\\Container->resolve('App\\\\Http\\\\Middle...', Array, true)
-#14 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(731): Illuminate\\Foundation\\Application->resolve('App\\\\Http\\\\Middle...', Array)
-#15 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(971): Illuminate\\Container\\Container->make('App\\\\Http\\\\Middle...', Array)
-#16 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(255): Illuminate\\Foundation\\Application->make('App\\\\Http\\\\Middle...')
-#17 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(213): Illuminate\\Foundation\\Http\\Kernel->terminateMiddleware(Object(Illuminate\\Http\\Request), Object(Illuminate\\Http\\Response))
-#18 C:\\laragon\\www\\datn-hn53\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->terminate(Object(Illuminate\\Http\\Request), Object(Illuminate\\Http\\Response))
-#19 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
-#20 {main}
-=======
 
 [2025-03-12 15:14:03] local.ERROR: syntax error, unexpected token "{" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"{\" at D:\\laragon\\www\\datn-hn53\\app\\Models\\User.php:12)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-03-12 15:16:46] local.ERROR: SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'order_details' already exists (Connection: mysql, SQL: create table `order_details` (`id` bigint unsigned not null auto_increment primary key, `order_id` bigint unsigned not null, `product_id` bigint unsigned not null, `variant_id` bigint unsigned not null, `price` decimal(10, 2) not null, `quantity` int not null, `total_price` decimal(10, 2) not null, `created_at` timestamp null, `updated_at` timestamp null) default character set utf8mb4 collate 'utf8mb4_unicode_ci') {"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S01): SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'order_details' already exists (Connection: mysql, SQL: create table `order_details` (`id` bigint unsigned not null auto_increment primary key, `order_id` bigint unsigned not null, `product_id` bigint unsigned not null, `variant_id` bigint unsigned not null, `price` decimal(10, 2) not null, `quantity` int not null, `total_price` decimal(10, 2) not null, `created_at` timestamp null, `updated_at` timestamp null) default character set utf8mb4 collate 'utf8mb4_unicode_ci') at D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('create table `o...', Array, Object(Closure))
@@ -304,7 +77,7 @@
 #32 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #33 D:\\laragon\\www\\datn-hn53\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #34 {main}
-"} 
+"}
 [2025-03-12 15:38:13] local.ERROR: syntax error, unexpected identifier "Route" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected identifier \"Route\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:85)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -334,7 +107,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:38:16] local.ERROR: Undefined constant Illuminate\Support\Facades\Route::Route {"exception":"[object] (Error(code: 0): Undefined constant Illuminate\\Support\\Facades\\Route::Route at D:\\laragon\\www\\datn-hn53\\routes\\web.php:85)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\RouteFileRegistrar.php(35): require()
@@ -365,7 +138,7 @@
 #25 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #26 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #27 {main}
-"} 
+"}
 [2025-03-12 15:38:16] local.ERROR: Undefined constant Illuminate\Support\Facades\Route::Route {"exception":"[object] (Error(code: 0): Undefined constant Illuminate\\Support\\Facades\\Route::Route at D:\\laragon\\www\\datn-hn53\\routes\\web.php:85)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\RouteFileRegistrar.php(35): require()
@@ -396,7 +169,7 @@
 #25 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #26 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #27 {main}
-"} 
+"}
 [2025-03-12 15:38:25] local.ERROR: syntax error, unexpected identifier "Route" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected identifier \"Route\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:85)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -426,7 +199,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:38:25] local.ERROR: syntax error, unexpected identifier "Route" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected identifier \"Route\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:85)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -456,7 +229,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:38:52] local.ERROR: syntax error, unexpected identifier "Route" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected identifier \"Route\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:85)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -486,7 +259,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:38:52] local.ERROR: syntax error, unexpected identifier "Route" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected identifier \"Route\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:85)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -516,7 +289,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:39:04] local.ERROR: syntax error, unexpected identifier "Route" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected identifier \"Route\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:87)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -546,7 +319,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:39:16] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -576,7 +349,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:39:16] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -606,7 +379,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:39:16] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -636,7 +409,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:39:16] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -666,7 +439,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:39:23] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -696,7 +469,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:39:40] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -726,7 +499,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:39:40] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -756,7 +529,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:39:45] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -786,7 +559,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:39:45] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -816,7 +589,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:40:16] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -846,7 +619,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:40:16] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -876,7 +649,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:40:36] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -906,7 +679,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:40:36] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -936,7 +709,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:40:47] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -966,7 +739,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 15:40:47] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"}\" at D:\\laragon\\www\\datn-hn53\\routes\\web.php:86)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\laragon\\\\www\\\\...')
@@ -996,7 +769,7 @@
 #24 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-03-12 16:02:34] local.ERROR: Command "make:" is ambiguous.
 Did you mean one of these?
     make:cast         Create a new custom Eloquent cast class
@@ -1056,7 +829,7 @@ Did you mean one of these?
 #2 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #3 D:\\laragon\\www\\datn-hn53\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #4 {main}
-"} 
+"}
 [2025-03-12 20:34:37] local.ERROR: Undefined variable $verificationCode (View: D:\laragon\www\datn-hn53\resources\views\client\emails\verify_email.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Undefined variable $verificationCode (View: D:\\laragon\\www\\datn-hn53\\resources\\views\\client\\emails\\verify_email.blade.php) at D:\\laragon\\www\\datn-hn53\\storage\\framework\\views\\d4237e3e52b355c8b2a0adc7abf62792.php:11)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ErrorException), 1)
@@ -1188,7 +961,7 @@ Did you mean one of these?
 #62 D:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #63 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #64 {main}
-"} 
+"}
 [2025-03-12 20:41:25] local.ERROR: Route [verification.form] not defined. {"exception":"[object] (Symfony\\Component\\Routing\\Exception\\RouteNotFoundException(code: 0): Route [verification.form] not defined. at D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:477)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Redirector.php(154): Illuminate\\Routing\\UrlGenerator->route('verification.fo...', Array)
@@ -1239,7 +1012,7 @@ Did you mean one of these?
 #45 D:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #46 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #47 {main}
-"} 
+"}
 [2025-03-12 20:48:43] local.ERROR: Route [client.auth.verifyEmail] not defined. {"exception":"[object] (Symfony\\Component\\Routing\\Exception\\RouteNotFoundException(code: 0): Route [client.auth.verifyEmail] not defined. at D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:477)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Redirector.php(154): Illuminate\\Routing\\UrlGenerator->route('client.auth.ver...', Array)
@@ -1290,7 +1063,7 @@ Did you mean one of these?
 #45 D:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #46 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #47 {main}
-"} 
+"}
 [2025-03-12 20:49:46] local.ERROR: Route [client.emails.verify_email] not defined. {"exception":"[object] (Symfony\\Component\\Routing\\Exception\\RouteNotFoundException(code: 0): Route [client.emails.verify_email] not defined. at D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:477)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Redirector.php(154): Illuminate\\Routing\\UrlGenerator->route('client.emails.v...', Array)
@@ -1341,7 +1114,7 @@ Did you mean one of these?
 #45 D:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #46 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #47 {main}
-"} 
+"}
 [2025-03-12 21:09:27] local.ERROR: View [client.emails.verify_email] not found. {"exception":"[object] (InvalidArgumentException(code: 0): View [client.emails.verify_email] not found. at D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:137)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(79): Illuminate\\View\\FileViewFinder->findInPaths('client.emails.v...', Array)
@@ -1402,7 +1175,7 @@ Did you mean one of these?
 #55 D:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #56 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #57 {main}
-"} 
+"}
 [2025-03-12 22:28:43] local.ERROR: Command "tinker" is not defined. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"tinker\" is not defined. at D:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php:737)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('tinker')
@@ -1410,15 +1183,15 @@ Did you mean one of these?
 #2 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #3 D:\\laragon\\www\\datn-hn53\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #4 {main}
-"} 
+"}
 [2025-03-12 22:54:14] local.ERROR: Cannot declare class App\Http\Controllers\UserController, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Http\\Controllers\\UserController, because the name is already in use at D:\\laragon\\www\\datn-hn53\\app\\Http\\Controllers\\Client\\ProfileController.php:12)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-03-12 22:54:24] local.ERROR: Cannot declare class App\Http\Controllers\UserController, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Http\\Controllers\\UserController, because the name is already in use at D:\\laragon\\www\\datn-hn53\\app\\Http\\Controllers\\Client\\ProfileController.php:12)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-03-12 22:55:53] local.ERROR: View [profile.index] not found. {"userId":2,"exception":"[object] (InvalidArgumentException(code: 0): View [profile.index] not found. at D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:137)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(79): Illuminate\\View\\FileViewFinder->findInPaths('profile.index', Array)
@@ -1473,24 +1246,24 @@ Did you mean one of these?
 #49 D:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #50 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #51 {main}
-"} 
-[2025-03-12 23:11:49] local.ERROR: Lỗi cập nhật ảnh đại diện: Disk [public/] does not have a configured driver.  
+"}
+[2025-03-12 23:11:49] local.ERROR: Lỗi cập nhật ảnh đại diện: Disk [public/] does not have a configured driver.
 [2025-03-12 23:28:09] local.ERROR: syntax error, unexpected single-quoted string "avatar", expecting "]" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected single-quoted string \"avatar\", expecting \"]\" at D:\\laragon\\www\\datn-hn53\\app\\Models\\User.php:19)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-03-12 23:28:09] local.ERROR: syntax error, unexpected single-quoted string "avatar", expecting "]" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected single-quoted string \"avatar\", expecting \"]\" at D:\\laragon\\www\\datn-hn53\\app\\Models\\User.php:19)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-03-12 23:28:36] local.ERROR: syntax error, unexpected identifier "verification_code", expecting "]" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected identifier \"verification_code\", expecting \"]\" at D:\\laragon\\www\\datn-hn53\\app\\Models\\User.php:19)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-03-12 23:28:36] local.ERROR: syntax error, unexpected identifier "verification_code", expecting "]" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected identifier \"verification_code\", expecting \"]\" at D:\\laragon\\www\\datn-hn53\\app\\Models\\User.php:19)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-03-12 23:32:52] local.ERROR: Command "php" is not defined. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"php\" is not defined. at D:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php:737)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('php')
@@ -1498,7 +1271,7 @@ Did you mean one of these?
 #2 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #3 D:\\laragon\\www\\datn-hn53\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #4 {main}
-"} 
+"}
 [2025-03-13 00:26:03] local.ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'verification_code' in 'field list' (Connection: mysql, SQL: insert into `users` (`role`, `name`, `email`, `phone`, `password`, `verification_code`, `updated_at`, `created_at`) values (user, truong, trantruong16324@gmail.com, ?, $2y$12$zYEsW7w2OORM57aneTh4kOjM0sBW8YiLgUCEdbS0bTjiCU.OwGCBC, 655945, 2025-03-13 00:26:03, 2025-03-13 00:26:03)) {"userId":2,"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S22): SQLSTATE[42S22]: Column not found: 1054 Unknown column 'verification_code' in 'field list' (Connection: mysql, SQL: insert into `users` (`role`, `name`, `email`, `phone`, `password`, `verification_code`, `updated_at`, `created_at`) values (user, truong, trantruong16324@gmail.com, ?, $2y$12$zYEsW7w2OORM57aneTh4kOjM0sBW8YiLgUCEdbS0bTjiCU.OwGCBC, 655945, 2025-03-13 00:26:03, 2025-03-13 00:26:03)) at D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('insert into `us...', Array, Object(Closure))
@@ -1628,11 +1401,11 @@ Did you mean one of these?
 #60 D:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #61 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #62 {main}
-"} 
+"}
 [2025-03-13 10:19:52] local.ERROR: syntax error, unexpected token "<", expecting "function" or "const" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"<\", expecting \"function\" or \"const\" at D:\\laragon\\www\\datn-hn53\\app\\Models\\variant.php:39)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-03-14 09:34:03] local.ERROR: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, SQL: select table_name as `name`, (data_length + index_length) as `size`, table_comment as `comment`, engine as `engine`, table_collation as `collation` from information_schema.tables where table_schema = 'datn_hn53' and table_type in ('BASE TABLE', 'SYSTEM VERSIONED') order by table_name) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, SQL: select table_name as `name`, (data_length + index_length) as `size`, table_comment as `comment`, engine as `engine`, table_collation as `collation` from information_schema.tables where table_schema = 'datn_hn53' and table_type in ('BASE TABLE', 'SYSTEM VERSIONED') order by table_name) at D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(983): Illuminate\\Database\\Connection->runQueryCallback('select table_na...', Array, Object(Closure))
@@ -1722,7 +1495,7 @@ Did you mean one of these?
 #44 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #45 D:\\laragon\\www\\datn-hn53\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #46 {main}
-"} 
+"}
 [2025-03-14 10:22:02] local.ERROR: View [emails.forgot_password] not found. {"exception":"[object] (InvalidArgumentException(code: 0): View [emails.forgot_password] not found. at D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:137)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(79): Illuminate\\View\\FileViewFinder->findInPaths('emails.forgot_p...', Array)
@@ -1783,7 +1556,7 @@ Did you mean one of these?
 #55 D:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #56 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #57 {main}
-"} 
+"}
 [2025-03-14 10:25:23] local.ERROR: View [emails.forgot_password] not found. {"exception":"[object] (InvalidArgumentException(code: 0): View [emails.forgot_password] not found. at D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:137)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(79): Illuminate\\View\\FileViewFinder->findInPaths('emails.forgot_p...', Array)
@@ -1844,7 +1617,7 @@ Did you mean one of these?
 #55 D:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #56 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #57 {main}
-"} 
+"}
 [2025-03-14 10:34:31] local.ERROR: Undefined variable $user (View: D:\laragon\www\datn-hn53\resources\views\client\emails\forgot_password.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Undefined variable $user (View: D:\\laragon\\www\\datn-hn53\\resources\\views\\client\\emails\\forgot_password.blade.php) at D:\\laragon\\www\\datn-hn53\\storage\\framework\\views\\14b0e7b299cd4ed823301d660717d082.php:14)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ErrorException), 1)
@@ -1976,7 +1749,7 @@ Did you mean one of these?
 #62 D:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #63 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #64 {main}
-"} 
+"}
 [2025-03-14 10:39:44] local.ERROR: Undefined variable $user (View: D:\laragon\www\datn-hn53\resources\views\client\emails\forgot_password.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Undefined variable $user (View: D:\\laragon\\www\\datn-hn53\\resources\\views\\client\\emails\\forgot_password.blade.php) at D:\\laragon\\www\\datn-hn53\\storage\\framework\\views\\14b0e7b299cd4ed823301d660717d082.php:14)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ErrorException), 1)
@@ -2108,7 +1881,7 @@ Did you mean one of these?
 #62 D:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #63 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #64 {main}
-"} 
+"}
 [2025-03-14 10:42:01] local.ERROR: Undefined variable $user (View: D:\laragon\www\datn-hn53\resources\views\client\emails\forgot_password.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Undefined variable $user (View: D:\\laragon\\www\\datn-hn53\\resources\\views\\client\\emails\\forgot_password.blade.php) at D:\\laragon\\www\\datn-hn53\\storage\\framework\\views\\14b0e7b299cd4ed823301d660717d082.php:19)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ErrorException), 1)
@@ -2240,7 +2013,7 @@ Did you mean one of these?
 #62 D:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #63 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #64 {main}
-"} 
+"}
 [2025-03-14 10:43:52] local.ERROR: Route [password.resend] not defined. (View: D:\laragon\www\datn-hn53\resources\views\client\auth\verify_reset_code.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [password.resend] not defined. (View: D:\\laragon\\www\\datn-hn53\\resources\\views\\client\\auth\\verify_reset_code.blade.php) at D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:477)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -2352,7 +2125,7 @@ Did you mean one of these?
 #52 D:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #53 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #54 {main}
-"} 
+"}
 [2025-03-14 11:10:20] local.ERROR: View [emails.otp] not found. {"exception":"[object] (InvalidArgumentException(code: 0): View [emails.otp] not found. at D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:137)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(79): Illuminate\\View\\FileViewFinder->findInPaths('emails.otp', Array)
@@ -2413,7 +2186,7 @@ Did you mean one of these?
 #55 D:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #56 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #57 {main}
-"} 
+"}
 [2025-03-14 11:20:01] local.ERROR: syntax error, unexpected token "endif", expecting end of file (View: D:\laragon\www\datn-hn53\resources\views\client\emails\forgot_password.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): syntax error, unexpected token \"endif\", expecting end of file (View: D:\\laragon\\www\\datn-hn53\\resources\\views\\client\\emails\\forgot_password.blade.php) at D:\\laragon\\www\\datn-hn53\\storage\\framework\\views\\14b0e7b299cd4ed823301d660717d082.php:12)
 [stacktrace]
 #0 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ParseError), 1)
@@ -2543,7 +2316,7 @@ Did you mean one of these?
 #60 D:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\laragon\\\\www\\\\...')
 #61 {main}
 >>>>>>> 2d5fa35dcb35469b34b27246e4e055613a191cef
-"} 
+"}
 [2025-03-14 22:39:38] local.ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'verification_code' in 'field list' (Connection: mysql, SQL: update `users` set `verification_code` = 436313, `password_reset_sent_at` = 2025-03-14 22:39:38, `password_reset_expires_at` = 2025-03-14 22:44:38, `users`.`updated_at` = 2025-03-14 22:39:38 where `id` = 1) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S22): SQLSTATE[42S22]: Column not found: 1054 Unknown column 'verification_code' in 'field list' (Connection: mysql, SQL: update `users` set `verification_code` = 436313, `password_reset_sent_at` = 2025-03-14 22:39:38, `password_reset_expires_at` = 2025-03-14 22:44:38, `users`.`updated_at` = 2025-03-14 22:39:38 where `id` = 1) at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('update `users` ...', Array, Object(Closure))
@@ -2659,7 +2432,7 @@ Did you mean one of these?
 #53 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #54 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #55 {main}
-"} 
+"}
 [2025-03-21 21:16:50] local.ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'datn_hn53.policies' doesn't exist (Connection: mysql, SQL: select * from `policies`) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S02): SQLSTATE[42S02]: Base table or view not found: 1146 Table 'datn_hn53.policies' doesn't exist (Connection: mysql, SQL: select * from `policies`) at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
@@ -2779,7 +2552,7 @@ Did you mean one of these?
 #55 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #56 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #57 {main}
-"} 
+"}
 [2025-03-21 21:17:02] local.ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'datn_hn53.policies' doesn't exist (Connection: mysql, SQL: select * from `policies`) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S02): SQLSTATE[42S02]: Base table or view not found: 1146 Table 'datn_hn53.policies' doesn't exist (Connection: mysql, SQL: select * from `policies`) at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
@@ -2899,7 +2672,7 @@ Did you mean one of these?
 #55 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #56 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #57 {main}
-"} 
+"}
 [2025-03-21 21:21:45] local.ERROR: Route [index] not defined. (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [index] not defined. (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:477)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -3159,7 +2932,7 @@ Did you mean one of these?
 #68 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #69 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #70 {main}
-"} 
+"}
 [2025-03-21 21:22:12] local.ERROR: Route [index] not defined. (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [index] not defined. (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:477)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -3419,11 +3192,11 @@ Did you mean one of these?
 #68 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #69 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #70 {main}
-"} 
+"}
 [2025-03-21 21:25:49] local.ERROR: Cannot use App\Http\Controllers\Client\CreateNewsController as CreateNewsController because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot use App\\Http\\Controllers\\Client\\CreateNewsController as CreateNewsController because the name is already in use at C:\\laragon\\www\\datn-hn53\\routes\\web.php:22)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-03-21 21:28:20] local.ERROR: Method App\Http\Controllers\Client\CreateNewsController::news does not exist. {"exception":"[object] (BadMethodCallException(code: 0): Method App\\Http\\Controllers\\Client\\CreateNewsController::news does not exist. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php:68)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): Illuminate\\Routing\\Controller->__call('news', Array)
@@ -3472,7 +3245,7 @@ Did you mean one of these?
 #43 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #44 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #45 {main}
-"} 
+"}
 [2025-03-21 21:29:13] local.ERROR: Route [news] not defined. (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [news] not defined. (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:477)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -3732,7 +3505,7 @@ Did you mean one of these?
 #68 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #69 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #70 {main}
-"} 
+"}
 [2025-03-21 21:30:30] local.ERROR: Route [news] not defined. (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [news] not defined. (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:477)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -3992,7 +3765,7 @@ Did you mean one of these?
 #68 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #69 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #70 {main}
-"} 
+"}
 [2025-03-21 21:31:43] local.ERROR: Route [new] not defined. (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) (View: C:\laragon\www\datn-hn53\resources\views\client\layouts\parials\header.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [new] not defined. (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\layouts\\parials\\header.blade.php) at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:477)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -4252,7 +4025,7 @@ Did you mean one of these?
 #68 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #69 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #70 {main}
-"} 
+"}
 [2025-03-23 23:04:14] local.ERROR: Call to a member function isNotEmpty() on array (View: C:\laragon\www\datn-hn53\resources\views\client\cart\listCart.blade.php) {"userId":9,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Call to a member function isNotEmpty() on array (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\cart\\listCart.blade.php) at C:\\laragon\\www\\datn-hn53\\storage\\framework\\views\\f8ac5b43f1ac5c9f5f79ae9400dad7db.php:3)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Error), 1)
@@ -4362,7 +4135,7 @@ Did you mean one of these?
 #50 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #51 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #52 {main}
-"} 
+"}
 [2025-03-23 23:04:45] local.ERROR: Call to a member function isNotEmpty() on array (View: C:\laragon\www\datn-hn53\resources\views\client\cart\listCart.blade.php) {"userId":9,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Call to a member function isNotEmpty() on array (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\cart\\listCart.blade.php) at C:\\laragon\\www\\datn-hn53\\storage\\framework\\views\\f8ac5b43f1ac5c9f5f79ae9400dad7db.php:3)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Error), 1)
@@ -4472,7 +4245,7 @@ Did you mean one of these?
 #50 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #51 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #52 {main}
-"} 
+"}
 [2025-03-23 23:07:22] local.ERROR: Call to a member function isNotEmpty() on array (View: C:\laragon\www\datn-hn53\resources\views\client\cart\listCart.blade.php) {"userId":9,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Call to a member function isNotEmpty() on array (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\cart\\listCart.blade.php) at C:\\laragon\\www\\datn-hn53\\storage\\framework\\views\\f8ac5b43f1ac5c9f5f79ae9400dad7db.php:3)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Error), 1)
@@ -4582,7 +4355,7 @@ Did you mean one of these?
 #50 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #51 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #52 {main}
-"} 
+"}
 [2025-03-23 23:19:35] local.ERROR: Call to a member function isNotEmpty() on array (View: C:\laragon\www\datn-hn53\resources\views\client\cart\listCart.blade.php) {"userId":9,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Call to a member function isNotEmpty() on array (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\cart\\listCart.blade.php) at C:\\laragon\\www\\datn-hn53\\storage\\framework\\views\\f8ac5b43f1ac5c9f5f79ae9400dad7db.php:3)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Error), 1)
@@ -4690,7 +4463,7 @@ Did you mean one of these?
 #49 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
 #50 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #51 {main}
-"} 
+"}
 [2025-03-23 23:23:37] local.ERROR: Call to a member function isNotEmpty() on array (View: C:\laragon\www\datn-hn53\resources\views\client\cart\listCart.blade.php) {"userId":9,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Call to a member function isNotEmpty() on array (View: C:\\laragon\\www\\datn-hn53\\resources\\views\\client\\cart\\listCart.blade.php) at C:\\laragon\\www\\datn-hn53\\storage\\framework\\views\\f8ac5b43f1ac5c9f5f79ae9400dad7db.php:3)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(60): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Error), 1)
@@ -4798,7 +4571,7 @@ Did you mean one of these?
 #49 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
 #50 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #51 {main}
-"} 
+"}
 [2025-03-23 23:39:04] local.ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'datn_hn53.policies' doesn't exist (Connection: mysql, SQL: select * from `policies`) {"userId":9,"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S02): SQLSTATE[42S02]: Base table or view not found: 1146 Table 'datn_hn53.policies' doesn't exist (Connection: mysql, SQL: select * from `policies`) at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
@@ -4916,7 +4689,7 @@ Did you mean one of these?
 #54 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
 #55 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #56 {main}
-"} 
+"}
 [2025-03-30 13:22:30] local.ERROR: SQLSTATE[HY000] [1049] Unknown database 'datn_hn53' (Connection: mysql, SQL: select * from `products`) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'datn_hn53' (Connection: mysql, SQL: select * from `products`) at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
@@ -5044,7 +4817,7 @@ Did you mean one of these?
 #63 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #64 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #65 {main}
-"} 
+"}
 [2025-03-31 21:47:01] local.ERROR: View [cline.chat.index] not found. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): View [cline.chat.index] not found. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:137)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(79): Illuminate\\View\\FileViewFinder->findInPaths('cline.chat.inde...', Array)
@@ -5099,7 +4872,7 @@ Did you mean one of these?
 #49 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #50 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #51 {main}
-"} 
+"}
 [2025-04-02 20:26:54] local.ERROR: Route [login] not defined. {"exception":"[object] (Symfony\\Component\\Routing\\Exception\\RouteNotFoundException(code: 0): Route [login] not defined. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:477)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(811): Illuminate\\Routing\\UrlGenerator->route('login', Array, true)
@@ -5146,7 +4919,7 @@ Did you mean one of these?
 #41 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #42 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #43 {main}
-"} 
+"}
 [2025-04-02 20:27:22] local.ERROR: App\Models\User::role must return a relationship instance, but "null" was returned. Was the "return" keyword used? {"userId":14,"exception":"[object] (LogicException(code: 0): App\\Models\\User::role must return a relationship instance, but \"null\" was returned. Was the \"return\" keyword used? at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Concerns\\HasAttributes.php:581)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Concerns\\HasAttributes.php(529): Illuminate\\Database\\Eloquent\\Model->getRelationshipFromMethod('role')
@@ -5199,7 +4972,7 @@ Did you mean one of these?
 #47 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #48 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #49 {main}
-"} 
+"}
 [2025-04-02 20:34:32] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600872&auth_version=1.0&body_md5=82efacda0147f34080d34507bbaa24fc&auth_signature=78861bfea3be1fb8fadb47bae7c1292041812aae57674310b04127d55912e875. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600872&auth_version=1.0&body_md5=82efacda0147f34080d34507bbaa24fc&auth_signature=78861bfea3be1fb8fadb47bae7c1292041812aae57674310b04127d55912e875. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -5274,7 +5047,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:34:33] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600873&auth_version=1.0&body_md5=8bfe8a73fa7ef76a61a1bc79a6ca0de9&auth_signature=2d8cac21f8a6c6991dd86a4ded34e49904df04bba0c290abb5d8d362bf02bdd3. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600873&auth_version=1.0&body_md5=8bfe8a73fa7ef76a61a1bc79a6ca0de9&auth_signature=2d8cac21f8a6c6991dd86a4ded34e49904df04bba0c290abb5d8d362bf02bdd3. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -5349,7 +5122,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:34:33] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600873&auth_version=1.0&body_md5=c678b87c5bc7305afd2bbf992bf41aba&auth_signature=7172e26603fd69c21424ffa3fd8521e530fbf3dbcfe4edf50958d8d0e33385bf. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600873&auth_version=1.0&body_md5=c678b87c5bc7305afd2bbf992bf41aba&auth_signature=7172e26603fd69c21424ffa3fd8521e530fbf3dbcfe4edf50958d8d0e33385bf. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -5424,7 +5197,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:34:34] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600874&auth_version=1.0&body_md5=42cf494d494460bd472baf44f32fd183&auth_signature=c498d9d547bfa801bc81c5f76153390a087857d88997df8edd3b4870d484f18c. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600874&auth_version=1.0&body_md5=42cf494d494460bd472baf44f32fd183&auth_signature=c498d9d547bfa801bc81c5f76153390a087857d88997df8edd3b4870d484f18c. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -5499,7 +5272,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:34:34] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600874&auth_version=1.0&body_md5=6c7da3ca22fd00f4701a59aa48911b37&auth_signature=c705fcad70b8046ef46415cfb758334a7375293750cd7cd9058a9f35caf5880f. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600874&auth_version=1.0&body_md5=6c7da3ca22fd00f4701a59aa48911b37&auth_signature=c705fcad70b8046ef46415cfb758334a7375293750cd7cd9058a9f35caf5880f. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -5574,7 +5347,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:34:34] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600874&auth_version=1.0&body_md5=4ec7b5dc33ac73425001ecf84706a069&auth_signature=cdd9d7ab201da09c88b98c8361ac58752a91b88fa00dd3761e81d34940b35726. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600874&auth_version=1.0&body_md5=4ec7b5dc33ac73425001ecf84706a069&auth_signature=cdd9d7ab201da09c88b98c8361ac58752a91b88fa00dd3761e81d34940b35726. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -5649,7 +5422,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:34:35] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600875&auth_version=1.0&body_md5=599c6f23259186a7f3e2e10e65e91a90&auth_signature=8aafe474fe6c922c31b3e0dd8a208a833803b6ea5d66a3cf4f471b4352a6fdd3. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600875&auth_version=1.0&body_md5=599c6f23259186a7f3e2e10e65e91a90&auth_signature=8aafe474fe6c922c31b3e0dd8a208a833803b6ea5d66a3cf4f471b4352a6fdd3. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -5724,7 +5497,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:34:35] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600875&auth_version=1.0&body_md5=d60f5b3a72b9db690088676b17c8cdd1&auth_signature=0178ebba10f5526579642412316c68c99ecc180db4706ac36f3243850dcc4ac7. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600875&auth_version=1.0&body_md5=d60f5b3a72b9db690088676b17c8cdd1&auth_signature=0178ebba10f5526579642412316c68c99ecc180db4706ac36f3243850dcc4ac7. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -5799,7 +5572,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:34:36] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600876&auth_version=1.0&body_md5=39f7b3403b2a45372423cfa2035e98b1&auth_signature=5076cb4b711d0334258f6543b4ff11ed081a4721460124de08d1092b88571407. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600876&auth_version=1.0&body_md5=39f7b3403b2a45372423cfa2035e98b1&auth_signature=5076cb4b711d0334258f6543b4ff11ed081a4721460124de08d1092b88571407. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -5874,7 +5647,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:34:36] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600876&auth_version=1.0&body_md5=da40e1d2236bdca9739a463ef9cdce98&auth_signature=ba1164559afcf9dfb8016c49d5fd7ff79d7720cad56a1f14a9c3edbbc83c458a. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600876&auth_version=1.0&body_md5=da40e1d2236bdca9739a463ef9cdce98&auth_signature=ba1164559afcf9dfb8016c49d5fd7ff79d7720cad56a1f14a9c3edbbc83c458a. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -5949,7 +5722,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:34:37] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600877&auth_version=1.0&body_md5=967c827e163f315e76a5b4e82f829087&auth_signature=2ca6cfdf7a27010349e13460bfce67f69c52cd66bc0b694d0718ba42544b242a. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600877&auth_version=1.0&body_md5=967c827e163f315e76a5b4e82f829087&auth_signature=2ca6cfdf7a27010349e13460bfce67f69c52cd66bc0b694d0718ba42544b242a. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -6024,7 +5797,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:34:37] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600877&auth_version=1.0&body_md5=cb6c41242b58463e874b7fe302a36c4e&auth_signature=294bf1a599a22f5f769af31dbab1a624262d61f80599c3ed7a086e6a292f5b54. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600877&auth_version=1.0&body_md5=cb6c41242b58463e874b7fe302a36c4e&auth_signature=294bf1a599a22f5f769af31dbab1a624262d61f80599c3ed7a086e6a292f5b54. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -6099,7 +5872,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:34:37] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600877&auth_version=1.0&body_md5=aff5ea865780d12d94522570c74907bb&auth_signature=02de7e0686f9444a9bedd6f6886a7286066ff80a0278d2d5ea3b7804a3d95f5e. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743600877&auth_version=1.0&body_md5=aff5ea865780d12d94522570c74907bb&auth_signature=02de7e0686f9444a9bedd6f6886a7286066ff80a0278d2d5ea3b7804a3d95f5e. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -6174,7 +5947,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:50:01] local.ERROR: Target class [DatabaseSeeder] does not exist. {"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [DatabaseSeeder] does not exist. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php:914)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(795): Illuminate\\Container\\Container->build('DatabaseSeeder')
@@ -6225,7 +5998,7 @@ Did you mean one of these?
 #20 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #21 C:\\laragon\\www\\datn-hn53\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #22 {main}
-"} 
+"}
 [2025-04-02 20:55:15] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743602115&auth_version=1.0&body_md5=fd02cbbfd631b258e62fd08e385d13aa&auth_signature=029b4e47997470e51a94b1f44ab082c57864174729eb10cbd23982ac34bdb32f. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743602115&auth_version=1.0&body_md5=fd02cbbfd631b258e62fd08e385d13aa&auth_signature=029b4e47997470e51a94b1f44ab082c57864174729eb10cbd23982ac34bdb32f. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -6300,7 +6073,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:55:16] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743602116&auth_version=1.0&body_md5=dca4f8eb5e189b8ed9e1bed66b8832e5&auth_signature=81977c84886c9dbfc8fe52139a38f039b47b9d3c4e9cda5b2c15c2f03c24dd03. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743602116&auth_version=1.0&body_md5=dca4f8eb5e189b8ed9e1bed66b8832e5&auth_signature=81977c84886c9dbfc8fe52139a38f039b47b9d3c4e9cda5b2c15c2f03c24dd03. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -6375,7 +6148,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 20:55:28] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743602128&auth_version=1.0&body_md5=a31f9a661a8dbe8adc451e82353789ff&auth_signature=4d94d026fa4ef3f29079d7cdb90c2bb76dcfe53e7d2b2934799e956252218c01. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743602128&auth_version=1.0&body_md5=a31f9a661a8dbe8adc451e82353789ff&auth_signature=4d94d026fa4ef3f29079d7cdb90c2bb76dcfe53e7d2b2934799e956252218c01. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -6450,11 +6223,11 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 21:28:38] local.ERROR: Cannot use App\Http\Controllers\Admin\NewsController as NewsController because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot use App\\Http\\Controllers\\Admin\\NewsController as NewsController because the name is already in use at C:\\laragon\\www\\datn-hn53\\routes\\web.php:30)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-04-02 21:28:42] local.ERROR: syntax error, unexpected identifier "Route", expecting "," or ";" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected identifier \"Route\", expecting \",\" or \";\" at C:\\laragon\\www\\datn-hn53\\routes\\web.php:33)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('C:\\\\laragon\\\\www\\\\...')
@@ -6486,7 +6259,7 @@ Did you mean one of these?
 #26 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #27 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #28 {main}
-"} 
+"}
 [2025-04-02 21:28:43] local.ERROR: syntax error, unexpected identifier "Route", expecting "," or ";" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected identifier \"Route\", expecting \",\" or \";\" at C:\\laragon\\www\\datn-hn53\\routes\\web.php:33)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('C:\\\\laragon\\\\www\\\\...')
@@ -6516,19 +6289,19 @@ Did you mean one of these?
 #24 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-04-02 21:28:50] local.ERROR: Cannot use App\Http\Controllers\Admin\ChatController as ChatController because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot use App\\Http\\Controllers\\Admin\\ChatController as ChatController because the name is already in use at C:\\laragon\\www\\datn-hn53\\routes\\web.php:30)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-04-02 21:29:11] local.ERROR: Cannot use App\Http\Controllers\Admin\ChatController as ChatController because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot use App\\Http\\Controllers\\Admin\\ChatController as ChatController because the name is already in use at C:\\laragon\\www\\datn-hn53\\routes\\web.php:30)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-04-02 21:29:21] local.ERROR: Cannot use App\Http\Controllers\Admin\ChatController as ChatController because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot use App\\Http\\Controllers\\Admin\\ChatController as ChatController because the name is already in use at C:\\laragon\\www\\datn-hn53\\routes\\web.php:30)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-04-02 21:34:34] local.ERROR: Route [login] not defined. {"exception":"[object] (Symfony\\Component\\Routing\\Exception\\RouteNotFoundException(code: 0): Route [login] not defined. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:477)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(811): Illuminate\\Routing\\UrlGenerator->route('login', Array, true)
@@ -6575,7 +6348,7 @@ Did you mean one of these?
 #41 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #42 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #43 {main}
-"} 
+"}
 [2025-04-02 21:40:57] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743604857&auth_version=1.0&body_md5=ea7874ac4cb57b1961e555640d5489f8&auth_signature=6eaebb767f7bf3255591797cb6c99ebda1df62213acc34ae8dfb862b4814f37b. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743604857&auth_version=1.0&body_md5=ea7874ac4cb57b1961e555640d5489f8&auth_signature=6eaebb767f7bf3255591797cb6c99ebda1df62213acc34ae8dfb862b4814f37b. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -6650,7 +6423,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 21:40:59] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743604858&auth_version=1.0&body_md5=ea7874ac4cb57b1961e555640d5489f8&auth_signature=e356162dc239c846390793d536cbe4717c964023f519d7108e0f7755a13c88c5. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743604858&auth_version=1.0&body_md5=ea7874ac4cb57b1961e555640d5489f8&auth_signature=e356162dc239c846390793d536cbe4717c964023f519d7108e0f7755a13c88c5. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -6725,7 +6498,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 21:42:10] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743604930&auth_version=1.0&body_md5=19932f64f53df6d4193994925f3f9db5&auth_signature=59b5292ca84e5a7fd92efe97ffb7bcd5b5d64fca1649bc7225cb03dd448e1c35. {"userId":3,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743604930&auth_version=1.0&body_md5=19932f64f53df6d4193994925f3f9db5&auth_signature=59b5292ca84e5a7fd92efe97ffb7bcd5b5d64fca1649bc7225cb03dd448e1c35. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -6800,7 +6573,7 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
+"}
 [2025-04-02 21:50:45] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743605445&auth_version=1.0&body_md5=fac22ce9168f80c2936eefc1537e07f2&auth_signature=8e20d000822a4dddaad02c924772585dcb54ff38cbdc83f67fa8a6183d07f320. {"userId":3,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743605445&auth_version=1.0&body_md5=fac22ce9168f80c2936eefc1537e07f2&auth_signature=8e20d000822a4dddaad02c924772585dcb54ff38cbdc83f67fa8a6183d07f320. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -6877,7 +6650,7 @@ Did you mean one of these?
 #71 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #72 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #73 {main}
-"} 
+"}
 [2025-04-02 21:51:13] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743605473&auth_version=1.0&body_md5=1c83a254cd5155f432cb46e83ee5edec&auth_signature=4991d97104006c7d888ce1a83dd87a062e839f513aa11fe812c1898c41901ff4. {"userId":3,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743605473&auth_version=1.0&body_md5=1c83a254cd5155f432cb46e83ee5edec&auth_signature=4991d97104006c7d888ce1a83dd87a062e839f513aa11fe812c1898c41901ff4. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -6954,7 +6727,7 @@ Did you mean one of these?
 #71 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #72 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #73 {main}
-"} 
+"}
 [2025-04-02 21:55:22] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743605722&auth_version=1.0&body_md5=5d95d61917e58c687fac201d16278253&auth_signature=77130c41a2eeb8220c47ee3fec1dee41dfef6d1fee26b5bb949106f631b149e7. {"userId":3,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743605722&auth_version=1.0&body_md5=5d95d61917e58c687fac201d16278253&auth_signature=77130c41a2eeb8220c47ee3fec1dee41dfef6d1fee26b5bb949106f631b149e7. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -7031,7 +6804,7 @@ Did you mean one of these?
 #71 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #72 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #73 {main}
-"} 
+"}
 [2025-04-02 21:55:41] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743605741&auth_version=1.0&body_md5=b8e6a8df6a11046e79fe8c2471b9662e&auth_signature=7e644f0ce295c2b69b95caa0cd5f13bbd4f0fee82f2617d9c36332f0af67ce13. {"userId":3,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743605741&auth_version=1.0&body_md5=b8e6a8df6a11046e79fe8c2471b9662e&auth_signature=7e644f0ce295c2b69b95caa0cd5f13bbd4f0fee82f2617d9c36332f0af67ce13. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -7108,7 +6881,7 @@ Did you mean one of these?
 #71 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #72 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #73 {main}
-"} 
+"}
 [2025-04-02 21:58:52] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743605931&auth_version=1.0&body_md5=b6c6f187280b596946946b427ab07906&auth_signature=a5a9eff255aeec3b3989d91226c4a543d0526d41a4673319131f0890d454d1da. {"userId":3,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743605931&auth_version=1.0&body_md5=b6c6f187280b596946946b427ab07906&auth_signature=a5a9eff255aeec3b3989d91226c4a543d0526d41a4673319131f0890d454d1da. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -7185,7 +6958,7 @@ Did you mean one of these?
 #71 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #72 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #73 {main}
-"} 
+"}
 [2025-04-02 22:04:19] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743606259&auth_version=1.0&body_md5=b8e6a8df6a11046e79fe8c2471b9662e&auth_signature=0a0ce6bf3576db8ee37ee7235a4be1dea42a878296c8d1307fab33d124e17f4c. {"userId":3,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743606259&auth_version=1.0&body_md5=b8e6a8df6a11046e79fe8c2471b9662e&auth_signature=0a0ce6bf3576db8ee37ee7235a4be1dea42a878296c8d1307fab33d124e17f4c. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -7262,7 +7035,7 @@ Did you mean one of these?
 #71 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #72 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #73 {main}
-"} 
+"}
 [2025-04-02 22:04:53] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743606293&auth_version=1.0&body_md5=c05ce8c575c569dc0f1956aeff5ade4e&auth_signature=47ece455fc33900dcbf0fc13d2592a69b2df845e1f6dbfea0a1f976389af2f24. {"userId":1,"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your_cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your_cluster.pusher.com/apps/your_app_id/events?auth_key=your_app_key&auth_timestamp=1743606293&auth_version=1.0&body_md5=c05ce8c575c569dc0f1956aeff5ade4e&auth_signature=47ece455fc33900dcbf0fc13d2592a69b2df845e1f6dbfea0a1f976389af2f24. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -7337,8 +7110,8 @@ Did you mean one of these?
 #69 C:\\laragon\\www\\datn-hn53\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #70 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\laragon\\\\www\\\\...')
 #71 {main}
-"} 
-[2025-04-02 22:09:08] local.INFO: User message sent: đ  
+"}
+[2025-04-02 22:09:08] local.INFO: User message sent: đ
 [2025-04-02 22:09:10] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your-cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your-cluster.pusher.com/apps/your-id/events?auth_key=your-key&auth_timestamp=1743606550&auth_version=1.0&body_md5=d833810be0e268ccc14cd72a2e6d350c&auth_signature=815983d16478bb3053b53cf24a4dd06df00a58dc705d5f9a0c0dd623bce9670d. {"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your-cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your-cluster.pusher.com/apps/your-id/events?auth_key=your-key&auth_timestamp=1743606550&auth_version=1.0&body_md5=d833810be0e268ccc14cd72a2e6d350c&auth_signature=815983d16478bb3053b53cf24a4dd06df00a58dc705d5f9a0c0dd623bce9670d. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -7376,8 +7149,8 @@ Did you mean one of these?
 #32 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #33 C:\\laragon\\www\\datn-hn53\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #34 {main}
-"} 
-[2025-04-02 22:09:25] local.INFO: Admin message sent: diy  
+"}
+[2025-04-02 22:09:25] local.INFO: Admin message sent: diy
 [2025-04-02 22:09:25] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your-cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your-cluster.pusher.com/apps/your-id/events?auth_key=your-key&auth_timestamp=1743606565&auth_version=1.0&body_md5=ea5254c310343dbba81ab79bd05a8c2a&auth_signature=0f55b6b9a3d195624f29f0a2aeb484ebbab8906b677998680b5cfe33af0812b9. {"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your-cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your-cluster.pusher.com/apps/your-id/events?auth_key=your-key&auth_timestamp=1743606565&auth_version=1.0&body_md5=ea5254c310343dbba81ab79bd05a8c2a&auth_signature=0f55b6b9a3d195624f29f0a2aeb484ebbab8906b677998680b5cfe33af0812b9. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -7415,8 +7188,8 @@ Did you mean one of these?
 #32 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #33 C:\\laragon\\www\\datn-hn53\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #34 {main}
-"} 
-[2025-04-02 22:15:11] local.INFO: Admin message sent: đ  
+"}
+[2025-04-02 22:15:11] local.INFO: Admin message sent: đ
 [2025-04-02 22:15:12] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your-cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your-cluster.pusher.com/apps/your-id/events?auth_key=your-key&auth_timestamp=1743606912&auth_version=1.0&body_md5=7f87b83cfdc336165dcbf6b2d7d0bc74&auth_signature=96beb5925326c0b9ad336508115ff7b7ac687aa4194626ce1919ac70d9e579df. {"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your-cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your-cluster.pusher.com/apps/your-id/events?auth_key=your-key&auth_timestamp=1743606912&auth_version=1.0&body_md5=7f87b83cfdc336165dcbf6b2d7d0bc74&auth_signature=96beb5925326c0b9ad336508115ff7b7ac687aa4194626ce1919ac70d9e579df. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -7454,8 +7227,8 @@ Did you mean one of these?
 #32 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #33 C:\\laragon\\www\\datn-hn53\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #34 {main}
-"} 
-[2025-04-02 22:15:14] local.INFO: Admin message sent: vvv  
+"}
+[2025-04-02 22:15:14] local.INFO: Admin message sent: vvv
 [2025-04-02 22:15:15] local.ERROR: Pusher error: cURL error 6: Could not resolve host: api-your-cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your-cluster.pusher.com/apps/your-id/events?auth_key=your-key&auth_timestamp=1743606915&auth_version=1.0&body_md5=5d408cb405158e78823d59141584b542&auth_signature=71436d760841428e6bdaa6d4df69802329906a5992d9583b82020580cd4a221e. {"exception":"[object] (Illuminate\\Broadcasting\\BroadcastException(code: 0): Pusher error: cURL error 6: Could not resolve host: api-your-cluster.pusher.com (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://api-your-cluster.pusher.com/apps/your-id/events?auth_key=your-key&auth_timestamp=1743606915&auth_version=1.0&body_md5=5d408cb405158e78823d59141584b542&auth_signature=71436d760841428e6bdaa6d4df69802329906a5992d9583b82020580cd4a221e. at C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster.php:164)
 [stacktrace]
 #0 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastEvent.php(92): Illuminate\\Broadcasting\\Broadcasters\\PusherBroadcaster->broadcast(Object(Illuminate\\Support\\Collection), 'App\\\\Events\\\\Mess...', Array)
@@ -7493,4 +7266,4 @@ Did you mean one of these?
 #32 C:\\laragon\\www\\datn-hn53\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #33 C:\\laragon\\www\\datn-hn53\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #34 {main}
-"} 
+"}
