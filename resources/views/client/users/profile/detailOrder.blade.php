@@ -44,28 +44,6 @@
                                                 class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
 
                                                 <li class="list-inline-item">
-                                                    <i class='mdi mdi-invert-colors me-1 mdi-20px'></i>
-                                                    <span class="fw-medium">
-                                                        @switch(Auth::user()->role)
-                                                            @case('user')
-                                                                Thành viên
-                                                            @break
-
-                                                            @case('admin')
-                                                                Quản trị
-                                                            @break
-
-                                                            @case('moderator')
-                                                                Nhân viên
-                                                            @break
-
-                                                            @default
-                                                                Không xác định
-                                                        @endswitch
-                                                    </span>
-                                                </li>
-
-                                                <li class="list-inline-item">
                                                     <i class='mdi mdi-map-marker-outline me-1 mdi-20px'></i>
                                                     <span class="fw-medium">Việt Nam</span>
                                                 </li>
@@ -103,28 +81,6 @@
                                             tên: </span> <span>{{ Auth::user()->name }}</span>
                                     </li>
 
-                                    <li class="d-flex align-items-center mb-3"><i
-                                            class="mdi mdi-star-outline mdi-24px"></i><span class="fw-medium mx-2">Vai
-                                            trò:</span>
-                                        <span>
-                                            @switch(Auth::user()->role)
-                                                @case('user')
-                                                    Thành viên
-                                                @break
-
-                                                @case('admin')
-                                                    Quản trị
-                                                @break
-
-                                                @case('moderator')
-                                                    Nhân viên
-                                                @break
-
-                                                @default
-                                                    Không xác định
-                                            @endswitch
-                                        </span>
-                                    </li>
 
                                     <li class="d-flex align-items-center mb-3">
                                         <i class='mdi mdi-map-marker-outline mdi-24px'></i>
@@ -161,7 +117,7 @@
                             <div class="col-12 col-lg-8">
                                 <div class="card mb-4">
                                     <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title m-0">Chi tiết đơn hàng</h5>
+                                        <h5 class="card-title m-0">Chi tiết đơn hàng #{{ $order->id }}</h5>
                                     </div>
                                     <div class="card-datatable table-responsive">
                                         <table class="datatables-order-details table">
@@ -209,37 +165,34 @@
                                                         </tr>
                                                     @else
                                                         <tr>
-
-                                                            <div
-                                                                class="d-flex justify-content-start align-items-center mb-1">
-                                                                <div class="avatar me-2 pe-1">
-                                                                    @if ($item->variant && $item->variant->product->img_thumbnail)
-                                                                        <img class="rounded-2"
-                                                                            src="{{ Storage::url($item->variant->product->img_thumbnail) }}"
-                                                                            width="50px" alt="">
-                                                                    @else
-                                                                        <img src="{{ asset('images/default-thumbnail.png') }}"
-                                                                            width="50px" alt="Default Image">
-                                                                    @endif
+                                                            <td>
+                                                                <div
+                                                                    class="d-flex justify-content-start align-items-center mb-1">
+                                                                    <div class="avatar me-2 pe-1">
+                                                                        @if ($item->variant && $item->variant->product->img_thumbnail)
+                                                                            <img class="rounded-2"
+                                                                                src="{{ Storage::url($item->variant->product->img_thumbnail) }}"
+                                                                                width="50px" alt="">
+                                                                        @else
+                                                                            <img src="{{ asset('images/default-thumbnail.png') }}"
+                                                                                width="50px" alt="Default Image">
+                                                                        @endif
+                                                                    </div>
+                                                                    <div>
+                                                                        <strong>{{ optional($item->variant)->product->name }}
+                                                                        </strong>
+                                                                    </div>
                                                                 </div>
-                                                                <div>
-                                                                    <strong>{{ optional($item->variant)->product->name }}
-                                                                    </strong>
-                                                                </div>
-                                                            </div>
-                                                            <span>
-                                                                @foreach ($item->variant->attributes as $attribute)
-                                                                    @if (!$loop->first)
-                                                                        <br>
-                                                                    @endif
-                                                                    {{ $attribute->attribute->name }}:
-                                                                    @if (!$loop->first)
-                                                                    @endif
-                                                                    {{ $attribute->attributeValue->value }}.
-                                                                @endforeach
-
-                                                            </span>
-
+                                                                <span>
+                                                                    @foreach ($item->variant->attributes as $attribute)
+                                                                        @if (!$loop->first)
+                                                                            <br>
+                                                                        @endif
+                                                                        {{ $attribute->attribute->name }}:
+                                                                        {{ $attribute->attributeValue->value }}.
+                                                                    @endforeach
+                                                                </span>
+                                                            </td>
                                                             @if ($item->variant->product->price_sale == '')
                                                                 <td>
                                                                     {{ number_format($item->variant->product->base_price, 0, ',', '.') }}
@@ -250,7 +203,6 @@
                                                                 </td>
                                                             @endif
 
-                                                            {{-- <td>{{ number_format($item->variant->selling_price, 0, ',', '.') }} --}}
                                                             </td>
                                                             <td>{{ $item->quantity }}</td>
                                                             <td>{{ number_format($item->total_price, 0, ',', '.') }}
@@ -272,23 +224,48 @@
                                         </div>
                                     </div>
                                 </div>
+                                {{-- hoạt động vận chuyển --}}
                                 <div class="card mb-4">
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="card-title m-0">Hoạt động vận chuyển</h5>
                                         @if ($order->status === 'pending')
+                                            @if ($order->payment_method === 'VNPAY_DECOD' && $order->payment_status === 'Chờ thanh toán')
+                                                <form action="{{ route('vnpay.repay', $order->id) }}" method="POST"
+                                                    class="d-inline">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary btn-sm">Thanh toán
+                                                        lại</button>
+                                                </form>
+                                            @endif
                                             <form action="{{ route('profile.orders.cancel', $order->id) }}"
                                                 method="POST"
-                                                onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');">
+                                                onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');"
+                                                class="d-inline">
                                                 @csrf
                                                 @method('PUT')
                                                 <button type="submit" class="btn btn-danger btn-sm">Hủy đơn hàng</button>
                                             </form>
                                         @elseif ($order->status === 'canceled')
                                             <button class="btn btn-danger btn-sm" disabled>Đơn hàng đã hủy</button>
+                                        @elseif ($order->status === 'delivered')
+                                            <form action="{{ route('profile.orders.confirm-received', $order->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-success"
+                                                    onclick="return confirm('Bạn có chắc chắn đã nhận hàng?');">
+                                                    Xác nhận đã nhận hàng
+                                                </button>
+                                            </form>
+                                        @elseif ($order->status === 'completed')
+                                            <button class="btn btn-success btn-sm" disabled>
+                                                Đơn hàng đã hoàn thành
+                                            </button>
                                         @else
                                             <button class="btn btn-primary btn-sm" disabled>Đơn hàng đang được xử
                                                 lý</button>
                                         @endif
+
                                     </div>
 
                                     <div class="card-body mt-3">
@@ -298,7 +275,7 @@
                                             @endphp
 
                                             @foreach ($events as $item)
-                                                @if ($item->name === 'Giao hàng thành công')
+                                                @if ($item->name === 'Đơn hàng đã được nhận')
                                                     @php $hasReceived = true; @endphp
                                                 @endif
                                             @endforeach
@@ -427,6 +404,12 @@
                                         </p>
                                     </div>
                                 </div>
+                                <div class="mt-auto d-flex justify-content-end">
+                                    <a class="btn btn-outline-secondary" href="{{ route('profile.myOder') }}">
+                                        <i class="mdi mdi-arrow-left"></i> Quay lại
+                                    </a>
+                                </div>
+
                             </div>
                         </div>
                     </div>

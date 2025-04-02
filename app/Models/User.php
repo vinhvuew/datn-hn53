@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -17,7 +18,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-
         'name',
         'role_id',
         'address',
@@ -31,6 +31,8 @@ class User extends Authenticatable
         'verification_code_expires_at',
         'password_reset_sent_at',
         'password_reset_expires_at'
+
+
 
 
     ];
@@ -65,13 +67,23 @@ class User extends Authenticatable
 
     public function role()
     {
-        // return $this->belongsTo(Role::class,);
+        return $this->belongsTo(Role::class,);
     }
-      // Kiểm tra user có phải admin không
+    // Kiểm tra user có phải admin không
 
     public function isAdmin()
     {
         return $this->role_id == 1; // Vai trò 1 là Admin
     }
 
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
     }
+
+    public function favoriteProducts()
+    {
+        return $this->belongsToMany(Product::class, 'favorites');
+    }
+}

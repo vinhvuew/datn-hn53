@@ -100,7 +100,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
 
-            <span class="forgot-password"><a href="#">Quên mật khẩu?</a></span>
+            <span class="forgot-password"><a href="<?php echo e(route('password.forgot.form')); ?>">Quên mật khẩu?</a></span>
 
             <button type="submit" class="login-button" id="login-button">Đăng nhập</button>
         </form>

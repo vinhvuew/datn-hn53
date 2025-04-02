@@ -1,7 +1,8 @@
 <?php $__env->startSection('content'); ?>
     <main>
         <div class="container margin_30">
-            <div class="countdown_inner">-20% This offer ends in <div data-countdown="2025/05/15" class="countdown"></div>
+            <div class="">
+                <div class="countdown"></div>
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -22,8 +23,6 @@
                                     <div style="background-image: url(<?php echo e(Storage::url($image->img)); ?>)" class="item active">
                                     </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-
                             </div>
                             <div class="left-t nonl-t"></div>
                             <div class="right-t"></div>
@@ -48,8 +47,7 @@
                                 <i class="icon-star voted"></i><i class="icon-star voted"></i>
                                 <i class="icon-star"></i><em>4 reviews</em>
                             </span>
-                            <p><small>SKU: <?php echo e($product->sku); ?></small><br><?php echo e($product->description); ?></p>
-
+                            <p><small>Mã SP: <?php echo e($product->sku); ?></small><br><?php echo e($product->description); ?></p>
                             <?php if($product->variants->isNotEmpty()): ?>
                                 
                                 <div class="prod_options">
@@ -157,11 +155,22 @@
                                 <div class="col-lg-5 col-md-6">
                                     <div class="price_main">
                                         <label for=""> <strong>Đơn giá:</strong> </label>
-                                        <span class="new_price "><?php echo e(number_format($product->price_sale, 0, ',', '.')); ?>
 
-                                            VND</span>
-                                        
+                                        <?php if($product->price_sale > 0 && $product->price_sale < $product->base_price): ?>
+                                            <span
+                                                class="new_price text-danger"><?php echo e(number_format($product->price_sale, 0, ',', '.')); ?>
+
+                                                VND</span>
+                                            <span class="old_price text-muted" style="text-decoration: line-through;">
+                                                <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
+                                            </span>
+                                        <?php else: ?>
+                                            <span class="new_price"><?php echo e(number_format($product->base_price, 0, ',', '.')); ?>
+
+                                                VND</span>
+                                        <?php endif; ?>
                                     </div>
+
                                 </div>
                                 <div class="col-lg-5 col-md-6">
                                     <input type="hidden" name="product_id" value="<?php echo e($product->id); ?>">
@@ -177,17 +186,7 @@
                             </div>
                         </div>
                     </form>
-                    <!-- /prod_info -->
-                    <div class="product_actions">
-                        <ul>
-                            <li>
-                                <a href="#"><i class="ti-heart"></i><span>Add to Wishlist</span></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="ti-control-shuffle"></i><span>Add to Compare</span></a>
-                            </li>
-                        </ul>
-                    </div>
+
                     <!-- /product_actions -->
                 </div>
             </div>
@@ -199,8 +198,7 @@
             <div class="container">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab"
-                            role="tab">Bình
+                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab" role="tab">Bình
                             luận</a>
                     </li>
                     <li class="nav-item">
@@ -300,9 +298,11 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="product-description">
-                                            <h4>Thông tin sản phẩm: <?php echo e($product->name); ?></h4>
-                                            <p>Mô tả: <strong><?php echo e($product->description); ?></strong>
-                                            <p>
+                                            <h4>Thông tin sản phẩm:</h4> <?php echo e($product->name); ?>
+
+                                            <h4>Đặc Điểm Nổi Bật:</h4> <?php echo e($product->content); ?>
+
+
 
                                         </div>
                                     </div>
@@ -327,9 +327,8 @@
 
         <div class="container margin_60_35">
             <div class="main_title">
-                <h2>Sản phẩm cùng danh mục</h2>
-                <span>Products</span>
-                <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
+                <h2>SẢN PHẨM CÙNG DANH MỤC</h2>
+                <span>SẢN PHẨM CÙNG DANH MỤC</span>
             </div>
             <div class="owl-carousel owl-theme products_carousel">
 
@@ -375,7 +374,7 @@
                         </div>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php else: ?>
-                    <p>Không có sản phẩm cùng danh mục.</p>
+                    <h3 class="">KHÔNG CÓ SẢN PHẨM CÙNG DANH MỤC</h3>
                 <?php endif; ?>
                 <!-- /item -->
             </div>
@@ -508,6 +507,13 @@
                     replyForm.style.display = "none";
                 });
             });
+        });
+        // cách dòng trong mô tả
+        document.addEventListener("DOMContentLoaded", function() {
+            let productContent = document.querySelector(".product-description p");
+            if (productContent) {
+                productContent.innerHTML = productContent.innerHTML.replace(/\.\s*/g, '.<br>');
+            }
         });
     </script>
 <?php $__env->stopSection(); ?>

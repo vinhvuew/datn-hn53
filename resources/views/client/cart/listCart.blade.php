@@ -10,6 +10,10 @@
                         <tr>
                             <th>
                                 Tất cả <input type="checkbox" id="select-all">
+
+                                Chọn
+                                {{-- <input type="checkbox" id="select-all"> --}}
+
                             </th>
                             <th>Hình ảnh</th>
                             <th>Tên sản phẩm</th>
@@ -51,8 +55,10 @@
                                     </td>
                                     <td id="total-amount-{{ $cart->id }}">
                                         @php
-                                            $money = $cart->total_amount;
-                                            $totalAmount += $money;
+                                            if ($cart->is_selected) {
+                                                $money = $cart->total_amount;
+                                                $totalAmount += $money;
+                                            }
                                         @endphp
                                         {{ number_format($cart->total_amount, 0, ',', '.') }} VNĐ
 
@@ -103,8 +109,10 @@
                                     </td>
                                     <td id="total-amount-{{ $cart->id }}">
                                         @php
-                                            $money = $cart->total_amount;
-                                            $totalAmount += $money;
+                                            if ($cart->is_selected) {
+                                                $money = $cart->total_amount;
+                                                $totalAmount += $money;
+                                            }
                                         @endphp
 
                                         {{ number_format($cart->total_amount, 0, ',', '.') }} VNĐ
@@ -129,7 +137,7 @@
                     @endforeach
                     </tbody>
                 </table>
-                <form id="checkout-form" action="{{ route('checkout.view') }}" method="POST">
+                <form id="checkout-form" action="{{ route('checkout.post') }}" method="POST">
                     @csrf
                     <div class="text-end mb-5 p-4">
                         <h4 class="fw-bold text-primary">
@@ -185,9 +193,13 @@
 
                             // Cập nhật tổng tiền cho từng sản phẩm
                             $('#total-amount-' + id).text(response.totalAmountFormatted);
+<<<<<<< HEAD
 
                             // Cập nhật tổng tiền giỏ hàng
                             $('#overall-total').text(response.overallTotalFormatted);
+=======
+                            updateOverallTotal();
+>>>>>>> b1a35a7d8088b646a758632a5eda0a93ffb98daa
                         } else {
                             alert(response.message);
                         }
@@ -198,6 +210,7 @@
                 });
             });
 
+<<<<<<< HEAD
             // Xóa sản phẩm khỏi giỏ hàng
             $(document).ready(function() {
                 $('.btn-delete').on('click', function() {
@@ -205,6 +218,68 @@
 
                     if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
                         return;
+=======
+            // Cập nhật tổng tiền khi chọn/bỏ chọn sản phẩm
+            $('.cart-item-checkbox').on('change', function() {
+                updateOverallTotal();
+            });
+
+            // Xử lý form thanh toán
+            $('#checkout-form').on('submit', function(e) {
+                e.preventDefault();
+
+                let selectedItems = $('.cart-item-checkbox:checked');
+                if (selectedItems.length === 0) {
+                    alert('Vui lòng chọn ít nhất một sản phẩm để thanh toán!');
+                    return;
+                }
+
+                // Cập nhật trạng thái chọn sản phẩm
+                let updatePromises = selectedItems.map(function() {
+                    let id = $(this).data('id');
+                    return $.ajax({
+                        url: '/cart/update-selection/' + id,
+                        type: 'PUT',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            is_selected: 1
+                        }
+                    });
+                });
+
+                // Sau khi cập nhật xong, submit form
+                Promise.all(updatePromises).then(function() {
+                    e.target.submit();
+                });
+            });
+        });
+
+        // Xóa sản phẩm khỏi giỏ hàng
+        $(document).ready(function() {
+            $('.btn-delete').on('click', function() {
+                let id = $(this).data('id');
+
+                if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+                    return;
+                }
+
+                $.ajax({
+                    url: '/cart/delete/' + id,
+                    type: 'DELETE',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#cart-item-' + id).remove();
+                            $('#overall-total').text(response.overallTotalFormatted);
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert(xhr.responseJSON.message);
+>>>>>>> b1a35a7d8088b646a758632a5eda0a93ffb98daa
                     }
 
                     $.ajax({
@@ -233,8 +308,11 @@
             });
         });
     </script>
+<<<<<<< HEAD
     {{--  --}}
 
+=======
+>>>>>>> b1a35a7d8088b646a758632a5eda0a93ffb98daa
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let selectAllCheckbox = document.getElementById('select-all');
@@ -309,4 +387,5 @@
             });
         });
     </script>
+
 @endsection
