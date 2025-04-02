@@ -186,7 +186,13 @@
                             </div>
                         </div>
                     </form>
-
+                    <div class="mt-2">
+                        <form action="<?php echo e(route('favorites.store')); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
+                            <input type="hidden" name="product_id" value="<?php echo e($product->id); ?>">
+                            <button type="submit" class="btn btn-primary">❤️ Thêm vào yêu thích</button>
+                        </form>
+                    </div>
                     <!-- /product_actions -->
                 </div>
             </div>
@@ -198,7 +204,8 @@
             <div class="container">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab" role="tab">Bình
+                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab"
+                            role="tab">Bình
                             luận</a>
                     </li>
                     <li class="nav-item">
@@ -514,6 +521,29 @@
             if (productContent) {
                 productContent.innerHTML = productContent.innerHTML.replace(/\.\s*/g, '.<br>');
             }
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.btn-favorite').addEventListener('click', function() {
+                let productId = this.getAttribute('data-product');
+
+                fetch('/favorites', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                .getAttribute('content'),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            product_id: productId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => alert(data.message));
+            });
         });
     </script>
 <?php $__env->stopSection(); ?>
