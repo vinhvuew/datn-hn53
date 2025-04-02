@@ -23,7 +23,7 @@
                 </div>
             </a>
         </li>
-        
+
         <li class="menu-item <?php echo $__env->yieldContent('item-category'); ?>">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bxs-folder-open"></i>
@@ -50,7 +50,7 @@
                 </li>
             </ul>
         </li>
-        
+
         <li class="menu-item <?php echo $__env->yieldContent('item-brand'); ?>">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-book-open"></i>
@@ -73,7 +73,7 @@
                 </li>
             </ul>
         </li>
-        
+
         <li class="menu-item <?php echo $__env->yieldContent('item-product'); ?>">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
@@ -93,7 +93,7 @@
 
             </ul>
         </li>
-        
+
         <li class="menu-item  <?php echo $__env->yieldContent('item-atribute'); ?>">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
@@ -176,20 +176,20 @@
 
 
 
-
         <li class="menu-item">
             <a href="<?php echo e(route('news.index')); ?>" class="menu-link">
                 <i class="menu-icon fa-regular fa-newspaper"></i>
-                
+
                 <div class="text-truncate" data-i18n="Tin Tức">Tin Tức</div>
             </a>
         </li>
 
 
+
         <li class="menu-item">
             <a href="<?php echo e(route('admin.chat.index')); ?>" class="menu-link">
                 <i class="menu-icon fa-regular fa-newspaper"></i>
-                
+
                 <div class="text-truncate" data-i18n="chat">chat</div>
             </a>
         </li>

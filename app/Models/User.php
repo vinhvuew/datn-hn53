@@ -17,6 +17,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+
         'name',
         'role_id',
         'address',
@@ -30,6 +31,8 @@ class User extends Authenticatable
         'verification_code_expires_at',
         'password_reset_sent_at',
         'password_reset_expires_at'
+
+
     ];
 
     /**
@@ -40,7 +43,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'is_admin', 
+        'is_admin',
     ];
 
     /**
@@ -59,6 +62,7 @@ class User extends Authenticatable
     {
         return $this->avatar ? asset('storage/avatar/' . $this->avatar) : asset('images/default-avatar.png');
     }
+
     public function role()
     {
         // return $this->belongsTo(Role::class,);

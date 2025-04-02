@@ -1,6 +1,7 @@
 <?php
 namespace App\Events;
 
+
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -21,6 +22,7 @@ class MessageSent implements ShouldBroadcast
 
     public function broadcastOn()
     {
+
         return [
             new Channel('chat.user.' . $this->message->user_id),
             new Channel('chat.admin'),
@@ -35,5 +37,6 @@ class MessageSent implements ShouldBroadcast
             'admin_id' => $this->message->admin_id,
             'is_admin' => $this->message->admin_id !== null,
         ];
+
     }
 }

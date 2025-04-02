@@ -21,6 +21,7 @@ class ChatController extends Controller
         $message = Message::create([
             'user_id' => Auth::id(),
             'message' => $request->message,
+
             'is_read' => false,
         ]);
 
@@ -36,5 +37,6 @@ class ChatController extends Controller
                 'is_admin' => $message->admin_id !== null,
             ]
         ]);
+
     }
 }

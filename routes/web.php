@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+use Illuminate\Support\Facades\Auth;
 // client
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductsController;
@@ -27,8 +29,8 @@ use App\Http\Controllers\Admin\OderDeltailController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ThongKeController;
 use App\Http\Controllers\Admin\NewsController;
-use App\Http\Controllers\Admin\adminChatController;
 
+use App\Http\Controllers\Admin\adminChatController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/brands', [HomeController::class, 'index_brands'])->name('brand');
@@ -190,9 +192,11 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::put('/news/{id}/update', [NewsController::class, 'update'])->name('news.update');
     Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
 
+
     Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/chat', [App\Http\Controllers\Admin\AdminChatController::class, 'index'])->name('admin.chat.index');
         Route::get('/chat/{user_id}', [App\Http\Controllers\Admin\AdminChatController::class, 'show'])->name('admin.chat.show');
         Route::post('/chat/send', [App\Http\Controllers\Admin\AdminChatController::class, 'sendMessage'])->name('admin.chat.send');
     });
+
 });

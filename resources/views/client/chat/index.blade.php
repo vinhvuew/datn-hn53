@@ -1,11 +1,15 @@
 @extends('client.layouts.master')
 @section('content')
+
 <main>
+
     <div class="container">
         <h3>Hỗ trợ trực tiếp</h3>
         <div id="chat-box" style="height: 400px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px;">
             @foreach($messages as $message)
+
                 <p><strong>{{ $message->admin_id ? 'Admin' : 'Bạn' }}:</strong> {{ $message->message }}</p>
+
             @endforeach
         </div>
 
@@ -17,6 +21,7 @@
     </div>
 
     <script>
+
         const chatBox = document.getElementById('chat-box');
         const form = document.getElementById('chat-form');
         const input = document.getElementById('message');
@@ -33,6 +38,7 @@
                     "X-CSRF-TOKEN": "{{ csrf_token() }}"
                 },
                 body: JSON.stringify({ message: message })
+
             })
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
@@ -56,6 +62,7 @@
                 chatBox.innerHTML += `<p><strong>Admin:</strong> ${e.message}</p>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
             });
+
     </script>
   </main>
 @endsection

@@ -1,10 +1,18 @@
-<?php $__env->startSection('content'); ?>
+<?php
+
+use Illuminate\Support\Facades\Auth;
+
+ $__env->startSection('content'); ?>
+
 <main>
+
     <div class="container">
         <h3>Hỗ trợ trực tiếp</h3>
         <div id="chat-box" style="height: 400px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px;">
             <?php $__currentLoopData = $messages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $message): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
                 <p><strong><?php echo e($message->admin_id ? 'Admin' : 'Bạn'); ?>:</strong> <?php echo e($message->message); ?></p>
+
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
 
@@ -16,6 +24,7 @@
     </div>
 
     <script>
+
         const chatBox = document.getElementById('chat-box');
         const form = document.getElementById('chat-form');
         const input = document.getElementById('message');
@@ -32,6 +41,7 @@
                     "X-CSRF-TOKEN": "<?php echo e(csrf_token()); ?>"
                 },
                 body: JSON.stringify({ message: message })
+
             })
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
@@ -55,6 +65,7 @@
                 chatBox.innerHTML += `<p><strong>Admin:</strong> ${e.message}</p>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
             });
+
     </script>
   </main>
 <?php $__env->stopSection(); ?>

@@ -175,8 +175,6 @@
 
 
 
-
-
         <li class="menu-item">
             <a href="{{ route('news.index') }}" class="menu-link">
                 <i class="menu-icon fa-regular fa-newspaper"></i>
@@ -186,6 +184,7 @@
         </li>
 
 
+<<<<<<< HEAD
         <li class="menu-item">
             <a href="{{ route('admin.chat.index') }}" class="menu-link">
                 <i class="menu-icon fa-regular fa-newspaper"></i>
@@ -195,6 +194,8 @@
         </li>
 
 
+=======
+>>>>>>> 52a1a51757ec5a3c8347a5d47879047abed8aa15
 
 
     </ul>
