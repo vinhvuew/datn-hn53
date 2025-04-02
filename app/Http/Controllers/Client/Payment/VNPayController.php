@@ -98,10 +98,10 @@ class VNPayController extends Controller
     public function handleReturn(Request $request)
     {
         try {
-            // Log toàn bộ dữ liệu từ VNPAY để debug
+           
             Log::info('VNPAY Response:', $request->all());
 
-            // Nếu người dùng hủy thanh toán hoặc không có response code
+           
             if (!$request->has('vnp_ResponseCode')) {
                 Log::info('Người dùng hủy thanh toán VNPAY');
                 return redirect()->route('profile.myOder')->with('warning', 'Bạn đã hủy thanh toán VNPAY');
@@ -119,7 +119,7 @@ class VNPayController extends Controller
                 'bankCode' => $bankCode
             ]);
 
-            // Nếu không có orderId, chuyển về trang đơn hàng
+          
             if (!$orderId) {
                 Log::error('Không có mã đơn hàng từ VNPAY');
                 return redirect()->route('profile.myOder')->with('error', 'Không tìm thấy thông tin đơn hàng');
@@ -131,37 +131,35 @@ class VNPayController extends Controller
                 return redirect()->route('profile.myOder')->with('error', 'Không tìm thấy đơn hàng');
             }
 
-            // Kiểm tra mã phản hồi từ VNPAY
+           
             if ($responseCode === '00') {
                 DB::beginTransaction();
                 try {
-                    // Cập nhật trạng thái đơn hàng
+                    
                     $order->status = 'confirmed';
                     $order->payment_status = 'Thanh toán thành công';
                     $order->save();
 
-                    // Tạo trạng thái vận chuyển
+                   
                     Shipping::create([
                         'order_id' => $order->id,
                         'name' => 'Chờ xử lý',
                         'note' => 'Đơn hàng đã được thanh toán qua VNPAY'
                     ]);
 
-                    // Gửi email hóa đơn
+                   
                     try {
                         Mail::to($order->user->email)->send(new OrderInvoice($order, $order->orderDetails));
                     } catch (\Exception $e) {
                         Log::error('Lỗi gửi email hóa đơn: ' . $e->getMessage());
                     }
 
-                    // Xóa sản phẩm khỏi giỏ hàng
                     $cart = Cart::where('user_id', $order->user_id)->first();
                     if ($cart) {
                         CartDetail::where('cart_id', $cart->id)
                             ->where('is_selected', true)
                             ->delete();
 
-                        // Kiểm tra và xóa giỏ hàng nếu không còn sản phẩm
                         if (CartDetail::where('cart_id', $cart->id)->count() === 0) {
                             $cart->delete();
                         }
@@ -178,7 +176,7 @@ class VNPayController extends Controller
                     return redirect()->route('profile.myOder')->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
                 }
             } else {
-                // Ghi log mã lỗi
+
                 Log::warning('Thanh toán VNPAY không thành công:', [
                     'order_id' => $orderId,
                     'response_code' => $responseCode,
@@ -196,8 +194,6 @@ class VNPayController extends Controller
             return redirect()->route('profile.myOder')->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
     }
-
-    // Hàm lấy message từ response code của VNPAY
     private function getVNPayResponseMessage($responseCode)
     {
         $messages = [

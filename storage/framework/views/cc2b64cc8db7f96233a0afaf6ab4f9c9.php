@@ -17,7 +17,11 @@
                     <p>Chúng tôi sẽ gửi email xác nhận đơn hàng cho bạn.</p>
                     <div class="buttons">
                         <a href="/" class="btn_1">Tiếp tục mua sắm</a>
-                        <a href="/profile/myOder" class="btn_1 outline">Xem đơn hàng</a>
+                        <?php if(isset($order_id)): ?>
+                            <a href="<?php echo e(route('profile.detailOrder', $order_id)); ?>" class="btn_1 outline">Xem chi tiết đơn hàng</a>
+                        <?php else: ?>
+                            <a href="<?php echo e(route('profile.myOder')); ?>" class="btn_1 outline">Xem đơn hàng của tôi</a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

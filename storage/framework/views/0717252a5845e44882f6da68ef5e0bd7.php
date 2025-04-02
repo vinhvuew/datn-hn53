@@ -1,10 +1,10 @@
 <!-- Favicons-->
-<link rel="shortcut icon" href="<?php echo e(asset('client')); ?>/img/favicon.ico" type="image/x-icon">
-<link rel="apple-touch-icon" type="image/x-icon" href="<?php echo e(asset('client')); ?>/img/apple-touch-icon-57x57-precomposed.png">
+<link rel="shortcut icon" href="<?php echo e(asset('client')); ?>/img/logo16x16.png" type="image/x-icon">
+<link rel="apple-touch-icon" type="image/x-icon" href="<?php echo e(asset('client')); ?>/img/logo57x57.png">
 <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72"
-    href="<?php echo e(asset('client')); ?>/<?php echo e(asset('client')); ?>/img/apple-touch-icon-114x114-precomposed.png">
+    href="<?php echo e(asset('client')); ?>/<?php echo e(asset('client')); ?>/img/logo114x114.png">
 <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144"
-    href="<?php echo e(asset('client')); ?>/img/apple-touch-icon-144x144-precomposed.png">
+    href="<?php echo e(asset('client')); ?>/img/logo144x144.png">
 
 <!-- GOOGLE WEB FONT -->
 <link rel="dns-prefetch" href="https://fonts.gstatic.com/">
