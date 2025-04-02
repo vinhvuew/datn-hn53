@@ -140,10 +140,11 @@
                                     <a href="{{ route('cart.view') }}" class="cart_bt ms-3"></a>
                                     <div class="dropdown-menu">
                                         <ul>
-                                            {{-- <li>
-                                                <a href="track-order.html"><i class="ti-truck"></i>Track your
-                                                    Order</a>
-                                            </li> --}}
+                                            <li>
+                                                <a href="{{ route('favorites') }}">
+                                                    <i class="fas fa-heart me-2"></i> Sản phẩm yêu thích
+                                                </a>
+                                            </li>
                                             <li>
                                                 <a href="{{ route('profile.myOder') }}"><i class="ti-package"></i>Đơn
                                                     hàng của

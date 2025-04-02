@@ -133,7 +133,11 @@
                                     <a href="<?php echo e(route('cart.view')); ?>" class="cart_bt ms-3"></a>
                                     <div class="dropdown-menu">
                                         <ul>
-                                            
+                                            <li>
+                                                <a href="<?php echo e(route('favorites')); ?>">
+                                                    <i class="fas fa-heart me-2"></i> Sản phẩm yêu thích
+                                                </a>
+                                            </li>
                                             <li>
                                                 <a href="<?php echo e(route('profile.myOder')); ?>"><i class="ti-package"></i>Đơn
                                                     hàng của

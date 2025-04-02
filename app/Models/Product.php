@@ -77,5 +77,9 @@ class Product extends Model
         return $this->price_sale ?? $this->base_price;
     }
 
-   
+    //
+    public function favoritedByUsers() {
+        return $this->belongsToMany(User::class, 'favorites');
+    }
+
 }

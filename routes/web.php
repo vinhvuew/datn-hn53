@@ -2,6 +2,7 @@
 
 
 
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MessagesController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
@@ -59,10 +60,13 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     // Xác nhận đã nhận hàng (Chỉ khi trạng thái là "delivered")
     Route::put('/orders/{id}/confirm-received', [ProfileController::class, 'confirmReceived'])
         ->name('orders.confirm-received');
-    //
-
 });
-
+//yêu
+Route::middleware(['auth'])->group(function () {
+    Route::get('/favorites', [ProductsController::class, 'favorite'])->name('favorites');
+    Route::post('/favorites', [ProductsController::class, 'storefavorite'])->name('favorites.store');
+    Route::delete('/favorites/{id}', [ProductsController::class, 'destroyfavorite'])->name('favorites.destroy');
+});
 // chat box
 // router phan tin tuc
 
