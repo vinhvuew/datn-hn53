@@ -232,9 +232,16 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="card-title m-0">Hoạt động vận chuyển</h5>
                                         @if ($order->status === 'pending')
+                                            @if ($order->payment_method === 'VNPAY_DECOD' && $order->payment_status === 'Chờ thanh toán')
+                                                <form action="{{ route('vnpay.repay', $order->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary btn-sm">Thanh toán lại</button>
+                                                </form>
+                                            @endif
                                             <form action="{{ route('profile.orders.cancel', $order->id) }}"
                                                 method="POST"
-                                                onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');">
+                                                onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');"
+                                                class="d-inline">
                                                 @csrf
                                                 @method('PUT')
                                                 <button type="submit" class="btn btn-danger btn-sm">Hủy đơn hàng</button>

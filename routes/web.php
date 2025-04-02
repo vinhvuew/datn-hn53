@@ -85,7 +85,8 @@ Route::put('/addresses/{id}', [AddressController::class, 'update'])->name('addre
 Route::delete('/addresses/{id}', [AddressController::class, 'destroy'])->name('addresses.destroy')->middleware('auth');
 Route::post('/apply-voucher', [OrderController::class, 'applyVoucher'])->name('apply.voucher');
 
-Route::get('/vnpay-return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
+Route::match(['get', 'post'], '/vnpay-return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
+Route::post('/vnpay-repay/{order}', [VNPayController::class, 'repayOrder'])->name('vnpay.repay');
 // giỏ hàng
 Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
 Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('productDetail');
@@ -95,8 +96,8 @@ Route::delete('/cart/delete/{id}', [CartController::class, 'destroy'])->name('ca
 
 // check out
 Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
-Route::get('/checkout/complete', function () {
-    return view('client.checkout.complete');
+Route::get('/checkout/complete/{order_id?}', function ($order_id = null) {
+    return view('client.checkout.complete', compact('order_id'));
 })->name('checkout.complete');
 Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout.post');
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');

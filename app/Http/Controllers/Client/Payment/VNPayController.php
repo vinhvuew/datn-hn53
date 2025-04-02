@@ -76,21 +76,41 @@ class VNPayController extends Controller
         return redirect($vnp_Url);
     }
 
+    public function repayOrder($orderId)
+    {
+        try {
+            $order = Order::findOrFail($orderId);
+            
+            // Kiểm tra nếu đơn hàng không phải đang chờ thanh toán VNPAY
+            if ($order->payment_method !== 'VNPAY_DECOD' || $order->payment_status !== 'Chờ thanh toán') {
+                return back()->with('error', 'Đơn hàng không hợp lệ để thanh toán lại.');
+            }
+
+            // Gọi lại phương thức thanh toán VNPAY
+            return $this->VNpay_Payment($order->id, $order->total_price);
+
+        } catch (\Exception $e) {
+            Log::error('Lỗi thanh toán lại VNPAY: ' . $e->getMessage());
+            return back()->with('error', 'Có lỗi xảy ra khi thực hiện thanh toán lại.');
+        }
+    }
+
     public function handleReturn(Request $request)
     {
         try {
             // Log toàn bộ dữ liệu từ VNPAY để debug
             Log::info('VNPAY Response:', $request->all());
 
-            if (!$request->has('vnp_TxnRef') || !$request->has('vnp_ResponseCode')) {
-                Log::error('Thiếu tham số từ VNPAY');
-                return view('client.checkout.failed');
+            // Nếu người dùng hủy thanh toán hoặc không có response code
+            if (!$request->has('vnp_ResponseCode')) {
+                Log::info('Người dùng hủy thanh toán VNPAY');
+                return redirect()->route('profile.myOder')->with('warning', 'Bạn đã hủy thanh toán VNPAY');
             }
 
             $orderId = $request->vnp_TxnRef;
             $responseCode = $request->vnp_ResponseCode;
-            $transactionNo = $request->vnp_TransactionNo;
-            $bankCode = $request->vnp_BankCode;
+            $transactionNo = $request->vnp_TransactionNo ?? null;
+            $bankCode = $request->vnp_BankCode ?? null;
 
             Log::info('Xử lý thanh toán VNPAY:', [
                 'orderId' => $orderId,
@@ -99,10 +119,16 @@ class VNPayController extends Controller
                 'bankCode' => $bankCode
             ]);
 
+            // Nếu không có orderId, chuyển về trang đơn hàng
+            if (!$orderId) {
+                Log::error('Không có mã đơn hàng từ VNPAY');
+                return redirect()->route('profile.myOder')->with('error', 'Không tìm thấy thông tin đơn hàng');
+            }
+
             $order = Order::with(['orderDetails', 'orderDetails.product', 'orderDetails.variant', 'address', 'user'])->find($orderId);
             if (!$order) {
                 Log::error('Không tìm thấy đơn hàng: ' . $orderId);
-                return view('client.checkout.failed');
+                return redirect()->route('profile.myOder')->with('error', 'Không tìm thấy đơn hàng');
             }
 
             // Kiểm tra mã phản hồi từ VNPAY
@@ -143,24 +169,53 @@ class VNPayController extends Controller
 
                     DB::commit();
                     Log::info('Xử lý thanh toán thành công cho đơn hàng: ' . $orderId);
-                    return view('client.checkout.complete');
+                    return redirect()->route('checkout.complete', ['order_id' => $order->id]);
 
                 } catch (\Exception $e) {
                     DB::rollBack();
                     Log::error('Lỗi xử lý thanh toán thành công: ' . $e->getMessage());
                     Log::error('Stack trace: ' . $e->getTraceAsString());
-                    return view('client.checkout.failed');
+                    return redirect()->route('profile.myOder')->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
                 }
             } else {
-                Log::error('Thanh toán thất bại với mã lỗi: ' . $responseCode);
-                return view('client.checkout.failed');
+                // Ghi log mã lỗi
+                Log::warning('Thanh toán VNPAY không thành công:', [
+                    'order_id' => $orderId,
+                    'response_code' => $responseCode,
+                    'message' => $this->getVNPayResponseMessage($responseCode)
+                ]);
+                
+                return redirect()->route('profile.myOder')
+                    ->with('warning', 'Thanh toán không thành công: ' . $this->getVNPayResponseMessage($responseCode));
             }
 
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Lỗi không mong đợi: ' . $e->getMessage());
             Log::error('Stack trace: ' . $e->getTraceAsString());
-            return view('client.checkout.failed');
+            return redirect()->route('profile.myOder')->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
+    }
+
+    // Hàm lấy message từ response code của VNPAY
+    private function getVNPayResponseMessage($responseCode)
+    {
+        $messages = [
+            '00' => 'Giao dịch thành công',
+            '07' => 'Trừ tiền thành công. Giao dịch bị nghi ngờ (liên quan tới lừa đảo, giao dịch bất thường).',
+            '09' => 'Giao dịch không thành công do: Thẻ/Tài khoản của khách hàng chưa đăng ký dịch vụ InternetBanking tại ngân hàng.',
+            '10' => 'Giao dịch không thành công do: Khách hàng xác thực thông tin thẻ/tài khoản không đúng quá 3 lần',
+            '11' => 'Giao dịch không thành công do: Đã hết hạn chờ thanh toán. Xin quý khách vui lòng thực hiện lại giao dịch.',
+            '12' => 'Giao dịch không thành công do: Thẻ/Tài khoản của khách hàng bị khóa.',
+            '13' => 'Giao dịch không thành công do Quý khách nhập sai mật khẩu xác thực giao dịch (OTP).',
+            '24' => 'Giao dịch không thành công do: Khách hàng hủy giao dịch',
+            '51' => 'Giao dịch không thành công do: Tài khoản của quý khách không đủ số dư để thực hiện giao dịch.',
+            '65' => 'Giao dịch không thành công do: Tài khoản của Quý khách đã vượt quá hạn mức giao dịch trong ngày.',
+            '75' => 'Ngân hàng thanh toán đang bảo trì.',
+            '79' => 'Giao dịch không thành công do: KH nhập sai mật khẩu thanh toán quá số lần quy định.',
+            '99' => 'Các lỗi khác (lỗi còn lại, không có trong danh sách mã lỗi đã liệt kê)',
+        ];
+
+        return $messages[$responseCode] ?? 'Lỗi không xác định';
     }
 }
