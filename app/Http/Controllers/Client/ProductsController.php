@@ -227,7 +227,11 @@ class ProductsController extends Controller
         }
 
         // Phân trang
-        $products = $query->paginate(12);
+        $products = Product::where('is_active', 1)
+            ->latest()
+            ->limit(8)
+            ->paginate(12);
+        // $products = $query->paginate(12);
 
         // Trả về view với dữ liệu
         return view('client.product.products', compact('products', 'categories', 'brands'));

@@ -117,7 +117,7 @@
                             <div class="col-12 col-lg-8">
                                 <div class="card mb-4">
                                     <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title m-0">Chi tiết đơn hàng</h5>
+                                        <h5 class="card-title m-0">Chi tiết đơn hàng #{{ $order->id }}</h5>
                                     </div>
                                     <div class="card-datatable table-responsive">
                                         <table class="datatables-order-details table">
@@ -189,11 +189,8 @@
                                                                             <br>
                                                                         @endif
                                                                         {{ $attribute->attribute->name }}:
-                                                                        @if (!$loop->first)
-                                                                        @endif
                                                                         {{ $attribute->attributeValue->value }}.
                                                                     @endforeach
-
                                                                 </span>
                                                             </td>
                                                             @if ($item->variant->product->price_sale == '')
@@ -206,7 +203,6 @@
                                                                 </td>
                                                             @endif
 
-                                                            {{-- <td>{{ number_format($item->variant->selling_price, 0, ',', '.') }} --}}
                                                             </td>
                                                             <td>{{ $item->quantity }}</td>
                                                             <td>{{ number_format($item->total_price, 0, ',', '.') }}
@@ -228,14 +224,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                {{-- hoạt động vận chuyển --}}
                                 <div class="card mb-4">
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="card-title m-0">Hoạt động vận chuyển</h5>
                                         @if ($order->status === 'pending')
                                             @if ($order->payment_method === 'VNPAY_DECOD' && $order->payment_status === 'Chờ thanh toán')
-                                                <form action="{{ route('vnpay.repay', $order->id) }}" method="POST" class="d-inline">
+                                                <form action="{{ route('vnpay.repay', $order->id) }}" method="POST"
+                                                    class="d-inline">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-primary btn-sm">Thanh toán lại</button>
+                                                    <button type="submit" class="btn btn-primary btn-sm">Thanh toán
+                                                        lại</button>
                                                 </form>
                                             @endif
                                             <form action="{{ route('profile.orders.cancel', $order->id) }}"
