@@ -208,5 +208,16 @@
                 <div class="text-truncate" data-i18n="Tin Tức">Tin Tức</div>
             </a>
         </li>
+
+        <li class="menu-item">
+            <a href="{{ route('admin.chat.index') }}" class="menu-link">
+                <i class="menu-icon fa-regular fa-newspaper"></i>
+                {{-- <i class=" menu-icon fa-sharp fa-solid fa-chart-simple"></i> --}}
+                <div class="text-truncate" data-i18n="chat">chat</div>
+            </a>
+        </li>
+
+
+
     </ul>
 </aside>
