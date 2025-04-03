@@ -81,11 +81,7 @@
                 
 
                 <?php if($order->status == 'pending'): ?>
-                    <form action="<?php echo e(route('orders.cancel', $order->id)); ?>" method="post">
-                        <?php echo csrf_field(); ?>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancel">Hủy
-                            đơn</button>
-                    </form>
+                    
                     <form action="<?php echo e(route('orders.confirmed', $order->id)); ?>" method="post">
                         <?php echo csrf_field(); ?>
                         <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc chắn?')">Xác

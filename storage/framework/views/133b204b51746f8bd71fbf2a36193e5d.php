@@ -141,22 +141,39 @@
                     </a>
                 </li>
             </ul>
-
         </li>
 
-        <li class="menu-item">
+        <li class="menu-item <?php echo $__env->yieldContent('item-user'); ?>">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-user"></i>
-                <div class="text-truncate" data-i18n="Users">Users</div>
+                <div data-i18n="Tài Khoản">Tài Khoản</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item <?php echo $__env->yieldContent('user-index'); ?>">
                     <a href="<?php echo e(route('users.index')); ?>" class="menu-link">
-                        <div class="text-truncate" data-i18n="Danh Sách Tài Khoản">Danh Sách Tài Khoản</div>
+                        <div data-i18n="Khách hàng">Khách hàng</div>
                     </a>
                 </li>
+
+                <?php if(auth()->user()->role_id == 1): ?>
+                    
+                    <li class="menu-item <?php echo $__env->yieldContent('user-role'); ?>">
+                        <a href="<?php echo e(route('roles.index')); ?>" class="menu-link">
+                            <div data-i18n="Vai Trò">Vai Trò</div>
+                        </a>
+                    </li>
+                <?php endif; ?>
+
+                
+                
+                
+                
+                
+                
+                
             </ul>
         </li>
+
 
         <li class="menu-item">
             <a href="<?php echo e(route('comment.index')); ?>" class="menu-link">
@@ -164,17 +181,24 @@
                 <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>
             </a>
         </li>
-
-
         <li class="menu-item">
-            <a href="<?php echo e(route('thongke.statistical')); ?>" class="menu-link">
+            <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class=" menu-icon fa-sharp fa-solid fa-chart-simple"></i>
-                <div class="text-truncate" data-i18n="Thống Kê">Thống Kê</div>
+                <div class="text-truncate" data-i18n="Thống kê">
+                    Thống kê
+                </div>
             </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="<?php echo e(route('thongke.statistical')); ?>" class="menu-link">
+                        <div class="text-truncate" data-i18n=" Doanh thu">
+                            Doanh thu
+                        </div>
+                    </a>
+                </li>
+
+            </ul>
         </li>
-       
-
-
 
 
         <li class="menu-item">
@@ -185,6 +209,13 @@
             </a>
         </li>
 
+        <li class="menu-item">
+            <a href="<?php echo e(route('admin.chat.index')); ?>" class="menu-link">
+                <i class="menu-icon fa-regular fa-newspaper"></i>
+                
+                <div class="text-truncate" data-i18n="chat">chat</div>
+            </a>
+        </li>
 
 
 

@@ -134,7 +134,7 @@
                                                     <h5 class="mt-3">Thuộc Tính 1</h5>
                                                     <div class="mb-3">
                                                         <label for="variant_sku_0">Mã biến thể</label>
-                                                       
+
                                                         <input type="text" id="variant_sku_0" name="variants[0][sku]"
                                                             placeholder="Mã biến thể" class="form-control"
                                                             value="{{ old('variant_sku_0') }}">
@@ -179,7 +179,7 @@
                                                     class="mdi mdi-plus me-0 me-sm-1"></i>Thêm Thuộc
                                                 Tính</button>
                                         </div>
-                                    @else
+                                    @elseif($product)
                                         <div id="variantsSection" @if ($product->variants && $product->variants->count() === 0) class="d-none" @endif>
                                             <div id="variants" class="mb-3">
                                                 @foreach ($product->variants as $variantIndex => $variant)
@@ -248,6 +248,33 @@
                         </div>
                         <!-- Second column -->
                         <div class="col-12 col-lg-4">
+                            {{-- kích hoạt --}}
+                            <div class="card mb-4 p-3">
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_active" class="form-check-input" value="1"
+                                        id="is_active" {{ $product->is_active ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_active">Hoạt động</label>
+                                </div>
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_good_deal" class="form-check-input" value="1"
+                                        id="is_good_deal" {{ $product->is_good_deal ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_good_deal">Ưu đãi tốt</label>
+                                </div>
+
+                                {{-- <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_new" class="form-check-input" value="1"
+                                        id="is_new" {{ $product->is_new ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_new">Sản phẩm mới</label>
+                                </div> --}}
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_show_home" class="form-check-input" value="1"
+                                        id="is_show_home" {{ $product->is_show_home ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_show_home">Sản phẩm nổi bật</label>
+                                </div>
+                            </div>
+
                             <!-- /danh mục -->
                             <div class="card mb-4">
                                 <div class="card-header">
@@ -299,8 +326,8 @@
                                     </div>
                                     <!-- Discounted Price -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="ecommerce-product-discount-price">Giá tùy
-                                            chỉnh</label>
+                                        <label class="form-label" for="ecommerce-product-discount-price">Giá ưu
+                                            đãi</label>
                                         <input type="number" class="form-control" id="price_sale"
                                             placeholder="price_sale" name="price_sale" aria-label="price_sale"
                                             value="{{ $product->price_sale }}">
@@ -422,6 +449,11 @@
                     variantElement.remove();
                 }
             }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(".form-check-input").bootstrapSwitch();
         });
     </script>
 @endsection

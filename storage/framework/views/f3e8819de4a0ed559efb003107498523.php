@@ -7,7 +7,8 @@
                     <thead>
                         <tr>
                             <th>
-                                Tất cả<input type="checkbox" id="select-all">
+                                Chọn
+                                
                             </th>
                             <th>Hình ảnh</th>
                             <th>Tên sản phẩm</th>
@@ -216,7 +217,7 @@
             // Xử lý form thanh toán
             $('#checkout-form').on('submit', function(e) {
                 e.preventDefault();
-                
+
                 let selectedItems = $('.cart-item-checkbox:checked');
                 if (selectedItems.length === 0) {
                     alert('Vui lòng chọn ít nhất một sản phẩm để thanh toán!');
@@ -251,7 +252,7 @@
                 if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
                     return;
                 }
-                
+
                 $.ajax({
                     url: '/cart/delete/' + id,
                     type: 'DELETE',
@@ -346,6 +347,7 @@
             });
         });
     </script>
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/cart/listCart.blade.php ENDPATH**/ ?>

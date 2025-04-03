@@ -141,7 +141,7 @@ $message = $__bag->first($__errorArgs[0]); ?>
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                        <label class="form-label" for="content">Hướng dẫn sử dụng</label>
+                                        <label class="form-label" for="content">Hướng dẫn bảo quản</label>
                                         <textarea type="text" class="form-control" name="user_manual" value="<?php echo e(old('user_manual')); ?>"></textarea>
                                     </div>
                                 </div>
@@ -241,13 +241,31 @@ unset($__errorArgs, $__bag); ?>
                         </div>
                         <!-- Second column -->
                         <div class="col-12 col-lg-4">
-                            <!-- /danh mục -->
+                            
+                            <div class="card mb-4 p-3">
+                                
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_good_deal" class="form-check-input" value="1"
+                                        id="is_good_deal">
+                                    <label class="form-check-label" for="is_good_deal">Ưu đãi tốt</label>
+                                </div>
+
+                                
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input type="checkbox" name="is_show_home" class="form-check-input" value="1"
+                                        id="is_show_home">
+                                    <label class="form-check-label" for="is_show_home">Sản phẩm nổi bật</label>
+                                </div>
+                            </div>
+                            
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <h5 class="card-title mb-0">Danh mục & thương hiệu</h5>
                                 </div>
                                 <div class="card-body">
-                                    
+
                                     <div class="mb-3">
                                         <label for="category_id" class="form-label">Danh mục</label>
 
@@ -314,7 +332,8 @@ unset($__errorArgs, $__bag); ?>
                                     </div>
                                     <!-- Discounted Price -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="ecommerce-product-discount-price">giá bán</label>
+                                        <label class="form-label" for="ecommerce-product-discount-price">giá ưu
+                                            đãi</label>
                                         <input type="number" class="form-control" id="price_sale"
                                             placeholder="price_sale" name="price_sale" aria-label="price_sale">
                                         <?php $__errorArgs = ['price_sale'];
@@ -445,6 +464,12 @@ unset($__errorArgs, $__bag); ?>
                     variantElement.remove();
                 }
             }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(".form-check-input").bootstrapSwitch();
         });
     </script>
 <?php $__env->stopSection(); ?>

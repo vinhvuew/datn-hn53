@@ -7,7 +7,7 @@
                 <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                     <div id="logo">
                         <a href="<?php echo e(route('home')); ?>"><img src="<?php echo e(asset('client')); ?>/img/logoone.png" alt=""
-                                height="50" width="50px"></a>
+                                height="60" width="150px"></a>
                     </div>
                 </div>
                 <nav class="col-xl-6 col-lg-7">
@@ -36,16 +36,16 @@
                                 <a href="<?php echo e(route('news')); ?>">Bài viết</a>
                             </li>
                             <li>
+                                <a href="<?php echo e(route('chat.index')); ?>">chat</a>
+                            </li>
+                            <li>
                                 <a href="" target="_parent">Liên hệ</a>
                             </li>
                         </ul>
                     </div>
                     <!--/main-menu -->
                 </nav>
-                <div class="col-xl-3 col-lg-2 d-lg-flex align-items-center justify-content-end text-end">
-                    <a class="phone_top" href="tel://9438843343"><strong>+94
-                            423-23-221</strong></a>
-                </div>
+                
             </div>
             <!-- /row -->
         </div>
@@ -136,9 +136,14 @@
                                     <a href="<?php echo e(route('cart.view')); ?>" class="cart_bt ms-3"></a>
                                     <div class="dropdown-menu">
                                         <ul>
-                                            
                                             <li>
-                                                <a href="my-orders.html"><i class="ti-package"></i>Đơn hàng của
+                                                <a href="<?php echo e(route('favorites')); ?>">
+                                                    <i class="fas fa-heart me-2"></i> Sản phẩm yêu thích
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="<?php echo e(route('profile.myOder')); ?>"><i class="ti-package"></i>Đơn
+                                                    hàng của
                                                     tôi</a>
                                             </li>
                                             <li>

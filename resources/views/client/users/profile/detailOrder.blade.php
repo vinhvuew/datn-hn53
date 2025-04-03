@@ -44,28 +44,6 @@
                                                 class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
 
                                                 <li class="list-inline-item">
-                                                    <i class='mdi mdi-invert-colors me-1 mdi-20px'></i>
-                                                    <span class="fw-medium">
-                                                        @switch(Auth::user()->role)
-                                                            @case('user')
-                                                                Thành viên
-                                                            @break
-
-                                                            @case('admin')
-                                                                Quản trị
-                                                            @break
-
-                                                            @case('moderator')
-                                                                Nhân viên
-                                                            @break
-
-                                                            @default
-                                                                Không xác định
-                                                        @endswitch
-                                                    </span>
-                                                </li>
-
-                                                <li class="list-inline-item">
                                                     <i class='mdi mdi-map-marker-outline me-1 mdi-20px'></i>
                                                     <span class="fw-medium">Việt Nam</span>
                                                 </li>
@@ -103,28 +81,6 @@
                                             tên: </span> <span>{{ Auth::user()->name }}</span>
                                     </li>
 
-                                    <li class="d-flex align-items-center mb-3"><i
-                                            class="mdi mdi-star-outline mdi-24px"></i><span class="fw-medium mx-2">Vai
-                                            trò:</span>
-                                        <span>
-                                            @switch(Auth::user()->role)
-                                                @case('user')
-                                                    Thành viên
-                                                @break
-
-                                                @case('admin')
-                                                    Quản trị
-                                                @break
-
-                                                @case('moderator')
-                                                    Nhân viên
-                                                @break
-
-                                                @default
-                                                    Không xác định
-                                            @endswitch
-                                        </span>
-                                    </li>
 
                                     <li class="d-flex align-items-center mb-3">
                                         <i class='mdi mdi-map-marker-outline mdi-24px'></i>
@@ -161,7 +117,7 @@
                             <div class="col-12 col-lg-8">
                                 <div class="card mb-4">
                                     <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title m-0">Chi tiết đơn hàng</h5>
+                                        <h5 class="card-title m-0">Chi tiết đơn hàng #{{ $order->id }}</h5>
                                     </div>
                                     <div class="card-datatable table-responsive">
                                         <table class="datatables-order-details table">
@@ -233,11 +189,8 @@
                                                                             <br>
                                                                         @endif
                                                                         {{ $attribute->attribute->name }}:
-                                                                        @if (!$loop->first)
-                                                                        @endif
                                                                         {{ $attribute->attributeValue->value }}.
                                                                     @endforeach
-
                                                                 </span>
                                                             </td>
                                                             @if ($item->variant->product->price_sale == '')
@@ -250,7 +203,6 @@
                                                                 </td>
                                                             @endif
 
-                                                            {{-- <td>{{ number_format($item->variant->selling_price, 0, ',', '.') }} --}}
                                                             </td>
                                                             <td>{{ $item->quantity }}</td>
                                                             <td>{{ number_format($item->total_price, 0, ',', '.') }}
@@ -272,13 +224,23 @@
                                         </div>
                                     </div>
                                 </div>
+                                {{-- hoạt động vận chuyển --}}
                                 <div class="card mb-4">
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="card-title m-0">Hoạt động vận chuyển</h5>
                                         @if ($order->status === 'pending')
+                                            @if ($order->payment_method === 'VNPAY_DECOD' && $order->payment_status === 'Chờ thanh toán')
+                                                <form action="{{ route('vnpay.repay', $order->id) }}" method="POST"
+                                                    class="d-inline">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary btn-sm">Thanh toán
+                                                        lại</button>
+                                                </form>
+                                            @endif
                                             <form action="{{ route('profile.orders.cancel', $order->id) }}"
                                                 method="POST"
-                                                onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');">
+                                                onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');"
+                                                class="d-inline">
                                                 @csrf
                                                 @method('PUT')
                                                 <button type="submit" class="btn btn-danger btn-sm">Hủy đơn hàng</button>

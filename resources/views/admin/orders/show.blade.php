@@ -82,11 +82,11 @@
                 @endif --}}
 
                 @if ($order->status == 'pending')
-                    <form action="{{ route('orders.cancel', $order->id) }}" method="post">
+                    {{-- <form action="{{ route('orders.cancel', $order->id) }}" method="post">
                         @csrf
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancel">Hủy
                             đơn</button>
-                    </form>
+                    </form> --}}
                     <form action="{{ route('orders.confirmed', $order->id) }}" method="post">
                         @csrf
                         <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc chắn?')">Xác

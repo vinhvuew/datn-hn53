@@ -19,11 +19,14 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    const OBJECT = 'products';
     public function index()
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         $products = Product::with([
             'variants.attributes' => function ($query) {
                 $query->with('attribute', 'attributeValue');
@@ -39,6 +42,11 @@ class ProductController extends Controller
      */
     public function create()
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         $category = Category::query()->get();
         $brands = Brand::query()->get();
         $attributes = Attribute::query()->get();
@@ -60,7 +68,7 @@ class ProductController extends Controller
             $dataProduct['is_new'] = isset($dataProduct['is_new']) ? 1 : 0;
             $dataProduct['is_show_home'] = isset($dataProduct['is_show_home']) ? 1 : 0;
             $dataProduct['slug'] = Str::slug($dataProduct['name']);
-            // dd($dataProduct['slug']);
+            // dd($dataProduct);
 
             if ($request->hasFile('img_thumbnail')) {
                 $dataProduct['img_thumbnail'] = Storage::put('products', $request->file('img_thumbnail'));
@@ -120,6 +128,11 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         $category = Category::query()->get();
         $brands = Brand::query()->get();
         $attributes = Attribute::query()->get();
@@ -257,10 +270,10 @@ class ProductController extends Controller
             Log::error($th->getMessage());
         }
     }
-
     /**
      * Remove the specified resource from storage.
      */
+
     public function destroy(Product $products)
     {
         //

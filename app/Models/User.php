@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class User extends Authenticatable 
+class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -17,14 +18,23 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'address', 'email', 'password', 'phone', 'role',
-        'avatar', 'email_verified_at', 'verification_code', 
-        'verification_code_sent_at', 'verification_code_expires_at',
-        'password_reset_sent_at', 'password_reset_expires_at'
-    ];
+        'name',
+        'role_id',
+        'address',
+        'email',
+        'password',
+        'phone',
+        'avatar',
+        'email_verified_at',
+        'verification_code',
+        'verification_code_sent_at',
+        'verification_code_expires_at',
+        'password_reset_sent_at',
+        'password_reset_expires_at'
 
-    protected $attributes = [
-        'role' => 'user',  // Sử dụng dấu `=>` để gán giá trị mặc định
+
+
+
     ];
 
     /**
@@ -35,6 +45,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'is_admin',
     ];
 
     /**
@@ -52,5 +63,27 @@ class User extends Authenticatable
     public function getAvataUrlAttribute()
     {
         return $this->avatar ? asset('storage/avatar/' . $this->avatar) : asset('images/default-avatar.png');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class,);
+    }
+    // Kiểm tra user có phải admin không
+
+    public function isAdmin()
+    {
+        return $this->role_id == 1; // Vai trò 1 là Admin
+    }
+
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function favoriteProducts()
+    {
+        return $this->belongsToMany(Product::class, 'favorites');
     }
 }

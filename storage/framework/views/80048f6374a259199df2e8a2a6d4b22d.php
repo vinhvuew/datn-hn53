@@ -6,7 +6,7 @@
                 document.write(new Date().getFullYear());
             </script>
             , được thực hiện với ❤️ by
-            <a href="https://themeselection.com/" target="_blank" class="footer-link fw-medium">Bài này Cường làm hết !!!!!</a>
+            <a href="https://themeselection.com/" target="_blank" class="footer-link fw-medium"></a>
         </div>
         <div class="d-none d-lg-inline-block">
             <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>

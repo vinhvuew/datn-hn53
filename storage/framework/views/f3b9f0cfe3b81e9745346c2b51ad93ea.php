@@ -24,8 +24,7 @@
                                     </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
-                            <div class="left-t nonl-t"></div>
-                            <div class="right-t"></div>
+                            
                         </div>
                     </div>
                 </div>
@@ -48,91 +47,45 @@
                                 <i class="icon-star"></i><em>4 reviews</em>
                             </span>
                             <p><small>Mã SP: <?php echo e($product->sku); ?></small><br><?php echo e($product->description); ?></p>
-                            <?php if($product->variants->isNotEmpty()): ?>
-                                
-                                <div class="prod_options">
-                                    <div class="row">
-                                        <?php
-                                            $groupAttribute = [];
-                                            $arr = [];
-                                        ?>
-                                        <?php $__currentLoopData = $product->variants; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variant): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <?php $__currentLoopData = $variant->attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <?php
-                                                    $data = [
-                                                        'id' => $attribute->attributeValue->id,
-                                                        'name' => $attribute->attributeValue->value,
-                                                    ];
+                             <?php if($product->variants->isNotEmpty()): ?>
+                            <div class="prod_options">
+                                <div class="row">
+                                    <?php
+                                        $groupAttribute = [];
+                                    ?>
+                                    <?php $__currentLoopData = $product->variants; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variant): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php $__currentLoopData = $variant->attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php
+                                                $attributeName = $attribute->attribute->name;
+                                                $valueId = $attribute->attributeValue->id;
+                                                $valueName = $attribute->attributeValue->value;
+                        
+                                                if (!isset($groupAttribute[$attributeName])) {
+                                                    $groupAttribute[$attributeName] = [];
+                                                }
+                        
+                                                $groupAttribute[$attributeName][$valueId] = $valueName;
+                                            ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        
+                                    <?php $__currentLoopData = $groupAttribute; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attributeName => $values): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <label class="col-12"><strong><?php echo e($attributeName); ?></strong></label>
+                                        <div class="col-12 option-group">
+                                            <?php $__currentLoopData = $values; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $name): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <input type="radio" class="option-input"
+                                                    name="variant_attributes[<?php echo e(Str::slug($attributeName)); ?>]"
+                                                    id="attribute-<?php echo e($id); ?>" value="<?php echo e($id); ?>"
+                                                    data-attribute="<?php echo e(Str::slug($attributeName)); ?>">
+                                                <label class="option-item" for="attribute-<?php echo e($id); ?>">
+                                                    <?php echo e(Str::limit($name, 30)); ?>
 
-                                                    if (!in_array($data, $arr)) {
-                                                        $arr[] = $data;
-                                                    }
-
-                                                    $attributeName = $attribute->attribute->name;
-                                                    if (!isset($groupAttribute[$attributeName])) {
-                                                        $groupAttribute[$attributeName] = [];
-                                                    }
-
-                                                    if (!in_array($data, $groupAttribute[$attributeName])) {
-                                                        $groupAttribute[$attributeName][] = $data;
-                                                    }
-                                                ?>
+                                                </label>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-                                        <?php $__currentLoopData = $groupAttribute; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attributeName => $values): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <label class="col-xl-5 col-lg-5 col-md-6 col-6 pt-0">
-                                                <strong><?php echo e($attributeName); ?></strong>
-                                            </label>
-                                            <div class="col-xl-4 col-lg-5 col-md-6 col-6 mb-2">
-                                                <select name="variant_attributes[attribute_value_id][]"
-                                                    class="form-select attribute-select mb-1"
-                                                    data-attribute-name="<?php echo e($attributeName); ?>">
-                                                    <?php $__currentLoopData = $values; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <?php
-                                                            $variant = $product->variants->firstWhere(function (
-                                                                $variant,
-                                                            ) use ($value) {
-                                                                return $variant->attributes->firstWhere(
-                                                                    'attributeValue.id',
-                                                                    $value['id'],
-                                                                );
-                                                            });
-
-                                                            $stock = $variant ? $variant->quantity : 0;
-                                                        ?>
-
-                                                        <option value="<?php echo e($value['id']); ?>"
-                                                            data-stock="<?php echo e($stock); ?>">
-                                                            <?php echo e(Str::limit($value['name'], 30)); ?>
-
-                                                        </option>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </select>
-                                            </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </div>
-
-                                    <div class="row">
-                                        <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Số lượng</strong></label>
-                                        <div class="col-xl-4 col-lg-5 col-md-6 col-6">
-                                            <div class="numbers-row">
-                                                <input type="text" value="1" id="quantity" class="qty2"
-                                                    min="1" name="quantity">
-                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="quantity mt-2">
-                                        <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Tồn kho</strong></label>
-                                        <span id="variant-stock" style="margin-left: 87px">
-                                            <?php echo e($product->variants->first()->quantity); ?>
-
-                                        </span>
-                                    </div>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
-                            <?php else: ?>
-                                
+                        
                                 <div class="row">
                                     <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Số lượng</strong></label>
                                     <div class="col-xl-4 col-lg-5 col-md-6 col-6">
@@ -142,14 +95,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="quantity mt-2">
-                                    <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Tồn kho</strong></label>
-                                    <span id="product-stock" style="margin-left: 87px">
-                                        <?php echo e($product->quantity); ?>
-
-                                    </span>
+                                <div class="row mt-3">
+                                    <label class="col-12"><strong>Tồn kho</strong></label>
+                                    <span id="variant-stock"></span>
                                 </div>
-                            <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                                            
+
+
+
 
                             <div class="row">
                                 <div class="col-lg-5 col-md-6">
@@ -157,12 +112,17 @@
                                         <label for=""> <strong>Đơn giá:</strong> </label>
 
                                         <?php if($product->price_sale > 0 && $product->price_sale < $product->base_price): ?>
-                                            <span class="new_price text-danger"><?php echo e(number_format($product->price_sale, 0, ',', '.')); ?> VND</span>
+                                            <span
+                                                class="new_price text-danger"><?php echo e(number_format($product->price_sale, 0, ',', '.')); ?>
+
+                                                VND</span>
                                             <span class="old_price text-muted" style="text-decoration: line-through;">
                                                 <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
                                             </span>
                                         <?php else: ?>
-                                            <span class="new_price"><?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND</span>
+                                            <span class="new_price"><?php echo e(number_format($product->base_price, 0, ',', '.')); ?>
+
+                                                VND</span>
                                         <?php endif; ?>
                                     </div>
 
@@ -176,12 +136,22 @@
                                         <input type="hidden" name="total_amount"
                                             value="<?php echo e(isset($finalPrice) ? $finalPrice : $product->base_price); ?>">
                                     <?php endif; ?>
-                                    <button class="btn_1">THÊM VÀO GIỎ HÀNG</button>
+                                    <button type="button" id="addToCartBtn" class="btn_1">THÊM VÀO GIỎ HÀNG</button>
+                                    <p id="variant-warning" style="color: red; display: none; margin-top: 5px;">Bạn phải chọn <strong> Màu Sắc, Kích Cỡ </strong></p>
+                                    <p id="stock-warning" style="color: red; display: none; margin-top: 5px;">Sản phẩm đã <strong>Hết Hàng</strong></p>
                                 </div>
+                                
+                                
                             </div>
                         </div>
                     </form>
-
+                    <div class="mt-2">
+                        <form action="<?php echo e(route('favorites.store')); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
+                            <input type="hidden" name="product_id" value="<?php echo e($product->id); ?>">
+                            <button type="submit" class="btn btn-primary">❤️ Thêm vào yêu thích</button>
+                        </form>
+                    </div>
                     <!-- /product_actions -->
                 </div>
             </div>
@@ -293,9 +263,11 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="product-description">
-                                            <h4>Thông tin sản phẩm: <?php echo e($product->name); ?></h4>
-                                            <p>Mô tả: <strong><?php echo e($product->description); ?></strong>
-                                            <p>
+                                            <h4>Thông tin sản phẩm:</h4> <?php echo e($product->name); ?>
+
+                                            <h4>Đặc Điểm Nổi Bật:</h4> <?php echo e($product->content); ?>
+
+
 
                                         </div>
                                     </div>
@@ -320,9 +292,8 @@
 
         <div class="container margin_60_35">
             <div class="main_title">
-                <h2>Sản phẩm cùng danh mục</h2>
-                <span>Products</span>
-                <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
+                <h2>SẢN PHẨM CÙNG DANH MỤC</h2>
+                <span>SẢN PHẨM CÙNG DANH MỤC</span>
             </div>
             <div class="owl-carousel owl-theme products_carousel">
 
@@ -368,7 +339,7 @@
                         </div>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php else: ?>
-                    <p>Không có sản phẩm cùng danh mục.</p>
+                    <h3 class="">KHÔNG CÓ SẢN PHẨM CÙNG DANH MỤC</h3>
                 <?php endif; ?>
                 <!-- /item -->
             </div>
@@ -502,6 +473,130 @@
                 });
             });
         });
+        // cách dòng trong mô tả
+        document.addEventListener("DOMContentLoaded", function() {
+            let productContent = document.querySelector(".product-description p");
+            if (productContent) {
+                productContent.innerHTML = productContent.innerHTML.replace(/\.\s*/g, '.<br>');
+            }
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.btn-favorite').addEventListener('click', function() {
+                let productId = this.getAttribute('data-product');
+
+                fetch('/favorites', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                .getAttribute('content'),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            product_id: productId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => alert(data.message));
+            });
+        });
+    </script>
+
+    
+     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const addToCartBtn = document.getElementById("addToCartBtn");
+            const variantWarning = document.getElementById("variant-warning");
+            const stockWarning = document.getElementById("stock-warning");
+            const stockElement = document.getElementById("variant-stock"); // Lấy phần hiển thị tồn kho
+    
+            addToCartBtn.addEventListener("click", function () {
+                let allSelected = true;
+                let stockQuantity = 0; // Mặc định là hết hàng
+    
+                // Kiểm tra xem tất cả các nhóm thuộc tính đã được chọn chưa
+                document.querySelectorAll(".option-group").forEach(group => {
+                    let checkedRadio = group.querySelector(".option-input:checked");
+                    if (!checkedRadio) {
+                        allSelected = false;
+                    }
+                });
+    
+                // Kiểm tra tồn kho từ `variant-stock` (tìm số lượng cụ thể)
+                if (stockElement && stockElement.textContent.match(/\d+/)) {
+                    stockQuantity = parseInt(stockElement.textContent.match(/\d+/)[0]); // Lấy số lượng tồn kho
+                }
+    
+                if (!allSelected) {
+                    variantWarning.style.display = "block";
+                    stockWarning.style.display = "none";
+                } else if (stockQuantity <= 0) {
+                    variantWarning.style.display = "none";
+                    stockWarning.style.display = "block";
+                } else {
+                    variantWarning.style.display = "none";
+                    stockWarning.style.display = "none";
+                    let form = addToCartBtn.closest("form");
+                    if (form) {
+                        form.submit();
+                    }
+                }
+            });
+        });
+    </script>
+    
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const radios = document.querySelectorAll(".option-input");
+            const stockElement = document.getElementById("variant-stock");
+    
+            radios.forEach((radio) => {
+                radio.addEventListener("change", function () {
+                    updateStock();
+                });
+            });
+    
+            function updateStock() {
+                let selectedAttributes = {};
+                document.querySelectorAll(".option-input:checked").forEach((radio) => {
+                    selectedAttributes[radio.dataset.attribute] = radio.value;
+                });
+    
+                let stock = getStock(selectedAttributes);
+                stockElement.textContent = stock > 0 ? `Còn ${stock} sản phẩm` : "Hết hàng";
+                stockElement.style.color = stock > 0 ? "#28a745" : "#d9534f";
+            }
+    
+            function getStock(selectedAttributes) {
+                let variants = <?php echo json_encode($product->variants->map(function ($variant) {
+                    return [
+                        'id' => $variant->id, 'attributes' => $variant->attributes->mapWithKeys(function ($attr) {
+                            return [Str::slug($attr->attribute->name) => $attr->attributeValue->id];
+                        }), 'stock' => $variant->quantity
+                    ];
+                })) ?>;
+    
+                let matchingVariant = variants.find(variant => {
+                    return Object.entries(selectedAttributes).every(([key, value]) => {
+                        return variant.attributes[key] == value;
+                    });
+                });
+    
+                return matchingVariant ? matchingVariant.stock : 0;
+            }
+        });
+    
+        /* Cập nhật số lượng */
+        function changeQuantity(amount) {
+            let quantityInput = document.getElementById("quantity");
+            let currentValue = parseInt(quantityInput.value) || 1;
+            let newValue = Math.max(1, currentValue + amount);
+            quantityInput.value = newValue;
+        }
     </script>
 <?php $__env->stopSection(); ?>
 

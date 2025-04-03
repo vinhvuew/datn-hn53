@@ -43,7 +43,7 @@
                                             <ul
                                                 class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
 
-                                                <li class="list-inline-item">
+                                                {{-- <li class="list-inline-item">
                                                     <i class='mdi mdi-invert-colors me-1 mdi-20px'></i>
                                                     <span class="fw-medium">
                                                         @switch(Auth::user()->role)
@@ -63,7 +63,7 @@
                                                                 Không xác định
                                                         @endswitch
                                                     </span>
-                                                </li>
+                                                </li> --}}
 
                                                 <li class="list-inline-item">
                                                     <i class='mdi mdi-map-marker-outline me-1 mdi-20px'></i>
@@ -103,7 +103,7 @@
                                             tên: </span> <span>{{ Auth::user()->name }}</span>
                                     </li>
 
-                                    <li class="d-flex align-items-center mb-3"><i
+                                    {{-- <li class="d-flex align-items-center mb-3"><i
                                             class="mdi mdi-star-outline mdi-24px"></i><span class="fw-medium mx-2">Vai
                                             trò:</span>
                                         <span>
@@ -124,7 +124,7 @@
                                                     Không xác định
                                             @endswitch
                                         </span>
-                                    </li>
+                                    </li> --}}
 
                                     <li class="d-flex align-items-center mb-3">
                                         <i class='mdi mdi-map-marker-outline mdi-24px'></i>
@@ -174,41 +174,37 @@
                                                     <div>
                                                         <h5>Đơn hàng #{{ $order->id }}</h5>
                                                         <p>Ngày đặt: {{ $order->order_date }}</p>
+                                                        <p>Phương thức TT:
+                                                            @switch($order->payment_method)
+                                                                @case('VNPAY_DECOD')
+                                                                    <span class="badge bg-secondary">Online</span>
+                                                                @break
+
+                                                                @case('COD')
+                                                                    <span class="badge bg-secondary">Tiền mặt</span>
+                                                                @break
+
+                                                                @default
+                                                            @endswitch
+
+                                                        </p>
                                                         <p>Trạng thái:
-                                                            <span
-                                                                class="badge
-                                                                @switch($order->status)
-                                                                    @case('pending') bg-warning text-dark @break
-                                                                    @case('confirmed') bg-secondary text-white @break
-                                                                    @case('shipping') bg-primary @break
-                                                                    @case('delivered') bg-success @break
-                                                                    @case('completed') bg-info @break
-                                                                    @case('canceled') bg-danger @break
-                                                                    @case('admin_canceled') bg-danger @break
-                                                                    @case('return_request') bg-danger @break
-                                                                    @case('refuse_return') bg-danger @break
-                                                                    @case('sent_information') bg-primary @break
-                                                                    @case('return_approved') bg-danger @break
-                                                                    @case('returned_item_received') bg-danger @break
-                                                                    @case('refund_completed') bg-danger @break
-                                                                    @default bg-secondary
-                                                                @endswitch">
-                                                                {{ [
-                                                                    'pending' => 'Chờ xác nhận',
-                                                                    'confirmed' => 'Xác nhận',
-                                                                    'shipping' => 'Chờ giao hàng',
-                                                                    'delivered' => 'Đang giao hàng',
-                                                                    'completed' => 'Giao hàng thành công',
-                                                                    'canceled' => 'Người mua đã hủy',
-                                                                    'admin_canceled' => 'Đã hủy bởi' . Auth::user()->name,
-                                                                    'return_request' => 'Yêu cầu trả hàng',
-                                                                    'refuse_return' => 'Từ chối trả hàng',
-                                                                    'sent_information' => 'Thông tin hoàn tiền',
-                                                                    'return_approved' => 'Chấp nhận trả hàng',
-                                                                    'returned_item_received' => 'Đã nhận được hàng trả lại',
-                                                                    'refund_completed' => 'Hoàn tiền thành công',
-                                                                ][$order->status] ?? 'Không rõ' }}
-                                                            </span>
+                                                            @switch($order->payment_status)
+                                                                @case('Thanh toán khi nhận hàng')
+                                                                    <span
+                                                                        class="badge bg-success">{{ $order->payment_status }}</span>
+                                                                @break
+
+                                                                @case('Thanh toán thành công')
+                                                                    <span
+                                                                        class="badge bg-primary">{{ $order->payment_status }}</span>
+                                                                @break
+
+                                                                @default
+                                                                    <span
+                                                                        class="badge bg-warning">{{ $order->payment_status }}</span>
+                                                            @endswitch
+
                                                         </p>
                                                         <p>Tổng tiền:
                                                             <strong>{{ number_format($order->total_price, 0, ',', '.') }}

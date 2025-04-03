@@ -13,9 +13,15 @@ class AttributesNameController extends Controller
      * Danh sách thuộc tính
      */
     const PATH_VIEW = 'admin.attributes.';
+    const OBJECT = 'attributes';
 
     public function index()
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         $attributes = Attribute::all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('attributes'));
     }
@@ -25,6 +31,11 @@ class AttributesNameController extends Controller
      */
     public function create()
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         return view(self::PATH_VIEW . __FUNCTION__);
     }
 
@@ -67,6 +78,11 @@ class AttributesNameController extends Controller
      */
     public function edit($id)
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         $attribute = Attribute::findOrFail($id);
         return view(self::PATH_VIEW . __FUNCTION__, compact('attribute'));
     }
@@ -110,6 +126,11 @@ class AttributesNameController extends Controller
      */
     public function destroy($id)
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         $attribute = Attribute::findOrFail($id);
         $attribute->delete();
 

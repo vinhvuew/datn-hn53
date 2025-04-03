@@ -42,28 +42,6 @@
                                                 class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
 
                                                 <li class="list-inline-item">
-                                                    <i class='mdi mdi-invert-colors me-1 mdi-20px'></i>
-                                                    <span class="fw-medium">
-                                                        <?php switch(Auth::user()->role):
-                                                            case ('user'): ?>
-                                                                Thành viên
-                                                            <?php break; ?>
-
-                                                            <?php case ('admin'): ?>
-                                                                Quản trị
-                                                            <?php break; ?>
-
-                                                            <?php case ('moderator'): ?>
-                                                                Nhân viên
-                                                            <?php break; ?>
-
-                                                            <?php default: ?>
-                                                                Không xác định
-                                                        <?php endswitch; ?>
-                                                    </span>
-                                                </li>
-
-                                                <li class="list-inline-item">
                                                     <i class='mdi mdi-map-marker-outline me-1 mdi-20px'></i>
                                                     <span class="fw-medium">Việt Nam</span>
                                                 </li>
@@ -102,28 +80,6 @@
                                             tên: </span> <span><?php echo e(Auth::user()->name); ?></span>
                                     </li>
 
-                                    <li class="d-flex align-items-center mb-3"><i
-                                            class="mdi mdi-star-outline mdi-24px"></i><span class="fw-medium mx-2">Vai
-                                            trò:</span>
-                                        <span>
-                                            <?php switch(Auth::user()->role):
-                                                case ('user'): ?>
-                                                    Thành viên
-                                                <?php break; ?>
-
-                                                <?php case ('admin'): ?>
-                                                    Quản trị
-                                                <?php break; ?>
-
-                                                <?php case ('moderator'): ?>
-                                                    Nhân viên
-                                                <?php break; ?>
-
-                                                <?php default: ?>
-                                                    Không xác định
-                                            <?php endswitch; ?>
-                                        </span>
-                                    </li>
 
                                     <li class="d-flex align-items-center mb-3">
                                         <i class='mdi mdi-map-marker-outline mdi-24px'></i>
@@ -160,7 +116,7 @@
                             <div class="col-12 col-lg-8">
                                 <div class="card mb-4">
                                     <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title m-0">Chi tiết đơn hàng</h5>
+                                        <h5 class="card-title m-0">Chi tiết đơn hàng #<?php echo e($order->id); ?></h5>
                                     </div>
                                     <div class="card-datatable table-responsive">
                                         <table class="datatables-order-details table">
@@ -236,11 +192,8 @@
                                                                             <br>
                                                                         <?php endif; ?>
                                                                         <?php echo e($attribute->attribute->name); ?>:
-                                                                        <?php if(!$loop->first): ?>
-                                                                        <?php endif; ?>
                                                                         <?php echo e($attribute->attributeValue->value); ?>.
                                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
                                                                 </span>
                                                             </td>
                                                             <?php if($item->variant->product->price_sale == ''): ?>
@@ -255,7 +208,6 @@
                                                                 </td>
                                                             <?php endif; ?>
 
-                                                            
                                                             </td>
                                                             <td><?php echo e($item->quantity); ?></td>
                                                             <td><?php echo e(number_format($item->total_price, 0, ',', '.')); ?>
@@ -278,13 +230,23 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="card mb-4">
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="card-title m-0">Hoạt động vận chuyển</h5>
                                         <?php if($order->status === 'pending'): ?>
+                                            <?php if($order->payment_method === 'VNPAY_DECOD' && $order->payment_status === 'Chờ thanh toán'): ?>
+                                                <form action="<?php echo e(route('vnpay.repay', $order->id)); ?>" method="POST"
+                                                    class="d-inline">
+                                                    <?php echo csrf_field(); ?>
+                                                    <button type="submit" class="btn btn-primary btn-sm">Thanh toán
+                                                        lại</button>
+                                                </form>
+                                            <?php endif; ?>
                                             <form action="<?php echo e(route('profile.orders.cancel', $order->id)); ?>"
                                                 method="POST"
-                                                onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');">
+                                                onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');"
+                                                class="d-inline">
                                                 <?php echo csrf_field(); ?>
                                                 <?php echo method_field('PUT'); ?>
                                                 <button type="submit" class="btn btn-danger btn-sm">Hủy đơn hàng</button>

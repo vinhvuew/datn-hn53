@@ -296,9 +296,7 @@
         const payment_methods = document.querySelectorAll('#payment_method');
         for (const pay of payment_methods) {
             pay.addEventListener('change', () => {
-
                 document.querySelector('.payment_method').value = pay.value;
-
             })
         }
     </script>
@@ -556,6 +554,47 @@
                     });
                 }
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.box_general.summary');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(this);
+                    const paymentMethod = document.querySelector('.payment_method').value;
+                    
+                    if (paymentMethod === 'VNPAY_DECOD') {
+                        // Đối với VNPAY, submit form trực tiếp
+                        this.submit();
+                    } else {
+                        // Đối với các phương thức khác, sử dụng AJAX
+                        fetch(this.action, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                if (paymentMethod === 'COD') {
+                                    window.location.href = '/checkout/complete';
+                                }
+                            } else {
+                                alert(data.message || 'Có lỗi xảy ra khi xử lý đơn hàng');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Có lỗi xảy ra khi xử lý thanh toán. Vui lòng thử lại sau.');
+                        });
+                    }
+                });
+            }
         });
     </script>
 @endsection

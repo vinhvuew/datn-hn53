@@ -42,10 +42,7 @@
                     </div>
                     <!--/main-menu -->
                 </nav>
-                <div class="col-xl-3 col-lg-2 d-lg-flex align-items-center justify-content-end text-end">
-                    <a class="phone_top" href="tel://9438843343"><strong>+94
-                            423-23-221</strong></a>
-                </div>
+                
             </div>
             <!-- /row -->
         </div>
@@ -138,7 +135,8 @@
                                         <ul>
                                             
                                             <li>
-                                                <a href="my-orders.html"><i class="ti-package"></i>Đơn hàng của
+                                                <a href="<?php echo e(route('profile.myOder')); ?>"><i class="ti-package"></i>Đơn
+                                                    hàng của
                                                     tôi</a>
                                             </li>
                                             <li>

@@ -12,11 +12,18 @@ class AttributesValuesController extends Controller
 {
     const PATH_VIEW = 'admin.attribute_values.';
 
+    const OBJECT = 'attribute_values';
+
     /**
      * Danh sách giá trị thuộc tính.
      */
     public function index()
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         $values = AttributeValue::with('attribute')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('values'));
     }
@@ -26,6 +33,11 @@ class AttributesValuesController extends Controller
      */
     public function create()
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         $attributes = Attribute::all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('attributes'));
     }
@@ -73,6 +85,11 @@ class AttributesValuesController extends Controller
      */
     public function edit($id)
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         $value = AttributeValue::findOrFail($id);
         $attributes = Attribute::all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('value', 'attributes'));
@@ -116,6 +133,11 @@ class AttributesValuesController extends Controller
      */
     public function destroy($id)
     {
+        try {
+            $this->authorize('modules', self::OBJECT . '.' . __FUNCTION__);
+        } catch (\Throwable $th) {
+            return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
+        }
         $value = AttributeValue::findOrFail($id);
         $value->delete();
 
