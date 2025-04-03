@@ -19,8 +19,9 @@ use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\Payment\VNPayController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
-use App\Http\Controllers\Client\CreateNewsController;
+use App\Http\Controllers\Client\CreateNewsController;   
 use App\Http\Controllers\Client\ChatController;
+use App\Http\Controllers\Client\ReviewController;
 // admin
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\CommentController;
@@ -154,6 +155,10 @@ Route::post('/logad/logout', [UserController::class, 'adminLogout'])->name('admi
 
 // chính sách
 Route::get('/policies', [PolicyController::class, 'index'])->name('policies');
+// Đánh giá
+Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth');
+Route::get('/reviews/{productId}', [ReviewController::class, 'index']);
+
 // Admin
 Route::prefix('admin')->middleware(['admin'])->group(function () {
 
