@@ -78,8 +78,19 @@ class Product extends Model
     }
 
     //
-    public function favoritedByUsers() {
+    public function favoritedByUsers()
+    {
         return $this->belongsToMany(User::class, 'favorites');
     }
 
+    // Đánh gia
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function averageRating()
+    {
+        return $this->reviews()->avg('rating');
+    }
 }
