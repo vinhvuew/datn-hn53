@@ -137,8 +137,10 @@
                                             value="<?php echo e(isset($finalPrice) ? $finalPrice : $product->base_price); ?>">
                                     <?php endif; ?>
                                     <button type="button" id="addToCartBtn" class="btn_1">THÊM VÀO GIỎ HÀNG</button>
-                                    <p id="variant-warning" style="color: red; display: none; margin-top: 5px;">Bạn phải chọn kích cỡ</p>
+                                    <p id="variant-warning" style="color: red; display: none; margin-top: 5px;">Bạn phải chọn Màu Sắc, Kích Cỡ</p>
+                                    <p id="stock-warning" style="color: red; display: none; margin-top: 5px;">Sản phẩm đã Hết Hàng</p>
                                 </div>
+                                
                                 
                             </div>
                         </div>
@@ -502,14 +504,18 @@
             });
         });
     </script>
+
     
-    <script>
+     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const addToCartBtn = document.getElementById("addToCartBtn");
-            const warningText = document.getElementById("variant-warning");
+            const variantWarning = document.getElementById("variant-warning");
+            const stockWarning = document.getElementById("stock-warning");
+            const stockElement = document.getElementById("variant-stock"); // Lấy phần hiển thị tồn kho
     
             addToCartBtn.addEventListener("click", function () {
                 let allSelected = true;
+                let stockQuantity = 0; // Mặc định là hết hàng
     
                 // Kiểm tra xem tất cả các nhóm thuộc tính đã được chọn chưa
                 document.querySelectorAll(".option-group").forEach(group => {
@@ -519,11 +525,20 @@
                     }
                 });
     
+                // Kiểm tra tồn kho từ `variant-stock` (tìm số lượng cụ thể)
+                if (stockElement && stockElement.textContent.match(/\d+/)) {
+                    stockQuantity = parseInt(stockElement.textContent.match(/\d+/)[0]); // Lấy số lượng tồn kho
+                }
+    
                 if (!allSelected) {
-                    warningText.style.display = "block";
+                    variantWarning.style.display = "block";
+                    stockWarning.style.display = "none";
+                } else if (stockQuantity <= 0) {
+                    variantWarning.style.display = "none";
+                    stockWarning.style.display = "block";
                 } else {
-                    warningText.style.display = "none";
-                    // Gửi form bằng JavaScript
+                    variantWarning.style.display = "none";
+                    stockWarning.style.display = "none";
                     let form = addToCartBtn.closest("form");
                     if (form) {
                         form.submit();
@@ -532,6 +547,7 @@
             });
         });
     </script>
+    
     
     <script>
         document.addEventListener("DOMContentLoaded", function () {

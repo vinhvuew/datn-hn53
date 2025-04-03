@@ -208,6 +208,17 @@
                 <div class="text-truncate" data-i18n="Tin Tức">Tin Tức</div>
             </a>
         </li>
+
+        <li class="menu-item">
+            <a href="<?php echo e(route('admin.chat.index')); ?>" class="menu-link">
+                <i class="menu-icon fa-regular fa-newspaper"></i>
+                
+                <div class="text-truncate" data-i18n="chat">chat</div>
+            </a>
+        </li>
+
+
+
     </ul>
 </aside>
 <?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/layouts/parials/menu.blade.php ENDPATH**/ ?>
