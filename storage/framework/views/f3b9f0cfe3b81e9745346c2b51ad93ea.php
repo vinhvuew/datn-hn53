@@ -137,8 +137,8 @@
                                             value="<?php echo e(isset($finalPrice) ? $finalPrice : $product->base_price); ?>">
                                     <?php endif; ?>
                                     <button type="button" id="addToCartBtn" class="btn_1">THÊM VÀO GIỎ HÀNG</button>
-                                    <p id="variant-warning" style="color: red; display: none; margin-top: 5px;">Bạn phải chọn Màu Sắc, Kích Cỡ</p>
-                                    <p id="stock-warning" style="color: red; display: none; margin-top: 5px;">Sản phẩm đã Hết Hàng</p>
+                                    <p id="variant-warning" style="color: red; display: none; margin-top: 5px;">Bạn phải chọn <strong> Màu Sắc, Kích Cỡ </strong></p>
+                                    <p id="stock-warning" style="color: red; display: none; margin-top: 5px;">Sản phẩm đã <strong>Hết Hàng</strong></p>
                                 </div>
                                 
                                 
