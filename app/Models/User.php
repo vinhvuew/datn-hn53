@@ -31,6 +31,10 @@ class User extends Authenticatable
         'verification_code_expires_at',
         'password_reset_sent_at',
         'password_reset_expires_at'
+
+
+
+
     ];
 
     /**
@@ -41,6 +45,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'is_admin',
     ];
 
     /**
@@ -59,23 +64,26 @@ class User extends Authenticatable
     {
         return $this->avatar ? asset('storage/avatar/' . $this->avatar) : asset('images/default-avatar.png');
     }
+
     public function role()
     {
         return $this->belongsTo(Role::class,);
     }
-      // Kiểm tra user có phải admin không
+    // Kiểm tra user có phải admin không
 
     public function isAdmin()
     {
         return $this->role_id == 1; // Vai trò 1 là Admin
     }
 
-    //
-    public function favorites() {
+
+    public function favorites()
+    {
         return $this->hasMany(Favorite::class);
     }
 
-    public function favoriteProducts() {
+    public function favoriteProducts()
+    {
         return $this->belongsToMany(Product::class, 'favorites');
     }
-    }
+}

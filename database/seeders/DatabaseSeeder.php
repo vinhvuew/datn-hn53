@@ -10,13 +10,21 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
+    public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::create([
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password123'),
+            'is_admin' => true, // Đặt giá trị là true cho admin
+        ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        \App\Models\User::create([
+            'name' => 'Regular User',
+            'email' => 'user@example.com',
+            'password' => bcrypt('password123'),
+            'is_admin' => false, // Đặt giá trị là false cho người dùng bình thường
+        ]);
     }
+
 }

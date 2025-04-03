@@ -6,6 +6,8 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MessagesController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+
+use Illuminate\Support\Facades\Auth;
 // client
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductsController;
@@ -17,7 +19,9 @@ use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\Payment\VNPayController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
-use App\Http\Controllers\Client\CreateNewsController;
+use App\Http\Controllers\Client\CreateNewsController;   
+use App\Http\Controllers\Client\ChatController;
+use App\Http\Controllers\Client\ReviewController;
 // admin
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\CommentController;
@@ -31,6 +35,9 @@ use App\Http\Controllers\Admin\OderDeltailController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ThongKeController;
 use App\Http\Controllers\Admin\NewsController;
+
+use App\Http\Controllers\Admin\adminChatController;
+
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 
@@ -45,6 +52,11 @@ Route::get('/chat', [HomeController::class, 'room'])->name('chat');
 Route::get('/product', [HomeController::class, 'products'])->name('product');
 
 Route::post('apply', [OrderController::class, 'applyVoucher'])->name('apply.voucher');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+});
 
 //trang profile
 Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
@@ -61,7 +73,7 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::put('/orders/{id}/confirm-received', [ProfileController::class, 'confirmReceived'])
         ->name('orders.confirm-received');
 });
-//yêu
+// sp yêu thích
 Route::middleware(['auth'])->group(function () {
     Route::get('/favorites', [ProductsController::class, 'favorite'])->name('favorites');
     Route::post('/favorites', [ProductsController::class, 'storefavorite'])->name('favorites.store');
@@ -143,6 +155,10 @@ Route::post('/logad/logout', [UserController::class, 'adminLogout'])->name('admi
 
 // chính sách
 Route::get('/policies', [PolicyController::class, 'index'])->name('policies');
+// Đánh giá
+Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth');
+Route::get('/reviews/{productId}', [ReviewController::class, 'index']);
+
 // Admin
 Route::prefix('admin')->middleware(['admin'])->group(function () {
 
@@ -175,6 +191,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
             Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
             Route::delete('destroy/{id}', [RoleController::class, 'destroy'])->name('destroy');
         });
+        
 
     Route::resource('products', ProductController::class);
     Route::resource("category", CategoryController::class);
@@ -231,4 +248,11 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/news/{id}/edit', [NewsController::class, 'edit'])->name('news.edit');
     Route::put('/news/{id}/update', [NewsController::class, 'update'])->name('news.update');
     Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
+
+
+    Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+        Route::get('/chat', [AdminChatController::class, 'index'])->name('admin.chat.index');
+        Route::get('/chat/{user_id}', [AdminChatController::class, 'show'])->name('admin.chat.show');
+        Route::post('/chat/send', [AdminChatController::class, 'sendMessage'])->name('admin.chat.send');
+    });
 });

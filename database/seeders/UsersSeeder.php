@@ -10,8 +10,10 @@ class UsersSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
-        //
+        // Gọi seeder khác tại đây
+        $this->call(UsersSeeder::class);
+        // $this->call(OtherSeeder::class);
     }
 }
