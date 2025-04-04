@@ -141,7 +141,6 @@
                     </a>
                 </li>
             </ul>
-
         </li>
 
         <li class="menu-item @yield('item-user')">
@@ -155,16 +154,17 @@
                         <div data-i18n="Khách hàng">Khách hàng</div>
                     </a>
                 </li>
-        
-                @if(auth()->user()->role_id == 1) {{-- Chỉ hiển thị nếu là Admin --}}
+
+                @if (auth()->user()->role_id == 1)
+                    {{-- Chỉ hiển thị nếu là Admin --}}
                     <li class="menu-item @yield('user-role')">
                         <a href="{{ route('roles.index') }}" class="menu-link">
                             <div data-i18n="Vai Trò">Vai Trò</div>
                         </a>
                     </li>
                 @endif
-        
-                {{-- @if(auth()->user()->role_id == 1) --}}
+
+                {{-- @if (auth()->user()->role_id == 1) --}}
                 {{--     <li class="menu-item @yield('user-permission')"> --}}
                 {{--         <a href="{{ route('permissions.index') }}" class="menu-link"> --}}
                 {{--             <div data-i18n="Quyền Truy Cập">Quyền Truy Cập</div> --}}
@@ -173,7 +173,7 @@
                 {{-- @endif --}}
             </ul>
         </li>
-        
+
 
         <li class="menu-item">
             <a href="{{ route('comment.index') }}" class="menu-link">
@@ -182,11 +182,25 @@
             </a>
         </li>
         <li class="menu-item">
-            <a href="{{ route('thongke.statistical') }}" class="menu-link">
+            <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class=" menu-icon fa-sharp fa-solid fa-chart-simple"></i>
-                <div class="text-truncate" data-i18n="Thống Kê">Thống Kê</div>
+                <div class="text-truncate" data-i18n="Thống kê">
+                    Thống kê
+                </div>
             </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('thongke.statistical') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n=" Doanh thu">
+                            Doanh thu
+                        </div>
+                    </a>
+                </li>
+
+            </ul>
         </li>
+
+
         <li class="menu-item">
             <a href="{{ route('news.index') }}" class="menu-link">
                 <i class="menu-icon fa-regular fa-newspaper"></i>
@@ -194,5 +208,16 @@
                 <div class="text-truncate" data-i18n="Tin Tức">Tin Tức</div>
             </a>
         </li>
+
+        <li class="menu-item">
+            <a href="{{ route('admin.chat.index') }}" class="menu-link">
+                <i class="menu-icon fa-regular fa-newspaper"></i>
+                {{-- <i class=" menu-icon fa-sharp fa-solid fa-chart-simple"></i> --}}
+                <div class="text-truncate" data-i18n="chat">chat</div>
+            </a>
+        </li>
+
+
+
     </ul>
 </aside>
