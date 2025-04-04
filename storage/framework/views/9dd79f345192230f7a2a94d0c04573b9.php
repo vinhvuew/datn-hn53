@@ -1,24 +1,22 @@
-@extends('admin.layouts.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <main>
     <div class="container py-5">
-        <h3 class="text-center mb-4" style="font-weight: 600; color: #333;">Chat với {{ $messages->first()->user->name ?? 'User ' . $user_id }}</h3>
+        <h3 class="text-center mb-4" style="font-weight: 600; color: #333;">Chat với <?php echo e($messages->first()->user->name ?? 'User ' . $user_id); ?></h3>
 
         <div id="chat-box" class="bg-light p-4 rounded-3 shadow-lg" style="height: 400px; overflow-y: scroll; border: 1px solid #ddd; max-width: 100%; transition: all 0.3s ease;">
-            @foreach($messages as $message)
-                <div class="chat-message mb-3 p-3 rounded-lg" style="background-color: {{ $message->admin_id ? '#e6f7ff' : '#f1f8e9' }};">
-                    <strong class="{{ $message->admin_id ? 'text-primary' : 'text-success' }} ">
-                        {{ $message->admin_id ? 'Admin' : $message->user->name }}:
+            <?php $__currentLoopData = $messages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $message): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="chat-message mb-3 p-3 rounded-lg" style="background-color: <?php echo e($message->admin_id ? '#e6f7ff' : '#f1f8e9'); ?>;">
+                    <strong class="<?php echo e($message->admin_id ? 'text-primary' : 'text-success'); ?> ">
+                        <?php echo e($message->admin_id ? 'Admin' : $message->user->name); ?>:
                     </strong>
-                    <span>{{ $message->message }}</span>
+                    <span><?php echo e($message->message); ?></span>
                 </div>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
 
         <form id="chat-form" class="mt-4">
-            @csrf
-            <input type="hidden" name="user_id" value="{{ $user_id }}">
+            <?php echo csrf_field(); ?>
+            <input type="hidden" name="user_id" value="<?php echo e($user_id); ?>">
             <div class="input-group">
                 <input type="text" id="message" name="message" class="form-control rounded-pill" placeholder="Nhập tin nhắn..." aria-label="Tin nhắn">
                 <button type="submit" class="btn btn-primary rounded-pill ml-2 px-4">Gửi</button>
@@ -27,7 +25,7 @@
 
         <!-- Nút Quay lại -->
         <div class="text-center mt-4">
-            <a href="{{ route('admin.chat.index') }}" class="btn btn-secondary rounded-pill px-4 py-2">Quay lại</a>
+            <a href="<?php echo e(route('admin.chat.index')); ?>" class="btn btn-secondary rounded-pill px-4 py-2">Quay lại</a>
         </div>
     </div>
 
@@ -35,18 +33,18 @@
         const chatBox = document.getElementById('chat-box');
         const form = document.getElementById('chat-form');
         const input = document.getElementById('message');
-        const userId = {{ $user_id }};
+        const userId = <?php echo e($user_id); ?>;
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const message = input.value.trim();
             if (!message) return;
 
-            fetch("{{ route('admin.chat.send') }}", {
+            fetch("<?php echo e(route('admin.chat.send')); ?>", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    "X-CSRF-TOKEN": "<?php echo e(csrf_token()); ?>"
                 },
                 body: JSON.stringify({ message: message, user_id: userId })
             })
@@ -75,4 +73,6 @@
             });
     </script>
 </main>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/chat/show.blade.php ENDPATH**/ ?>

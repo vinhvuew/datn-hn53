@@ -2,24 +2,30 @@
 
 @section('content')
 <main>
-    <div class="container">
-        <h3>Danh sách người dùng nhắn tin</h3>
+    <div class="container py-5">
+        <h3 class="text-center mb-4" style="font-weight: 600; color: #333;">Danh sách người dùng nhắn tin</h3>
 
-        <ul class="list-group">
+        <div class="list-group">
             @foreach($users as $user)
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ $user->user->name ?? 'User ' . $user->user_id }}
-                <div>
-                    <a href="{{ route('admin.chat.show', $user->user_id) }}" class="btn btn-primary btn-sm">Xem</a>
+            <div class="list-group-item d-flex justify-content-between align-items-center mb-3 p-3 rounded-lg shadow-lg bg-white">
+                <div class="d-flex align-items-center">
+                    <div class="mr-3">
+                        <img src="{{ $user->user->profile_picture ?? 'default-avatar.jpg' }}" alt="Profile Picture" class="rounded-circle border" width="50" height="50">
+                    </div>
+                    <span class="font-weight-semibold text-dark">{{ $user->user->name ?? 'User ' . $user->user_id }}</span>
+                </div>
+
+                <div class="btn-group">
+                    <a href="{{ route('admin.chat.show', $user->user_id) }}" class="btn btn-outline-primary btn-sm rounded-pill">Xem</a>
                     <form action="{{ route('admin.chat.delete', $user->user_id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xoá đoạn chat này vĩnh viễn?')">Xoá</button>
+                        <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill" onclick="return confirm('Bạn có chắc muốn xoá đoạn chat này vĩnh viễn?')">Xoá</button>
                     </form>
                 </div>
-            </li>
+            </div>
             @endforeach
-        </ul>
+        </div>
     </div>
 </main>
 @endsection
