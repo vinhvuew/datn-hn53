@@ -1,4 +1,5 @@
 @extends('admin.layouts.master')
+
 @section('content')
 <main>
     <div class="container">
@@ -6,7 +7,11 @@
         <div id="chat-box" style="height: 400px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px;">
             @foreach($messages as $message)
                 <p>
-                    <strong>{{ $message->admin_id ? 'Admin' : $message->user->name }}:</strong>
+                    @if($message->admin_id)
+                        <strong>{{ $message->admin_id == 3 ? 'Nhân viên hỗ trợ số 3' : 'Admin' }}:</strong>
+                    @else
+                        <strong>{{ $message->user->name }}:</strong>
+                    @endif
                     {{ $message->message }}
                 </p>
             @endforeach

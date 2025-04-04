@@ -5,7 +5,11 @@
         <div id="chat-box" style="height: 400px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px;">
             <?php $__currentLoopData = $messages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $message): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <p>
-                    <strong><?php echo e($message->admin_id ? 'Admin' : $message->user->name); ?>:</strong>
+                    <?php if($message->admin_id): ?>
+                        <strong><?php echo e($message->admin_id == 3 ? 'Nhân viên hỗ trợ số 3' : 'Admin'); ?>:</strong>
+                    <?php else: ?>
+                        <strong><?php echo e($message->user->name); ?>:</strong>
+                    <?php endif; ?>
                     <?php echo e($message->message); ?>
 
                 </p>

@@ -22,7 +22,7 @@ class adminChatController extends Controller
 
     public function show($user_id)
     {
-        // Lấy tất cả tin nhắn giữa admin và người dùng cụ thể
+        // Lấy tất cả tin nhắn giữa admin, nhân viên hỗ trợ, và người dùng cụ thể
         $messages = Message::where('user_id', $user_id)
             ->orWhere(function ($query) use ($user_id) {
                 $query->where('admin_id', Auth::id())
@@ -44,7 +44,7 @@ class adminChatController extends Controller
             'is_read' => false,
         ]);
 
-
+        // Broadcast tin nhắn cho người dùng và tất cả nhân viên hỗ trợ
         broadcast(new MessageSent($message))->toOthers();
 
         return response()->json([
@@ -57,6 +57,7 @@ class adminChatController extends Controller
             ]
         ]);
     }
+
 
     public function deleteChat($user_id)
 {

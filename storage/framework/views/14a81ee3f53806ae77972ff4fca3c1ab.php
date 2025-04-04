@@ -35,9 +35,8 @@
                             <li>
                                 <a href="<?php echo e(route('news')); ?>">Bài viết</a>
                             </li>
-                            <li>
-                                <a href="<?php echo e(route('chat.index')); ?>">chat</a>
-                            </li>
+
+
                             <li>
                                 <a href="" target="_parent">Liên hệ</a>
                             </li>
@@ -179,7 +178,72 @@
                 </div>
             </div>
             <!-- /row -->
+            <div class="chat-icon">
+                <a href="<?php echo e(route('chat.index')); ?>">
+                    <i class="bi bi-chat-dots"></i> <!-- Biểu tượng messenger -->
+                </a>
+            </div>
 
+<style>
+ /* Nút chat nổi trên góc dưới phải */
+.chat-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    font-size: 2rem;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.chat-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Cửa sổ chat ẩn và hiển thị khi cần */
+.chat-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none; /* Ẩn mặc định */
+    flex-direction: column;
+    padding: 10px;
+}
+
+.chat-container.open {
+    display: flex; /* Hiển thị khi có class 'open' */
+}
+
+.chat-container form {
+    margin-top: auto;
+}
+
+.chat-container input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* Chỉnh sửa các tin nhắn */
+.chat-container p {
+    margin-bottom: 10px;
+}
+
+.chat-container .btn {
+    width: 100%;
+}
+
+</style>
             <!-- /main_nav -->
 </header>
 <!-- /header -->
