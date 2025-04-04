@@ -156,7 +156,7 @@
                 <img class="mb-5" src="https://static-smember.cellphones.com.vn/smember/_nuxt/img/empty.db6deab.svg"
                     alt="Empty Cart" width="300px">
                 <h4 class="text-secondary mt-5" style="font-size: 18px; font-weight: 600;">Giỏ hàng trống</h4>
-                <p style="font-size: 14px; color: #888;">Giỏ hàng của bạn đang trống.
+                <p style="font-size: 14px; color: #ca4d17;">Giỏ hàng của bạn đang trống.
                     Hãy chọn thêm sản phẩm để mua sắm nhé</p>
                 <a href="<?php echo e(route('home')); ?>" class="btn btn-danger mb-5">
                     Quay Lại Trang Chủ
@@ -347,7 +347,6 @@
             });
         });
     </script>
-
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/cart/listCart.blade.php ENDPATH**/ ?>

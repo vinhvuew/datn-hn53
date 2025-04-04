@@ -38,9 +38,6 @@
                             <li>
                                 <a href="<?php echo e(route('chat.index')); ?>">chat</a>
                             </li>
-                            <li>
-                                <a href="" target="_parent">Liên hệ</a>
-                            </li>
                         </ul>
                     </div>
                     <!--/main-menu -->

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('message'); // Nội dung tin nhắn
             $table->boolean('is_read')->default(false); // Tin nhắn đã đọc chưa
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
