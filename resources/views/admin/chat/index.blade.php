@@ -9,9 +9,6 @@
             @foreach($users as $user)
             <div class="list-group-item d-flex justify-content-between align-items-center mb-3 p-3 rounded-lg shadow-lg bg-white">
                 <div class="d-flex align-items-center">
-                    <div class="mr-3">
-                        <img src="{{ $user->user->profile_picture ?? 'default-avatar.jpg' }}" alt="Profile Picture" class="rounded-circle border" width="50" height="50">
-                    </div>
                     <span class="font-weight-semibold text-dark">{{ $user->user->name ?? 'User ' . $user->user_id }}</span>
                 </div>
 
