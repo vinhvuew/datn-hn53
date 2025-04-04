@@ -44,8 +44,8 @@ class adminChatController extends Controller
             'is_read' => false,
         ]);
 
-       
-        broadcast(new \App\Events\MessageSent($message))->toOthers();
+
+        broadcast(new MessageSent($message))->toOthers();
 
         return response()->json([
             'success' => true,
