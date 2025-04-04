@@ -169,6 +169,9 @@
                     <li class="nav-item">
                         <a id="tab-B" href="#pane-B" class="nav-link" data-bs-toggle="tab" role="tab">Mô tả</a>
                     </li>
+                    <li class="nav-item">
+                       <a href="#pane-C" class="nav-link" data-bs-toggle="tab" role="tab"> Đánh giá</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -282,6 +285,62 @@
                         </div>
 
                     </div>
+                    <!-- /Form Đánh giá -->
+                    <div id="pane-C" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
+                        <div class="card-header" role="tab" id="heading-B">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapse-B" aria-expanded="false" aria-controls="collapse-B">
+                                    Đánh giá
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapse-B" class="collapse" role="tabpanel" aria-labelledby="heading-B">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <?php if(Auth::check()): ?>
+                                            <!-- Form đánh giá -->
+                                            <form action="<?php echo e(route('reviews.store', $product->id)); ?>" method="POST">
+                                                <?php echo csrf_field(); ?>
+                                                <div class="mb-3">
+                                                    <label for="rating" class="form-label">Số sao:</label>
+                                                    <select name="rating" id="rating" class="form-select" required>
+                                                        <?php for($i = 5; $i >= 1; $i--): ?>
+                                                            <option value="<?php echo e($i); ?>"><?php echo e($i); ?> sao</option>
+                                                        <?php endfor; ?>
+                                                    </select>
+                                                </div>
+                    
+                                                <div class="mb-3">
+                                                    <label for="review" class="form-label">Nội dung đánh giá:</label>
+                                                    <textarea name="review" id="review" class="form-control" rows="4"></textarea>
+                                                </div>
+                    
+                                                <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                                            </form>
+                                        <?php else: ?>
+                                            <p><a href="<?php echo e(route('login')); ?>">Đăng nhập</a> để đánh giá sản phẩm.</p>
+                                        <?php endif; ?>
+                    
+                                        <h5>Đánh giá sản phẩm:</h5>
+                                        <?php $__currentLoopData = $product->productReviews; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $review): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <div class="review">
+                                                <div class="stars">
+                                                    <?php for($i = 1; $i <= 5; $i++): ?>
+                                                        <i class="bi <?php echo e($i <= $review->rating ? 'bi-star-fill' : 'bi-star'); ?>"></i>
+                                                    <?php endfor; ?>
+                                                </div>
+                                                <p><?php echo e($review->review); ?></p>
+                                            </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Form Đánh giá -->
+                    
+                    
                     <!-- /tab B -->
                 </div>
                 <!-- /tab-content -->

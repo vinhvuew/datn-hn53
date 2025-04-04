@@ -44,8 +44,8 @@ class adminChatController extends Controller
             'is_read' => false,
         ]);
 
-       
-        broadcast(new \App\Events\MessageSent($message))->toOthers();
+
+        broadcast(new MessageSent($message))->toOthers();
 
         return response()->json([
             'success' => true,
@@ -57,4 +57,13 @@ class adminChatController extends Controller
             ]
         ]);
     }
+
+    public function deleteChat($user_id)
+{
+    // Xóa vĩnh viễn tất cả tin nhắn của user với admin
+    Message::where('user_id', $user_id)->delete();
+
+    return redirect()->route('admin.chat.index')->with('success', 'Đoạn chat đã bị xoá vĩnh viễn.');
+}
+
 }
