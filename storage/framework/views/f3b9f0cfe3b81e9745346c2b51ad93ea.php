@@ -90,11 +90,35 @@
                                     <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Số lượng</strong></label>
                                     <div class="col-xl-4 col-lg-5 col-md-6 col-6">
                                         <div class="numbers-row">
-                                            <input type="text" value="1" id="quantity" class="qty2"
-                                                min="1" name="quantity">
+                                            <input type="text" value="1" id="quantity" class="qty2" name="quantity">
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <script>
+                                    const quantityInput = document.getElementById('quantity');
+                                
+                                    quantityInput.addEventListener('input', function () {
+                                        this.value = this.value.replace(/[^0-9]/g, ''); // Chỉ cho phép nhập số
+                                        if (this.value === "" || this.value < 1) {
+                                            this.value = 1; // Không cho phép giá trị nhỏ hơn 1
+                                        }
+                                    });
+                                
+                                    quantityInput.addEventListener('paste', function (e) {
+                                        let pastedText = (e.clipboardData || window.clipboardData).getData('text');
+                                        if (!/^\d+$/.test(pastedText)) { // Chặn dán nội dung không phải số
+                                            e.preventDefault();
+                                        }
+                                    });
+                                
+                                    quantityInput.addEventListener('keydown', function (e) {
+                                        if (e.key === 'e' || e.key === '-' || e.key === '+' || e.key === '.') { 
+                                            e.preventDefault(); // Chặn nhập ký tự không hợp lệ
+                                        }
+                                    });
+                                </script>
+                                
                                 <div class="row mt-3">
                                     <label class="col-12"><strong>Tồn kho</strong></label>
                                     <span id="variant-stock"></span>
@@ -127,19 +151,23 @@
                                     </div>
 
                                 </div>
-                                <div class="col-lg-5 col-md-6">
+                                <div class="col-lg-5 col-md-6"> 
                                     <input type="hidden" name="product_id" value="<?php echo e($product->id); ?>">
                                     <?php if($product->price_sale): ?>
-                                        <input type="hidden" name="total_amount"
-                                            value="<?php echo e(isset($finalPrice) ? $finalPrice : $product->price_sale); ?>">
+                                        <input type="hidden" name="total_amount" value="<?php echo e(isset($finalPrice) ? $finalPrice : $product->price_sale); ?>">
                                     <?php elseif($product->base_price): ?>
-                                        <input type="hidden" name="total_amount"
-                                            value="<?php echo e(isset($finalPrice) ? $finalPrice : $product->base_price); ?>">
+                                        <input type="hidden" name="total_amount" value="<?php echo e(isset($finalPrice) ? $finalPrice : $product->base_price); ?>">
                                     <?php endif; ?>
+                                
                                     <button type="button" id="addToCartBtn" class="btn_1">THÊM VÀO GIỎ HÀNG</button>
-                                    <p id="variant-warning" style="color: red; display: none; margin-top: 5px;">Bạn phải chọn <strong> Màu Sắc, Kích Cỡ </strong></p>
+                                    
+                                    <p id="variant-warning" style="color: red; display: none; margin-top: 5px;">Bạn phải chọn <strong>Màu Sắc, Kích Cỡ</strong></p>
                                     <p id="stock-warning" style="color: red; display: none; margin-top: 5px;">Sản phẩm đã <strong>Hết Hàng</strong></p>
+                                    <p id="quantity-warning" style="color: red; display: none; margin-top: 5px;">Số lượng phải lớn hơn <strong>0</strong></p>
                                 </div>
+                                
+                               
+                                
                                 
                                 
                             </div>
@@ -168,9 +196,6 @@
                     </li>
                     <li class="nav-item">
                         <a id="tab-B" href="#pane-B" class="nav-link" data-bs-toggle="tab" role="tab">Mô tả</a>
-                    </li>
-                    <li class="nav-item">
-                       <a href="#pane-C" class="nav-link" data-bs-toggle="tab" role="tab"> Đánh giá</a>
                     </li>
                 </ul>
             </div>
@@ -285,62 +310,6 @@
                         </div>
 
                     </div>
-                    <!-- /Form Đánh giá -->
-                    <div id="pane-C" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
-                        <div class="card-header" role="tab" id="heading-B">
-                            <h5 class="mb-0">
-                                <a class="collapsed" data-bs-toggle="collapse" href="#collapse-B" aria-expanded="false" aria-controls="collapse-B">
-                                    Đánh giá
-                                </a>
-                            </h5>
-                        </div>
-                        <div id="collapse-B" class="collapse" role="tabpanel" aria-labelledby="heading-B">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <?php if(Auth::check()): ?>
-                                            <!-- Form đánh giá -->
-                                            <form action="<?php echo e(route('reviews.store', $product->id)); ?>" method="POST">
-                                                <?php echo csrf_field(); ?>
-                                                <div class="mb-3">
-                                                    <label for="rating" class="form-label">Số sao:</label>
-                                                    <select name="rating" id="rating" class="form-select" required>
-                                                        <?php for($i = 5; $i >= 1; $i--): ?>
-                                                            <option value="<?php echo e($i); ?>"><?php echo e($i); ?> sao</option>
-                                                        <?php endfor; ?>
-                                                    </select>
-                                                </div>
-                    
-                                                <div class="mb-3">
-                                                    <label for="review" class="form-label">Nội dung đánh giá:</label>
-                                                    <textarea name="review" id="review" class="form-control" rows="4"></textarea>
-                                                </div>
-                    
-                                                <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
-                                            </form>
-                                        <?php else: ?>
-                                            <p><a href="<?php echo e(route('login')); ?>">Đăng nhập</a> để đánh giá sản phẩm.</p>
-                                        <?php endif; ?>
-                    
-                                        <h5>Đánh giá sản phẩm:</h5>
-                                        <?php $__currentLoopData = $product->productReviews; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $review): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <div class="review">
-                                                <div class="stars">
-                                                    <?php for($i = 1; $i <= 5; $i++): ?>
-                                                        <i class="bi <?php echo e($i <= $review->rating ? 'bi-star-fill' : 'bi-star'); ?>"></i>
-                                                    <?php endfor; ?>
-                                                </div>
-                                                <p><?php echo e($review->review); ?></p>
-                                            </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /Form Đánh giá -->
-                    
-                    
                     <!-- /tab B -->
                 </div>
                 <!-- /tab-content -->
@@ -564,49 +533,7 @@
         });
     </script>
 
-    
-     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const addToCartBtn = document.getElementById("addToCartBtn");
-            const variantWarning = document.getElementById("variant-warning");
-            const stockWarning = document.getElementById("stock-warning");
-            const stockElement = document.getElementById("variant-stock"); // Lấy phần hiển thị tồn kho
-    
-            addToCartBtn.addEventListener("click", function () {
-                let allSelected = true;
-                let stockQuantity = 0; // Mặc định là hết hàng
-    
-                // Kiểm tra xem tất cả các nhóm thuộc tính đã được chọn chưa
-                document.querySelectorAll(".option-group").forEach(group => {
-                    let checkedRadio = group.querySelector(".option-input:checked");
-                    if (!checkedRadio) {
-                        allSelected = false;
-                    }
-                });
-    
-                // Kiểm tra tồn kho từ `variant-stock` (tìm số lượng cụ thể)
-                if (stockElement && stockElement.textContent.match(/\d+/)) {
-                    stockQuantity = parseInt(stockElement.textContent.match(/\d+/)[0]); // Lấy số lượng tồn kho
-                }
-    
-                if (!allSelected) {
-                    variantWarning.style.display = "block";
-                    stockWarning.style.display = "none";
-                } else if (stockQuantity <= 0) {
-                    variantWarning.style.display = "none";
-                    stockWarning.style.display = "block";
-                } else {
-                    variantWarning.style.display = "none";
-                    stockWarning.style.display = "none";
-                    let form = addToCartBtn.closest("form");
-                    if (form) {
-                        form.submit();
-                    }
-                }
-            });
-        });
-    </script>
-    
+   
     
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -657,6 +584,60 @@
             quantityInput.value = newValue;
         }
     </script>
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const addToCartBtn = document.getElementById("addToCartBtn");
+        const quantityInput = document.getElementById("quantity");
+        const variantWarning = document.getElementById("variant-warning");
+        const stockWarning = document.getElementById("stock-warning");
+        const quantityWarning = document.getElementById("quantity-warning");
+        const stockElement = document.getElementById("variant-stock");
+
+        addToCartBtn.addEventListener("click", function () {
+            let allSelected = true;
+            let stockQuantity = 0; 
+
+            // Kiểm tra xem tất cả các nhóm thuộc tính đã được chọn chưa
+            document.querySelectorAll(".option-group").forEach(group => {
+                let checkedRadio = group.querySelector(".option-input:checked");
+                if (!checkedRadio) {
+                    allSelected = false;
+                }
+            });
+
+            // Kiểm tra tồn kho
+            if (stockElement && stockElement.textContent.match(/\d+/)) {
+                stockQuantity = parseInt(stockElement.textContent.match(/\d+/)[0]);
+            }
+
+            // Kiểm tra số lượng
+            let quantityValue = parseInt(quantityInput.value) || 0;
+
+            if (!allSelected) {
+                variantWarning.style.display = "block";
+                stockWarning.style.display = "none";
+                quantityWarning.style.display = "none";
+            } else if (stockQuantity <= 0) {
+                variantWarning.style.display = "none";
+                stockWarning.style.display = "block";
+                quantityWarning.style.display = "none";
+            } else if (quantityValue <= 0) {
+                variantWarning.style.display = "none";
+                stockWarning.style.display = "none";
+                quantityWarning.style.display = "block";
+            } else {
+                variantWarning.style.display = "none";
+                stockWarning.style.display = "none";
+                quantityWarning.style.display = "none";
+                let form = addToCartBtn.closest("form");
+                if (form) {
+                    form.submit();
+                }
+            }
+        });
+    });
+</script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/product/productDetail.blade.php ENDPATH**/ ?>
