@@ -169,6 +169,9 @@
                     <li class="nav-item">
                         <a id="tab-B" href="#pane-B" class="nav-link" data-bs-toggle="tab" role="tab">Mô tả</a>
                     </li>
+                    <li class="nav-item">
+                       <a href="#pane-C" class="nav-link" data-bs-toggle="tab" role="tab"> Đánh giá</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -280,6 +283,62 @@
                         </div>
 
                     </div>
+                    <!-- /Form Đánh giá -->
+                    <div id="pane-C" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
+                        <div class="card-header" role="tab" id="heading-B">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapse-B" aria-expanded="false" aria-controls="collapse-B">
+                                    Đánh giá
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapse-B" class="collapse" role="tabpanel" aria-labelledby="heading-B">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        @if (Auth::check())
+                                            <!-- Form đánh giá -->
+                                            <form action="{{ route('reviews.store', $product->id) }}" method="POST">
+                                                @csrf
+                                                <div class="mb-3">
+                                                    <label for="rating" class="form-label">Số sao:</label>
+                                                    <select name="rating" id="rating" class="form-select" required>
+                                                        @for ($i = 5; $i >= 1; $i--)
+                                                            <option value="{{ $i }}">{{ $i }} sao</option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                    
+                                                <div class="mb-3">
+                                                    <label for="review" class="form-label">Nội dung đánh giá:</label>
+                                                    <textarea name="review" id="review" class="form-control" rows="4"></textarea>
+                                                </div>
+                    
+                                                <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                                            </form>
+                                        @else
+                                            <p><a href="{{ route('login') }}">Đăng nhập</a> để đánh giá sản phẩm.</p>
+                                        @endif
+                    
+                                        <h5>Đánh giá sản phẩm:</h5>
+                                        @foreach($product->productReviews as $review)
+                                            <div class="review">
+                                                <div class="stars">
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <i class="bi {{ $i <= $review->rating ? 'bi-star-fill' : 'bi-star' }}"></i>
+                                                    @endfor
+                                                </div>
+                                                <p>{{ $review->review }}</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Form Đánh giá -->
+                    
+                    
                     <!-- /tab B -->
                 </div>
                 <!-- /tab-content -->
