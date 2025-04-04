@@ -57,4 +57,13 @@ class adminChatController extends Controller
             ]
         ]);
     }
+
+    public function deleteChat($user_id)
+{
+    // Xóa vĩnh viễn tất cả tin nhắn của user với admin
+    Message::where('user_id', $user_id)->delete();
+
+    return redirect()->route('admin.chat.index')->with('success', 'Đoạn chat đã bị xoá vĩnh viễn.');
+}
+
 }
