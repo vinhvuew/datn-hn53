@@ -50,85 +50,84 @@
                                 <i class="icon-star"></i><em>4 reviews</em>
                             </span>
                             <p><small>Mã SP: {{ $product->sku }}</small><br>{{ $product->description }}</p>
-                            @if ($product->variants->isNotEmpty())
-                                <div class="prod_options">
-                                    <div class="row">
-                                        @php
-                                            $groupAttribute = [];
-                                        @endphp
-                                        @foreach ($product->variants as $variant)
-                                            @foreach ($variant->attributes as $attribute)
-                                                @php
-                                                    $attributeName = $attribute->attribute->name;
-                                                    $valueId = $attribute->attributeValue->id;
-                                                    $valueName = $attribute->attributeValue->value;
-
-                                                    if (!isset($groupAttribute[$attributeName])) {
-                                                        $groupAttribute[$attributeName] = [];
-                                                    }
-
-                                                    $groupAttribute[$attributeName][$valueId] = $valueName;
-                                                @endphp
+                             @if ($product->variants->isNotEmpty())
+                            <div class="prod_options">
+                                <div class="row">
+                                    @php
+                                        $groupAttribute = [];
+                                    @endphp
+                                    @foreach ($product->variants as $variant)
+                                        @foreach ($variant->attributes as $attribute)
+                                            @php
+                                                $attributeName = $attribute->attribute->name;
+                                                $valueId = $attribute->attributeValue->id;
+                                                $valueName = $attribute->attributeValue->value;
+                        
+                                                if (!isset($groupAttribute[$attributeName])) {
+                                                    $groupAttribute[$attributeName] = [];
+                                                }
+                        
+                                                $groupAttribute[$attributeName][$valueId] = $valueName;
+                                            @endphp
+                                        @endforeach
+                                    @endforeach
+                        
+                                    @foreach ($groupAttribute as $attributeName => $values)
+                                        <label class="col-12"><strong>{{ $attributeName }}</strong></label>
+                                        <div class="col-12 option-group">
+                                            @foreach ($values as $id => $name)
+                                                <input type="radio" class="option-input"
+                                                    name="variant_attributes[{{ Str::slug($attributeName) }}]"
+                                                    id="attribute-{{ $id }}" value="{{ $id }}"
+                                                    data-attribute="{{ Str::slug($attributeName) }}">
+                                                <label class="option-item" for="attribute-{{ $id }}">
+                                                    {{ Str::limit($name, 30) }}
+                                                </label>
                                             @endforeach
-                                        @endforeach
-
-                                        @foreach ($groupAttribute as $attributeName => $values)
-                                            <label class="col-12"><strong>{{ $attributeName }}</strong></label>
-                                            <div class="col-12 option-group">
-                                                @foreach ($values as $id => $name)
-                                                    <input type="radio" class="option-input"
-                                                        name="variant_attributes[{{ Str::slug($attributeName) }}]"
-                                                        id="attribute-{{ $id }}" value="{{ $id }}"
-                                                        data-attribute="{{ Str::slug($attributeName) }}">
-                                                    <label class="option-item" for="attribute-{{ $id }}">
-                                                        {{ Str::limit($name, 30) }}
-                                                    </label>
-                                                @endforeach
-                                            </div>
-                                        @endforeach
-                                    </div>
-
-                                    <div class="row">
-                                        <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Số lượng</strong></label>
-                                        <div class="col-xl-4 col-lg-5 col-md-6 col-6">
-                                            <div class="numbers-row">
-                                                <input type="text" value="1" id="quantity" class="qty2"
-                                                    name="quantity">
-                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                        
+                                <div class="row">
+                                    <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Số lượng</strong></label>
+                                    <div class="col-xl-4 col-lg-5 col-md-6 col-6">
+                                        <div class="numbers-row">
+                                            <input type="text" value="1" id="quantity" class="qty2" name="quantity">
                                         </div>
                                     </div>
-
-                                    <script>
-                                        const quantityInput = document.getElementById('quantity');
-
-                                        quantityInput.addEventListener('input', function() {
-                                            this.value = this.value.replace(/[^0-9]/g, ''); // Chỉ cho phép nhập số
-                                            if (this.value === "" || this.value < 1) {
-                                                this.value = 1; // Không cho phép giá trị nhỏ hơn 1
-                                            }
-                                        });
-
-                                        quantityInput.addEventListener('paste', function(e) {
-                                            let pastedText = (e.clipboardData || window.clipboardData).getData('text');
-                                            if (!/^\d+$/.test(pastedText)) { // Chặn dán nội dung không phải số
-                                                e.preventDefault();
-                                            }
-                                        });
-
-                                        quantityInput.addEventListener('keydown', function(e) {
-                                            if (e.key === 'e' || e.key === '-' || e.key === '+' || e.key === '.') {
-                                                e.preventDefault(); // Chặn nhập ký tự không hợp lệ
-                                            }
-                                        });
-                                    </script>
-
-                                    <div class="row mt-3">
-                                        <label class="col-12"><strong>Tồn kho</strong></label>
-                                        <span id="variant-stock"></span>
-                                    </div>
                                 </div>
-                            @endif
-
+                                
+                                <script>
+                                    const quantityInput = document.getElementById('quantity');
+                                
+                                    quantityInput.addEventListener('input', function () {
+                                        this.value = this.value.replace(/[^0-9]/g, ''); // Chỉ cho phép nhập số
+                                        if (this.value === "" || this.value < 1) {
+                                            this.value = 1; // Không cho phép giá trị nhỏ hơn 1
+                                        }
+                                    });
+                                
+                                    quantityInput.addEventListener('paste', function (e) {
+                                        let pastedText = (e.clipboardData || window.clipboardData).getData('text');
+                                        if (!/^\d+$/.test(pastedText)) { // Chặn dán nội dung không phải số
+                                            e.preventDefault();
+                                        }
+                                    });
+                                
+                                    quantityInput.addEventListener('keydown', function (e) {
+                                        if (e.key === 'e' || e.key === '-' || e.key === '+' || e.key === '.') { 
+                                            e.preventDefault(); // Chặn nhập ký tự không hợp lệ
+                                        }
+                                    });
+                                </script>
+                                
+                                <div class="row mt-3">
+                                    <label class="col-12"><strong>Tồn kho</strong></label>
+                                    <span id="variant-stock"></span>
+                                </div>
+                            </div>
+                        @endif
+                                            
 
 
 
@@ -152,28 +151,25 @@
                                     </div>
 
                                 </div>
-                                <div class="col-lg-5 col-md-6">
+                                <div class="col-lg-5 col-md-6"> 
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     @if ($product->price_sale)
-                                        <input type="hidden" name="total_amount"
-                                            value="{{ isset($finalPrice) ? $finalPrice : $product->price_sale }}">
+                                        <input type="hidden" name="total_amount" value="{{ isset($finalPrice) ? $finalPrice : $product->price_sale }}">
                                     @elseif ($product->base_price)
-                                        <input type="hidden" name="total_amount"
-                                            value="{{ isset($finalPrice) ? $finalPrice : $product->base_price }}">
+                                        <input type="hidden" name="total_amount" value="{{ isset($finalPrice) ? $finalPrice : $product->base_price }}">
                                     @endif
-
+                                
                                     <button type="button" id="addToCartBtn" class="btn_1">THÊM VÀO GIỎ HÀNG</button>
-
-                                    <p id="variant-warning" style="color: red; display: none; margin-top: 5px;">Bạn phải
-                                        chọn <strong>Màu Sắc, Kích Cỡ</strong></p>
-                                    <p id="stock-warning" style="color: red; display: none; margin-top: 5px;">Sản phẩm đã
-                                        <strong>Hết Hàng</strong></p>
-                                    <p id="quantity-warning" style="color: red; display: none; margin-top: 5px;">Số lượng
-                                        phải lớn hơn 0</p>
+                                    
+                                    <p id="variant-warning" style="color: red; display: none; margin-top: 5px;">Bạn phải chọn <strong>Màu Sắc, Kích Cỡ</strong></p>
+                                    <p id="stock-warning" style="color: red; display: none; margin-top: 5px;">Sản phẩm đã <strong>Hết Hàng</strong></p>
+                                    <p id="quantity-warning" style="color: red; display: none; margin-top: 5px;">Số lượng phải lớn hơn <strong>0</strong></p>
                                 </div>
-
-
-
+                                
+                               
+                                
+                                
+                                
                             </div>
                         </div>
                     </form>
@@ -534,106 +530,51 @@
         });
     </script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const addToCartBtn = document.getElementById("addToCartBtn");
-            const quantityInput = document.getElementById("quantity");
-            const variantWarning = document.getElementById("variant-warning");
-            const stockWarning = document.getElementById("stock-warning");
-            const quantityWarning = document.getElementById("quantity-warning");
-            const stockElement = document.getElementById("variant-stock");
-
-            addToCartBtn.addEventListener("click", function() {
-                let allSelected = true;
-                let stockQuantity = 0;
-
-                // Kiểm tra xem tất cả các nhóm thuộc tính đã được chọn chưa
-                document.querySelectorAll(".option-group").forEach(group => {
-                    let checkedRadio = group.querySelector(".option-input:checked");
-                    if (!checkedRadio) {
-                        allSelected = false;
-                    }
-                });
-
-                // Kiểm tra tồn kho
-                if (stockElement && stockElement.textContent.match(/\d+/)) {
-                    stockQuantity = parseInt(stockElement.textContent.match(/\d+/)[0]);
-                }
-
-                // Kiểm tra số lượng
-                let quantityValue = parseInt(quantityInput.value) || 0;
-
-                if (!allSelected) {
-                    variantWarning.style.display = "block";
-                    stockWarning.style.display = "none";
-                    quantityWarning.style.display = "none";
-                } else if (stockQuantity <= 0) {
-                    variantWarning.style.display = "none";
-                    stockWarning.style.display = "block";
-                    quantityWarning.style.display = "none";
-                } else if (quantityValue <= 0) {
-                    variantWarning.style.display = "none";
-                    stockWarning.style.display = "none";
-                    quantityWarning.style.display = "block";
-                } else {
-                    variantWarning.style.display = "none";
-                    stockWarning.style.display = "none";
-                    quantityWarning.style.display = "none";
-                    let form = addToCartBtn.closest("form");
-                    if (form) {
-                        form.submit();
-                    }
-                }
-            });
-        });
-    </script>
-
-
+   
     {{-- checkbox ktra tồn kho theo biến thể  --}}
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const radios = document.querySelectorAll(".option-input");
             const stockElement = document.getElementById("variant-stock");
-
+    
             radios.forEach((radio) => {
-                radio.addEventListener("change", function() {
+                radio.addEventListener("change", function () {
                     updateStock();
                 });
             });
-
+    
             function updateStock() {
                 let selectedAttributes = {};
                 document.querySelectorAll(".option-input:checked").forEach((radio) => {
                     selectedAttributes[radio.dataset.attribute] = radio.value;
                 });
-
+    
                 let stock = getStock(selectedAttributes);
                 stockElement.textContent = stock > 0 ? `Còn ${stock} sản phẩm` : "Hết hàng";
                 stockElement.style.color = stock > 0 ? "#28a745" : "#d9534f";
             }
-
+    
             function getStock(selectedAttributes) {
-                let variants = @json(
-                    $product->variants->map(function ($variant) {
-                        return [
-                            'id' => $variant->id,
-                            'attributes' => $variant->attributes->mapWithKeys(function ($attr) {
-                                return [Str::slug($attr->attribute->name) => $attr->attributeValue->id];
-                            }),
-                            'stock' => $variant->quantity,
-                        ];
-                    }));
-
+                let variants = @json($product->variants->map(function ($variant) {
+                    return [
+                        'id' => $variant->id,
+                        'attributes' => $variant->attributes->mapWithKeys(function ($attr) {
+                            return [Str::slug($attr->attribute->name) => $attr->attributeValue->id];
+                        }),
+                        'stock' => $variant->quantity
+                    ];
+                }));
+    
                 let matchingVariant = variants.find(variant => {
                     return Object.entries(selectedAttributes).every(([key, value]) => {
                         return variant.attributes[key] == value;
                     });
                 });
-
+    
                 return matchingVariant ? matchingVariant.stock : 0;
             }
         });
-
+    
         /* Cập nhật số lượng */
         function changeQuantity(amount) {
             let quantityInput = document.getElementById("quantity");
@@ -642,4 +583,58 @@
             quantityInput.value = newValue;
         }
     </script>
+    {{-- ktra so luong trc khi them vao gio hang --}}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const addToCartBtn = document.getElementById("addToCartBtn");
+        const quantityInput = document.getElementById("quantity");
+        const variantWarning = document.getElementById("variant-warning");
+        const stockWarning = document.getElementById("stock-warning");
+        const quantityWarning = document.getElementById("quantity-warning");
+        const stockElement = document.getElementById("variant-stock");
+
+        addToCartBtn.addEventListener("click", function () {
+            let allSelected = true;
+            let stockQuantity = 0; 
+
+            // Kiểm tra xem tất cả các nhóm thuộc tính đã được chọn chưa
+            document.querySelectorAll(".option-group").forEach(group => {
+                let checkedRadio = group.querySelector(".option-input:checked");
+                if (!checkedRadio) {
+                    allSelected = false;
+                }
+            });
+
+            // Kiểm tra tồn kho
+            if (stockElement && stockElement.textContent.match(/\d+/)) {
+                stockQuantity = parseInt(stockElement.textContent.match(/\d+/)[0]);
+            }
+
+            // Kiểm tra số lượng
+            let quantityValue = parseInt(quantityInput.value) || 0;
+
+            if (!allSelected) {
+                variantWarning.style.display = "block";
+                stockWarning.style.display = "none";
+                quantityWarning.style.display = "none";
+            } else if (stockQuantity <= 0) {
+                variantWarning.style.display = "none";
+                stockWarning.style.display = "block";
+                quantityWarning.style.display = "none";
+            } else if (quantityValue <= 0) {
+                variantWarning.style.display = "none";
+                stockWarning.style.display = "none";
+                quantityWarning.style.display = "block";
+            } else {
+                variantWarning.style.display = "none";
+                stockWarning.style.display = "none";
+                quantityWarning.style.display = "none";
+                let form = addToCartBtn.closest("form");
+                if (form) {
+                    form.submit();
+                }
+            }
+        });
+    });
+</script>
 @endsection

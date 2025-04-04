@@ -163,62 +163,10 @@
                                     
                                     <p id="variant-warning" style="color: red; display: none; margin-top: 5px;">Bạn phải chọn <strong>Màu Sắc, Kích Cỡ</strong></p>
                                     <p id="stock-warning" style="color: red; display: none; margin-top: 5px;">Sản phẩm đã <strong>Hết Hàng</strong></p>
-                                    <p id="quantity-warning" style="color: red; display: none; margin-top: 5px;">Số lượng phải lớn hơn 0</p>
+                                    <p id="quantity-warning" style="color: red; display: none; margin-top: 5px;">Số lượng phải lớn hơn <strong>0</strong></p>
                                 </div>
                                 
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", function () {
-                                        const addToCartBtn = document.getElementById("addToCartBtn");
-                                        const quantityInput = document.getElementById("quantity");
-                                        const variantWarning = document.getElementById("variant-warning");
-                                        const stockWarning = document.getElementById("stock-warning");
-                                        const quantityWarning = document.getElementById("quantity-warning");
-                                        const stockElement = document.getElementById("variant-stock");
-                                
-                                        addToCartBtn.addEventListener("click", function () {
-                                            let allSelected = true;
-                                            let stockQuantity = 0; 
-                                
-                                            // Kiểm tra xem tất cả các nhóm thuộc tính đã được chọn chưa
-                                            document.querySelectorAll(".option-group").forEach(group => {
-                                                let checkedRadio = group.querySelector(".option-input:checked");
-                                                if (!checkedRadio) {
-                                                    allSelected = false;
-                                                }
-                                            });
-                                
-                                            // Kiểm tra tồn kho
-                                            if (stockElement && stockElement.textContent.match(/\d+/)) {
-                                                stockQuantity = parseInt(stockElement.textContent.match(/\d+/)[0]);
-                                            }
-                                
-                                            // Kiểm tra số lượng
-                                            let quantityValue = parseInt(quantityInput.value) || 0;
-                                
-                                            if (!allSelected) {
-                                                variantWarning.style.display = "block";
-                                                stockWarning.style.display = "none";
-                                                quantityWarning.style.display = "none";
-                                            } else if (stockQuantity <= 0) {
-                                                variantWarning.style.display = "none";
-                                                stockWarning.style.display = "block";
-                                                quantityWarning.style.display = "none";
-                                            } else if (quantityValue <= 0) {
-                                                variantWarning.style.display = "none";
-                                                stockWarning.style.display = "none";
-                                                quantityWarning.style.display = "block";
-                                            } else {
-                                                variantWarning.style.display = "none";
-                                                stockWarning.style.display = "none";
-                                                quantityWarning.style.display = "none";
-                                                let form = addToCartBtn.closest("form");
-                                                if (form) {
-                                                    form.submit();
-                                                }
-                                            }
-                                        });
-                                    });
-                                </script>
+                               
                                 
                                 
                                 
@@ -636,6 +584,60 @@
             quantityInput.value = newValue;
         }
     </script>
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const addToCartBtn = document.getElementById("addToCartBtn");
+        const quantityInput = document.getElementById("quantity");
+        const variantWarning = document.getElementById("variant-warning");
+        const stockWarning = document.getElementById("stock-warning");
+        const quantityWarning = document.getElementById("quantity-warning");
+        const stockElement = document.getElementById("variant-stock");
+
+        addToCartBtn.addEventListener("click", function () {
+            let allSelected = true;
+            let stockQuantity = 0; 
+
+            // Kiểm tra xem tất cả các nhóm thuộc tính đã được chọn chưa
+            document.querySelectorAll(".option-group").forEach(group => {
+                let checkedRadio = group.querySelector(".option-input:checked");
+                if (!checkedRadio) {
+                    allSelected = false;
+                }
+            });
+
+            // Kiểm tra tồn kho
+            if (stockElement && stockElement.textContent.match(/\d+/)) {
+                stockQuantity = parseInt(stockElement.textContent.match(/\d+/)[0]);
+            }
+
+            // Kiểm tra số lượng
+            let quantityValue = parseInt(quantityInput.value) || 0;
+
+            if (!allSelected) {
+                variantWarning.style.display = "block";
+                stockWarning.style.display = "none";
+                quantityWarning.style.display = "none";
+            } else if (stockQuantity <= 0) {
+                variantWarning.style.display = "none";
+                stockWarning.style.display = "block";
+                quantityWarning.style.display = "none";
+            } else if (quantityValue <= 0) {
+                variantWarning.style.display = "none";
+                stockWarning.style.display = "none";
+                quantityWarning.style.display = "block";
+            } else {
+                variantWarning.style.display = "none";
+                stockWarning.style.display = "none";
+                quantityWarning.style.display = "none";
+                let form = addToCartBtn.closest("form");
+                if (form) {
+                    form.submit();
+                }
+            }
+        });
+    });
+</script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/product/productDetail.blade.php ENDPATH**/ ?>
