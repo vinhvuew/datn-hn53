@@ -2,8 +2,12 @@
 
 
 
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MessagesController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+
+use Illuminate\Support\Facades\Auth;
 // client
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductsController;
@@ -15,7 +19,9 @@ use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\Payment\VNPayController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
-use App\Http\Controllers\Client\CreateNewsController;
+use App\Http\Controllers\Client\CreateNewsController;   
+use App\Http\Controllers\Client\ChatController;
+use App\Http\Controllers\Client\ReviewController;
 // admin
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\CommentController;
@@ -29,6 +35,9 @@ use App\Http\Controllers\Admin\OderDeltailController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ThongKeController;
 use App\Http\Controllers\Admin\NewsController;
+
+use App\Http\Controllers\Admin\adminChatController;
+
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 
@@ -44,6 +53,10 @@ Route::get('/product', [HomeController::class, 'products'])->name('product');
 
 Route::post('apply', [OrderController::class, 'applyVoucher'])->name('apply.voucher');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+});
 //trang profile
 Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
     Route::get('/', [ProfileController::class, 'index'])->name('index'); // Hiển thị trang profile
@@ -59,9 +72,13 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::put('/orders/{id}/confirm-received', [ProfileController::class, 'confirmReceived'])
         ->name('orders.confirm-received');
 });
-
+// sp yêu thích
+Route::middleware(['auth'])->group(function () {
+    Route::get('/favorites', [ProductsController::class, 'favorite'])->name('favorites');
+    Route::post('/favorites', [ProductsController::class, 'storefavorite'])->name('favorites.store');
+    Route::delete('/favorites/{id}', [ProductsController::class, 'destroyfavorite'])->name('favorites.destroy');
+});
 // chat box
-
 // router phan tin tuc
 
 Route::get('/new', [CreateNewsController::class, 'news'])->name('news');
@@ -83,7 +100,8 @@ Route::put('/addresses/{id}', [AddressController::class, 'update'])->name('addre
 Route::delete('/addresses/{id}', [AddressController::class, 'destroy'])->name('addresses.destroy')->middleware('auth');
 Route::post('/apply-voucher', [OrderController::class, 'applyVoucher'])->name('apply.voucher');
 
-Route::get('/vnpay-return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
+Route::match(['get', 'post'], '/vnpay-return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
+Route::post('/vnpay-repay/{order}', [VNPayController::class, 'repayOrder'])->name('vnpay.repay');
 // giỏ hàng
 Route::POST('/product/addToCart', [ProductsController::class, 'addToCart'])->name('addToCart');
 Route::get('product/{slug}', [ProductsController::class, 'detail'])->name('productDetail');
@@ -93,6 +111,9 @@ Route::delete('/cart/delete/{id}', [CartController::class, 'destroy'])->name('ca
 
 // check out
 Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout.view');
+Route::get('/checkout/complete/{order_id?}', function ($order_id = null) {
+    return view('client.checkout.complete', compact('order_id'));
+})->name('checkout.complete');
 Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout.post');
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('/checkout/store', [OrderController::class, 'placeOrder'])->name('checkout.store');
@@ -133,6 +154,10 @@ Route::post('/logad/logout', [UserController::class, 'adminLogout'])->name('admi
 
 // chính sách
 Route::get('/policies', [PolicyController::class, 'index'])->name('policies');
+// Đánh giá
+Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth');
+Route::get('/reviews/{productId}', [ReviewController::class, 'index']);
+
 // Admin
 Route::prefix('admin')->middleware(['admin'])->group(function () {
 
@@ -140,31 +165,32 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
 
     // Permission
     Route::prefix('permissions')
-    ->as('permissions.')
-    ->group(function () {
-    Route::get('/', [PermissionController::class, 'index'])->name('index');
-    Route::get('create', [PermissionController::class, 'create'])->name('create');
-    Route::get('access/{id}', [PermissionController::class, 'access'])->name('access');
-    Route::post('updateGant', [PermissionController::class, 'updateGant'])->name('updateGant');
-    Route::post('store', [PermissionController::class, 'store'])->name('store');
-    Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
-    Route::get('edit/{id}', [PermissionController::class, 'edit'])->name('edit');
-    Route::put('update/{id}', [PermissionController::class, 'update'])->name('update');
-    Route::delete('destroy/{id}', [PermissionController::class, 'destroy'])->name('destroy');
-});
+        ->as('permissions.')
+        ->group(function () {
+            Route::get('/', [PermissionController::class, 'index'])->name('index');
+            Route::get('create', [PermissionController::class, 'create'])->name('create');
+            Route::get('access/{id}', [PermissionController::class, 'access'])->name('access');
+            Route::post('updateGant', [PermissionController::class, 'updateGant'])->name('updateGant');
+            Route::post('store', [PermissionController::class, 'store'])->name('store');
+            Route::get('show/{id}', [PermissionController::class, 'show'])->name('show');
+            Route::get('edit/{id}', [PermissionController::class, 'edit'])->name('edit');
+            Route::put('update/{id}', [PermissionController::class, 'update'])->name('update');
+            Route::delete('destroy/{id}', [PermissionController::class, 'destroy'])->name('destroy');
+        });
 
-// Role
-Route::prefix('roles')
-    ->as('roles.')
-    ->group(function () {
-    Route::get('/', [RoleController::class, 'index'])->name('index');
-    Route::get('create', [RoleController::class, 'create'])->name('create');
-    Route::post('store', [RoleController::class, 'store'])->name('store');
-    Route::get('show/{id}', [RoleController::class, 'show'])->name('show');
-    Route::get('edit/{id}', [RoleController::class, 'edit'])->name('edit');
-    Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
-    Route::delete('destroy/{id}', [RoleController::class, 'destroy'])->name('destroy');
-});
+    // Role
+    Route::prefix('roles')
+        ->as('roles.')
+        ->group(function () {
+            Route::get('/', [RoleController::class, 'index'])->name('index');
+            Route::get('create', [RoleController::class, 'create'])->name('create');
+            Route::post('store', [RoleController::class, 'store'])->name('store');
+            Route::get('show/{id}', [RoleController::class, 'show'])->name('show');
+            Route::get('edit/{id}', [RoleController::class, 'edit'])->name('edit');
+            Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
+            Route::delete('destroy/{id}', [RoleController::class, 'destroy'])->name('destroy');
+        });
+        
 
     Route::resource('products', ProductController::class);
     Route::resource("category", CategoryController::class);
@@ -213,14 +239,19 @@ Route::prefix('roles')
 
     //Thống Kê
     Route::get('/thongke', [ThongKeController::class, 'statistical'])->name('thongke.statistical');
-
     // Tin Tức
     Route::get('/news', [NewsController::class, 'index'])->name('news.index');
     Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
-
     Route::post('/news/store', [NewsController::class, 'store'])->name('news.store');
     Route::delete('/news/{id}', [NewsController::class, 'destroy'])->name('news.destroy');
     Route::get('/news/{id}/edit', [NewsController::class, 'edit'])->name('news.edit');
     Route::put('/news/{id}/update', [NewsController::class, 'update'])->name('news.update');
     Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
+
+
+    Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+        Route::get('/chat', [AdminChatController::class, 'index'])->name('admin.chat.index');
+        Route::get('/chat/{user_id}', [AdminChatController::class, 'show'])->name('admin.chat.show');
+        Route::post('/chat/send', [AdminChatController::class, 'sendMessage'])->name('admin.chat.send');
+    });
 });

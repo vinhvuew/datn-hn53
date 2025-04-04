@@ -270,10 +270,10 @@ class ProductController extends Controller
             Log::error($th->getMessage());
         }
     }
-
     /**
      * Remove the specified resource from storage.
      */
+
     public function destroy(Product $products)
     {
         //

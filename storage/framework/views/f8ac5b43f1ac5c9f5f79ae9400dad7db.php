@@ -7,8 +7,12 @@
                     <thead>
                         <tr>
                             <th>
+<<<<<<< HEAD
                                 Chọn
                                 
+=======
+                                Tất cả <input type="checkbox" id="select-all">
+>>>>>>> 4c8f0a47af5d91a0f0cd39d580d6a7457150c146
                             </th>
                             <th>Hình ảnh</th>
                             <th>Tên sản phẩm</th>
@@ -35,11 +39,15 @@
                                             class="rounded-2"></td>
                                     <td><?php echo e(Str::limit($cart->variant->product->name, 30)); ?></td>
                                     <td>
+<<<<<<< HEAD
                                         <?php if($cart->variant->product->price_sale): ?>
                                             <?php echo e(number_format($cart->variant->product->price_sale, 0, ',', '.')); ?> VNĐ
                                         <?php else: ?>
                                             <?php echo e(number_format($cart->variant->product->base_price, 0, ',', '.')); ?> VNĐ
                                         <?php endif; ?>
+=======
+                                        <?php echo e(number_format($cart->variant->selling_price, 0, ',', '.')); ?> VNĐ
+>>>>>>> 4c8f0a47af5d91a0f0cd39d580d6a7457150c146
                                     </td>
                                     <td class="col-2">
                                         <form class="update-cart-form" data-cart-id="<?php echo e($cart->id); ?>">
@@ -54,10 +62,15 @@
                                     </td>
                                     <td id="total-amount-<?php echo e($cart->id); ?>">
                                         <?php
+<<<<<<< HEAD
                                             if ($cart->is_selected) {
                                                 $money = $cart->total_amount;
                                                 $totalAmount += $money;
                                             }
+=======
+                                            $money = $cart->total_amount;
+                                            $totalAmount += $money;
+>>>>>>> 4c8f0a47af5d91a0f0cd39d580d6a7457150c146
                                         ?>
                                         <?php echo e(number_format($cart->total_amount, 0, ',', '.')); ?> VNĐ
 
@@ -108,10 +121,15 @@
                                     </td>
                                     <td id="total-amount-<?php echo e($cart->id); ?>">
                                         <?php
+<<<<<<< HEAD
                                             if ($cart->is_selected) {
                                                 $money = $cart->total_amount;
                                                 $totalAmount += $money;
                                             }
+=======
+                                            $money = $cart->total_amount;
+                                            $totalAmount += $money;
+>>>>>>> 4c8f0a47af5d91a0f0cd39d580d6a7457150c146
                                         ?>
 
                                         <?php echo e(number_format($cart->total_amount, 0, ',', '.')); ?> VNĐ
@@ -136,7 +154,11 @@
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
+<<<<<<< HEAD
                 <form id="checkout-form" action="<?php echo e(route('checkout.post')); ?>" method="POST">
+=======
+                <form id="checkout-form" action="<?php echo e(route('checkout.view')); ?>" method="POST">
+>>>>>>> 4c8f0a47af5d91a0f0cd39d580d6a7457150c146
                     <?php echo csrf_field(); ?>
                     <div class="text-end mb-5 p-4">
                         <h4 class="fw-bold text-primary">
@@ -150,6 +172,10 @@
                     </div>
                 </form>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4c8f0a47af5d91a0f0cd39d580d6a7457150c146
             </div>
         <?php else: ?>
             <div class="empty-cart-box text-center" id="empty-cart" style=" margin-top: 140px;">
@@ -168,6 +194,7 @@
 <?php $__env->startSection('script-libs'); ?>
     <script>
         $(document).ready(function() {
+<<<<<<< HEAD
             function updateOverallTotal() {
                 let total = 0;
                 $('.cart-item-checkbox:checked').each(function() {
@@ -179,11 +206,17 @@
             }
 
             // Cập nhật số lượng sản phẩm
+=======
+>>>>>>> 4c8f0a47af5d91a0f0cd39d580d6a7457150c146
             $('.quantity-input').on('input', function() {
                 let id = $(this).data('id');
                 let quantity = $(this).val();
 
+<<<<<<< HEAD
                 if (quantity < 1) {
+=======
+                if (quantity < 0) {
+>>>>>>> 4c8f0a47af5d91a0f0cd39d580d6a7457150c146
                     alert('Số lượng không hợp lệ!');
                     return;
                 }
@@ -197,6 +230,7 @@
                     },
                     success: function(response) {
                         if (response.success) {
+<<<<<<< HEAD
                             $('#total-amount-' + id).text(response.totalAmountFormatted);
                             updateOverallTotal();
                         } else {
@@ -262,6 +296,15 @@
                     success: function(response) {
                         if (response.success) {
                             $('#cart-item-' + id).remove();
+=======
+                            // Hiển thị thông báo thành công
+                            notyf.success(response.message);
+
+                            // Cập nhật tổng tiền cho từng sản phẩm
+                            $('#total-amount-' + id).text(response.totalAmountFormatted);
+
+                            // Cập nhật tổng tiền giỏ hàng
+>>>>>>> 4c8f0a47af5d91a0f0cd39d580d6a7457150c146
                             $('#overall-total').text(response.overallTotalFormatted);
                         } else {
                             alert(response.message);
@@ -272,8 +315,49 @@
                     }
                 });
             });
+<<<<<<< HEAD
         });
     </script>
+=======
+
+            // Xóa sản phẩm khỏi giỏ hàng
+            $(document).ready(function() {
+                $('.btn-delete').on('click', function() {
+                    let id = $(this).data('id');
+
+                    if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '/cart/delete/' + id, // Cập nhật đường dẫn API đúng chuẩn
+                        type: 'DELETE', // Sử dụng phương thức DELETE đúng chuẩn RESTful
+                        data: {
+                            _token: '<?php echo e(csrf_token()); ?>' // Bảo mật CSRF token
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                // Xóa sản phẩm khỏi giao diện
+                                $('#cart-item-' + id).remove();
+
+                                // Cập nhật tổng tiền giỏ hàng
+                                $('#overall-total').text(response
+                                    .overallTotalFormatted);
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr) {
+                            alert(xhr.responseJSON.message);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+    
+
+>>>>>>> 4c8f0a47af5d91a0f0cd39d580d6a7457150c146
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let selectAllCheckbox = document.getElementById('select-all');
@@ -322,6 +406,7 @@
         });
     </script>
     <script>
+<<<<<<< HEAD
         $('.cart-item-checkbox').on('change', function() {
             let id = $(this).data('id');
             let isSelected = $(this).prop('checked') ? 1 : 0;
@@ -344,6 +429,31 @@
                 error: function(xhr) {
                     alert('Có lỗi xảy ra! Vui lòng thử lại.');
                 }
+=======
+        $(document).ready(function() {
+            $('.cart-item-checkbox').on('change', function() {
+                let id = $(this).data('id');
+                let isSelected = $(this).prop('checked') ? 1 : 0;
+
+                $.ajax({
+                    url: '/cart/update-selection/' + id,
+                    type: 'PUT',
+                    data: {
+                        _token: '<?php echo e(csrf_token()); ?>',
+                        is_selected: isSelected
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            console.log(response.message);
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Có lỗi xảy ra! Vui lòng thử lại.');
+                    }
+                });
+>>>>>>> 4c8f0a47af5d91a0f0cd39d580d6a7457150c146
             });
         });
     </script>

@@ -1,10 +1,8 @@
 <!-- Favicons-->
-<link rel="shortcut icon" href="<?php echo e(asset('client')); ?>/img/favicon.ico" type="image/x-icon">
-<link rel="apple-touch-icon" type="image/x-icon" href="<?php echo e(asset('client')); ?>/img/apple-touch-icon-57x57-precomposed.png">
-<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72"
-    href="<?php echo e(asset('client')); ?>/<?php echo e(asset('client')); ?>/img/apple-touch-icon-114x114-precomposed.png">
-<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144"
-    href="<?php echo e(asset('client')); ?>/img/apple-touch-icon-144x144-precomposed.png">
+<link rel="shortcut icon" href="<?php echo e(asset('client')); ?>/img/logo16x16.png" type="image/x-icon">
+<link rel="apple-touch-icon" type="image/x-icon" href="<?php echo e(asset('client')); ?>/img/logo57x57.png">
+<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="<?php echo e(asset('client')); ?>/img/logo114x114.png">
+<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="<?php echo e(asset('client')); ?>/img/logo144x144.png">
 
 <!-- GOOGLE WEB FONT -->
 <link rel="dns-prefetch" href="https://fonts.gstatic.com/">
@@ -66,6 +64,85 @@
     .notyf__toast {
         top: 55px !important;
         /* Khoảng cách từ cạnh trên */
+    }
+
+    /* css trang chi tiết sản phẩm , phần biến thể  */
+    /* Cập nhật nền thành màu trắng */
+    .prod_options {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+
+    }
+
+    .prod_options .row {
+        margin-bottom: 15px;
+    }
+
+    .prod_options label {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .option-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    /* Thu nhỏ radio button */
+    .option-item {
+        background-color: #f1f1f1;
+        padding: 5px 10px;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .option-item:hover {
+        background-color: #007bff;
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .option-input {
+        display: none;
+    }
+
+    .option-input:checked+.option-item {
+        background-color: #007bff;
+        color: white;
+        border: 2px solid #007bff;
+    }
+
+
+    #variant-stock {
+        font-size: 16px;
+        font-weight: bold;
+        color: #d9534f;
+    }
+
+    #variant-stock.in-stock {
+        color: #28a745;
+    }
+
+    @media (max-width: 768px) {
+        .prod_options {
+            padding: 15px;
+        }
+
+        .option-group {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .qty-container {
+            flex-direction: column;
+            gap: 5px;
+        }
     }
 </style>
 <?php /**PATH C:\laragon\www\datn-hn53\resources\views/client/layouts/parials/css.blade.php ENDPATH**/ ?>

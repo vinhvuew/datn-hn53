@@ -196,11 +196,11 @@
                         <div class="col-12 col-lg-4">
                             {{-- kích hoạt --}}
                             <div class="card mb-4 p-3">
-                                {{-- <div class="mb-3 form-check form-switch">
+                                <div class="mb-3 form-check form-switch">
                                     <input type="checkbox" name="is_active" class="form-check-input" value="1"
                                         id="is_active">
-                                    <label class="form-check-label" for="is_active">Kích hoạt</label>
-                                </div> --}}
+                                    <label class="form-check-label" for="is_active">Hoạt động</label>
+                                </div>
 
                                 <div class="mb-3 form-check form-switch">
                                     <input type="checkbox" name="is_good_deal" class="form-check-input" value="1"

@@ -151,7 +151,7 @@ class ProfileController extends Controller
             'user',
             'address'
         )->findOrFail($id);
-        // dd($orders);
+        // dd($order);
         // dd(gettype($order->order_date), $order->order_date);
         $events = Shipping::where('order_id', $id)->orderBy('created_at', 'DESC')->get();
 
