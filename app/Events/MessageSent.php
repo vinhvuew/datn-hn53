@@ -1,13 +1,13 @@
 <?php
-namespace App\Events;
 
+namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Message;
 
 class MessageSent implements ShouldBroadcast
 {
@@ -15,16 +15,15 @@ class MessageSent implements ShouldBroadcast
 
     public $message;
 
-    public function __construct(Message $message)
+    public function __construct($message)
     {
         $this->message = $message;
     }
 
     public function broadcastOn()
     {
-
         return [
-            new Channel('chat.user.' . $this->message->user_id),
+            new PrivateChannel('chat.user.' . $this->message->user_id),
             new Channel('chat.admin'),
         ];
     }
@@ -34,9 +33,8 @@ class MessageSent implements ShouldBroadcast
         return [
             'message' => $this->message->message,
             'user_id' => $this->message->user_id,
-            'admin_id' => $this->message->admin_id,
             'is_admin' => $this->message->admin_id !== null,
+            'user_name' => $this->message->user ? $this->message->user->name : 'User ' . $this->message->user_id,
         ];
-
     }
 }

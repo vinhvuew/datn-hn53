@@ -19,7 +19,7 @@ use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\Payment\VNPayController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
-use App\Http\Controllers\Client\CreateNewsController;   
+use App\Http\Controllers\Client\CreateNewsController;
 use App\Http\Controllers\Client\ChatController;
 use App\Http\Controllers\Client\ReviewController;
 // admin
@@ -56,8 +56,9 @@ Route::post('apply', [OrderController::class, 'applyVoucher'])->name('apply.vouc
 Route::middleware(['auth'])->group(function () {
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
     Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
-});
 
+
+});
 //trang profile
 Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
     Route::get('/', [ProfileController::class, 'index'])->name('index'); // Hiển thị trang profile
@@ -191,7 +192,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
             Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
             Route::delete('destroy/{id}', [RoleController::class, 'destroy'])->name('destroy');
         });
-        
+
 
     Route::resource('products', ProductController::class);
     Route::resource("category", CategoryController::class);
@@ -254,5 +255,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::get('/chat', [AdminChatController::class, 'index'])->name('admin.chat.index');
         Route::get('/chat/{user_id}', [AdminChatController::class, 'show'])->name('admin.chat.show');
         Route::post('/chat/send', [AdminChatController::class, 'sendMessage'])->name('admin.chat.send');
+        Route::delete('/chat/delete/{user_id}', [AdminChatController::class, 'deleteChat'])->name('admin.chat.delete');
+
     });
 });
