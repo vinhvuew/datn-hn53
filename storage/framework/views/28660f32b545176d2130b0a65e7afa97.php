@@ -7,11 +7,6 @@
         <div id="chat-box" class="bg-light p-4 rounded-3 shadow-lg" style="height: 500px; overflow-y: scroll; border: 1px solid #ddd; transition: all 0.3s ease;">
             <?php $__currentLoopData = $messages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $message): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="chat-message mb-3 p-3 rounded-lg d-flex align-items-start" style="background-color: <?php echo e($message->admin_id ? '#e6f7ff' : '#f1f8e9'); ?>;">
-                    <?php if(!$message->admin_id): ?>
-                    <div class="mr-3">
-                        <img src="<?php echo e($message->user->profile_picture ?? 'default-avatar.jpg'); ?>" alt="User Avatar" class="rounded-circle border" width="45" height="45">
-                    </div>
-                    <?php endif; ?>
                     <div>
                         <strong class="<?php echo e($message->admin_id ? 'text-primary' : 'text-success'); ?> font-weight-bold">
                             <?php echo e($message->admin_id ? 'Admin' : 'Bạn'); ?>:
@@ -48,7 +43,6 @@
                     "X-CSRF-TOKEN": "<?php echo e(csrf_token()); ?>"
                 },
                 body: JSON.stringify({ message: message })
-
             })
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
@@ -58,7 +52,6 @@
                 if (data.success) {
                     // Thêm tin nhắn vào chat-box ngay lập tức
                     chatBox.innerHTML += `<div class="chat-message mb-3 p-3 rounded-lg d-flex align-items-start" style="background-color: #e6f7ff;">
-                                            <div class="mr-3"><img src="<?php echo e(Auth::user()->profile_picture ?? 'default-avatar.jpg'); ?>" alt="User Avatar" class="rounded-circle border" width="45" height="45"></div>
                                             <div><strong class="text-primary font-weight-bold">Bạn:</strong> ${data.message.message}</div>
                                         </div>`;
                     chatBox.scrollTop = chatBox.scrollHeight;
@@ -73,7 +66,6 @@
             .listen('MessageSent', (e) => {
                 if (!e.is_admin) return; // Chỉ hiển thị tin nhắn từ admin
                 chatBox.innerHTML += `<div class="chat-message mb-3 p-3 rounded-lg d-flex align-items-start" style="background-color: #f1f8e9;">
-                                        <div class="mr-3"><img src="<?php echo e($adminProfilePic ?? 'default-avatar.jpg'); ?>" alt="Admin Avatar" class="rounded-circle border" width="45" height="45"></div>
                                         <div><strong class="text-success font-weight-bold">Admin:</strong> ${e.message}</div>
                                       </div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;

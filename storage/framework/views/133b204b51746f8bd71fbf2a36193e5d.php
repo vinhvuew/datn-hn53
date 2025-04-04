@@ -211,9 +211,9 @@
 
         <li class="menu-item">
             <a href="<?php echo e(route('admin.chat.index')); ?>" class="menu-link">
-                <i class="menu-icon fa-regular fa-newspaper"></i>
-                
-                <div class="text-truncate" data-i18n="chat">chat</div>
+                <i class="menu-icon fa-solid fa-message"></i>
+
+                <div class="text-truncate" data-i18n="CHAT">CHAT</div>
             </a>
         </li>
 
