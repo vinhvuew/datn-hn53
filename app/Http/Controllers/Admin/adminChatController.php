@@ -44,7 +44,7 @@ class adminChatController extends Controller
             'is_read' => false,
         ]);
 
-        \Log::info('Admin message sent: ' . $message->message); // Thêm log
+       
         broadcast(new \App\Events\MessageSent($message))->toOthers();
 
         return response()->json([

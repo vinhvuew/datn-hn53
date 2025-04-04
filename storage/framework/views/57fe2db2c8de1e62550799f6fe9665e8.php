@@ -1,8 +1,4 @@
-<?php
-
-use Illuminate\Support\Facades\Auth;
-
- $__env->startSection('content'); ?>
+<?php $__env->startSection('content'); ?>
 
 <main>
 
