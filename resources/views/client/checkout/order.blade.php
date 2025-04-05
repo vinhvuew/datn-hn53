@@ -97,7 +97,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#tab_2" role="tab"
-                                    aria-controls="tab_2" aria-selected="false" > Thêm Địa Chỉ Mới</a>
+                                    aria-controls="tab_2" aria-selected="false"> Thêm Địa Chỉ Mới</a>
                             </li>
                         </ul>
                         <div class="tab-content checkout">
@@ -114,8 +114,10 @@
                                             <p>📍 {{ $a->address }}, {{ $a->ward }}, {{ $a->district }},
                                                 {{ $a->province }}</p>
                                             <div class="address-actions">
-                                                <i class="ti-pencil edit-address" data-address-id="{{ $a->id }}" title="Sửa địa chỉ"></i>
-                                                <i class="ti-trash delete-address" data-address-id="{{ $a->id }}" title="Xóa địa chỉ"></i>
+                                                <i class="ti-pencil edit-address" data-address-id="{{ $a->id }}"
+                                                    title="Sửa địa chỉ"></i>
+                                                <i class="ti-trash delete-address" data-address-id="{{ $a->id }}"
+                                                    title="Xóa địa chỉ"></i>
                                             </div>
                                         </div>
                                     @endforeach
@@ -172,7 +174,8 @@
 
                                     <div class="form-group">
                                         <label for="address">Địa Chỉ Cụ Thể</label>
-                                        <input type="text" class="form-control" name="address" id="address" required>
+                                        <input type="text" class="form-control" name="address" id="address"
+                                            required>
                                     </div>
 
                                     <div class="form-group">
@@ -181,7 +184,8 @@
                                     </div>
 
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="is_default" value="1">
+                                        <input class="form-check-input" type="checkbox" name="is_default"
+                                            value="1">
                                         <label class="form-check-label">Đặt làm địa chỉ mặc định</label>
                                     </div>
 
@@ -222,57 +226,76 @@
                                 id="btn-submit-coupon">Áp Dụng</button>
                         </div>
                         <form class="box_general summary" method="POST" action="{{ route('checkout.store') }}"
-                            style="margin-top: 5px">
+                            style="margin-top: 5px;">
                             @csrf
+
                             @foreach ($cart->cartDetails as $order)
-                                @if ($order->variant)
-                                    {{-- Nếu có biến thể, hiển thị thông tin biến thể --}}
-                                    <ul>
-                                        <li class="clearfix">
-                                            <em>{{ $order->quantity }}x __  {{ $order->variant->product->name }}
-                                            </em>
-                                            <span>{{ number_format($order->total_amount, 0, ',', '.') }}
-                                                VNĐ</span>
-                                        </li>
-                                    </ul>
-                                @elseif ($order->product)
-                                    {{-- Nếu không có biến thể, hiển thị thông tin sản phẩm gốc --}}
-                                    <ul>
-                                        <li class="clearfix">
-                                            <em>{{ $order->quantity }}x__ {{ $order->product->name }}</em>
+                                <div class="order-item">
+                                    @if ($order->variant)
+                                        {{-- Nếu có biến thể --}}
+                                        <div class="item-details">
+                                            <strong>{{ $order->quantity }}x {{ $order->variant->product->name }}</strong>
                                             <span>{{ number_format($order->total_amount, 0, ',', '.') }} VNĐ</span>
-                                        </li>
-                                    </ul>
-                                @endif
+                                        </div>
+                                        @if ($order->variant->attributes->isNotEmpty())
+                                            <ul class="variant-attributes">
+                                                @foreach ($order->variant->attributes as $variantAttribute)
+                                                    <li><strong>{{ $variantAttribute->attribute->name }}:</strong>
+                                                        {{ $variantAttribute->attributeValue->value }}</li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            <span>Không có thuộc tính biến thể</span>
+                                        @endif
+                                    @elseif ($order->product)
+                                        {{-- Nếu không có biến thể, hiển thị thông tin sản phẩm gốc --}}
+                                        <div class="item-details">
+                                            <strong>{{ $order->quantity }}x {{ $order->product->name }}</strong>
+                                            <span>{{ number_format($order->total_amount, 0, ',', '.') }} VNĐ</span>
+                                        </div>
+                                    @endif
+                                </div>
                             @endforeach
 
-                            <ul>
-                                <li class="clearfix" id="discount_value"><em>Mã giảm giá :</em>
-                                    <span>0 VNĐ</span>
-                                </li>
-                            </ul>
-                            <div class="total clearfix" id="total_order">
-                                Tổng tiền <span id="total_amount_display">{{ number_format($totalAmount, 0, ',', '.') }}
-                                    VNĐ</span>
+                            <!-- Mã giảm giá -->
+                            <div class="discount-section">
+                                <ul>
+                                    <li class="clearfix" id="discount_value">
+                                        <em>Mã giảm giá:</em>
+                                        <span>0 VNĐ</span>
+                                    </li>
+                                </ul>
                             </div>
-                            <div class="form-group">
-                                <label class="container_check">Register to the Newsletter.
+
+                            <!-- Tổng tiền -->
+                            <div class="total mb-2">
+                                <em>Tổng tiền:</em>
+                                <strong id="total_amount_display">{{ number_format($totalAmount, 0, ',', '.') }}
+                                    VNĐ</strong>
+                            </div>
+
+                            <!-- Đăng ký nhận bản tin -->
+                            {{-- <div class="form-group">
+                                <label class="container_check">Đăng ký nhận bản tin.
                                     <input type="checkbox" checked>
                                     <span class="checkmark"></span>
                                 </label>
-                            </div>
+                            </div> --}}
+
+                            <!-- Các giá trị ẩn -->
                             <input type="hidden" name="total_price" id="total_price" value="{{ $totalAmount }}">
                             <input type="hidden" name="address_id" id="address_id"
                                 value="{{ isset($address[0]) ? $address[0]->id : '' }}">
-
                             <input type="hidden" name="payment_method" class="payment_method" value="COD">
                             <input type="hidden" name="voucher_id" id="voucher_id">
 
-                            <button class="btn_1 full-width">Thanh toán</a>
+                            <!-- Nút thanh toán -->
+                            <button class="btn_1 full-width">Thanh toán</button>
                         </form>
+
                     </div>
                 </div>
-             
+
             </div>
         </div>
 
@@ -360,7 +383,8 @@
                 if (districtId) {
                     fetchData(wardUrl, data => {
                         let filteredWards = data.filter(item => item.DistrictId == districtId);
-                        populateSelect("Ward", filteredWards, "Chọn Xã/Phường", "Id", "Name", $("#ward_name").val());
+                        populateSelect("Ward", filteredWards, "Chọn Xã/Phường", "Id", "Name", $(
+                            "#ward_name").val());
                     });
                 }
             });
@@ -373,17 +397,18 @@
 
             // Gọi API khi trang load
             fetchData(provinceUrl, data => {
-                populateSelect("Province", data, "Chọn Tỉnh/Thành Phố", "Id", "Name", $("#province_name").val());
+                populateSelect("Province", data, "Chọn Tỉnh/Thành Phố", "Id", "Name", $("#province_name")
+                    .val());
             });
 
             // Xử lý khi click nút sửa địa chỉ
             $('.edit-address').click(function() {
                 let addressId = $(this).data('address-id');
-                
+
                 // Chuyển sang tab thêm địa chỉ và đổi tên tab
                 $('#profile-tab').tab('show');
                 $('#profile-tab').text('Sửa Địa Chỉ');
-                
+
                 // Gọi API lấy thông tin địa chỉ
                 $.ajax({
                     url: `/addresses/${addressId}`,
@@ -396,41 +421,55 @@
                         $('#phone').val(response.phone);
                         $('#address').val(response.address);
                         $('#note').val(response.note);
-                        
+
                         // Lưu giá trị tỉnh/huyện/xã vào input ẩn
                         $('#province_name').val(response.province);
                         $('#district_name').val(response.district);
                         $('#ward_name').val(response.ward);
-                        
+
                         // Load và chọn tỉnh
                         fetchData(provinceUrl, data => {
-                            populateSelect("Province", data, "Chọn Tỉnh/Thành Phố", "Id", "Name", response.province);
-                            
+                            populateSelect("Province", data, "Chọn Tỉnh/Thành Phố",
+                                "Id", "Name", response.province);
+
                             // Sau khi load tỉnh, tìm ID tỉnh đã chọn
                             let selectedProvince = $("#Province").val();
-                            if(selectedProvince) {
+                            if (selectedProvince) {
                                 // Load và chọn huyện
                                 fetchData(districtUrl, districtData => {
-                                    let filteredDistricts = districtData.filter(item => item.ProvinceId == selectedProvince);
-                                    populateSelect("District", filteredDistricts, "Chọn Quận/Huyện", "Id", "Name", response.district);
-                                    
+                                    let filteredDistricts = districtData.filter(
+                                        item => item.ProvinceId ==
+                                        selectedProvince);
+                                    populateSelect("District",
+                                        filteredDistricts,
+                                        "Chọn Quận/Huyện", "Id", "Name",
+                                        response.district);
+
                                     // Sau khi load huyện, tìm ID huyện đã chọn
                                     let selectedDistrict = $("#District").val();
-                                    if(selectedDistrict) {
+                                    if (selectedDistrict) {
                                         // Load và chọn xã
                                         fetchData(wardUrl, wardData => {
-                                            let filteredWards = wardData.filter(item => item.DistrictId == selectedDistrict);
-                                            populateSelect("Ward", filteredWards, "Chọn Xã/Phường", "Id", "Name", response.ward);
+                                            let filteredWards = wardData
+                                                .filter(item => item
+                                                    .DistrictId ==
+                                                    selectedDistrict);
+                                            populateSelect("Ward",
+                                                filteredWards,
+                                                "Chọn Xã/Phường",
+                                                "Id", "Name",
+                                                response.ward);
                                         });
                                     }
                                 });
                             }
                         });
-                        
+
                         // Thay đổi text nút submit và action form
                         $('#addressForm button[type="submit"]').text('Cập nhật địa chỉ');
                         $('#addressForm').attr('action', `/addresses/${addressId}`);
-                        $('#addressForm').append('<input type="hidden" name="_method" value="PUT">');
+                        $('#addressForm').append(
+                            '<input type="hidden" name="_method" value="PUT">');
                     },
                     error: function(xhr) {
                         alert('Có lỗi xảy ra khi lấy thông tin địa chỉ');
@@ -444,11 +483,11 @@
         $(document).ready(function() {
             $('#btn-submit-coupon').click(function() {
                 let couponCode = $('#input-coupon').val().trim();
-                
+
                 // Lấy giá trị từ text hiển thị và xử lý chuỗi
                 let totalAmountText = $('#total_amount_display').text().replace('VNĐ', '').trim();
                 let totalAmount = totalAmountText.replace(/[,\.]/g, '');
-                
+
                 console.log('Total amount text:', totalAmountText);
                 console.log('Total amount before sending:', totalAmount);
 
@@ -473,8 +512,10 @@
                             $('#voucher_id').val(response.voucher_id);
 
                             // Cập nhật hiển thị
-                            $('#total_amount_display').text(new Intl.NumberFormat('vi-VN').format(response.final_total) + " VNĐ");
-                            $('#discount_value span').text("-" + new Intl.NumberFormat('vi-VN').format(response.discount_amount) + " VNĐ");
+                            $('#total_amount_display').text(new Intl.NumberFormat('vi-VN')
+                                .format(response.final_total) + " VNĐ");
+                            $('#discount_value span').text("-" + new Intl.NumberFormat('vi-VN')
+                                .format(response.discount_amount) + " VNĐ");
 
                             alert(response.message);
                         } else {
@@ -513,9 +554,9 @@
                     type: method,
                     data: formData,
                     success: function(response) {
-                        if(response.success) {
+                        if (response.success) {
                             alert(response.message);
-                            location.reload(); 
+                            location.reload();
                         } else {
                             alert(response.message);
                         }
@@ -531,9 +572,9 @@
         $(document).ready(function() {
             // Xử lý xóa địa chỉ
             $('.delete-address').click(function() {
-                if(confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')) {
+                if (confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')) {
                     let addressId = $(this).data('address-id');
-                    
+
                     $.ajax({
                         url: `/addresses/${addressId}`,
                         type: 'DELETE',
@@ -541,7 +582,7 @@
                             _token: '{{ csrf_token() }}'
                         },
                         success: function(response) {
-                            if(response.success) {
+                            if (response.success) {
                                 alert(response.message);
                                 location.reload();
                             } else {
@@ -562,36 +603,36 @@
             if (form) {
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    
+
                     const formData = new FormData(this);
                     const paymentMethod = document.querySelector('.payment_method').value;
-                    
+
                     if (paymentMethod === 'VNPAY_DECOD') {
                         // Đối với VNPAY, submit form trực tiếp
                         this.submit();
                     } else {
                         // Đối với các phương thức khác, sử dụng AJAX
                         fetch(this.action, {
-                            method: 'POST',
-                            body: formData,
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.status === 'success') {
-                                if (paymentMethod === 'COD') {
-                                    window.location.href = '/checkout/complete';
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
                                 }
-                            } else {
-                                alert(data.message || 'Có lỗi xảy ra khi xử lý đơn hàng');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Có lỗi xảy ra khi xử lý thanh toán. Vui lòng thử lại sau.');
-                        });
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    if (paymentMethod === 'COD') {
+                                        window.location.href = '/checkout/complete';
+                                    }
+                                } else {
+                                    alert(data.message || 'Có lỗi xảy ra khi xử lý đơn hàng');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Có lỗi xảy ra khi xử lý thanh toán. Vui lòng thử lại sau.');
+                            });
                     }
                 });
             }

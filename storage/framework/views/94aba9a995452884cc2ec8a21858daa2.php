@@ -13,20 +13,18 @@
                         <tr>
                             <th>Mã đơn hàng</th>
                             <th>Tên khách hàng</th>
-                            <th>Ngày đặt</th>
-                            <th>Thanh Toán</th>
-                            <th>TT thanh toán</th>
+                            <th>Phương thức</th>
                             <th>Trạng thái</th>
                             <th>Tổng tiền</th>
+                            <th>Ngày đặt</th>
                             <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
-                                <td>ORDER <?php echo e($order->id); ?></td>
+                                <td>ORDER_<?php echo e($order->id); ?></td>
                                 <td><?php echo e($order->user->name); ?></td>
-                                <td><?php echo e(\Carbon\Carbon::parse($order->order_date)->format('d/m/Y')); ?></td>
                                 <td>
                                     <span
                                         class="badge
@@ -45,18 +43,6 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <?php if($order->payment_status == 'Thanh toán thành công'): ?>
-                                        <span class="badge bg-success">Thanh toán thành công</span>
-                                    <?php elseif($order->payment_status == 'Chờ thanh toán'): ?>
-                                        <span class="badge bg-warning text-dark">Chờ thanh toán</span>
-                                    <?php elseif($order->payment_status == 'Thanh toán khi nhận hàng'): ?>
-                                        <span class="badge bg-primary">Thanh toán khi nhận hàng</span>
-                                    <?php else: ?>
-                                        <span class="badge bg-secondary">Không xác định</span>
-                                    <?php endif; ?>
-                                </td>
-
-                                <td>
                                     <span
                                         class="badge
                                             <?php switch($order->status):
@@ -64,7 +50,7 @@
                                                 <?php case ('confirmed'): ?> bg-secondary text-white <?php break; ?>
                                                 <?php case ('shipping'): ?> bg-primary <?php break; ?>
                                                 <?php case ('delivered'): ?> bg-success <?php break; ?>
-<?php case ('completed'): ?> bg-info <?php break; ?>
+                                                <?php case ('completed'): ?> bg-info <?php break; ?>
                                                 <?php case ('canceled'): ?> bg-danger <?php break; ?>
                                                 <?php case ('admin_canceled'): ?> bg-danger <?php break; ?>
                                                 <?php case ('return_request'): ?> bg-danger <?php break; ?>
@@ -94,6 +80,7 @@
                                     </span>
                                 </td>
                                 <td><?php echo e(number_format($order->total_price, 0, ',', '.')); ?> VNĐ</td>
+                                <td><?php echo e(\Carbon\Carbon::parse($order->order_date)->format('d/m/Y')); ?></td>
                                 <td>
                                     <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Xem Chi Tiết"
                                         class="btn btn-info btn-sm me-1" href="<?php echo e(route('orders.show', $order->id)); ?>">

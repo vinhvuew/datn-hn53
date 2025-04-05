@@ -95,7 +95,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#tab_2" role="tab"
-                                    aria-controls="tab_2" aria-selected="false" > Thêm Địa Chỉ Mới</a>
+                                    aria-controls="tab_2" aria-selected="false"> Thêm Địa Chỉ Mới</a>
                             </li>
                         </ul>
                         <div class="tab-content checkout">
@@ -113,8 +113,10 @@
                                             <p>📍 <?php echo e($a->address); ?>, <?php echo e($a->ward); ?>, <?php echo e($a->district); ?>,
                                                 <?php echo e($a->province); ?></p>
                                             <div class="address-actions">
-                                                <i class="ti-pencil edit-address" data-address-id="<?php echo e($a->id); ?>" title="Sửa địa chỉ"></i>
-                                                <i class="ti-trash delete-address" data-address-id="<?php echo e($a->id); ?>" title="Xóa địa chỉ"></i>
+                                                <i class="ti-pencil edit-address" data-address-id="<?php echo e($a->id); ?>"
+                                                    title="Sửa địa chỉ"></i>
+                                                <i class="ti-trash delete-address" data-address-id="<?php echo e($a->id); ?>"
+                                                    title="Xóa địa chỉ"></i>
                                             </div>
                                         </div>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -171,7 +173,8 @@
 
                                     <div class="form-group">
                                         <label for="address">Địa Chỉ Cụ Thể</label>
-                                        <input type="text" class="form-control" name="address" id="address" required>
+                                        <input type="text" class="form-control" name="address" id="address"
+                                            required>
                                     </div>
 
                                     <div class="form-group">
@@ -180,7 +183,8 @@
                                     </div>
 
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="is_default" value="1">
+                                        <input class="form-check-input" type="checkbox" name="is_default"
+                                            value="1">
                                         <label class="form-check-label">Đặt làm địa chỉ mặc định</label>
                                     </div>
 
@@ -221,60 +225,72 @@
                                 id="btn-submit-coupon">Áp Dụng</button>
                         </div>
                         <form class="box_general summary" method="POST" action="<?php echo e(route('checkout.store')); ?>"
-                            style="margin-top: 5px">
+                            style="margin-top: 5px;">
                             <?php echo csrf_field(); ?>
+
                             <?php $__currentLoopData = $cart->cartDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php if($order->variant): ?>
-                                    
-                                    <ul>
-                                        <li class="clearfix">
-                                            <em><?php echo e($order->quantity); ?>x __  <?php echo e($order->variant->product->name); ?>
-
-                                            </em>
-                                            <span><?php echo e(number_format($order->total_amount, 0, ',', '.')); ?>
-
-                                                VNĐ</span>
-                                        </li>
-                                    </ul>
-                                <?php elseif($order->product): ?>
-                                    
-                                    <ul>
-                                        <li class="clearfix">
-                                            <em><?php echo e($order->quantity); ?>x__ <?php echo e($order->product->name); ?></em>
+                                <div class="order-item">
+                                    <?php if($order->variant): ?>
+                                        
+                                        <div class="item-details">
+                                            <strong><?php echo e($order->quantity); ?>x <?php echo e($order->variant->product->name); ?></strong>
                                             <span><?php echo e(number_format($order->total_amount, 0, ',', '.')); ?> VNĐ</span>
-                                        </li>
-                                    </ul>
-                                <?php endif; ?>
+                                        </div>
+                                        <?php if($order->variant->attributes->isNotEmpty()): ?>
+                                            <ul class="variant-attributes">
+                                                <?php $__currentLoopData = $order->variant->attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variantAttribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <li><strong><?php echo e($variantAttribute->attribute->name); ?>:</strong>
+                                                        <?php echo e($variantAttribute->attributeValue->value); ?></li>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </ul>
+                                        <?php else: ?>
+                                            <span>Không có thuộc tính biến thể</span>
+                                        <?php endif; ?>
+                                    <?php elseif($order->product): ?>
+                                        
+                                        <div class="item-details">
+                                            <strong><?php echo e($order->quantity); ?>x <?php echo e($order->product->name); ?></strong>
+                                            <span><?php echo e(number_format($order->total_amount, 0, ',', '.')); ?> VNĐ</span>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                            <ul>
-                                <li class="clearfix" id="discount_value"><em>Mã giảm giá :</em>
-                                    <span>0 VNĐ</span>
-                                </li>
-                            </ul>
-                            <div class="total clearfix" id="total_order">
-                                Tổng tiền <span id="total_amount_display"><?php echo e(number_format($totalAmount, 0, ',', '.')); ?>
+                            <!-- Mã giảm giá -->
+                            <div class="discount-section">
+                                <ul>
+                                    <li class="clearfix" id="discount_value">
+                                        <em>Mã giảm giá:</em>
+                                        <span>0 VNĐ</span>
+                                    </li>
+                                </ul>
+                            </div>
 
-                                    VNĐ</span>
+                            <!-- Tổng tiền -->
+                            <div class="total mb-2">
+                                <em>Tổng tiền:</em>
+                                <strong id="total_amount_display"><?php echo e(number_format($totalAmount, 0, ',', '.')); ?>
+
+                                    VNĐ</strong>
                             </div>
-                            <div class="form-group">
-                                <label class="container_check">Register to the Newsletter.
-                                    <input type="checkbox" checked>
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
+
+                            <!-- Đăng ký nhận bản tin -->
+                            
+
+                            <!-- Các giá trị ẩn -->
                             <input type="hidden" name="total_price" id="total_price" value="<?php echo e($totalAmount); ?>">
                             <input type="hidden" name="address_id" id="address_id"
                                 value="<?php echo e(isset($address[0]) ? $address[0]->id : ''); ?>">
-
                             <input type="hidden" name="payment_method" class="payment_method" value="COD">
                             <input type="hidden" name="voucher_id" id="voucher_id">
 
-                            <button class="btn_1 full-width">Thanh toán</a>
+                            <!-- Nút thanh toán -->
+                            <button class="btn_1 full-width">Thanh toán</button>
                         </form>
+
                     </div>
                 </div>
-             
+
             </div>
         </div>
 
@@ -362,7 +378,8 @@
                 if (districtId) {
                     fetchData(wardUrl, data => {
                         let filteredWards = data.filter(item => item.DistrictId == districtId);
-                        populateSelect("Ward", filteredWards, "Chọn Xã/Phường", "Id", "Name", $("#ward_name").val());
+                        populateSelect("Ward", filteredWards, "Chọn Xã/Phường", "Id", "Name", $(
+                            "#ward_name").val());
                     });
                 }
             });
@@ -375,17 +392,18 @@
 
             // Gọi API khi trang load
             fetchData(provinceUrl, data => {
-                populateSelect("Province", data, "Chọn Tỉnh/Thành Phố", "Id", "Name", $("#province_name").val());
+                populateSelect("Province", data, "Chọn Tỉnh/Thành Phố", "Id", "Name", $("#province_name")
+                    .val());
             });
 
             // Xử lý khi click nút sửa địa chỉ
             $('.edit-address').click(function() {
                 let addressId = $(this).data('address-id');
-                
+
                 // Chuyển sang tab thêm địa chỉ và đổi tên tab
                 $('#profile-tab').tab('show');
                 $('#profile-tab').text('Sửa Địa Chỉ');
-                
+
                 // Gọi API lấy thông tin địa chỉ
                 $.ajax({
                     url: `/addresses/${addressId}`,
@@ -398,41 +416,55 @@
                         $('#phone').val(response.phone);
                         $('#address').val(response.address);
                         $('#note').val(response.note);
-                        
+
                         // Lưu giá trị tỉnh/huyện/xã vào input ẩn
                         $('#province_name').val(response.province);
                         $('#district_name').val(response.district);
                         $('#ward_name').val(response.ward);
-                        
+
                         // Load và chọn tỉnh
                         fetchData(provinceUrl, data => {
-                            populateSelect("Province", data, "Chọn Tỉnh/Thành Phố", "Id", "Name", response.province);
-                            
+                            populateSelect("Province", data, "Chọn Tỉnh/Thành Phố",
+                                "Id", "Name", response.province);
+
                             // Sau khi load tỉnh, tìm ID tỉnh đã chọn
                             let selectedProvince = $("#Province").val();
-                            if(selectedProvince) {
+                            if (selectedProvince) {
                                 // Load và chọn huyện
                                 fetchData(districtUrl, districtData => {
-                                    let filteredDistricts = districtData.filter(item => item.ProvinceId == selectedProvince);
-                                    populateSelect("District", filteredDistricts, "Chọn Quận/Huyện", "Id", "Name", response.district);
-                                    
+                                    let filteredDistricts = districtData.filter(
+                                        item => item.ProvinceId ==
+                                        selectedProvince);
+                                    populateSelect("District",
+                                        filteredDistricts,
+                                        "Chọn Quận/Huyện", "Id", "Name",
+                                        response.district);
+
                                     // Sau khi load huyện, tìm ID huyện đã chọn
                                     let selectedDistrict = $("#District").val();
-                                    if(selectedDistrict) {
+                                    if (selectedDistrict) {
                                         // Load và chọn xã
                                         fetchData(wardUrl, wardData => {
-                                            let filteredWards = wardData.filter(item => item.DistrictId == selectedDistrict);
-                                            populateSelect("Ward", filteredWards, "Chọn Xã/Phường", "Id", "Name", response.ward);
+                                            let filteredWards = wardData
+                                                .filter(item => item
+                                                    .DistrictId ==
+                                                    selectedDistrict);
+                                            populateSelect("Ward",
+                                                filteredWards,
+                                                "Chọn Xã/Phường",
+                                                "Id", "Name",
+                                                response.ward);
                                         });
                                     }
                                 });
                             }
                         });
-                        
+
                         // Thay đổi text nút submit và action form
                         $('#addressForm button[type="submit"]').text('Cập nhật địa chỉ');
                         $('#addressForm').attr('action', `/addresses/${addressId}`);
-                        $('#addressForm').append('<input type="hidden" name="_method" value="PUT">');
+                        $('#addressForm').append(
+                            '<input type="hidden" name="_method" value="PUT">');
                     },
                     error: function(xhr) {
                         alert('Có lỗi xảy ra khi lấy thông tin địa chỉ');
@@ -446,11 +478,11 @@
         $(document).ready(function() {
             $('#btn-submit-coupon').click(function() {
                 let couponCode = $('#input-coupon').val().trim();
-                
+
                 // Lấy giá trị từ text hiển thị và xử lý chuỗi
                 let totalAmountText = $('#total_amount_display').text().replace('VNĐ', '').trim();
                 let totalAmount = totalAmountText.replace(/[,\.]/g, '');
-                
+
                 console.log('Total amount text:', totalAmountText);
                 console.log('Total amount before sending:', totalAmount);
 
@@ -475,8 +507,10 @@
                             $('#voucher_id').val(response.voucher_id);
 
                             // Cập nhật hiển thị
-                            $('#total_amount_display').text(new Intl.NumberFormat('vi-VN').format(response.final_total) + " VNĐ");
-                            $('#discount_value span').text("-" + new Intl.NumberFormat('vi-VN').format(response.discount_amount) + " VNĐ");
+                            $('#total_amount_display').text(new Intl.NumberFormat('vi-VN')
+                                .format(response.final_total) + " VNĐ");
+                            $('#discount_value span').text("-" + new Intl.NumberFormat('vi-VN')
+                                .format(response.discount_amount) + " VNĐ");
 
                             alert(response.message);
                         } else {
@@ -515,9 +549,9 @@
                     type: method,
                     data: formData,
                     success: function(response) {
-                        if(response.success) {
+                        if (response.success) {
                             alert(response.message);
-                            location.reload(); 
+                            location.reload();
                         } else {
                             alert(response.message);
                         }
@@ -533,9 +567,9 @@
         $(document).ready(function() {
             // Xử lý xóa địa chỉ
             $('.delete-address').click(function() {
-                if(confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')) {
+                if (confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')) {
                     let addressId = $(this).data('address-id');
-                    
+
                     $.ajax({
                         url: `/addresses/${addressId}`,
                         type: 'DELETE',
@@ -543,7 +577,7 @@
                             _token: '<?php echo e(csrf_token()); ?>'
                         },
                         success: function(response) {
-                            if(response.success) {
+                            if (response.success) {
                                 alert(response.message);
                                 location.reload();
                             } else {
@@ -564,36 +598,36 @@
             if (form) {
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    
+
                     const formData = new FormData(this);
                     const paymentMethod = document.querySelector('.payment_method').value;
-                    
+
                     if (paymentMethod === 'VNPAY_DECOD') {
                         // Đối với VNPAY, submit form trực tiếp
                         this.submit();
                     } else {
                         // Đối với các phương thức khác, sử dụng AJAX
                         fetch(this.action, {
-                            method: 'POST',
-                            body: formData,
-                            headers: {
-                                'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.status === 'success') {
-                                if (paymentMethod === 'COD') {
-                                    window.location.href = '/checkout/complete';
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
                                 }
-                            } else {
-                                alert(data.message || 'Có lỗi xảy ra khi xử lý đơn hàng');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Có lỗi xảy ra khi xử lý thanh toán. Vui lòng thử lại sau.');
-                        });
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    if (paymentMethod === 'COD') {
+                                        window.location.href = '/checkout/complete';
+                                    }
+                                } else {
+                                    alert(data.message || 'Có lỗi xảy ra khi xử lý đơn hàng');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Có lỗi xảy ra khi xử lý thanh toán. Vui lòng thử lại sau.');
+                            });
                     }
                 });
             }

@@ -19,8 +19,8 @@ class VNPayController extends Controller
 {
     public function VNpay_Payment($orderId, $amount)
     {
-        $vnp_TmnCode = env('VNP_TMNCODE'); 
-        $vnp_HashSecret = env('VNP_HASHSECRET'); 
+        $vnp_TmnCode = env('VNP_TMNCODE');
+        $vnp_HashSecret = env('VNP_HASHSECRET');
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = "http://127.0.0.1:8000/vnpay-return";
         $vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
@@ -28,7 +28,7 @@ class VNPayController extends Controller
 
         $startTime = date("YmdHis");
         $expire = date('YmdHis', strtotime('+15 minutes', strtotime($startTime)));
-        
+
         $vnp_Locale = 'vn';
         $vnp_BankCode = 'VNBANK';
         $vnp_IpAddr = request()->ip();
@@ -38,7 +38,7 @@ class VNPayController extends Controller
             "vnp_TmnCode" => $vnp_TmnCode,
             "vnp_Amount" => $amount * 100,
             "vnp_Command" => "pay",
-            "vnp_CreateDate" => date('YmdHis'), 
+            "vnp_CreateDate" => date('YmdHis'),
             "vnp_CurrCode" => "VND",
             "vnp_IpAddr" => $vnp_IpAddr,
             "vnp_Locale" => $vnp_Locale,
@@ -80,7 +80,7 @@ class VNPayController extends Controller
     {
         try {
             $order = Order::findOrFail($orderId);
-            
+
             // Kiểm tra nếu đơn hàng không phải đang chờ thanh toán VNPAY
             if ($order->payment_method !== 'VNPAY_DECOD' || $order->payment_status !== 'Chờ thanh toán') {
                 return back()->with('error', 'Đơn hàng không hợp lệ để thanh toán lại.');
@@ -88,7 +88,6 @@ class VNPayController extends Controller
 
             // Gọi lại phương thức thanh toán VNPAY
             return $this->VNpay_Payment($order->id, $order->total_price);
-
         } catch (\Exception $e) {
             Log::error('Lỗi thanh toán lại VNPAY: ' . $e->getMessage());
             return back()->with('error', 'Có lỗi xảy ra khi thực hiện thanh toán lại.');
@@ -136,14 +135,13 @@ class VNPayController extends Controller
                 DB::beginTransaction();
                 try {
                     // Cập nhật trạng thái đơn hàng
-                    $order->status = 'confirmed';
                     $order->payment_status = 'Thanh toán thành công';
                     $order->save();
 
                     // Tạo trạng thái vận chuyển
                     Shipping::create([
                         'order_id' => $order->id,
-                        'name' => 'Chờ xử lý',
+                        'name' => 'Chờ xác nhận',
                         'note' => 'Đơn hàng đã được thanh toán qua VNPAY'
                     ]);
 
@@ -170,7 +168,6 @@ class VNPayController extends Controller
                     DB::commit();
                     Log::info('Xử lý thanh toán thành công cho đơn hàng: ' . $orderId);
                     return redirect()->route('checkout.complete', ['order_id' => $order->id]);
-
                 } catch (\Exception $e) {
                     DB::rollBack();
                     Log::error('Lỗi xử lý thanh toán thành công: ' . $e->getMessage());
@@ -184,11 +181,10 @@ class VNPayController extends Controller
                     'response_code' => $responseCode,
                     'message' => $this->getVNPayResponseMessage($responseCode)
                 ]);
-                
+
                 return redirect()->route('profile.myOder')
                     ->with('warning', 'Thanh toán không thành công: ' . $this->getVNPayResponseMessage($responseCode));
             }
-
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Lỗi không mong đợi: ' . $e->getMessage());

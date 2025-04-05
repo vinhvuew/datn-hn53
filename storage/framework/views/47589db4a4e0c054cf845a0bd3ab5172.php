@@ -197,7 +197,6 @@
                                                                 placeholder="Mã biến thể" class="form-control"
                                                                 value="<?php echo e($variant->sku); ?>">
                                                         </div>
-
                                                         <div class="mb-4">
                                                             <label for="variant_quantity_<?php echo e($variantIndex); ?>">Số lượng tồn
                                                                 kho</label>
