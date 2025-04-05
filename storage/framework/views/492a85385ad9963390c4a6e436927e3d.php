@@ -385,12 +385,8 @@
                                                 <small>Mã khách hàng: #<?php echo e($order->user->id); ?></small>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start align-items-center mb-4">
-                                            <span
-                                                class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i
-                                                    class='mdi mdi-cart-plus mdi-24px'></i></span>
-                                            <h6 class="text-nowrap mb-0"><?php echo e($order->count('user_id')); ?> Đơn Hàng</h6>
-                                        </div>
+                                        
+                                        
                                         <div class="d-flex justify-content-between">
                                             <h6 class="mb-2">Thông tin liên lạc</h6>
                                         </div>

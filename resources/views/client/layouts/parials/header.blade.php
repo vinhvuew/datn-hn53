@@ -42,9 +42,6 @@
                             <li>
                                 <a href="{{ route('chat.index') }}">chat</a>
                             </li>
-                            <li>
-                                <a href="" target="_parent">Liên hệ</a>
-                            </li>
                         </ul>
                     </div>
                     <!--/main-menu -->
@@ -65,7 +62,7 @@
                 <div class="col-xl-3 col-lg-3 col-md-3">
                     <nav class="categories">
                         <ul class="clearfix">
-                            <li><span>
+                            {{-- <li><span>
                                     <a href="#">
                                         <span class="hamburger hamburger--spin">
                                             <span class="hamburger-box">
@@ -76,7 +73,7 @@
                                     </a>
                                 </span>
 
-                            </li>
+                            </li> --}}
                         </ul>
                     </nav>
                 </div>

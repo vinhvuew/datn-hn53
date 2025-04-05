@@ -253,9 +253,11 @@
 
                                             </div>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <div class="mt-4 d-flex justify-content-center">
+                                            <?php echo e($orders->links()); ?>
+
+                                        </div>
                                     </div>
-
-
                                 </div>
                             </div>
 

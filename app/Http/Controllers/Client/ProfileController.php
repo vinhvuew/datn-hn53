@@ -138,7 +138,7 @@ class ProfileController extends Controller
         ])
             ->where('user_id', $user->id)
             ->orderBy('id', 'desc')
-            ->get();
+            ->paginate(5);
         // dd($orders);
         return view('client.users.profile.order', compact('orders'));
     }

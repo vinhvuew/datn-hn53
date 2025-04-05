@@ -26,8 +26,8 @@
                                     </div>
                                 @endforeach
                             </div>
-                            {{-- <div class="left-t nonl-t"></div>
-                            <div class="right-t"></div> --}}
+                            <div class="left-t nonl-t"></div>
+                            <div class="right-t"></div>
                         </div>
                     </div>
                 </div>
@@ -50,87 +50,105 @@
                                 <i class="icon-star"></i><em>4 reviews</em>
                             </span>
                             <p><small>Mã SP: {{ $product->sku }}</small><br>{{ $product->description }}</p>
-                             @if ($product->variants->isNotEmpty())
-                            <div class="prod_options">
-                                <div class="row">
-                                    @php
-                                        $groupAttribute = [];
-                                    @endphp
-                                    @foreach ($product->variants as $variant)
-                                        @foreach ($variant->attributes as $attribute)
-                                            @php
-                                                $attributeName = $attribute->attribute->name;
-                                                $valueId = $attribute->attributeValue->id;
-                                                $valueName = $attribute->attributeValue->value;
-                        
-                                                if (!isset($groupAttribute[$attributeName])) {
-                                                    $groupAttribute[$attributeName] = [];
-                                                }
-                        
-                                                $groupAttribute[$attributeName][$valueId] = $valueName;
-                                            @endphp
-                                        @endforeach
-                                    @endforeach
-                        
-                                    @foreach ($groupAttribute as $attributeName => $values)
-                                        <label class="col-12"><strong>{{ $attributeName }}</strong></label>
-                                        <div class="col-12 option-group">
-                                            @foreach ($values as $id => $name)
-                                                <input type="radio" class="option-input"
-                                                    name="variant_attributes[{{ Str::slug($attributeName) }}]"
-                                                    id="attribute-{{ $id }}" value="{{ $id }}"
-                                                    data-attribute="{{ Str::slug($attributeName) }}">
-                                                <label class="option-item" for="attribute-{{ $id }}">
-                                                    {{ Str::limit($name, 30) }}
-                                                </label>
+                            @if ($product->variants->isNotEmpty())
+                                {{-- Nếu có biến thể --}}
+                                <div class="prod_options">
+                                    <div class="row">
+                                        @php
+                                            $groupAttribute = [];
+                                            $arr = [];
+                                        @endphp
+                                        @foreach ($product->variants as $variant)
+                                            @foreach ($variant->attributes as $attribute)
+                                                @php
+                                                    $data = [
+                                                        'id' => $attribute->attributeValue->id,
+                                                        'name' => $attribute->attributeValue->value,
+                                                    ];
+
+                                                    if (!in_array($data, $arr)) {
+                                                        $arr[] = $data;
+                                                    }
+
+                                                    $attributeName = $attribute->attribute->name;
+                                                    if (!isset($groupAttribute[$attributeName])) {
+                                                        $groupAttribute[$attributeName] = [];
+                                                    }
+
+                                                    if (!in_array($data, $groupAttribute[$attributeName])) {
+                                                        $groupAttribute[$attributeName][] = $data;
+                                                    }
+                                                @endphp
                                             @endforeach
+                                        @endforeach
+
+                                        @foreach ($groupAttribute as $attributeName => $values)
+                                            <label class="col-xl-5 col-lg-5 col-md-6 col-6 pt-0">
+                                                <strong>{{ $attributeName }}</strong>
+                                            </label>
+                                            <div class="col-xl-4 col-lg-5 col-md-6 col-6 mb-2">
+                                                <select name="variant_attributes[attribute_value_id][]"
+                                                    class="form-select attribute-select mb-1"
+                                                    data-attribute-name="{{ $attributeName }}">
+                                                    @foreach ($values as $value)
+                                                        @php
+                                                            $variant = $product->variants->firstWhere(function (
+                                                                $variant,
+                                                            ) use ($value) {
+                                                                return $variant->attributes->firstWhere(
+                                                                    'attributeValue.id',
+                                                                    $value['id'],
+                                                                );
+                                                            });
+
+                                                            $stock = $variant ? $variant->quantity : 0;
+                                                        @endphp
+
+                                                        <option value="{{ $value['id'] }}"
+                                                            data-stock="{{ $stock }}">
+                                                            {{ Str::limit($value['name'], 30) }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    <div class="row">
+                                        <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Số lượng</strong></label>
+                                        <div class="col-xl-4 col-lg-5 col-md-6 col-6">
+                                            <div class="numbers-row">
+                                                <input type="text" value="1" id="quantity" class="qty2"
+                                                    min="1" name="quantity">
+                                            </div>
                                         </div>
-                                    @endforeach
+                                    </div>
+
+                                    <div class="quantity mt-2">
+                                        <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Tồn kho</strong></label>
+                                        <span id="variant-stock" style="margin-left: 87px">
+                                            {{ $product->variants->first()->quantity }}
+                                        </span>
+                                    </div>
                                 </div>
-                        
+                            @else
+                                {{-- Nếu không có biến thể --}}
                                 <div class="row">
                                     <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Số lượng</strong></label>
                                     <div class="col-xl-4 col-lg-5 col-md-6 col-6">
                                         <div class="numbers-row">
-                                            <input type="text" value="1" id="quantity" class="qty2" name="quantity">
+                                            <input type="text" value="1" id="quantity" class="qty2"
+                                                min="1" name="quantity">
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <script>
-                                    const quantityInput = document.getElementById('quantity');
-                                
-                                    quantityInput.addEventListener('input', function () {
-                                        this.value = this.value.replace(/[^0-9]/g, ''); // Chỉ cho phép nhập số
-                                        if (this.value === "" || this.value < 1) {
-                                            this.value = 1; // Không cho phép giá trị nhỏ hơn 1
-                                        }
-                                    });
-                                
-                                    quantityInput.addEventListener('paste', function (e) {
-                                        let pastedText = (e.clipboardData || window.clipboardData).getData('text');
-                                        if (!/^\d+$/.test(pastedText)) { // Chặn dán nội dung không phải số
-                                            e.preventDefault();
-                                        }
-                                    });
-                                
-                                    quantityInput.addEventListener('keydown', function (e) {
-                                        if (e.key === 'e' || e.key === '-' || e.key === '+' || e.key === '.') { 
-                                            e.preventDefault(); // Chặn nhập ký tự không hợp lệ
-                                        }
-                                    });
-                                </script>
-                                
-                                <div class="row mt-3">
-                                    <label class="col-12"><strong>Tồn kho</strong></label>
-                                    <span id="variant-stock"></span>
+                                <div class="quantity mt-2">
+                                    <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Tồn kho</strong></label>
+                                    <span id="product-stock" style="margin-left: 87px">
+                                        {{ $product->quantity }}
+                                    </span>
                                 </div>
-                            </div>
-                        @endif
-                                            
-
-
-
+                            @endif
 
                             <div class="row">
                                 <div class="col-lg-5 col-md-6">
@@ -151,29 +169,17 @@
                                     </div>
 
                                 </div>
-                                <div class="col-lg-5 col-md-6"> 
+                                <div class="col-lg-5 col-md-6">
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     @if ($product->price_sale)
-                                        <input type="hidden" name="total_amount" value="{{ isset($finalPrice) ? $finalPrice : $product->price_sale }}">
+                                        <input type="hidden" name="total_amount"
+                                            value="{{ isset($finalPrice) ? $finalPrice : $product->price_sale }}">
                                     @elseif ($product->base_price)
-                                        <input type="hidden" name="total_amount" value="{{ isset($finalPrice) ? $finalPrice : $product->base_price }}">
+                                        <input type="hidden" name="total_amount"
+                                            value="{{ isset($finalPrice) ? $finalPrice : $product->base_price }}">
                                     @endif
-                                
-                                    <button type="button" id="addToCartBtn" class="btn_1">THÊM VÀO GIỎ HÀNG</button>
-                                    
-                                    <p id="variant-warning" style="color: red; display: none; margin-top: 5px;">Bạn phải chọn <strong>Màu Sắc, Kích Cỡ</strong></p>
-                                    <p id="stock-warning" style="color: red; display: none; margin-top: 5px;">Sản phẩm đã <strong>Hết Hàng</strong></p>
-                                    <p id="quantity-warning" style="color: red; display: none; margin-top: 5px;">Số lượng phải lớn hơn <strong>0</strong></p>
-                                    <p id="exceed-stock-warning" style="color: red; display: none; margin-top: 5px;">Số lượng hàng chỉ còn : <strong id="max-stock"></strong>sản phẩm </p>
+                                    <button class="btn_1">THÊM VÀO GIỎ HÀNG</button>
                                 </div>
-                                
-                              
-                                
-                                
-                               
-                                
-                                
-                                
                             </div>
                         </div>
                     </form>
@@ -195,7 +201,8 @@
             <div class="container">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab" role="tab">Bình
+                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab"
+                            role="tab">Bình
                             luận</a>
                     </li>
                     <li class="nav-item">
@@ -330,41 +337,31 @@
                 @if ($relatedProducts->isNotEmpty())
                     @foreach ($relatedProducts as $related)
                         <div class="item">
-                            <div class="grid_item">
-                                <span class="ribbon new">New</span>
-                                <figure>
+                            <div class="grid_item"
+                                style="min-height: 420px; display: flex; flex-direction: column; justify-content: space-between; padding: 10px; border: 1px solid #eee; border-radius: 8px; background: #fff;">
+                                {{-- <span class="ribbon new">New</span> --}}
+                                <figure
+                                    style="height: 220px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                                     <a href="{{ route('productDetail', $related->slug) }}">
                                         <img class="owl-lazy" src="{{ Storage::url($related->img_thumbnail) }}"
-                                            data-src="{{ Storage::url($related->img_thumbnail) }}" alt="">
+                                            data-src="{{ Storage::url($related->img_thumbnail) }}" alt=""
+                                            style="width: 100%; height: 100%; object-fit: cover;">
                                     </a>
                                 </figure>
-                                <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                        class="icon-star voted"></i><i class="icon-star voted"></i><i
-                                        class="icon-star"></i>
+                                <div class="rating" style="margin: 10px 0;">
+                                    <i class="icon-star voted"></i><i class="icon-star voted"></i>
+                                    <i class="icon-star voted"></i><i class="icon-star voted"></i>
+                                    <i class="icon-star"></i>
                                 </div>
-                                <a href="product-detail-1.html">
-                                    <h3>{{ $related->name }}</h3>
+                                <a href="{{ route('productDetail', $related->slug) }}">
+                                    <h3 style="font-size: 1rem; min-height: 48px; margin-bottom: 10px;">
+                                        {{ $related->name }}</h3>
                                 </a>
                                 <div class="price_box">
                                     <span class="new_price">{{ number_format($related->price_sale, 0, ',', '.') }}
                                         VND</span>
                                 </div>
-                                <ul>
-                                    <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip"
-                                            data-bs-placement="left" title="Add to favorites"><i
-                                                class="ti-heart"></i><span>Add to favorites</span></a>
-                                    </li>
-                                    <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip"
-                                            data-bs-placement="left" title="Add to compare"><i
-                                                class="ti-control-shuffle"></i><span>Add to
-                                                compare</span></a></li>
-                                    <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip"
-                                            data-bs-placement="left" title="Add to cart"><i
-                                                class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
-                                </ul>
                             </div>
-
-                            <!-- /grid_item -->
                         </div>
                     @endforeach
                 @else
@@ -480,6 +477,33 @@
             updateStock();
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const quantityInput = document.getElementById("quantity");
+
+            // Chặn nhập giá trị < 1
+            quantityInput.addEventListener("input", function() {
+                let value = parseInt(this.value);
+                if (isNaN(value) || value < 1) {
+                    this.value = 1;
+                }
+            });
+
+            // Giữ nguyên khi nhấn dấu trừ (nếu có custom +/-)
+            const wrapper = quantityInput.closest(".numbers-row");
+            if (wrapper) {
+                wrapper.addEventListener("click", function() {
+                    setTimeout(() => {
+                        let value = parseInt(quantityInput.value);
+                        if (isNaN(value) || value < 1) {
+                            quantityInput.value = 1;
+                        }
+                    }, 50); // Delay nhỏ để đợi input update
+                });
+            }
+        });
+    </script>
+
     {{-- comment --}}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -530,126 +554,6 @@
                     })
                     .then(response => response.json())
                     .then(data => alert(data.message));
-            });
-        });
-    </script>
-
-   
-    {{-- checkbox ktra tồn kho theo biến thể  --}}
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const radios = document.querySelectorAll(".option-input");
-            const stockElement = document.getElementById("variant-stock");
-    
-            radios.forEach((radio) => {
-                radio.addEventListener("change", function () {
-                    updateStock();
-                });
-            });
-    
-            function updateStock() {
-                let selectedAttributes = {};
-                document.querySelectorAll(".option-input:checked").forEach((radio) => {
-                    selectedAttributes[radio.dataset.attribute] = radio.value;
-                });
-    
-                let stock = getStock(selectedAttributes);
-                stockElement.textContent = stock > 0 ? `Còn ${stock} sản phẩm` : "Hết hàng";
-                stockElement.style.color = stock > 0 ? "#28a745" : "#d9534f";
-            }
-    
-            function getStock(selectedAttributes) {
-                let variants = @json($product->variants->map(function ($variant) {
-                    return [
-                        'id' => $variant->id,
-                        'attributes' => $variant->attributes->mapWithKeys(function ($attr) {
-                            return [Str::slug($attr->attribute->name) => $attr->attributeValue->id];
-                        }),
-                        'stock' => $variant->quantity
-                    ];
-                }));
-    
-                let matchingVariant = variants.find(variant => {
-                    return Object.entries(selectedAttributes).every(([key, value]) => {
-                        return variant.attributes[key] == value;
-                    });
-                });
-    
-                return matchingVariant ? matchingVariant.stock : 0;
-            }
-        });
-    
-        /* Cập nhật số lượng */
-        function changeQuantity(amount) {
-            let quantityInput = document.getElementById("quantity");
-            let currentValue = parseInt(quantityInput.value) || 1;
-            let newValue = Math.max(1, currentValue + amount);
-            quantityInput.value = newValue;
-        }
-    </script>
-    {{-- ktra so luong trc khi them vao gio hang --}}
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const addToCartBtn = document.getElementById("addToCartBtn");
-            const quantityInput = document.getElementById("quantity");
-            const variantWarning = document.getElementById("variant-warning");
-            const stockWarning = document.getElementById("stock-warning");
-            const quantityWarning = document.getElementById("quantity-warning");
-            const exceedStockWarning = document.getElementById("exceed-stock-warning");
-            const maxStockText = document.getElementById("max-stock");
-            const stockElement = document.getElementById("variant-stock"); // Chứa số lượng tồn kho
-    
-            addToCartBtn.addEventListener("click", function () {
-                let allSelected = true;
-                let stockQuantity = 0; 
-    
-                // Kiểm tra xem tất cả các nhóm thuộc tính đã được chọn chưa
-                document.querySelectorAll(".option-group").forEach(group => {
-                    let checkedRadio = group.querySelector(".option-input:checked");
-                    if (!checkedRadio) {
-                        allSelected = false;
-                    }
-                });
-    
-                // Lấy số lượng tồn kho từ `variant-stock`
-                if (stockElement && stockElement.textContent.match(/\d+/)) {
-                    stockQuantity = parseInt(stockElement.textContent.match(/\d+/)[0]);
-                }
-    
-                // Kiểm tra số lượng nhập vào
-                let quantityValue = parseInt(quantityInput.value) || 0;
-                maxStockText.textContent = stockQuantity; // Cập nhật số tồn kho hiển thị
-    
-                if (!allSelected) {
-                    variantWarning.style.display = "block";
-                    stockWarning.style.display = "none";
-                    quantityWarning.style.display = "none";
-                    exceedStockWarning.style.display = "none";
-                } else if (stockQuantity <= 0) {
-                    variantWarning.style.display = "none";
-                    stockWarning.style.display = "block";
-                    quantityWarning.style.display = "none";
-                    exceedStockWarning.style.display = "none";
-                } else if (quantityValue <= 0) {
-                    variantWarning.style.display = "none";
-                    stockWarning.style.display = "none";
-                    quantityWarning.style.display = "block";
-                    exceedStockWarning.style.display = "none";
-                } else if (quantityValue > stockQuantity) {
-                    variantWarning.style.display = "none";
-                    stockWarning.style.display = "none";
-                    quantityWarning.style.display = "none";
-                    exceedStockWarning.style.display = "block";
-                } else {
-                    variantWarning.style.display = "none";
-                    stockWarning.style.display = "none";
-                    quantityWarning.style.display = "none";
-                    exceedStockWarning.style.display = "none";
-                    let form = addToCartBtn.closest("form");
-                    if (form) {
-                        form.submit();
-                    }
-                }
             });
         });
     </script>
