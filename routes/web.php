@@ -22,6 +22,7 @@ use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Client\CreateNewsController;
 use App\Http\Controllers\Client\ChatController;
 use App\Http\Controllers\Client\ReviewController;
+use App\Http\Controllers\Client\ProductReviewController;
 // admin
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\CommentController;
@@ -155,8 +156,9 @@ Route::post('/logad/logout', [UserController::class, 'adminLogout'])->name('admi
 // chính sách
 Route::get('/policies', [PolicyController::class, 'index'])->name('policies');
 // Đánh giá
-Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth');
-Route::get('/reviews/{productId}', [ReviewController::class, 'index']);
+Route::middleware(['auth'])->group(function () {
+    Route::post('/products/{product}/reviews', [ProductReviewController::class, 'store'])->name('reviews.store');
+});
 
 // Admin
 Route::prefix('admin')->middleware(['admin'])->group(function () {

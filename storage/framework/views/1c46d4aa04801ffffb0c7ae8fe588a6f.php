@@ -230,7 +230,7 @@
                             ?>
 
                             <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php if($item->name === 'Giao hàng thành công'): ?>
+                                <?php if($item->name === 'Đơn hàng đã được nhận'): ?>
                                     <?php $hasReceived = true; ?>
                                 <?php endif; ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -325,12 +325,7 @@
                                 <small>Mã khách hàng: #<?php echo e($order->user->id); ?></small>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-start align-items-center mb-4">
-                            <span
-                                class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i
-                                    class='mdi mdi-cart-plus mdi-24px'></i></span>
-                            <h6 class="text-nowrap mb-0"><?php echo e($order->count('user_id')); ?> Đơn Hàng</h6>
-                        </div>
+                        
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-2">Thông tin liên lạc</h6>
                         </div>
@@ -412,7 +407,6 @@
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </div>
                                 </div>
-
                                 <div class="col-12 col-md-12 mt-2">
                                     <label for="modalEditUserEmail">Video chứng minh</label>
                                     <div class="form-floating form-floating-outline">

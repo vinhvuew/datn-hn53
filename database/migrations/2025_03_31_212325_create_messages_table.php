@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('admin_id')->nullable(); // Admin liên quan (nếu là tin nhắn từ/to admin)
             $table->text('message'); // Nội dung tin nhắn
             $table->boolean('is_read')->default(false); // Tin nhắn đã đọc chưa
+            $table->softDeletes();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

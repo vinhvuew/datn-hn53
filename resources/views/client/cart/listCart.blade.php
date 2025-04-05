@@ -50,7 +50,8 @@
                                             <div class="item-quantity d-flex align-items-center">
                                                 <input type="number" name="quantity"
                                                     class="form-control quantity-input w-50" data-id="{{ $cart->id }}"
-                                                    value="{{ $cart->quantity }}" min="1">
+                                                    value="{{ $cart->quantity }}" min="1"
+                                                    data-max="{{ $cart->variant->quantity }}">
                                             </div>
                                         </form>
                                     </td>
@@ -103,7 +104,8 @@
                                             <div class="item-quantity d-flex align-items-center">
                                                 <input type="number" name="quantity"
                                                     class="form-control quantity-input w-50" data-id="{{ $cart->id }}"
-                                                    value="{{ $cart->quantity }}" min="1">
+                                                    value="{{ $cart->quantity }}" min="1"
+                                                    data-max="{{ $cart->product->quantity }}">
                                             </div>
 
                                         </form>
@@ -323,6 +325,45 @@
             });
         });
     </script>
+    {{-- check số lượng --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const quantityInputs = document.querySelectorAll(".quantity-input");
+
+            quantityInputs.forEach(input => {
+                input.addEventListener("input", function() {
+                    let value = parseInt(this.value);
+                    if (isNaN(value) || value < 1) {
+                        this.value = 1;
+                    }
+
+                    // Nếu bạn đã lưu tồn kho trong data-* thì check luôn
+                    const maxQty = parseInt(this.getAttribute("data-max"));
+                    if (!isNaN(maxQty) && value > maxQty) {
+                        this.value = maxQty;
+                        alert("Vượt quá tồn kho!");
+                    }
+                });
+
+                // Fix khi click dấu +/- nếu có custom UI
+                input.closest(".item-quantity")?.addEventListener("click", () => {
+                    setTimeout(() => {
+                        let value = parseInt(input.value);
+                        if (isNaN(value) || value < 1) {
+                            input.value = 1;
+                        }
+
+                        const maxQty = parseInt(input.getAttribute("data-max"));
+                        if (!isNaN(maxQty) && value > maxQty) {
+                            input.value = maxQty;
+                            alert("Vượt quá tồn kho!");
+                        }
+                    }, 50);
+                });
+            });
+        });
+    </script>
+
     <script>
         $('.cart-item-checkbox').on('change', function() {
             let id = $(this).data('id');
