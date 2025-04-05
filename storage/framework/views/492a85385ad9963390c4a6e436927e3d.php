@@ -69,49 +69,7 @@
 
                 <!-- User Profile Content -->
                 <div class="row">
-                    <div class="col-xl-4 col-lg-5 col-md-5">
-                        <!-- About User -->
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <small class="card-text text-uppercase">Thông tin</small>
-                                <ul class="list-unstyled my-3 py-1">
-                                    <li class="d-flex align-items-center mb-3"><i
-                                            class="mdi mdi-account-outline mdi-24px"></i><span class="fw-medium mx-2">Họ và
-                                            tên: </span> <span><?php echo e(Auth::user()->name); ?></span>
-                                    </li>
-
-
-                                    <li class="d-flex align-items-center mb-3">
-                                        <i class='mdi mdi-map-marker-outline mdi-24px'></i>
-                                        <span class="fw-medium mx-2">Địa chỉ:
-                                        </span><span><?php echo e(Auth::user()->address); ?></span>
-                                    </li>
-                                    <li class="d-flex align-items-center mb-3"><i class="mdi mdi-flag-outline mdi-24px"></i>
-                                        <span class="fw-medium mx-2">Quốc
-                                            gia:</span> <span>Việt Nam</span>
-                                    </li>
-                                    <li class="d-flex align-items-center mb-1"><i
-                                            class="mdi mdi-translate mdi-24px"></i><span class="fw-medium mx-2">Ngôn
-                                            ngữ:</span> <span>Tiếng việt</span>
-                                    </li>
-                                </ul>
-                                <small class="card-text text-uppercase">Liên hệ</small>
-                                <ul class="list-unstyled my-3 py-1">
-                                    <li class="d-flex align-items-center mb-3"><i
-                                            class="mdi mdi-phone-outline mdi-24px"></i><span class="fw-medium mx-2">Liên
-                                            hệ:</span> <span><?php echo e(Auth::user()->phone); ?></span></li>
-                                    <li class="d-flex align-items-center mb-1"><i
-                                            class="mdi mdi-email-outline mdi-24px"></i><span
-                                            class="fw-medium mx-2">Email:</span>
-                                        <span><?php echo e(Auth::user()->email); ?></span>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                        <!--/ About User -->
-                    </div>
-                    <div class="col-xl-8 col-lg-7 col-md-7">
+                    <div class="col-xl-12 col-lg-11 col-md-11">
                         <div class="row">
                             <div class="col-12 col-lg-8">
                                 <div class="card mb-4">
@@ -146,21 +104,14 @@
                                                                         <?php endif; ?>
                                                                     </div>
                                                                     <div>
-                                                                        <span><?php echo e($item->product->name); ?>
-
-                                                                        </span>
+                                                                        <strong><?php echo e($item->product_name); ?></strong>
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <?php if($item->product->price_sale == ''): ?>
-                                                                <td><?php echo e(number_format($item->product->base_price, 0, ',', '.')); ?>
+                                                            <td>
+                                                                <?php echo e(number_format($item->price, 0, ',', '.')); ?>
 
-                                                                </td>
-                                                            <?php else: ?>
-                                                                <td><?php echo e(number_format($item->product->price_sale, 0, ',', '.')); ?>
-
-                                                                </td>
-                                                            <?php endif; ?>
+                                                            </td>
                                                             <td><?php echo e($item->quantity); ?></td>
                                                             <td><?php echo e(number_format($item->total_price, 0, ',', '.')); ?> VND
                                                             </td>
@@ -181,33 +132,32 @@
                                                                         <?php endif; ?>
                                                                     </div>
                                                                     <div>
-                                                                        <strong><?php echo e(optional($item->variant)->product->name); ?>
-
-                                                                        </strong>
+                                                                        <strong><?php echo e($item->product_name); ?></strong>
                                                                     </div>
                                                                 </div>
-                                                                <span>
-                                                                    <?php $__currentLoopData = $item->variant->attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                        <?php if(!$loop->first): ?>
-                                                                            <br>
+                                                                <?php
+                                                                    $attributes = explode(
+                                                                        ' - ',
+                                                                        $item->variant_attribute,
+                                                                    );
+                                                                    $values = explode(' - ', $item->variant_value);
+                                                                ?>
+
+                                                                <span class="block text-sm text-gray-700">
+                                                                    <?php $__currentLoopData = $attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                        <?php echo e($attribute); ?>: <?php echo e($values[$index] ?? ''); ?>
+
+                                                                        <?php if(!$loop->last): ?>
+                                                                            |
                                                                         <?php endif; ?>
-                                                                        <?php echo e($attribute->attribute->name); ?>:
-                                                                        <?php echo e($attribute->attributeValue->value); ?>.
                                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                 </span>
+
                                                             </td>
-                                                            <?php if($item->variant->product->price_sale == ''): ?>
-                                                                <td>
-                                                                    <?php echo e(number_format($item->variant->product->base_price, 0, ',', '.')); ?>
+                                                            <td>
+                                                                <?php echo e(number_format($item->price, 0, ',', '.')); ?>
 
-                                                                </td>
-                                                            <?php else: ?>
-                                                                <td>
-                                                                    <?php echo e(number_format($item->variant->product->price_sale, 0, ',', '.')); ?>
-
-                                                                </td>
-                                                            <?php endif; ?>
-
+                                                            </td>
                                                             </td>
                                                             <td><?php echo e($item->quantity); ?></td>
                                                             <td><?php echo e(number_format($item->total_price, 0, ',', '.')); ?>
@@ -243,8 +193,7 @@
                                                         lại</button>
                                                 </form>
                                             <?php endif; ?>
-                                            <form action="<?php echo e(route('profile.orders.cancel', $order->id)); ?>"
-                                                method="POST"
+                                            <form action="<?php echo e(route('profile.orders.cancel', $order->id)); ?>" method="POST"
                                                 onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');"
                                                 class="d-inline">
                                                 <?php echo csrf_field(); ?>
@@ -264,16 +213,24 @@
                                                 </button>
                                             </form>
                                         <?php elseif($order->status === 'completed'): ?>
-                                            <button class="btn btn-success btn-sm" disabled>
-                                                Đơn hàng đã hoàn thành
+                                            <div>
+                                                <a class="btn btn-outline-danger btn-sm"
+                                                    href="<?php echo e(route('profile.refund', $order->id)); ?>">
+                                                    Trả hàng / Hoàn tiền
+                                                </a>
+                                                <button class="btn btn-outline-warning btn-sm">
+                                                    Đánh giá
+                                                </button>
+                                            </div>
+                                        <?php elseif($order->status === 'refund_completed'): ?>
+                                            <button class="btn btn-outline-success btn-sm">
+                                                Đã hoàn tiền thành công
                                             </button>
                                         <?php else: ?>
                                             <button class="btn btn-primary btn-sm" disabled>Đơn hàng đang được xử
                                                 lý</button>
                                         <?php endif; ?>
-
                                     </div>
-
                                     <div class="card-body mt-3">
                                         <ul class="timeline pb-0 mb-0">
                                             <?php
@@ -303,6 +260,21 @@
                                                                     <?php echo e($item->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('h:i A')); ?></span>
                                                             </div>
                                                             <p class="mt-2"><?php echo e($item->note); ?></p>
+                                                            <?php if($item->image): ?>
+                                                                <!-- Ảnh nhỏ có sự kiện click -->
+                                                                <img src="<?php echo e(Storage::url($item->image)); ?>"
+                                                                    class="rounded-2" width="50px"
+                                                                    style="cursor:pointer"
+                                                                    onclick="showImageModal('<?php echo e(Storage::url($item->image)); ?>')">
+                                                            <?php endif; ?>
+                                                            <!-- Modal hiển thị ảnh lớn -->
+                                                            <div id="imageModal" onclick="this.style.display='none'"
+                                                                style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center;">
+                                                                <img id="modalImage" src=""
+                                                                    style="max-width:90%; max-height:90%; border-radius:8px;">
+                                                            </div>
+
+
                                                         </div>
                                                     </li>
                                                 <?php elseif($item->name === 'Đang giao hàng'): ?>
@@ -361,11 +333,8 @@
                                 </div>
                             </div>
                             <div class="col-12 col-lg-4">
-
                                 <div class="card mb-4">
-
                                     <div class="card-body">
-
                                         <h6 class="card-title mb-4">Chi tiết khách hàng</h6>
                                         <div class="d-flex justify-content-start align-items-center mb-4">
                                             <div class="avatar me-2">
@@ -412,9 +381,9 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="mt-auto d-flex justify-content-end">
+                                <div class="d-flex justify-content-center align-items-center">
                                     <a class="btn btn-outline-secondary" href="<?php echo e(route('profile.myOder')); ?>">
-                                        <i class="mdi mdi-arrow-left"></i> Quay lại
+                                        <i class="mdi mdi-arrow-left me-1"></i>Quay lại
                                     </a>
                                 </div>
 
@@ -426,7 +395,6 @@
             </div>
         </div>
     </main>
-
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('style-libs'); ?>
@@ -455,17 +423,15 @@
         }
     </style>
 <?php $__env->stopSection(); ?>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll(".toggle-details").forEach(button => {
-            button.addEventListener("click", function() {
-                const targetId = this.getAttribute("data-target");
-                const targetDiv = document.querySelector(targetId);
-                targetDiv.classList.toggle("show");
-            });
-        });
-    });
-</script>
+<?php $__env->startSection('script-libs'); ?>
+    <script>
+        function showImageModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = src;
+            modal.style.display = 'flex';
+        }
+    </script>
+<?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/users/profile/detailOrder.blade.php ENDPATH**/ ?>

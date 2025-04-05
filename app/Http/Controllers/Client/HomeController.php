@@ -54,12 +54,23 @@ class HomeController extends Controller
         // Logic cho GET request (hiển thị form)
         $address = Address::where('user_id', Auth::id())->get();
 
-        $cart = Cart::with(['cartDetails' => function ($query) {
-            $query->where('is_selected', 1);
-        }, 'cartDetails.product'])
+        // $cart = Cart::with(['cartDetails' => function ($query) {
+        //     $query->where('is_selected', 1);
+        // }, 'cartDetails.product'])
+        //     ->where('user_id', Auth::id())
+        //     ->first();
+        $cart = Cart::with([
+            'cartDetails' => function ($query) {
+                $query->where('is_selected', 1);
+            },
+            'cartDetails.product',
+            'cartDetails.variant',  // eager load variant để có thông tin biến thể
+            'cartDetails.variant.attributes',  // eager load variant attributes và attribute
+            'cartDetails.variant.attributeValue' // eager load giá trị thuộc tính biến thể
+        ])
             ->where('user_id', Auth::id())
             ->first();
-
+            
         $totalAmount = CartDetail::where('cart_id', $cart->id)
             ->where('is_selected', 1)
             ->sum('total_amount');

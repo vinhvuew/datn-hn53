@@ -16,9 +16,9 @@
                     <h5 class="mb-0">Order #<?php echo e($order->id); ?></h5>
                     <?php
                         $statusClasses = [
-                            'Chờ thanh toán' => 'bg-label-warning mx-2 rounded-pill text-dark',
-                            'Thanh toán khi nhận hàng' => 'bg-label-secondary mx-2 rounded-pill text-white',
-                            'Thanh toán thành công' => 'bg-label-success mx-2 rounded-pill',
+                            'Chờ thanh toán' => 'bg-warning mx-2 rounded-pill text-dark',
+                            'Thanh toán khi nhận hàng' => 'bg-danger mx-2 rounded-pill text-white',
+                            'Thanh toán thành công' => 'bg-success mx-2 rounded-pill',
                         ];
                     ?>
                     <span class="badge <?php echo e($statusClasses[$order->payment_status] ?? 'bg-secondary'); ?>">
@@ -28,19 +28,19 @@
                     <span
                         class="badge
                         <?php switch($order->status):
-                            case ('pending'): ?> bg-label-warning rounded-pill text-dark <?php break; ?>
-                            <?php case ('confirmed'): ?> bg-label-secondary rounded-pill text-white <?php break; ?>
-                            <?php case ('shipping'): ?> bg-label-primary rounded-pill <?php break; ?>
-                            <?php case ('delivered'): ?> bg-label-success rounded-pill <?php break; ?>
-                            <?php case ('completed'): ?> bg-label-info rounded-pill <?php break; ?>
-                            <?php case ('canceled'): ?> bg-label-danger rounded-pill <?php break; ?>
-                            <?php case ('admin_canceled'): ?> bg-label-danger rounded-pill <?php break; ?>
-                            <?php case ('return_request'): ?> bg-label-danger rounded-pill <?php break; ?>
-                            <?php case ('refuse_return'): ?> bg-label-danger rounded-pill <?php break; ?>
-                            <?php case ('sent_information'): ?> bg-label-primary rounded-pill <?php break; ?>
-                            <?php case ('return_approved'): ?> bg-label-danger rounded-pill <?php break; ?>
-                            <?php case ('returned_item_received'): ?> bg-label-danger rounded-pill <?php break; ?>
-                            <?php case ('refund_completed'): ?> bg-label-danger rounded-pill <?php break; ?>
+                            case ('pending'): ?> bg-warning rounded-pill text-dark <?php break; ?>
+                            <?php case ('confirmed'): ?> bg-secondary rounded-pill text-white <?php break; ?>
+                            <?php case ('shipping'): ?> bg-primary rounded-pill <?php break; ?>
+                            <?php case ('delivered'): ?> bg-success rounded-pill <?php break; ?>
+                            <?php case ('completed'): ?> bg-info rounded-pill <?php break; ?>
+                            <?php case ('canceled'): ?> bg-danger rounded-pill <?php break; ?>
+                            <?php case ('admin_canceled'): ?> bg-danger rounded-pill <?php break; ?>
+                            <?php case ('return_request'): ?> bg-danger rounded-pill <?php break; ?>
+                            <?php case ('refuse_return'): ?> bg-danger rounded-pill <?php break; ?>
+                            <?php case ('sent_information'): ?> bg-primary rounded-pill <?php break; ?>
+                            <?php case ('return_approved'): ?> bg-success rounded-pill <?php break; ?>
+                            <?php case ('returned_item_received'): ?> bg-danger rounded-pill <?php break; ?>
+                            <?php case ('refund_completed'): ?> bg-danger rounded-pill <?php break; ?>
                             <?php default: ?> bg-secondary
                         <?php endswitch; ?>">
                         <?php echo e([
@@ -78,7 +78,11 @@
             </div>
             <div class="d-flex align-content-center flex-wrap gap-2">
                 <a class="btn btn-info" href="<?php echo e(route('orders.index')); ?>">Quay Lại</a>
-                
+                <?php if(isset($rufund) && $rufund->order_id === $order->id): ?>
+                    <a class="btn btn-success" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#rufund">Lý
+                        do
+                        hoàn hàng</a>
+                <?php endif; ?>
 
                 <?php if($order->status == 'pending'): ?>
                     
@@ -113,10 +117,10 @@
                         <button type="submit" class="btn btn-danger">Kiểm tra hàng hoàn</button>
                     </form>
                 <?php elseif($order->status == 'returned_item_received' || $order->status == 'sent_information'): ?>
-                    <form action="<?php echo e(route('orders.refund_completed', $order->id)); ?>" method="post">
-                        <?php echo csrf_field(); ?>
-                        <button type="submit" class="btn btn-danger">Hoàn tiền</button>
-                    </form>
+                    <a class="btn btn-danger" href="javascript:void(0);" data-bs-toggle="modal"
+                        data-bs-target="#confirmation">
+                        Hoàn tiền
+                    </a>
                 <?php endif; ?>
             </div>
         </div>
@@ -142,7 +146,7 @@
                                     <?php if($item->product): ?>
                                         <tr>
                                             <td>
-                                                <div class="d-flex justify-content-start align-items-center">
+                                                <div class="d-flex justify-content-start align-items-center mb-1">
                                                     <div class="avatar me-2 pe-1">
                                                         <?php if($item->product->img_thumbnail): ?>
                                                             <img class="rounded-2"
@@ -154,17 +158,17 @@
                                                         <?php endif; ?>
                                                     </div>
                                                     <div>
-                                                        <span><?php echo e($item->product->name); ?>
-
-                                                        </span>
+                                                        <strong><?php echo e($item->product_name); ?></strong>
                                                     </div>
                                                 </div>
+                                                <span class="block text-sm text-gray-700">
+                                                    Không biến thể
+                                                </span>
                                             </td>
-                                            <?php if($item->product->price_sale == ''): ?>
-                                                <td><?php echo e(number_format($item->product->base_price, 0, ',', '.')); ?></td>
-                                            <?php else: ?>
-                                                <td><?php echo e(number_format($item->product->price_sale, 0, ',', '.')); ?></td>
-                                            <?php endif; ?>
+                                            <td>
+                                                <?php echo e(number_format($item->price, 0, ',', '.')); ?>
+
+                                            </td>
                                             <td><?php echo e($item->quantity); ?></td>
                                             <td><?php echo e(number_format($item->total_price, 0, ',', '.')); ?> VND</td>
                                         </tr>
@@ -183,24 +187,26 @@
                                                         <?php endif; ?>
                                                     </div>
                                                     <div>
-                                                        <strong><?php echo e(optional($item->variant)->product->name); ?>
-
-                                                        </strong>
+                                                        <strong><?php echo e($item->product_name); ?></strong>
                                                     </div>
                                                 </div>
-                                                <span>
-                                                    <?php $__currentLoopData = $item->variant->attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <?php if(!$loop->first): ?>
-                                                            <br>
+                                                <?php
+                                                    $attributes = explode(' - ', $item->variant_attribute);
+                                                    $values = explode(' - ', $item->variant_value);
+                                                ?>
+
+                                                <span class="block text-sm text-gray-700">
+                                                    <?php $__currentLoopData = $attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php echo e($attribute); ?>: <?php echo e($values[$index] ?? ''); ?><?php if(!$loop->last): ?>
+                                                            |
                                                         <?php endif; ?>
-                                                        <?php echo e($attribute->attribute->name); ?>:
-                                                        <?php if(!$loop->first): ?>
-                                                        <?php endif; ?>
-                                                        <?php echo e($attribute->attributeValue->value); ?>.
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </span>
                                             </td>
-                                            <td><?php echo e(number_format($item->variant->selling_price, 0, ',', '.')); ?></td>
+                                            <td>
+                                                <?php echo e(number_format($item->price, 0, ',', '.')); ?>
+
+                                            </td>
                                             <td><?php echo e($item->quantity); ?></td>
                                             <td><?php echo e(number_format($item->total_price, 0, ',', '.')); ?></td>
                                         </tr>
@@ -447,7 +453,48 @@
                 <img class="modal-contents" id="imgModal">
             </div>
         </div>
+        <div class="modal fade" id="confirmation" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+                <div class="modal-content p-3 p-md-5">
+                    <div class="modal-body py-3 py-md-0">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="text-center mb-4">
+                            <h3 class="mb-2">Hoàn tiền khách hàng</h3>
+                            <p class="pt-1">Thông tin sẽ được gửi đến người mua hàng</p>
+                        </div>
+                        <form action="<?php echo e(route('orders.refund_completed', $order->id)); ?>" class="row g-4" method="POST"
+                            enctype="multipart/form-data">
+                            <?php echo csrf_field(); ?>
+                            <div class="col-12 col-md-12">
+                                <div class="form-floating form-floating-outline">
+                                    <textarea name="note"cols="30" rows="10" class="form-control"></textarea>
+                                    <label for="modalEditUserFirstName">Nội dung</label>
+                                </div>
+                                <div class="mt-2">
+                                    <input type="file" name="image" class="form-control">
+                                </div>
+                                <?php $__errorArgs = ['note'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <div class="text-danger"><?php echo e($message); ?></div>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
 
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Gửi</button>
+                                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                    aria-label="Close">Hủy bỏ</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="refuse" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-simple modal-edit-user">
                 <div class="modal-content p-3 p-md-5">
@@ -457,7 +504,31 @@
                             <h3 class="mb-2">Lý do từ chối yêu cầu trả hàng / hoàn tiền</h3>
                             <p class="pt-1">Thông tin sẽ được gửi đến người mua hàng</p>
                         </div>
-                        
+                        <form action="<?php echo e(route('orders.refuse_return', $order->id)); ?>" class="row g-4" method="POST">
+                            <?php echo csrf_field(); ?>
+                            <div class="col-12 col-md-12">
+                                <div class="form-floating form-floating-outline">
+                                    <textarea name="note"cols="30" rows="10" class="form-control"></textarea>
+                                    <label for="modalEditUserFirstName">Lý do từ chối</label>
+                                </div>
+                                <?php $__errorArgs = ['note'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <div class="text-danger"><?php echo e($message); ?></div>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Gửi</button>
+                                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                    aria-label="Close">Hủy bỏ</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

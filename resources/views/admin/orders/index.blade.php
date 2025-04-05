@@ -14,20 +14,18 @@
                         <tr>
                             <th>Mã đơn hàng</th>
                             <th>Tên khách hàng</th>
-                            <th>Ngày đặt</th>
-                            <th>Thanh Toán</th>
-                            <th>TT thanh toán</th>
+                            <th>Phương thức</th>
                             <th>Trạng thái</th>
                             <th>Tổng tiền</th>
+                            <th>Ngày đặt</th>
                             <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($orders as $key => $order)
                             <tr>
-                                <td>ORDER {{ $order->id }}</td>
+                                <td>ORDER_{{ $order->id }}</td>
                                 <td>{{ $order->user->name }}</td>
-                                <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</td>
                                 <td>
                                     <span
                                         class="badge
@@ -45,18 +43,6 @@
                                     </span>
                                 </td>
                                 <td>
-                                    @if ($order->payment_status == 'Thanh toán thành công')
-                                        <span class="badge bg-success">Thanh toán thành công</span>
-                                    @elseif ($order->payment_status == 'Chờ thanh toán')
-                                        <span class="badge bg-warning text-dark">Chờ thanh toán</span>
-                                    @elseif ($order->payment_status == 'Thanh toán khi nhận hàng')
-                                        <span class="badge bg-primary">Thanh toán khi nhận hàng</span>
-                                    @else
-                                        <span class="badge bg-secondary">Không xác định</span>
-                                    @endif
-                                </td>
-
-                                <td>
                                     <span
                                         class="badge
                                             @switch($order->status)
@@ -64,7 +50,7 @@
                                                 @case('confirmed') bg-secondary text-white @break
                                                 @case('shipping') bg-primary @break
                                                 @case('delivered') bg-success @break
-@case('completed') bg-info @break
+                                                @case('completed') bg-info @break
                                                 @case('canceled') bg-danger @break
                                                 @case('admin_canceled') bg-danger @break
                                                 @case('return_request') bg-danger @break
@@ -93,6 +79,7 @@
                                     </span>
                                 </td>
                                 <td>{{ number_format($order->total_price, 0, ',', '.') }} VNĐ</td>
+                                <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</td>
                                 <td>
                                     <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Xem Chi Tiết"
                                         class="btn btn-info btn-sm me-1" href="{{ route('orders.show', $order->id) }}">
