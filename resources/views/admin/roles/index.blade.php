@@ -59,10 +59,10 @@
                                         <h5 class="mb-1">Quản Trị Viên</h5>
                                     @elseif($item->name == 'Staff')
                                         <h5 class="mb-1">Nhân Viên</h5>
-                                    @elseif($item->name == 'Accountant')
-                                        <h5 class="mb-1">Kế Toán</h5>
-                                    @elseif($item->name == 'Editor')
-                                        <h5 class="mb-1">Biên Tập Viên</h5>
+                                        {{-- @elseif($item->name == 'Accountant')
+                                        <h5 class="mb-1">Kế Toán</h5> --}}
+                                        {{-- @elseif($item->name == 'Editor')
+                                        <h5 class="mb-1">Biên Tập Viên</h5> --}}
                                     @endif
                                     @if ($item->name == 'Admin')
                                         <a href="javascript:;" class="role-edit-modal">

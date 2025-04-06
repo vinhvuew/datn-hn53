@@ -12,6 +12,7 @@ class Shipping extends Model
     protected $fillable = [
         'order_id',
         'name',
+        'image',
         'note'
     ];
 

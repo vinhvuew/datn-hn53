@@ -84,11 +84,10 @@ class Product extends Model
     }
 
     // Đánh gia
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
+    public function productReviews() {
+        return $this->hasMany(ProductReview::class);
     }
-
+    
     public function averageRating()
     {
         return $this->reviews()->avg('rating');

@@ -2,6 +2,7 @@
 
 
 
+use App\Http\Controllers\Client\RefundController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MessagesController;
 use App\Models\Product;
@@ -19,9 +20,10 @@ use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\Payment\VNPayController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
-use App\Http\Controllers\Client\CreateNewsController;   
+use App\Http\Controllers\Client\CreateNewsController;
 use App\Http\Controllers\Client\ChatController;
 use App\Http\Controllers\Client\ReviewController;
+use App\Http\Controllers\Client\ProductReviewController;
 // admin
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\CommentController;
@@ -57,7 +59,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
     Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
 });
-
 //trang profile
 Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
     Route::get('/', [ProfileController::class, 'index'])->name('index'); // Hiển thị trang profile
@@ -72,6 +73,9 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     // Xác nhận đã nhận hàng (Chỉ khi trạng thái là "delivered")
     Route::put('/orders/{id}/confirm-received', [ProfileController::class, 'confirmReceived'])
         ->name('orders.confirm-received');
+
+    Route::get('/refund/{id}', [RefundController::class, 'refund'])->name('refund');
+    Route::post('/refund/refund_requests', [RefundController::class, 'refundRequests'])->name('refundRequests');
 });
 // sp yêu thích
 Route::middleware(['auth'])->group(function () {
@@ -156,12 +160,15 @@ Route::post('/logad/logout', [UserController::class, 'adminLogout'])->name('admi
 // chính sách
 Route::get('/policies', [PolicyController::class, 'index'])->name('policies');
 // Đánh giá
-Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth');
-Route::get('/reviews/{productId}', [ReviewController::class, 'index']);
+Route::middleware(['auth'])->group(function () {
+    Route::post('/products/{product}/reviews', [ProductReviewController::class, 'store'])->name('reviews.store');
+    Route::put('/reviews/{review}', [ProductReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('/reviews/{review}', [ProductReviewController::class, 'destroy'])->name('reviews.destroy');  // Thêm route xóa
+});
+
 
 // Admin
 Route::prefix('admin')->middleware(['admin'])->group(function () {
-
     Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');
 
     // Permission
@@ -191,7 +198,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
             Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
             Route::delete('destroy/{id}', [RoleController::class, 'destroy'])->name('destroy');
         });
-        
+
 
     Route::resource('products', ProductController::class);
     Route::resource("category", CategoryController::class);
@@ -225,6 +232,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         ->group(function () {
             Route::get('/',  'index')->name('index');
             Route::get('/show/{id}', 'show')->name('show');
+            Route::post('/bulk-update-status', 'bulkUpdateStatus')->name('bulkUpdateStatus');
             Route::get('/{id}/edit',  'edit')->name('edit');
             Route::post('/{id}/update', 'update')->name('update');
             Route::post('cancel/{id}', 'cancel')->name('cancel');
@@ -254,5 +262,6 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::get('/chat', [AdminChatController::class, 'index'])->name('admin.chat.index');
         Route::get('/chat/{user_id}', [AdminChatController::class, 'show'])->name('admin.chat.show');
         Route::post('/chat/send', [AdminChatController::class, 'sendMessage'])->name('admin.chat.send');
+        Route::delete('/chat/delete/{user_id}', [AdminChatController::class, 'deleteChat'])->name('admin.chat.delete');
     });
 });

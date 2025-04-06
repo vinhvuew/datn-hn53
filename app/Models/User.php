@@ -30,11 +30,8 @@ class User extends Authenticatable
         'verification_code_sent_at',
         'verification_code_expires_at',
         'password_reset_sent_at',
-        'password_reset_expires_at'
-
-
-
-
+        'password_reset_expires_at',
+        'is_admin'
     ];
 
     /**

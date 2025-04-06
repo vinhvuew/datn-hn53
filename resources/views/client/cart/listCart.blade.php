@@ -9,11 +9,8 @@
                     <thead>
                         <tr>
                             <th>
-                                Tất cả <input type="checkbox" id="select-all">
-
                                 Chọn
                                 {{-- <input type="checkbox" id="select-all"> --}}
-
                             </th>
                             <th>Hình ảnh</th>
                             <th>Tên sản phẩm</th>
@@ -40,7 +37,11 @@
                                             class="rounded-2"></td>
                                     <td>{{ Str::limit($cart->variant->product->name, 30) }}</td>
                                     <td>
-                                        {{ number_format($cart->variant->selling_price, 0, ',', '.') }} VNĐ
+                                        @if ($cart->variant->product->price_sale)
+                                            {{ number_format($cart->variant->product->price_sale, 0, ',', '.') }} VNĐ
+                                        @else
+                                            {{ number_format($cart->variant->product->base_price, 0, ',', '.') }} VNĐ
+                                        @endif
                                     </td>
                                     <td class="col-2">
                                         <form class="update-cart-form" data-cart-id="{{ $cart->id }}">
@@ -49,7 +50,8 @@
                                             <div class="item-quantity d-flex align-items-center">
                                                 <input type="number" name="quantity"
                                                     class="form-control quantity-input w-50" data-id="{{ $cart->id }}"
-                                                    value="{{ $cart->quantity }}" min="1">
+                                                    value="{{ $cart->quantity }}" min="1"
+                                                    data-max="{{ $cart->variant->quantity }}">
                                             </div>
                                         </form>
                                     </td>
@@ -61,7 +63,6 @@
                                             }
                                         @endphp
                                         {{ number_format($cart->total_amount, 0, ',', '.') }} VNĐ
-
                                     </td>
                                     <td>
                                         <form class="delete-cart-form" data-id="{{ $cart->id }}"
@@ -83,7 +84,6 @@
                                             data-price="{{ $cart->total_amount }}" name="selected_items[]"
                                             value="{{ $cart->id }}" {{ $cart->is_selected ? 'checked' : '' }}>
                                     </td>
-
                                     <td><img src="{{ Storage::url($cart->product->img_thumbnail) }}" alt=""
                                             height="50px" width="40px">
                                     </td>
@@ -102,9 +102,9 @@
                                             <div class="item-quantity d-flex align-items-center">
                                                 <input type="number" name="quantity"
                                                     class="form-control quantity-input w-50" data-id="{{ $cart->id }}"
-                                                    value="{{ $cart->quantity }}" min="1">
+                                                    value="{{ $cart->quantity }}" min="1"
+                                                    data-max="{{ $cart->product->quantity }}">
                                             </div>
-
                                         </form>
                                     </td>
                                     <td id="total-amount-{{ $cart->id }}">
@@ -114,7 +114,6 @@
                                                 $totalAmount += $money;
                                             }
                                         @endphp
-
                                         {{ number_format($cart->total_amount, 0, ',', '.') }} VNĐ
                                     </td>
                                     <td>
@@ -122,20 +121,15 @@
                                             action="{{ route('cart.delete', $cart->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
-
                                             <button type="submit" class="btn btn-danger">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
-                                            </button>
                                         </form>
-
                                     </td>
-
                                 </tr>
                             </tbody>
                         @endif
                     @endforeach
-                    </tbody>
                 </table>
                 <form id="checkout-form" action="{{ route('checkout.post') }}" method="POST">
                     @csrf
@@ -150,15 +144,13 @@
                         </button>
                     </div>
                 </form>
-
-
             </div>
         @else
             <div class="empty-cart-box text-center" id="empty-cart" style=" margin-top: 140px;">
                 <img class="mb-5" src="https://static-smember.cellphones.com.vn/smember/_nuxt/img/empty.db6deab.svg"
                     alt="Empty Cart" width="300px">
                 <h4 class="text-secondary mt-5" style="font-size: 18px; font-weight: 600;">Giỏ hàng trống</h4>
-                <p style="font-size: 14px; color: #888;">Giỏ hàng của bạn đang trống.
+                <p style="font-size: 14px; color: #ca4d17;">Giỏ hàng của bạn đang trống.
                     Hãy chọn thêm sản phẩm để mua sắm nhé</p>
                 <a href="{{ route('home') }}" class="btn btn-danger mb-5">
                     Quay Lại Trang Chủ
@@ -170,11 +162,22 @@
 @section('script-libs')
     <script>
         $(document).ready(function() {
+            function updateOverallTotal() {
+                let total = 0;
+                $('.cart-item-checkbox:checked').each(function() {
+                    let itemId = $(this).data('id');
+                    let itemTotal = parseFloat($('#total-amount-' + itemId).text().replace(/[^\d]/g, ''));
+                    total += itemTotal;
+                });
+                $('#overall-total').text(total.toLocaleString('vi-VN') + ' VNĐ');
+            }
+
+            // Cập nhật số lượng sản phẩm
             $('.quantity-input').on('input', function() {
                 let id = $(this).data('id');
                 let quantity = $(this).val();
 
-                if (quantity < 0) {
+                if (quantity < 1) {
                     alert('Số lượng không hợp lệ!');
                     return;
                 }
@@ -188,18 +191,8 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            // Hiển thị thông báo thành công
-                            notyf.success(response.message);
-
-                            // Cập nhật tổng tiền cho từng sản phẩm
                             $('#total-amount-' + id).text(response.totalAmountFormatted);
-<<<<<<< HEAD
-
-                            // Cập nhật tổng tiền giỏ hàng
-                            $('#overall-total').text(response.overallTotalFormatted);
-=======
                             updateOverallTotal();
->>>>>>> b1a35a7d8088b646a758632a5eda0a93ffb98daa
                         } else {
                             alert(response.message);
                         }
@@ -210,15 +203,6 @@
                 });
             });
 
-<<<<<<< HEAD
-            // Xóa sản phẩm khỏi giỏ hàng
-            $(document).ready(function() {
-                $('.btn-delete').on('click', function() {
-                    let id = $(this).data('id');
-
-                    if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
-                        return;
-=======
             // Cập nhật tổng tiền khi chọn/bỏ chọn sản phẩm
             $('.cart-item-checkbox').on('change', function() {
                 updateOverallTotal();
@@ -253,139 +237,5 @@
                 });
             });
         });
-
-        // Xóa sản phẩm khỏi giỏ hàng
-        $(document).ready(function() {
-            $('.btn-delete').on('click', function() {
-                let id = $(this).data('id');
-
-                if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
-                    return;
-                }
-
-                $.ajax({
-                    url: '/cart/delete/' + id,
-                    type: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            $('#cart-item-' + id).remove();
-                            $('#overall-total').text(response.overallTotalFormatted);
-                        } else {
-                            alert(response.message);
-                        }
-                    },
-                    error: function(xhr) {
-                        alert(xhr.responseJSON.message);
->>>>>>> b1a35a7d8088b646a758632a5eda0a93ffb98daa
-                    }
-
-                    $.ajax({
-                        url: '/cart/delete/' + id, // Cập nhật đường dẫn API đúng chuẩn
-                        type: 'DELETE', // Sử dụng phương thức DELETE đúng chuẩn RESTful
-                        data: {
-                            _token: '{{ csrf_token() }}' // Bảo mật CSRF token
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                // Xóa sản phẩm khỏi giao diện
-                                $('#cart-item-' + id).remove();
-
-                                // Cập nhật tổng tiền giỏ hàng
-                                $('#overall-total').text(response
-                                    .overallTotalFormatted);
-                            } else {
-                                alert(response.message);
-                            }
-                        },
-                        error: function(xhr) {
-                            alert(xhr.responseJSON.message);
-                        }
-                    });
-                });
-            });
-        });
     </script>
-<<<<<<< HEAD
-    {{--  --}}
-
-=======
->>>>>>> b1a35a7d8088b646a758632a5eda0a93ffb98daa
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let selectAllCheckbox = document.getElementById('select-all');
-            let checkboxes = document.querySelectorAll('.cart-item-checkbox');
-            let totalAmountSpan = document.getElementById('overall-total');
-            let checkoutForm = document.getElementById('checkout-form'); // Form thanh toán
-
-            function updateTotal() {
-                let total = 0;
-                document.querySelectorAll('.cart-item-checkbox:checked').forEach(function(checkedBox) {
-                    total += parseFloat(checkedBox.dataset.price);
-                });
-                totalAmountSpan.textContent = total.toLocaleString('vi-VN') + ' VNĐ';
-            }
-
-            // Sự kiện khi chọn/bỏ chọn tất cả
-            selectAllCheckbox.addEventListener('change', function() {
-                checkboxes.forEach(function(checkbox) {
-                    checkbox.checked = selectAllCheckbox.checked;
-                });
-                updateTotal();
-            });
-
-            // Sự kiện khi chọn từng sản phẩm
-            checkboxes.forEach(function(checkbox) {
-                checkbox.addEventListener('change', function() {
-                    if (!checkbox.checked) {
-                        selectAllCheckbox.checked = false;
-                    } else {
-                        let allChecked = Array.from(checkboxes).every(cb => cb.checked);
-                        selectAllCheckbox.checked = allChecked;
-                    }
-                    updateTotal();
-                });
-            });
-
-            // Kiểm tra trước khi submit form
-            checkoutForm.addEventListener('submit', function(event) {
-                let selectedItems = document.querySelectorAll('.cart-item-checkbox:checked');
-
-                if (selectedItems.length === 0) {
-                    event.preventDefault(); // Ngăn form submit
-                    alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán!");
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('.cart-item-checkbox').on('change', function() {
-                let id = $(this).data('id');
-                let isSelected = $(this).prop('checked') ? 1 : 0;
-
-                $.ajax({
-                    url: '/cart/update-selection/' + id,
-                    type: 'PUT',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        is_selected: isSelected
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            console.log(response.message);
-                        } else {
-                            alert(response.message);
-                        }
-                    },
-                    error: function(xhr) {
-                        alert('Có lỗi xảy ra! Vui lòng thử lại.');
-                    }
-                });
-            });
-        });
-    </script>
-
 @endsection

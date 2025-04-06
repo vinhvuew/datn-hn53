@@ -17,9 +17,9 @@
                     <h5 class="mb-0">Order #{{ $order->id }}</h5>
                     @php
                         $statusClasses = [
-                            'Chờ thanh toán' => 'bg-label-warning mx-2 rounded-pill text-dark',
-                            'Thanh toán khi nhận hàng' => 'bg-label-secondary mx-2 rounded-pill text-white',
-                            'Thanh toán thành công' => 'bg-label-success mx-2 rounded-pill',
+                            'Chờ thanh toán' => 'bg-warning mx-2 rounded-pill text-dark',
+                            'Thanh toán khi nhận hàng' => 'bg-danger mx-2 rounded-pill text-white',
+                            'Thanh toán thành công' => 'bg-success mx-2 rounded-pill',
                         ];
                     @endphp
                     <span class="badge {{ $statusClasses[$order->payment_status] ?? 'bg-secondary' }}">
@@ -28,19 +28,19 @@
                     <span
                         class="badge
                         @switch($order->status)
-                            @case('pending') bg-label-warning rounded-pill text-dark @break
-                            @case('confirmed') bg-label-secondary rounded-pill text-white @break
-                            @case('shipping') bg-label-primary rounded-pill @break
-                            @case('delivered') bg-label-success rounded-pill @break
-                            @case('completed') bg-label-info rounded-pill @break
-                            @case('canceled') bg-label-danger rounded-pill @break
-                            @case('admin_canceled') bg-label-danger rounded-pill @break
-                            @case('return_request') bg-label-danger rounded-pill @break
-                            @case('refuse_return') bg-label-danger rounded-pill @break
-                            @case('sent_information') bg-label-primary rounded-pill @break
-                            @case('return_approved') bg-label-danger rounded-pill @break
-                            @case('returned_item_received') bg-label-danger rounded-pill @break
-                            @case('refund_completed') bg-label-danger rounded-pill @break
+                            @case('pending') bg-warning rounded-pill text-dark @break
+                            @case('confirmed') bg-secondary rounded-pill text-white @break
+                            @case('shipping') bg-primary rounded-pill @break
+                            @case('delivered') bg-success rounded-pill @break
+                            @case('completed') bg-info rounded-pill @break
+                            @case('canceled') bg-danger rounded-pill @break
+                            @case('admin_canceled') bg-danger rounded-pill @break
+                            @case('return_request') bg-danger rounded-pill @break
+                            @case('refuse_return') bg-danger rounded-pill @break
+                            @case('sent_information') bg-primary rounded-pill @break
+                            @case('return_approved') bg-success rounded-pill @break
+                            @case('returned_item_received') bg-danger rounded-pill @break
+                            @case('refund_completed') bg-danger rounded-pill @break
                             @default bg-secondary
                         @endswitch">
                         {{ [
@@ -75,11 +75,11 @@
             </div>
             <div class="d-flex align-content-center flex-wrap gap-2">
                 <a class="btn btn-info" href="{{ route('orders.index') }}">Quay Lại</a>
-                {{-- @if (isset($rufund) && $rufund->order_id === $order->id)
+                @if (isset($rufund) && $rufund->order_id === $order->id)
                     <a class="btn btn-success" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#rufund">Lý
                         do
                         hoàn hàng</a>
-                @endif --}}
+                @endif
 
                 @if ($order->status == 'pending')
                     {{-- <form action="{{ route('orders.cancel', $order->id) }}" method="post">
@@ -118,10 +118,10 @@
                         <button type="submit" class="btn btn-danger">Kiểm tra hàng hoàn</button>
                     </form>
                 @elseif ($order->status == 'returned_item_received' || $order->status == 'sent_information')
-                    <form action="{{ route('orders.refund_completed', $order->id) }}" method="post">
-                        @csrf
-                        <button type="submit" class="btn btn-danger">Hoàn tiền</button>
-                    </form>
+                    <a class="btn btn-danger" href="javascript:void(0);" data-bs-toggle="modal"
+                        data-bs-target="#confirmation">
+                        Hoàn tiền
+                    </a>
                 @endif
             </div>
         </div>
@@ -147,7 +147,7 @@
                                     @if ($item->product)
                                         <tr>
                                             <td>
-                                                <div class="d-flex justify-content-start align-items-center">
+                                                <div class="d-flex justify-content-start align-items-center mb-1">
                                                     <div class="avatar me-2 pe-1">
                                                         @if ($item->product->img_thumbnail)
                                                             <img class="rounded-2"
@@ -159,16 +159,16 @@
                                                         @endif
                                                     </div>
                                                     <div>
-                                                        <span>{{ $item->product->name }}
-                                                        </span>
+                                                        <strong>{{ $item->product_name }}</strong>
                                                     </div>
                                                 </div>
+                                                <span class="block text-sm text-gray-700">
+                                                    Không biến thể
+                                                </span>
                                             </td>
-                                            @if ($item->product->price_sale == '')
-                                                <td>{{ number_format($item->product->base_price, 0, ',', '.') }}</td>
-                                            @else
-                                                <td>{{ number_format($item->product->price_sale, 0, ',', '.') }}</td>
-                                            @endif
+                                            <td>
+                                                {{ number_format($item->price, 0, ',', '.') }}
+                                            </td>
                                             <td>{{ $item->quantity }}</td>
                                             <td>{{ number_format($item->total_price, 0, ',', '.') }} VND</td>
                                         </tr>
@@ -187,23 +187,25 @@
                                                         @endif
                                                     </div>
                                                     <div>
-                                                        <strong>{{ optional($item->variant)->product->name }}
-                                                        </strong>
+                                                        <strong>{{ $item->product_name }}</strong>
                                                     </div>
                                                 </div>
-                                                <span>
-                                                    @foreach ($item->variant->attributes as $attribute)
-                                                        @if (!$loop->first)
-                                                            <br>
+                                                @php
+                                                    $attributes = explode(' - ', $item->variant_attribute);
+                                                    $values = explode(' - ', $item->variant_value);
+                                                @endphp
+
+                                                <span class="block text-sm text-gray-700">
+                                                    @foreach ($attributes as $index => $attribute)
+                                                        {{ $attribute }}: {{ $values[$index] ?? '' }}@if (!$loop->last)
+                                                            |
                                                         @endif
-                                                        {{ $attribute->attribute->name }}:
-                                                        @if (!$loop->first)
-                                                        @endif
-                                                        {{ $attribute->attributeValue->value }}.
                                                     @endforeach
                                                 </span>
                                             </td>
-                                            <td>{{ number_format($item->variant->selling_price, 0, ',', '.') }}</td>
+                                            <td>
+                                                {{ number_format($item->price, 0, ',', '.') }}
+                                            </td>
                                             <td>{{ $item->quantity }}</td>
                                             <td>{{ number_format($item->total_price, 0, ',', '.') }}</td>
                                         </tr>
@@ -233,7 +235,7 @@
                             @endphp
 
                             @foreach ($events as $item)
-                                @if ($item->name === 'Giao hàng thành công')
+                                @if ($item->name === 'Đơn hàng đã được nhận')
                                     @php $hasReceived = true; @endphp
                                 @endif
                             @endforeach
@@ -325,12 +327,12 @@
                                 <small>Mã khách hàng: #{{ $order->user->id }}</small>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-start align-items-center mb-4">
+                        {{-- <div class="d-flex justify-content-start align-items-center mb-4">
                             <span
                                 class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i
                                     class='mdi mdi-cart-plus mdi-24px'></i></span>
                             <h6 class="text-nowrap mb-0">{{ $order->count('user_id') }} Đơn Hàng</h6>
-                        </div>
+                        </div> --}}
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-2">Thông tin liên lạc</h6>
                         </div>
@@ -409,7 +411,6 @@
                                         @endforeach
                                     </div>
                                 </div>
-
                                 <div class="col-12 col-md-12 mt-2">
                                     <label for="modalEditUserEmail">Video chứng minh</label>
                                     <div class="form-floating form-floating-outline">
@@ -450,7 +451,41 @@
                 <img class="modal-contents" id="imgModal">
             </div>
         </div>
+        <div class="modal fade" id="confirmation" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+                <div class="modal-content p-3 p-md-5">
+                    <div class="modal-body py-3 py-md-0">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="text-center mb-4">
+                            <h3 class="mb-2">Hoàn tiền khách hàng</h3>
+                            <p class="pt-1">Thông tin sẽ được gửi đến người mua hàng</p>
+                        </div>
+                        <form action="{{ route('orders.refund_completed', $order->id) }}" class="row g-4" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class="col-12 col-md-12">
+                                <div class="form-floating form-floating-outline">
+                                    <textarea name="note"cols="30" rows="10" class="form-control"></textarea>
+                                    <label for="modalEditUserFirstName">Nội dung</label>
+                                </div>
+                                <div class="mt-2">
+                                    <input type="file" name="image" class="form-control">
+                                </div>
+                                @error('note')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
 
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Gửi</button>
+                                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                    aria-label="Close">Hủy bỏ</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="refuse" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-simple modal-edit-user">
                 <div class="modal-content p-3 p-md-5">
@@ -460,7 +495,7 @@
                             <h3 class="mb-2">Lý do từ chối yêu cầu trả hàng / hoàn tiền</h3>
                             <p class="pt-1">Thông tin sẽ được gửi đến người mua hàng</p>
                         </div>
-                        {{-- <form action="{{ route('orders.refuse_return', $order->id) }}" class="row g-4" method="POST">
+                        <form action="{{ route('orders.refuse_return', $order->id) }}" class="row g-4" method="POST">
                             @csrf
                             <div class="col-12 col-md-12">
                                 <div class="form-floating form-floating-outline">
@@ -477,7 +512,7 @@
                                 <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                                     aria-label="Close">Hủy bỏ</button>
                             </div>
-                        </form> --}}
+                        </form>
                     </div>
                 </div>
             </div>

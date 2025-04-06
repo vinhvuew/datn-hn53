@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedBigInteger('user_id'); // Người gửi
-            $table->unsignedBigInteger('admin_id')->nullable(); // Người nhận (Admin)
+            $table->unsignedBigInteger('user_id'); // Người gửi (user)
+            $table->unsignedBigInteger('admin_id')->nullable(); // Admin liên quan (nếu là tin nhắn từ/to admin)
             $table->text('message'); // Nội dung tin nhắn
-            $table->boolean('is_admin')->default(false); // Xác định có phải admin gửi không
-
+            $table->softDeletes();
+            $table->boolean('is_read')->default(false); // Tin nhắn đã đọc chưa
+            $table->softDeletes();
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
