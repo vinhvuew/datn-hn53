@@ -1,14 +1,8 @@
 <?php
 
-
-
 use App\Http\Controllers\Client\RefundController;
-use App\Http\Controllers\FavoriteController;
-use App\Http\Controllers\MessagesController;
-use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
-use Illuminate\Support\Facades\Auth;
 // client
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductsController;
@@ -21,8 +15,7 @@ use App\Http\Controllers\Client\Payment\VNPayController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Client\CreateNewsController;
-use App\Http\Controllers\Client\ChatController;
-use App\Http\Controllers\Client\ReviewController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Client\ProductReviewController;
 // admin
 use App\Http\Controllers\Admin\DashBoardController;
@@ -33,12 +26,9 @@ use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\VouchersController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AttributesNameController;
-use App\Http\Controllers\Admin\OderDeltailController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ThongKeController;
 use App\Http\Controllers\Admin\NewsController;
-
-use App\Http\Controllers\Admin\adminChatController;
 
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
@@ -48,17 +38,11 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/brands', [HomeController::class, 'index_brands'])->name('brand');
 
 Route::get('/search', [HomeController::class, 'search'])->name('search');
-
-Route::get('/chat', [HomeController::class, 'room'])->name('chat');
-
 Route::get('/product', [HomeController::class, 'products'])->name('product');
 
 Route::post('apply', [OrderController::class, 'applyVoucher'])->name('apply.voucher');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
-});
+
 //trang profile
 Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
     Route::get('/', [ProfileController::class, 'index'])->name('index'); // Hiển thị trang profile
@@ -83,8 +67,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/favorites', [ProductsController::class, 'storefavorite'])->name('favorites.store');
     Route::delete('/favorites/{id}', [ProductsController::class, 'destroyfavorite'])->name('favorites.destroy');
 });
-// chat box
-// router phan tin tuc
 
 Route::get('/new', [CreateNewsController::class, 'news'])->name('news');
 Route::get('/news/{id}', [CreateNewsController::class, 'show'])->name('news.shows');
@@ -171,6 +153,12 @@ Route::middleware(['auth'])->group(function () {
 Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');
 
+    // Chatrealtime
+    Route::get('/chat-rooms', [ChatController::class, 'listChatRooms'])->name('chat');
+    Route::get('/{roomId}/{receiverId}', [ChatController::class, 'showChatAdmin'])
+        ->name('chat.admin');
+    Route::get('/chat/messages/{roomId}', [ChatController::class, 'getMessages'])->name('chat.messages');
+
     // Permission
     Route::prefix('permissions')
         ->as('permissions.')
@@ -245,7 +233,6 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
             Route::post('returned_item_received/{id}', 'returned_item_received')->name('returned_item_received');
             Route::post('refund_completed/{id}', 'refund_completed')->name('refund_completed');
         });
-
     //Thống Kê
     Route::get('/thongke', [ThongKeController::class, 'statistical'])->name('thongke.statistical');
     // Tin Tức
@@ -256,12 +243,22 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/news/{id}/edit', [NewsController::class, 'edit'])->name('news.edit');
     Route::put('/news/{id}/update', [NewsController::class, 'update'])->name('news.update');
     Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
+});
 
+//chat realtime
+Route::group([
+    'middleware' => 'auth',
+], function () {
+    Route::prefix('chat')
+        ->group(function () {
+            Route::post('/create/{receiverId}', [ChatController::class, 'createOrRedirect'])
+                ->name('chat.create');
+            Route::get('/{roomId}/{receiverId}', [ChatController::class, 'showChatRoom'])
+                ->name('chat.room');
+            Route::post('/outChat/{roomid}', [ChatController::class, 'outChat'])
+                ->name('outChat');
+        });
 
-    Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
-        Route::get('/chat', [AdminChatController::class, 'index'])->name('admin.chat.index');
-        Route::get('/chat/{user_id}', [AdminChatController::class, 'show'])->name('admin.chat.show');
-        Route::post('/chat/send', [AdminChatController::class, 'sendMessage'])->name('admin.chat.send');
-        Route::delete('/chat/delete/{user_id}', [AdminChatController::class, 'deleteChat'])->name('admin.chat.delete');
-    });
+    Route::post('/messages/send', [ChatController::class, 'sendMessage'])
+        ->name('messages.send');
 });
