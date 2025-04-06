@@ -7,25 +7,7 @@
                 💬 Chat với {{ $messages->first()->user->name ?? 'User ' . $user_id }}
             </h5>
 
-<<<<<<< HEAD
-        <div id="chat-box" class="bg-light p-4 rounded-3 shadow-lg" style="height: 400px; overflow-y: scroll; border: 1px solid #ddd;">
-            @foreach($messages as $message)
-                <div class="chat-message mb-3 p-3 rounded-lg" style="background-color: {{ $message->admin_id ? '#e6f7ff' : '#f1f8e9' }};">
-                    <strong class="{{ $message->admin_id ? 'text-primary' : 'text-success' }}">
-                        {{ $message->admin_id ? 'Admin' : $message->user->name }}:
-                    </strong>
-                    <span>{{ $message->message }}</span>
-                </div>
-            @endforeach
-        </div>
 
-        <form id="chat-form" class="mt-4">
-            @csrf
-            <input type="hidden" name="user_id" value="{{ $user_id }}">
-            <div class="input-group">
-                <input type="text" id="message" name="message" class="form-control rounded-pill" placeholder="Nhập tin nhắn...">
-                <button type="submit" class="btn btn-primary rounded-pill ml-2 px-4">Gửi</button>
-=======
             <div id="chat-box" class="p-3 rounded-4 shadow-sm"
                 style="height: 400px; overflow-y: auto; background: #fcfbff; border: 1px solid #e0d7f7;">
                 @foreach ($messages as $message)
@@ -54,7 +36,7 @@
                         </div>
                     </div>
                 @endforeach
->>>>>>> 3629b9a5d40f67329f396d3a22bca27b14ffe100
+
             </div>
 
 
