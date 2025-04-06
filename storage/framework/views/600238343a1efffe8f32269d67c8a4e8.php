@@ -18,8 +18,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon"
-        href="<?php echo e(asset('client')); ?>/img/logo16x16.png"/>
+    <link rel="icon" type="image/x-icon" href="<?php echo e(asset('client')); ?>/img/logo16x16.png" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com/" />
@@ -114,7 +113,7 @@
     <!-- Main JS -->
     <script src="<?php echo e(asset('admin')); ?>/assets/js/main.js"></script>
     <?php echo $__env->make('admin.layouts.parials.js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
+    <?php echo app('Illuminate\Foundation\Vite')('resources/js/list.js'); ?>
     <!-- Page JS -->
     <?php echo $__env->yieldContent('script-libs'); ?>
 </body>

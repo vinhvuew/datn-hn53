@@ -228,14 +228,15 @@
                         <form class="box_general summary" method="POST" action="{{ route('checkout.store') }}"
                             style="margin-top: 5px;">
                             @csrf
-
                             @foreach ($cart->cartDetails as $order)
                                 <div class="order-item">
                                     @if ($order->variant)
                                         {{-- Nếu có biến thể --}}
                                         <div class="item-details">
-                                            <strong>{{ $order->quantity }}x {{ $order->variant->product->name }}</strong>
-                                            <span>{{ number_format($order->total_amount, 0, ',', '.') }} VNĐ</span>
+                                            <strong>{{ $order->variant->product->name }}</strong><br>
+                                            <strong>Số lượng: {{ $order->quantity }}</strong><br>
+                                            <strong class="text-danger">Giá:
+                                                {{ number_format($order->total_amount, 0, ',', '.') }} VNĐ</strong>
                                         </div>
                                         @if ($order->variant->attributes->isNotEmpty())
                                             <ul class="variant-attributes">

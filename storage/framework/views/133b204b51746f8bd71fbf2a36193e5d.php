@@ -23,11 +23,10 @@
                 </div>
             </a>
         </li>
-        <li class="menu-item">
-            <a href="<?php echo e(route('admin.chat.index')); ?>" class="menu-link">
+        <li class="menu-item <?php echo $__env->yieldContent('menu-item-chat'); ?>">
+            <a href="<?php echo e(route('chat')); ?>" class="menu-link">
                 <i class="menu-icon fa-solid fa-message"></i>
-
-                <div class="text-truncate" data-i18n="CHAT">CHAT</div>
+                <div data-i18n="Trò chuyện">Trò chuyện</div>
             </a>
         </li>
         
