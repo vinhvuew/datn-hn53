@@ -1,32 +1,32 @@
 @extends('client.layouts.master')
+
 @section('content')
 
 <main>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card shadow-lg">
-                    <div class="card-header bg-primary text-white text-center">
-                        <h3>Hỗ trợ trực tiếp</h3>
-                    </div>
-                    <div class="card-body" id="chat-box" style="height: 400px; overflow-y: scroll; padding: 10px;">
-                        @foreach($messages as $message)
-                            <div class="{{ $message->admin_id ? 'text-left' : 'text-right' }}">
-                                <strong>{{ $message->admin_id ? 'Admin' : 'Bạn' }}:</strong>
-                                {{ $message->message }}
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="card-footer">
-                        <form id="chat-form" class="d-flex">
-                            @csrf
-                            <input type="text" id="message" name="message" class="form-control mr-2" placeholder="Nhập tin nhắn..." required>
-                            <button type="submit" class="btn btn-primary">Gửi</button>
-                        </form>
+ 
+    <div class="container py-5">
+        <h3 class="text-center mb-4" style="font-weight: 700; color: #2c3e50;">Hỗ trợ trực tiếp</h3>
+
+        <div id="chat-box" class="bg-light p-4 rounded-3 shadow-lg" style="height: 500px; overflow-y: scroll; border: 1px solid #ddd; transition: all 0.3s ease;">
+            @foreach($messages as $message)
+                <div class="chat-message mb-3 p-3 rounded-lg d-flex align-items-start" style="background-color: {{ $message->admin_id ? '#e6f7ff' : '#f1f8e9' }};">
+                    <div>
+                        <strong class="{{ $message->admin_id ? 'text-primary' : 'text-success' }} font-weight-bold">
+                            {{ $message->admin_id ? 'Admin' : 'Bạn' }}:
+                        </strong>
+                        <span>{{ $message->message }}</span>
                     </div>
                 </div>
-            </div>
+            @endforeach
         </div>
+
+        <form id="chat-form" class="mt-4">
+            @csrf
+            <div class="input-group">
+                <input type="text" id="message" name="message" class="form-control rounded-pill border-0" placeholder="Nhập tin nhắn..." aria-label="Tin nhắn">
+                <button type="submit" class="btn btn-primary rounded-pill ml-2 px-4" style="transition: all 0.3s ease;">Gửi</button>
+            </div>
+        </form>
     </div>
 
     <script>
@@ -54,7 +54,11 @@
             .then(data => {
                 if (data.success) {
                     // Thêm tin nhắn vào chat-box ngay lập tức
-                    chatBox.innerHTML += `<div class="text-right"><strong>Bạn:</strong> ${data.message.message}</div>`;
+
+                    chatBox.innerHTML += `<div class="chat-message mb-3 p-3 rounded-lg d-flex align-items-start" style="background-color: #e6f7ff;">
+                                            <div><strong class="text-primary font-weight-bold">Bạn:</strong> ${data.message.message}</div>
+                                        </div>`;
+
                     chatBox.scrollTop = chatBox.scrollHeight;
                     input.value = ''; // Xóa input
                 }
@@ -66,10 +70,15 @@
         Echo.channel('chat.user.' + {{ Auth::id() }})
             .listen('MessageSent', (e) => {
                 if (!e.is_admin) return; // Chỉ hiển thị tin nhắn từ admin
-                chatBox.innerHTML += `<div class="text-left"><strong>Admin:</strong> ${e.message}</div>`;
+
+                chatBox.innerHTML += `<div class="chat-message mb-3 p-3 rounded-lg d-flex align-items-start" style="background-color: #f1f8e9;">
+                                        <div><strong class="text-success font-weight-bold">Admin:</strong> ${e.message}</div>
+                                      </div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
             });
     </script>
+
+
 </main>
 
 @endsection

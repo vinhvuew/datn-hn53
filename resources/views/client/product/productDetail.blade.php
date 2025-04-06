@@ -92,11 +92,35 @@
                                     <label class="col-xl-5 col-lg-5 col-md-6 col-6"><strong>Số lượng</strong></label>
                                     <div class="col-xl-4 col-lg-5 col-md-6 col-6">
                                         <div class="numbers-row">
-                                            <input type="text" value="1" id="quantity" class="qty2"
-                                                min="1" name="quantity">
+                                            <input type="text" value="1" id="quantity" class="qty2" name="quantity">
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <script>
+                                    const quantityInput = document.getElementById('quantity');
+                                
+                                    quantityInput.addEventListener('input', function () {
+                                        this.value = this.value.replace(/[^0-9]/g, ''); // Chỉ cho phép nhập số
+                                        if (this.value === "" || this.value < 1) {
+                                            this.value = 1; // Không cho phép giá trị nhỏ hơn 1
+                                        }
+                                    });
+                                
+                                    quantityInput.addEventListener('paste', function (e) {
+                                        let pastedText = (e.clipboardData || window.clipboardData).getData('text');
+                                        if (!/^\d+$/.test(pastedText)) { // Chặn dán nội dung không phải số
+                                            e.preventDefault();
+                                        }
+                                    });
+                                
+                                    quantityInput.addEventListener('keydown', function (e) {
+                                        if (e.key === 'e' || e.key === '-' || e.key === '+' || e.key === '.') { 
+                                            e.preventDefault(); // Chặn nhập ký tự không hợp lệ
+                                        }
+                                    });
+                                </script>
+                                
                                 <div class="row mt-3">
                                     <label class="col-12"><strong>Tồn kho</strong></label>
                                     <span id="variant-stock"></span>
@@ -127,19 +151,27 @@
                                     </div>
 
                                 </div>
-                                <div class="col-lg-5 col-md-6">
+                                <div class="col-lg-5 col-md-6"> 
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     @if ($product->price_sale)
-                                        <input type="hidden" name="total_amount"
-                                            value="{{ isset($finalPrice) ? $finalPrice : $product->price_sale }}">
+                                        <input type="hidden" name="total_amount" value="{{ isset($finalPrice) ? $finalPrice : $product->price_sale }}">
                                     @elseif ($product->base_price)
-                                        <input type="hidden" name="total_amount"
-                                            value="{{ isset($finalPrice) ? $finalPrice : $product->base_price }}">
+                                        <input type="hidden" name="total_amount" value="{{ isset($finalPrice) ? $finalPrice : $product->base_price }}">
                                     @endif
+                                
                                     <button type="button" id="addToCartBtn" class="btn_1">THÊM VÀO GIỎ HÀNG</button>
-                                    <p id="variant-warning" style="color: red; display: none; margin-top: 5px;">Bạn phải chọn <strong> Màu Sắc, Kích Cỡ </strong></p>
+                                    
+                                    <p id="variant-warning" style="color: red; display: none; margin-top: 5px;">Bạn phải chọn <strong>Màu Sắc, Kích Cỡ</strong></p>
                                     <p id="stock-warning" style="color: red; display: none; margin-top: 5px;">Sản phẩm đã <strong>Hết Hàng</strong></p>
+                                    <p id="quantity-warning" style="color: red; display: none; margin-top: 5px;">Số lượng phải lớn hơn <strong>0</strong></p>
+                                    <p id="exceed-stock-warning" style="color: red; display: none; margin-top: 5px;">Số lượng hàng chỉ còn : <strong id="max-stock"></strong>sản phẩm </p>
                                 </div>
+                                
+                              
+                                
+                                
+                               
+                                
                                 
                                 
                             </div>
@@ -502,49 +534,7 @@
         });
     </script>
 
-    {{-- check  box ktra kh chon mau sac , kich co , va sp con hay het hang --}}
-     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const addToCartBtn = document.getElementById("addToCartBtn");
-            const variantWarning = document.getElementById("variant-warning");
-            const stockWarning = document.getElementById("stock-warning");
-            const stockElement = document.getElementById("variant-stock"); // Lấy phần hiển thị tồn kho
-    
-            addToCartBtn.addEventListener("click", function () {
-                let allSelected = true;
-                let stockQuantity = 0; // Mặc định là hết hàng
-    
-                // Kiểm tra xem tất cả các nhóm thuộc tính đã được chọn chưa
-                document.querySelectorAll(".option-group").forEach(group => {
-                    let checkedRadio = group.querySelector(".option-input:checked");
-                    if (!checkedRadio) {
-                        allSelected = false;
-                    }
-                });
-    
-                // Kiểm tra tồn kho từ `variant-stock` (tìm số lượng cụ thể)
-                if (stockElement && stockElement.textContent.match(/\d+/)) {
-                    stockQuantity = parseInt(stockElement.textContent.match(/\d+/)[0]); // Lấy số lượng tồn kho
-                }
-    
-                if (!allSelected) {
-                    variantWarning.style.display = "block";
-                    stockWarning.style.display = "none";
-                } else if (stockQuantity <= 0) {
-                    variantWarning.style.display = "none";
-                    stockWarning.style.display = "block";
-                } else {
-                    variantWarning.style.display = "none";
-                    stockWarning.style.display = "none";
-                    let form = addToCartBtn.closest("form");
-                    if (form) {
-                        form.submit();
-                    }
-                }
-            });
-        });
-    </script>
-    
+   
     {{-- checkbox ktra tồn kho theo biến thể  --}}
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -596,5 +586,71 @@
             let newValue = Math.max(1, currentValue + amount);
             quantityInput.value = newValue;
         }
+    </script>
+    {{-- ktra so luong trc khi them vao gio hang --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const addToCartBtn = document.getElementById("addToCartBtn");
+            const quantityInput = document.getElementById("quantity");
+            const variantWarning = document.getElementById("variant-warning");
+            const stockWarning = document.getElementById("stock-warning");
+            const quantityWarning = document.getElementById("quantity-warning");
+            const exceedStockWarning = document.getElementById("exceed-stock-warning");
+            const maxStockText = document.getElementById("max-stock");
+            const stockElement = document.getElementById("variant-stock"); // Chứa số lượng tồn kho
+    
+            addToCartBtn.addEventListener("click", function () {
+                let allSelected = true;
+                let stockQuantity = 0; 
+    
+                // Kiểm tra xem tất cả các nhóm thuộc tính đã được chọn chưa
+                document.querySelectorAll(".option-group").forEach(group => {
+                    let checkedRadio = group.querySelector(".option-input:checked");
+                    if (!checkedRadio) {
+                        allSelected = false;
+                    }
+                });
+    
+                // Lấy số lượng tồn kho từ `variant-stock`
+                if (stockElement && stockElement.textContent.match(/\d+/)) {
+                    stockQuantity = parseInt(stockElement.textContent.match(/\d+/)[0]);
+                }
+    
+                // Kiểm tra số lượng nhập vào
+                let quantityValue = parseInt(quantityInput.value) || 0;
+                maxStockText.textContent = stockQuantity; // Cập nhật số tồn kho hiển thị
+    
+                if (!allSelected) {
+                    variantWarning.style.display = "block";
+                    stockWarning.style.display = "none";
+                    quantityWarning.style.display = "none";
+                    exceedStockWarning.style.display = "none";
+                } else if (stockQuantity <= 0) {
+                    variantWarning.style.display = "none";
+                    stockWarning.style.display = "block";
+                    quantityWarning.style.display = "none";
+                    exceedStockWarning.style.display = "none";
+                } else if (quantityValue <= 0) {
+                    variantWarning.style.display = "none";
+                    stockWarning.style.display = "none";
+                    quantityWarning.style.display = "block";
+                    exceedStockWarning.style.display = "none";
+                } else if (quantityValue > stockQuantity) {
+                    variantWarning.style.display = "none";
+                    stockWarning.style.display = "none";
+                    quantityWarning.style.display = "none";
+                    exceedStockWarning.style.display = "block";
+                } else {
+                    variantWarning.style.display = "none";
+                    stockWarning.style.display = "none";
+                    quantityWarning.style.display = "none";
+                    exceedStockWarning.style.display = "none";
+                    let form = addToCartBtn.closest("form");
+                    if (form) {
+                        form.submit();
+                    }
+                }
+            });
+        });
     </script>
 @endsection

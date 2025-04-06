@@ -193,14 +193,13 @@
 
                             // Cập nhật tổng tiền cho từng sản phẩm
                             $('#total-amount-' + id).text(response.totalAmountFormatted);
-<<<<<<< HEAD
+
 
                             // Cập nhật tổng tiền giỏ hàng
                             $('#overall-total').text(response.overallTotalFormatted);
-=======
+
                             updateOverallTotal();
->>>>>>> b1a35a7d8088b646a758632a5eda0a93ffb98daa
-                        } else {
+
                             alert(response.message);
                         }
                     },
@@ -210,7 +209,7 @@
                 });
             });
 
-<<<<<<< HEAD
+
             // Xóa sản phẩm khỏi giỏ hàng
             $(document).ready(function() {
                 $('.btn-delete').on('click', function() {
@@ -218,7 +217,7 @@
 
                     if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
                         return;
-=======
+
             // Cập nhật tổng tiền khi chọn/bỏ chọn sản phẩm
             $('.cart-item-checkbox').on('change', function() {
                 updateOverallTotal();
@@ -279,7 +278,6 @@
                     },
                     error: function(xhr) {
                         alert(xhr.responseJSON.message);
->>>>>>> b1a35a7d8088b646a758632a5eda0a93ffb98daa
                     }
 
                     $.ajax({
@@ -308,11 +306,7 @@
             });
         });
     </script>
-<<<<<<< HEAD
-    {{--  --}}
 
-=======
->>>>>>> b1a35a7d8088b646a758632a5eda0a93ffb98daa
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let selectAllCheckbox = document.getElementById('select-all');
