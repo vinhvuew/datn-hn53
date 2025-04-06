@@ -132,13 +132,14 @@ class ProfileController extends Controller
 
         // Lấy danh sách đơn hàng của người dùng kèm theo thông tin sản phẩm và biến thể
         $orders = Order::with([
+            'orderDetails',
             'orderDetails.product', // Lấy sản phẩm trong đơn hàng
             'orderDetails.variant.attributes.attribute',
             'orderDetails.variant.attributes.attributeValue' // Lấy biến thể và thuộc tính biến thể
         ])
             ->where('user_id', $user->id)
             ->orderBy('id', 'desc')
-            ->get();
+            ->paginate(5);
         // dd($orders);
         return view('client.users.profile.order', compact('orders'));
     }
@@ -240,4 +241,6 @@ class ProfileController extends Controller
             return back()->with('error', 'Có lỗi xảy ra khi xác nhận đơn hàng.');
         }
     }
+
+    
 }

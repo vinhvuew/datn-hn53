@@ -194,7 +194,6 @@
                                                                 placeholder="Mã biến thể" class="form-control"
                                                                 value="{{ $variant->sku }}">
                                                         </div>
-
                                                         <div class="mb-4">
                                                             <label for="variant_quantity_{{ $variantIndex }}">Số lượng tồn
                                                                 kho</label>

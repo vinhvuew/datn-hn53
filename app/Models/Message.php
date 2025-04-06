@@ -8,12 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Message extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
     protected $fillable = ['user_id', 'admin_id', 'message', 'is_read'];
     protected $dates = ['deleted_at'];
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-
-
 }
