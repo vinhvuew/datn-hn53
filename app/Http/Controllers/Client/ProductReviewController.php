@@ -26,7 +26,7 @@ class ProductReviewController extends Controller
 
         return back()->with('success', 'Cảm ơn bạn đã đánh giá sản phẩm!');
     }
-    
+
     public function update(Request $request, $id)
     {
         $review = ProductReview::findOrFail($id);
@@ -46,5 +46,19 @@ class ProductReviewController extends Controller
         $review->save();
 
         return redirect()->back()->with('success', 'Đã cập nhật đánh giá thành công!');
+    }
+
+    public function destroy($id)
+    {
+        $review = ProductReview::findOrFail($id);
+
+        // Kiểm tra người dùng có phải là người đã viết đánh giá không
+        if ($review->user_id !== Auth::id()) {
+            abort(403, 'Bạn không có quyền xóa đánh giá này.');
+        }
+
+        $review->delete();
+
+        return back()->with('success', 'Đánh giá đã được xóa thành công!');
     }
 }

@@ -162,10 +162,10 @@ Route::get('/policies', [PolicyController::class, 'index'])->name('policies');
 // Đánh giá
 Route::middleware(['auth'])->group(function () {
     Route::post('/products/{product}/reviews', [ProductReviewController::class, 'store'])->name('reviews.store');
-
-    // Thêm dòng này để xử lý cập nhật đánh giá
     Route::put('/reviews/{review}', [ProductReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('/reviews/{review}', [ProductReviewController::class, 'destroy'])->name('reviews.destroy');  // Thêm route xóa
 });
+
 
 // Admin
 Route::prefix('admin')->middleware(['admin'])->group(function () {

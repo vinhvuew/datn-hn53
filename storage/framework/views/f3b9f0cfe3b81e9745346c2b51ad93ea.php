@@ -42,11 +42,7 @@
                         <?php echo csrf_field(); ?>
                         <div class="prod_info">
                             <h1><?php echo e($product->name); ?></h1>
-                            <span class="rating">
-                                <i class="icon-star voted"></i><i class="icon-star voted"></i>
-                                <i class="icon-star voted"></i><i class="icon-star voted"></i>
-                                <i class="icon-star"></i><em>4 reviews</em>
-                            </span>
+                            
                             <p><small>Mã SP: <?php echo e($product->sku); ?></small><br><?php echo e($product->description); ?></p>
                             <?php if($product->variants->isNotEmpty()): ?>
                                 
@@ -204,15 +200,15 @@
             <div class="container">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab"
-                            role="tab">Bình
+                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab" role="tab">Bình
                             luận</a>
                     </li>
                     <li class="nav-item">
                         <a id="tab-B" href="#pane-B" class="nav-link" data-bs-toggle="tab" role="tab">Mô tả</a>
                     </li>
                     <li class="nav-item">
-                        <a id="tab-C" href="#pane-C" class="nav-link" data-bs-toggle="tab" role="tab">Danh Gia</a>
+                        <a id="tab-C" href="#pane-C" class="nav-link" data-bs-toggle="tab" role="tab">Đánh
+                            giá</a>
                     </li>
                 </ul>
             </div>
@@ -327,10 +323,12 @@
                         </div>
 
                     </div>
+                    
                     <div id="pane-C" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
                         <div class="card-header" role="tab" id="heading-B">
                             <h5 class="mb-0">
-                                <a class="collapsed" data-bs-toggle="collapse" href="#collapse-B" aria-expanded="false" aria-controls="collapse-B">
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapse-B" aria-expanded="false"
+                                    aria-controls="collapse-B">
                                     Đánh giá
                                 </a>
                             </h5>
@@ -341,50 +339,55 @@
                                     <div class="col-lg-12">
                                         <?php if(Auth::check()): ?>
                                             <?php
-                                                $userReview = $product->productReviews->where('user_id', Auth::id())->first();
+                                                $userReview = $product->productReviews
+                                                    ->where('user_id', Auth::id())
+                                                    ->first();
                                             ?>
-                    
+
                                             <!-- Form đánh giá hoặc chỉnh sửa -->
-                                            <form action="<?php echo e($userReview ? route('reviews.update', $userReview->id) : route('reviews.store', $product->id)); ?>" method="POST">
+                                            <form
+                                                action="<?php echo e($userReview ? route('reviews.update', $userReview->id) : route('reviews.store', $product->id)); ?>"
+                                                method="POST">
                                                 <?php echo csrf_field(); ?>
                                                 <?php if($userReview): ?>
                                                     <?php echo method_field('PUT'); ?>
                                                 <?php endif; ?>
-                    
+
                                                 <div class="mb-3">
                                                     <label class="form-label">Số sao:</label>
                                                     <div id="star-rating" class="text-warning fs-4">
                                                         <?php for($i = 1; $i <= 5; $i++): ?>
                                                             <i class="bi <?php echo e($i <= ($userReview->rating ?? 0) ? 'bi-star-fill' : 'bi-star'); ?> star"
-                                                               data-value="<?php echo e($i); ?>"
-                                                               style="cursor: pointer;"></i>
+                                                                data-value="<?php echo e($i); ?>"
+                                                                style="cursor: pointer;"></i>
                                                         <?php endfor; ?>
                                                     </div>
-                                                    <input type="hidden" name="rating" id="rating" value="<?php echo e($userReview->rating ?? ''); ?>" required>
+                                                    <input type="hidden" name="rating" id="rating"
+                                                        value="<?php echo e($userReview->rating ?? ''); ?>" required>
                                                 </div>
-                    
+
                                                 <div class="mb-3">
                                                     <label for="review" class="form-label">Nội dung đánh giá:</label>
                                                     <textarea name="review" id="review" class="form-control" rows="4"><?php echo e($userReview->review ?? ''); ?></textarea>
                                                 </div>
-                    
+
                                                 <button type="submit" class="btn btn-primary">
                                                     <?php echo e($userReview ? 'Cập nhật đánh giá' : 'Gửi đánh giá'); ?>
 
                                                 </button>
                                             </form>
-                    
+
                                             <!-- JavaScript xử lý sao -->
                                             <script>
-                                                document.addEventListener('DOMContentLoaded', function () {
+                                                document.addEventListener('DOMContentLoaded', function() {
                                                     const stars = document.querySelectorAll('.star');
                                                     const ratingInput = document.getElementById('rating');
-                    
+
                                                     stars.forEach(star => {
-                                                        star.addEventListener('click', function () {
+                                                        star.addEventListener('click', function() {
                                                             const selectedRating = this.getAttribute('data-value');
                                                             ratingInput.value = selectedRating;
-                    
+
                                                             stars.forEach(s => {
                                                                 if (s.getAttribute('data-value') <= selectedRating) {
                                                                     s.classList.remove('bi-star');
@@ -401,26 +404,42 @@
                                         <?php else: ?>
                                             <p><a href="<?php echo e(route('login')); ?>">Đăng nhập</a> để đánh giá sản phẩm.</p>
                                         <?php endif; ?>
-                    
+
                                         <h5 class="mt-4">Đánh giá sản phẩm:</h5>
-                                        <?php $__currentLoopData = $product->productReviews; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $review): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php $__empty_1 = true; $__currentLoopData = $product->productReviews; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $review): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                             <div class="review border-bottom py-2">
                                                 <strong><?php echo e($review->user->name ?? 'Người dùng'); ?></strong>
                                                 <div class="stars text-warning">
                                                     <?php for($i = 1; $i <= 5; $i++): ?>
-                                                        <i class="bi <?php echo e($i <= $review->rating ? 'bi-star-fill' : 'bi-star'); ?>"></i>
+                                                        <i
+                                                            class="bi <?php echo e($i <= $review->rating ? 'bi-star-fill' : 'bi-star'); ?>"></i>
                                                     <?php endfor; ?>
                                                 </div>
                                                 <p><?php echo e($review->review); ?></p>
+
+                                                <?php if(Auth::check() && Auth::id() === $review->user_id): ?>
+                                                    <form action="<?php echo e(route('reviews.destroy', $review->id)); ?>"
+                                                        method="POST" style="display:inline;">
+                                                        <?php echo csrf_field(); ?>
+                                                        <?php echo method_field('DELETE'); ?>
+                                                        <button type="submit" class="btn btn-danger btn-sm">Xóa đánh
+                                                            giá</button>
+                                                    </form>
+                                                <?php endif; ?>
                                             </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                            <p>Chưa có đánh giá nào cho sản phẩm này.</p>
+                                        <?php endif; ?>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     
-                    
+
+
                     <!-- /tab B -->
                 </div>
                 <!-- /tab-content -->

@@ -44,11 +44,11 @@
                         @csrf
                         <div class="prod_info">
                             <h1>{{ $product->name }}</h1>
-                            <span class="rating">
+                            {{-- <span class="rating">
                                 <i class="icon-star voted"></i><i class="icon-star voted"></i>
                                 <i class="icon-star voted"></i><i class="icon-star voted"></i>
                                 <i class="icon-star"></i><em>4 reviews</em>
-                            </span>
+                            </span> --}}
                             <p><small>Mã SP: {{ $product->sku }}</small><br>{{ $product->description }}</p>
                             @if ($product->variants->isNotEmpty())
                                 {{-- Nếu có biến thể --}}
@@ -201,15 +201,15 @@
             <div class="container">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab"
-                            role="tab">Bình
+                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab" role="tab">Bình
                             luận</a>
                     </li>
                     <li class="nav-item">
                         <a id="tab-B" href="#pane-B" class="nav-link" data-bs-toggle="tab" role="tab">Mô tả</a>
                     </li>
                     <li class="nav-item">
-                        <a id="tab-C" href="#pane-C" class="nav-link" data-bs-toggle="tab" role="tab">Danh Gia</a>
+                        <a id="tab-C" href="#pane-C" class="nav-link" data-bs-toggle="tab" role="tab">Đánh
+                            giá</a>
                     </li>
                 </ul>
             </div>
@@ -326,7 +326,8 @@
                     <div id="pane-C" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
                         <div class="card-header" role="tab" id="heading-B">
                             <h5 class="mb-0">
-                                <a class="collapsed" data-bs-toggle="collapse" href="#collapse-B" aria-expanded="false" aria-controls="collapse-B">
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapse-B" aria-expanded="false"
+                                    aria-controls="collapse-B">
                                     Đánh giá
                                 </a>
                             </h5>
@@ -337,49 +338,54 @@
                                     <div class="col-lg-12">
                                         @if (Auth::check())
                                             @php
-                                                $userReview = $product->productReviews->where('user_id', Auth::id())->first();
+                                                $userReview = $product->productReviews
+                                                    ->where('user_id', Auth::id())
+                                                    ->first();
                                             @endphp
-                    
+
                                             <!-- Form đánh giá hoặc chỉnh sửa -->
-                                            <form action="{{ $userReview ? route('reviews.update', $userReview->id) : route('reviews.store', $product->id) }}" method="POST">
+                                            <form
+                                                action="{{ $userReview ? route('reviews.update', $userReview->id) : route('reviews.store', $product->id) }}"
+                                                method="POST">
                                                 @csrf
-                                                @if($userReview)
+                                                @if ($userReview)
                                                     @method('PUT')
                                                 @endif
-                    
+
                                                 <div class="mb-3">
                                                     <label class="form-label">Số sao:</label>
                                                     <div id="star-rating" class="text-warning fs-4">
                                                         @for ($i = 1; $i <= 5; $i++)
                                                             <i class="bi {{ $i <= ($userReview->rating ?? 0) ? 'bi-star-fill' : 'bi-star' }} star"
-                                                               data-value="{{ $i }}"
-                                                               style="cursor: pointer;"></i>
+                                                                data-value="{{ $i }}"
+                                                                style="cursor: pointer;"></i>
                                                         @endfor
                                                     </div>
-                                                    <input type="hidden" name="rating" id="rating" value="{{ $userReview->rating ?? '' }}" required>
+                                                    <input type="hidden" name="rating" id="rating"
+                                                        value="{{ $userReview->rating ?? '' }}" required>
                                                 </div>
-                    
+
                                                 <div class="mb-3">
                                                     <label for="review" class="form-label">Nội dung đánh giá:</label>
                                                     <textarea name="review" id="review" class="form-control" rows="4">{{ $userReview->review ?? '' }}</textarea>
                                                 </div>
-                    
+
                                                 <button type="submit" class="btn btn-primary">
                                                     {{ $userReview ? 'Cập nhật đánh giá' : 'Gửi đánh giá' }}
                                                 </button>
                                             </form>
-                    
+
                                             <!-- JavaScript xử lý sao -->
                                             <script>
-                                                document.addEventListener('DOMContentLoaded', function () {
+                                                document.addEventListener('DOMContentLoaded', function() {
                                                     const stars = document.querySelectorAll('.star');
                                                     const ratingInput = document.getElementById('rating');
-                    
+
                                                     stars.forEach(star => {
-                                                        star.addEventListener('click', function () {
+                                                        star.addEventListener('click', function() {
                                                             const selectedRating = this.getAttribute('data-value');
                                                             ratingInput.value = selectedRating;
-                    
+
                                                             stars.forEach(s => {
                                                                 if (s.getAttribute('data-value') <= selectedRating) {
                                                                     s.classList.remove('bi-star');
@@ -396,28 +402,42 @@
                                         @else
                                             <p><a href="{{ route('login') }}">Đăng nhập</a> để đánh giá sản phẩm.</p>
                                         @endif
-                    
+
                                         <h5 class="mt-4">Đánh giá sản phẩm:</h5>
-                                        @foreach($product->productReviews as $review)
+                                        @forelse($product->productReviews as $review)
                                             <div class="review border-bottom py-2">
                                                 <strong>{{ $review->user->name ?? 'Người dùng' }}</strong>
                                                 <div class="stars text-warning">
                                                     @for ($i = 1; $i <= 5; $i++)
-                                                        <i class="bi {{ $i <= $review->rating ? 'bi-star-fill' : 'bi-star' }}"></i>
+                                                        <i
+                                                            class="bi {{ $i <= $review->rating ? 'bi-star-fill' : 'bi-star' }}"></i>
                                                     @endfor
                                                 </div>
                                                 <p>{{ $review->review }}</p>
+
+                                                @if (Auth::check() && Auth::id() === $review->user_id)
+                                                    <form action="{{ route('reviews.destroy', $review->id) }}"
+                                                        method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm">Xóa đánh
+                                                            giá</button>
+                                                    </form>
+                                                @endif
                                             </div>
-                                        @endforeach
+                                        @empty
+                                            <p>Chưa có đánh giá nào cho sản phẩm này.</p>
+                                        @endforelse
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     {{-- Ennd đánh giá --}}
 
-                    
+
                     <!-- /tab B -->
                 </div>
                 <!-- /tab-content -->
