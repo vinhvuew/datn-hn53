@@ -293,9 +293,10 @@
 
                                             </div>
                                         @endforeach
+                                        <div class="mt-4 d-flex justify-content-center">
+                                            {{ $orders->links() }}
+                                        </div>
                                     </div>
-
-
                                 </div>
                             </div>
 

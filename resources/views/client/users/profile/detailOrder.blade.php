@@ -70,49 +70,7 @@
 
                 <!-- User Profile Content -->
                 <div class="row">
-                    <div class="col-xl-4 col-lg-5 col-md-5">
-                        <!-- About User -->
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <small class="card-text text-uppercase">Thông tin</small>
-                                <ul class="list-unstyled my-3 py-1">
-                                    <li class="d-flex align-items-center mb-3"><i
-                                            class="mdi mdi-account-outline mdi-24px"></i><span class="fw-medium mx-2">Họ và
-                                            tên: </span> <span>{{ Auth::user()->name }}</span>
-                                    </li>
-
-
-                                    <li class="d-flex align-items-center mb-3">
-                                        <i class='mdi mdi-map-marker-outline mdi-24px'></i>
-                                        <span class="fw-medium mx-2">Địa chỉ:
-                                        </span><span>{{ Auth::user()->address }}</span>
-                                    </li>
-                                    <li class="d-flex align-items-center mb-3"><i class="mdi mdi-flag-outline mdi-24px"></i>
-                                        <span class="fw-medium mx-2">Quốc
-                                            gia:</span> <span>Việt Nam</span>
-                                    </li>
-                                    <li class="d-flex align-items-center mb-1"><i
-                                            class="mdi mdi-translate mdi-24px"></i><span class="fw-medium mx-2">Ngôn
-                                            ngữ:</span> <span>Tiếng việt</span>
-                                    </li>
-                                </ul>
-                                <small class="card-text text-uppercase">Liên hệ</small>
-                                <ul class="list-unstyled my-3 py-1">
-                                    <li class="d-flex align-items-center mb-3"><i
-                                            class="mdi mdi-phone-outline mdi-24px"></i><span class="fw-medium mx-2">Liên
-                                            hệ:</span> <span>{{ Auth::user()->phone }}</span></li>
-                                    <li class="d-flex align-items-center mb-1"><i
-                                            class="mdi mdi-email-outline mdi-24px"></i><span
-                                            class="fw-medium mx-2">Email:</span>
-                                        <span>{{ Auth::user()->email }}</span>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                        <!--/ About User -->
-                    </div>
-                    <div class="col-xl-8 col-lg-7 col-md-7">
+                    <div class="col-xl-12 col-lg-11 col-md-11">
                         <div class="row">
                             <div class="col-12 col-lg-8">
                                 <div class="card mb-4">
@@ -147,18 +105,13 @@
                                                                         @endif
                                                                     </div>
                                                                     <div>
-                                                                        <span>{{ $item->product->name }}
-                                                                        </span>
+                                                                        <strong>{{ $item->product_name }}</strong>
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            @if ($item->product->price_sale == '')
-                                                                <td>{{ number_format($item->product->base_price, 0, ',', '.') }}
-                                                                </td>
-                                                            @else
-                                                                <td>{{ number_format($item->product->price_sale, 0, ',', '.') }}
-                                                                </td>
-                                                            @endif
+                                                            <td>
+                                                                {{ number_format($item->price, 0, ',', '.') }}
+                                                            </td>
                                                             <td>{{ $item->quantity }}</td>
                                                             <td>{{ number_format($item->total_price, 0, ',', '.') }} VND
                                                             </td>
@@ -179,30 +132,30 @@
                                                                         @endif
                                                                     </div>
                                                                     <div>
-                                                                        <strong>{{ optional($item->variant)->product->name }}
-                                                                        </strong>
+                                                                        <strong>{{ $item->product_name }}</strong>
                                                                     </div>
                                                                 </div>
-                                                                <span>
-                                                                    @foreach ($item->variant->attributes as $attribute)
-                                                                        @if (!$loop->first)
-                                                                            <br>
+                                                                @php
+                                                                    $attributes = explode(
+                                                                        ' - ',
+                                                                        $item->variant_attribute,
+                                                                    );
+                                                                    $values = explode(' - ', $item->variant_value);
+                                                                @endphp
+
+                                                                <span class="block text-sm text-gray-700">
+                                                                    @foreach ($attributes as $index => $attribute)
+                                                                        {{ $attribute }}: {{ $values[$index] ?? '' }}
+                                                                        @if (!$loop->last)
+                                                                            |
                                                                         @endif
-                                                                        {{ $attribute->attribute->name }}:
-                                                                        {{ $attribute->attributeValue->value }}.
                                                                     @endforeach
                                                                 </span>
-                                                            </td>
-                                                            @if ($item->variant->product->price_sale == '')
-                                                                <td>
-                                                                    {{ number_format($item->variant->product->base_price, 0, ',', '.') }}
-                                                                </td>
-                                                            @else
-                                                                <td>
-                                                                    {{ number_format($item->variant->product->price_sale, 0, ',', '.') }}
-                                                                </td>
-                                                            @endif
 
+                                                            </td>
+                                                            <td>
+                                                                {{ number_format($item->price, 0, ',', '.') }}
+                                                            </td>
                                                             </td>
                                                             <td>{{ $item->quantity }}</td>
                                                             <td>{{ number_format($item->total_price, 0, ',', '.') }}
@@ -237,8 +190,7 @@
                                                         lại</button>
                                                 </form>
                                             @endif
-                                            <form action="{{ route('profile.orders.cancel', $order->id) }}"
-                                                method="POST"
+                                            <form action="{{ route('profile.orders.cancel', $order->id) }}" method="POST"
                                                 onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');"
                                                 class="d-inline">
                                                 @csrf
@@ -258,16 +210,24 @@
                                                 </button>
                                             </form>
                                         @elseif ($order->status === 'completed')
-                                            <button class="btn btn-success btn-sm" disabled>
-                                                Đơn hàng đã hoàn thành
+                                            <div>
+                                                <a class="btn btn-outline-danger btn-sm"
+                                                    href="{{ route('profile.refund', $order->id) }}">
+                                                    Trả hàng / Hoàn tiền
+                                                </a>
+                                                <button class="btn btn-outline-warning btn-sm">
+                                                    Đánh giá
+                                                </button>
+                                            </div>
+                                        @elseif ($order->status === 'refund_completed')
+                                            <button class="btn btn-outline-success btn-sm">
+                                                Đã hoàn tiền thành công
                                             </button>
                                         @else
                                             <button class="btn btn-primary btn-sm" disabled>Đơn hàng đang được xử
                                                 lý</button>
                                         @endif
-
                                     </div>
-
                                     <div class="card-body mt-3">
                                         <ul class="timeline pb-0 mb-0">
                                             @php
@@ -296,6 +256,19 @@
                                                                     {{ $item->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('h:i A') }}</span>
                                                             </div>
                                                             <p class="mt-2">{{ $item->note }}</p>
+                                                            @if ($item->image)
+                                                                <!-- Ảnh nhỏ có sự kiện click -->
+                                                                <img src="{{ Storage::url($item->image) }}"
+                                                                    class="rounded-2" width="50px"
+                                                                    style="cursor:pointer"
+                                                                    onclick="showImageModal('{{ Storage::url($item->image) }}')">
+                                                            @endif
+                                                            <!-- Modal hiển thị ảnh lớn -->
+                                                            <div id="imageModal" onclick="this.style.display='none'"
+                                                                style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center;">
+                                                                <img id="modalImage" src=""
+                                                                    style="max-width:90%; max-height:90%; border-radius:8px;">
+                                                            </div>
                                                         </div>
                                                     </li>
                                                 @elseif ($item->name === 'Đang giao hàng')
@@ -352,11 +325,8 @@
                                 </div>
                             </div>
                             <div class="col-12 col-lg-4">
-
                                 <div class="card mb-4">
-
                                     <div class="card-body">
-
                                         <h6 class="card-title mb-4">Chi tiết khách hàng</h6>
                                         <div class="d-flex justify-content-start align-items-center mb-4">
                                             <div class="avatar me-2">
@@ -376,12 +346,13 @@
                                                 <small>Mã khách hàng: #{{ $order->user->id }}</small>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start align-items-center mb-4">
+                                        {{-- đơn hàng --}}
+                                        {{-- <div class="d-flex justify-content-start align-items-center mb-4">
                                             <span
                                                 class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i
                                                     class='mdi mdi-cart-plus mdi-24px'></i></span>
                                             <h6 class="text-nowrap mb-0">{{ $order->count('user_id') }} Đơn Hàng</h6>
-                                        </div>
+                                        </div> --}}
                                         <div class="d-flex justify-content-between">
                                             <h6 class="mb-2">Thông tin liên lạc</h6>
                                         </div>
@@ -404,9 +375,9 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="mt-auto d-flex justify-content-end">
+                                <div class="d-flex justify-content-center align-items-center">
                                     <a class="btn btn-outline-secondary" href="{{ route('profile.myOder') }}">
-                                        <i class="mdi mdi-arrow-left"></i> Quay lại
+                                        <i class="mdi mdi-arrow-left me-1"></i>Quay lại
                                     </a>
                                 </div>
 
@@ -418,7 +389,6 @@
             </div>
         </div>
     </main>
-
 @endsection
 
 @section('style-libs')
@@ -447,15 +417,13 @@
         }
     </style>
 @endsection
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll(".toggle-details").forEach(button => {
-            button.addEventListener("click", function() {
-                const targetId = this.getAttribute("data-target");
-                const targetDiv = document.querySelector(targetId);
-                targetDiv.classList.toggle("show");
-            });
-        });
-    });
-</script>
+@section('script-libs')
+    <script>
+        function showImageModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = src;
+            modal.style.display = 'flex';
+        }
+    </script>
+@endsection

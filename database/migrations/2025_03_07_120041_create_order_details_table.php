@@ -23,6 +23,9 @@ return new class extends Migration
             $table->integer('quantity');
             $table->decimal('total_price', 10, 2);
             $table->string('product_name');
+            // $table->string('product_price');
+            $table->string('variant_attribute')->nullable();
+            $table->string('variant_value')->nullable();
             $table->timestamps();
         });
     }

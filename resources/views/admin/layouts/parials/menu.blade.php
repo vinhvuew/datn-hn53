@@ -23,6 +23,13 @@
                 </div>
             </a>
         </li>
+        <li class="menu-item">
+            <a href="{{ route('admin.chat.index') }}" class="menu-link">
+                <i class="menu-icon fa-solid fa-message"></i>
+
+                <div class="text-truncate" data-i18n="CHAT">CHAT</div>
+            </a>
+        </li>
         {{-- danh mục --}}
         <li class="menu-item @yield('item-category')">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -206,14 +213,6 @@
                 <i class="menu-icon fa-regular fa-newspaper"></i>
                 {{-- <i class=" menu-icon fa-sharp fa-solid fa-chart-simple"></i> --}}
                 <div class="text-truncate" data-i18n="Tin Tức">Tin Tức</div>
-            </a>
-        </li>
-
-        <li class="menu-item">
-            <a href="{{ route('admin.chat.index') }}" class="menu-link">
-                <i class="menu-icon fa-solid fa-message"></i>
-
-                <div class="text-truncate" data-i18n="CHAT">CHAT</div>
             </a>
         </li>
 

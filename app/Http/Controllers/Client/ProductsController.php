@@ -218,25 +218,35 @@ class ProductsController extends Controller
             $query->where('brand_id', $request->brand);
         }
 
-        // Lọc theo giá sale (nếu có)
-        if ($request->has('price_sale') && $request->price_sale != '') {
-            // Chỉ lọc nếu price_sale > 0
-            if ($request->price_sale > 0) {
-                $query->where('price_sale', '<=', $request->price_sale);
+        // Lọc theo khoảng giá (price_range)
+        if ($request->has('price_range') && $request->price_range != '') {
+            switch ($request->price_range) {
+                case '0-499999':
+                    $query->whereBetween('price_sale', [0, 499999]);
+                    break;
+                case '500000-999999':
+                    $query->whereBetween('price_sale', [500000, 999999]);
+                    break;
+                case '1000000-1999999':
+                    $query->whereBetween('price_sale', [1000000, 1999999]);
+                    break;
+                case '2000000-5000000':
+                    $query->whereBetween('price_sale', [2000000, 5000000]);
+                    break;
+                case '5000000-15000000':
+                    $query->whereBetween('price_sale', [5000000, 15000000]);
+                    break;
             }
         }
 
-        // Phân trang
-        $products = Product::where('is_active', 1)
+        // Lấy sản phẩm với các điều kiện lọc và phân trang
+        $products = $query->where('is_active', 1)
             ->latest()
-            ->limit(8)
             ->paginate(12);
-        // $products = $query->paginate(12);
 
         // Trả về view với dữ liệu
         return view('client.product.products', compact('products', 'categories', 'brands'));
     }
-
     // yêu thích
     public function favorite()
     {

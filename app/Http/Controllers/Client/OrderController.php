@@ -128,20 +128,46 @@ class OrderController extends Controller
                 }
 
                 // Tính giá sản phẩm (giảm giá hoặc giá gốc)
-                $price = Product::where('id', $item->product_id)->value('price_sale')
-                    ?? Product::where('id', $item->product_id)->value('base_price')
-                    ?? 0;
-
+                // $price = Product::where('id', $item->product_id)->value('price_sale')
+                //     ?? Product::where('id', $item->product_id)->value('base_price')
+                //     ?? 0;
                 // Tạo chi tiết đơn hàng (OrderDetail)
                 $order = new OrderDetail();
                 $order->order_id = $orderId;
                 $order->product_id = $item->product_id ?? null;
                 $order->variant_id = $item->variant_id ?? null;
                 $order->quantity = $item->quantity;
-                $order->price = $price;
+                $order->price = $item->variant->product->price_sale
+                ?? $item->variant->product->base_price
+                ?? $item->product->price_sale
+                ?? $item->product->base_price
+                ?? 0;
                 $order->total_price = $item->total_amount;
                 $order->product_name = $item->product->name ?? $item->variant->product->name;
+                // $order->variant_attribute = $item->variant->attributes ?? null; // "Size - Color"
+                // $order->variant_value = $item->variant->attributeValue ?? null;    // "42 - Trắng"
+                // Kiểm tra nếu có biến thể và các thuộc tính
+                if ($item->variant && $item->variant->attributes && $item->variant->attributes->isNotEmpty()) {
+                    // Duyệt qua các thuộc tính và lấy tên và giá trị
+                    $variantAttributes = $item->variant->attributes;
+
+                    $attributeNames = $variantAttributes->map(function ($attribute) {
+                        return $attribute->attribute->name;  // Lấy tên thuộc tính (ví dụ: "Size", "Color")
+                    });
+
+                    $attributeValues = $variantAttributes->map(function ($attribute) {
+                        return $attribute->attributeValue->value;  // Lấy giá trị thuộc tính (ví dụ: "42", "Red")
+                    });
+
+                    // Lưu tên thuộc tính và giá trị vào các trường tách biệt
+                    $order->variant_attribute = $attributeNames->implode(' - ');  // Lưu tên thuộc tính (Ví dụ: "Size - Color")
+                    $order->variant_value = $attributeValues->implode(' - ');  // Lưu giá trị thuộc tính (Ví dụ: "42 - Red")
+                } else {
+                    $order->variant_attribute = null;
+                    $order->variant_value = null;
+                }
                 $order->save();
+                // dd($order);
                 // Xử lý giảm số lượng tồn kho
                 if ($item->variant_id) {
                     $variant = Variant::find($item->variant_id);
@@ -184,6 +210,7 @@ class OrderController extends Controller
                     }
                 }
             }
+
 
             // Thêm thông tin giao hàng
             try {

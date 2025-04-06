@@ -36,7 +36,7 @@
                                     <select class="form-select" name="category">
                                         <option value="">Chọn danh mục</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}" 
+                                            <option value="{{ $category->id }}"
                                                 {{ request('category') == $category->id ? 'selected' : '' }}>
                                                 {{ $category->name }}
                                             </option>
@@ -50,11 +50,34 @@
                                     <select class="form-select" name="brand">
                                         <option value="">Chọn hãng</option>
                                         @foreach ($brands as $brand)
-                                            <option value="{{ $brand->id }}" 
+                                            <option value="{{ $brand->id }}"
                                                 {{ request('brand') == $brand->id ? 'selected' : '' }}>
                                                 {{ $brand->name }}
                                             </option>
                                         @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Khoảng giá -->
+                                <div class="mb-3">
+                                    <label class="form-label"><strong>Khoảng giá</strong></label>
+                                    <select class="form-select" name="price_range">
+                                        <option value="">Chọn khoảng giá</option>
+                                        <option value="0-499999" {{ request('price_range') == '0-499999' ? 'selected' : '' }}>
+                                            0 - 499,999 VNĐ
+                                        </option>
+                                        <option value="500000-999999" {{ request('price_range') == '500000-999999' ? 'selected' : '' }}>
+                                            500,000 - 999,999 VNĐ
+                                        </option>
+                                        <option value="1000000-1999999" {{ request('price_range') == '1000000-1999999' ? 'selected' : '' }}>
+                                            1,000,000 - 1,999,999 VNĐ
+                                        </option>
+                                        <option value="2000000-5000000" {{ request('price_range') == '2000000-5000000' ? 'selected' : '' }}>
+                                            2,000,000 - 5,000,000 VNĐ
+                                        </option>
+                                        <option value="5000000-15000000" {{ request('price_range') == '5000000-15000000' ? 'selected' : '' }}>
+                                            5,000,000 - 15,000,000 VNĐ
+                                        </option>
                                     </select>
                                 </div>
 
@@ -73,8 +96,8 @@
                                 <div class="card border-0 shadow-sm text-center h-100">
                                     <div class="position-relative overflow-hidden">
                                         <a href="{{ route('productDetail', $product->slug) }}" class="d-block">
-                                            <img src="{{ Storage::url($product->img_thumbnail) }}" 
-                                                 class="img-fluid product-image" 
+                                            <img src="{{ Storage::url($product->img_thumbnail) }}"
+                                                 class="img-fluid product-image"
                                                  alt="{{ $product->name }}">
                                         </a>
                                     </div>
@@ -93,7 +116,6 @@
                                             @else
                                                 <span class="new_price fw-bold">
                                                     {{ number_format($product->base_price, 0, ',', '.') }}VND
-
                                                 </span>
                                             @endif
                                         </div>
@@ -114,18 +136,17 @@
 @endsection
 
 @section('style-libs')
-    <!-- CSS tùy chỉnh -->
     <style>
         .product-image {
-            width: 100%; /* Chiều rộng full */
-            height: 220px; /* Chiều cao cố định */
-            object-fit: cover; /* Giữ tỷ lệ, cắt phần thừa */
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
             transition: transform 0.3s ease-in-out;
             border-radius: 10px;
         }
 
         .product-image:hover {
-            transform: scale(1.1); /* Phóng to khi hover */
+            transform: scale(1.1);
         }
 
         .price_box {
@@ -163,24 +184,7 @@
             color: #ffc107;
         }
         span.relative.z-0.inline-flex {
-    display: none !important;
-}
+            display: none !important;
+        }
     </style>
-@endsection
-
-@section('script-libs')
-    <!-- JavaScript để cập nhật giá trị range slider -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const priceRange = document.getElementById('priceRange');
-            const priceValue = document.getElementById('priceValue');
-
-            if (priceRange && priceValue) {
-                priceRange.addEventListener('input', function() {
-                    priceValue.textContent = this.value + 'VNĐ';
-                });
-                priceValue.textContent = priceRange.value + 'VNĐ';
-            }
-        });
-    </script>
 @endsection

@@ -130,6 +130,29 @@
                     </div>
                     <!-- Second column -->
                     <div class="col-12 col-lg-4">
+                        <div class="card mb-4 p-3">
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Hoạt động:</strong></label>
+                                <span>{!! $product->is_active ? '✅' : '❌' !!}</span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Ưu đãi tốt:</strong></label>
+                                <span>{!! $product->is_good_deal ? '✅' : '❌' !!}</span>
+                            </div>
+
+                            {{--
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Sản phẩm mới:</strong></label>
+                                <span>{!! $product->is_new ? '✅' : '❌' !!}</span>
+                            </div>
+                            --}}
+
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Sản phẩm nổi bật:</strong></label>
+                                <span>{!! $product->is_show_home ? '✅' : '❌' !!}</span>
+                            </div>
+                        </div>
                         <!-- /danh mục -->
                         <div class="card mb-4">
                             <div class="card-header">

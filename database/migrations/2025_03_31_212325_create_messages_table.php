@@ -19,7 +19,6 @@ return new class extends Migration
             $table->boolean('is_read')->default(false); // Tin nhắn đã đọc chưa
             $table->softDeletes();
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
