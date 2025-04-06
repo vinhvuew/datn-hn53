@@ -34,7 +34,7 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->limit(8)
             ->get();
-
+        // return response()->json($featuredProducts);
         return view(self::PATH_VIEW . __FUNCTION__, compact('featuredProducts', 'goodDeals', 'newProducts'));
     }
 

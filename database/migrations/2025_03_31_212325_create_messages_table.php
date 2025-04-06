@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id'); // Người gửi (user)
             $table->unsignedBigInteger('admin_id')->nullable(); // Admin liên quan (nếu là tin nhắn từ/to admin)
             $table->text('message'); // Nội dung tin nhắn
+            $table->softDeletes();
             $table->boolean('is_read')->default(false); // Tin nhắn đã đọc chưa
             $table->timestamps();
 

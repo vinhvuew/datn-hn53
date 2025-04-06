@@ -162,7 +162,6 @@ Route::get('/reviews/{productId}', [ReviewController::class, 'index']);
 
 // Admin
 Route::prefix('admin')->middleware(['admin'])->group(function () {
-
     Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');
 
     // Permission
