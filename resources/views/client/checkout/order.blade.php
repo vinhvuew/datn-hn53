@@ -47,28 +47,67 @@
         .form-voucher {
             background-color: #fff;
             border: 1px solid lightgray;
-            padding: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .voucher-list {
+            max-height: 150px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .voucher-item {
             display: flex;
-            gap: 3px;
-
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .form-voucher input {
-            width: 80%;
-            height: 40px;
-            border-radius: 5px;
-            border: 1px solid lightgray;
+        .voucher-item:hover {
+            background: #f0f0f0;
+            border-color: #999;
         }
 
-        .form-voucher button {
-            width: 17%;
-            height: 40px;
-            font-size: 10px;
-            background-color: #333333;
-            color: white;
-            border: none;
-            border-radius: 5px;
+        .voucher-info {
+            flex: 1;
+            padding: 0 10px;
+        }
 
+        .voucher-code {
+            font-weight: bold;
+            color: #e94560;
+            font-size: 16px;
+        }
+
+        .voucher-name {
+            color: #333;
+            margin: 5px 0;
+        }
+
+        .voucher-condition {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .voucher-item.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #eee;
+        }
+
+        .voucher-item.selected {
+            border: 2px solid #e94560;
+            background: #fff;
+        }
+
+        .voucher-radio {
+            margin-right: 10px;
         }
     </style>
     <main class="bg_gray">
@@ -222,8 +261,32 @@
                     <div class="step last">
                         <h3>3. Tóm Tắt Đơn Hàng</h3>
                         <div class="form-voucher">
-                            <input type="text" placeholder="Nhập Voucher ..." id="input-coupon"> <button
-                                id="btn-submit-coupon">Áp Dụng</button>
+                            <h4>Chọn Voucher</h4>
+                            <div class="voucher-list">
+                                @foreach ($vouchers as $voucher)
+                                    @php
+                                        $isDisabled = $voucher->min_order_value > $totalAmount;
+                                        $discountText = $voucher->discount_type === 'percentage' 
+                                            ? $voucher->discount_value . '%' 
+                                            : number_format($voucher->discount_value, 0, ',', '.') . ' VNĐ';
+                                    @endphp
+                                    <div class="voucher-item {{ $isDisabled ? 'disabled' : '' }}" 
+                                         onclick="{{ $isDisabled ? '' : 'selectVoucher(' . $voucher->id . ', \'' . $voucher->code . '\')' }}">
+                                        <input type="radio" name="voucher" value="{{ $voucher->id }}" 
+                                               class="voucher-radio" {{ $isDisabled ? 'disabled' : '' }}>
+                                        <div class="voucher-info">
+                                            <div class="voucher-code">{{ $voucher->code }}</div>
+                                            <div class="voucher-name">Giảm {{ $discountText }}</div>
+                                            <div class="voucher-condition">
+                                                Đơn tối thiểu {{ number_format($voucher->min_order_value, 0, ',', '.') }} VNĐ
+                                                @if($voucher->max_discount_value)
+                                                    - Giảm tối đa {{ number_format($voucher->max_discount_value, 0, ',', '.') }} VNĐ
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                         <form class="box_general summary" method="POST" action="{{ route('checkout.store') }}"
                             style="margin-top: 5px;">
@@ -482,43 +545,30 @@
     {{-- voucher --}}
     <script>
         $(document).ready(function() {
-            $('#btn-submit-coupon').click(function() {
-                let couponCode = $('#input-coupon').val().trim();
-
-                // Lấy giá trị từ text hiển thị và xử lý chuỗi
+            function selectVoucher(voucherId, voucherCode) {
                 let totalAmountText = $('#total_amount_display').text().replace('VNĐ', '').trim();
                 let totalAmount = totalAmountText.replace(/[,\.]/g, '');
-
-                console.log('Total amount text:', totalAmountText);
-                console.log('Total amount before sending:', totalAmount);
-
-                if (!couponCode) {
-                    alert('Vui lòng nhập mã giảm giá!');
-                    return;
-                }
 
                 $.ajax({
                     url: "{{ route('apply.voucher') }}",
                     type: "POST",
                     data: {
-                        coupon_code: couponCode,
+                        coupon_code: voucherCode,
                         total_amount: totalAmount,
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        console.log('Server response:', response);
                         if (response.status === 'success') {
-                            // Cập nhật giá trị input ẩn
+                            // Cập nhật UI
                             $('#total_price').val(response.final_total);
                             $('#voucher_id').val(response.voucher_id);
-
-                            // Cập nhật hiển thị
-                            $('#total_amount_display').text(new Intl.NumberFormat('vi-VN')
-                                .format(response.final_total) + " VNĐ");
-                            $('#discount_value span').text("-" + new Intl.NumberFormat('vi-VN')
-                                .format(response.discount_amount) + " VNĐ");
-
-                            alert(response.message);
+                            $('#total_amount_display').text(new Intl.NumberFormat('vi-VN').format(response.final_total) + " VNĐ");
+                            $('#discount_value span').text("-" + new Intl.NumberFormat('vi-VN').format(response.discount_amount) + " VNĐ");
+                            
+                            // Cập nhật trạng thái selected cho voucher
+                            $('.voucher-item').removeClass('selected');
+                            $(`input[name="voucher"][value="${voucherId}"]`).prop('checked', true)
+                                .closest('.voucher-item').addClass('selected');
                         } else {
                             alert(response.message);
                         }
@@ -528,7 +578,10 @@
                         alert("Có lỗi xảy ra! Vui lòng thử lại.");
                     }
                 });
-            });
+            }
+
+            // Thêm hàm selectVoucher vào window object để có thể gọi từ onclick
+            window.selectVoucher = selectVoucher;
         });
     </script>
     <script>

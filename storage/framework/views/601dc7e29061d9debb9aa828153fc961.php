@@ -257,4 +257,4 @@
     <script src="<?php echo e(asset('admin')); ?>/assets/js/app-chat.js"></script>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/chat/chat-admin.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/admin/datn-hn53/resources/views/admin/chat/chat-admin.blade.php ENDPATH**/ ?>

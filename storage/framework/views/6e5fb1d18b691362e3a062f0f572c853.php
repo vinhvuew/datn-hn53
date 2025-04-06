@@ -219,4 +219,4 @@
 
     </ul>
 </aside>
-<?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/layouts/parials/menu.blade.php ENDPATH**/ ?>
+<?php /**PATH /Users/admin/datn-hn53/resources/views/admin/layouts/parials/menu.blade.php ENDPATH**/ ?>

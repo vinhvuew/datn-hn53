@@ -8,6 +8,7 @@ use App\Models\Brand;
 use App\Models\Cart;
 use App\Models\CartDetail;
 use App\Models\Product;
+use App\Models\Voucher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -86,7 +87,16 @@ class HomeController extends Controller
             ],
         ];
 
-        return view(self::PATH_VIEW . __FUNCTION__ . ".order", compact('totalAmount', 'payment_method', 'cart', 'address'));
+        // Lấy danh sách voucher có hiệu lực
+        $vouchers = Voucher::where('status', 'active')
+            ->where(function($query) {
+                $query->whereNull('end_date')
+                      ->orWhere('end_date', '>=', now());
+            })
+            ->orderBy('min_order_value', 'asc')
+            ->get();
+
+        return view(self::PATH_VIEW . __FUNCTION__ . ".order", compact('totalAmount', 'payment_method', 'cart', 'address', 'vouchers'));
     }
 
 

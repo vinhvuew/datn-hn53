@@ -198,14 +198,11 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
 
     // voucher
     Route::get('/vouchers', [VouchersController::class, 'index'])->name('vouchers.index');
-    // Tạo voucher mới
     Route::get('/vouchers/create', [VouchersController::class, 'create'])->name('vouchers.create');
     Route::post('/vouchers', [VouchersController::class, 'store'])->name('vouchers.store');
-    // Chỉnh sửa voucher
-    Route::get('/vouchers/{id}/edit', [VouchersController::class, 'edit'])->name('vouchers.edit');
-    Route::put('/vouchers/{id}', [VouchersController::class, 'update'])->name('vouchers.update');
-    // Xóa voucher
-    Route::delete('/vouchers/{id}', [VouchersController::class, 'destroy'])->name('vouchers.destroy');
+    Route::get('/vouchers/{voucher}/edit', [VouchersController::class, 'edit'])->name('vouchers.edit');
+    Route::put('/vouchers/{voucher}', [VouchersController::class, 'update'])->name('vouchers.update');
+    Route::delete('/vouchers/{voucher}', [VouchersController::class, 'destroy'])->name('vouchers.destroy');
 
     // Bình luận
     Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
