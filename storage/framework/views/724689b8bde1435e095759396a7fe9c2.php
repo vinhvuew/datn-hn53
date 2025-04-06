@@ -36,7 +36,15 @@
                                 <a href="<?php echo e(route('news')); ?>">Bài viết</a>
                             </li>
                             <li>
-                                <a href="<?php echo e(route('chat.index')); ?>">chat</a>
+                                <?php if(Auth::check()): ?>
+                                    <form action="<?php echo e(route('chat.create', Auth::user()->id)); ?>" method="POST">
+                                        <?php echo csrf_field(); ?>
+                                        <button type="submit" class="btn btn-sm btn-outline-warning mx-2">Liên
+                                            Hệ
+                                            Admin</button>
+                                    </form>
+                                <?php endif; ?>
+
                             </li>
                         </ul>
                     </div>

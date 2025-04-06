@@ -2,29 +2,36 @@
 
 namespace App\Events;
 
+use App\Models\Message;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\PrivateChannel;
+
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+
+use Illuminate\Broadcasting\PrivateChannel;
+
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 class MessageSent
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use InteractsWithSockets, SerializesModels;
 
     public $message;
+    public $roomId;
 
-    public function __construct($message)
+    public function __construct(Message $message, $roomId)
     {
         $this->message = $message;
+        $this->roomId = $roomId;
     }
 
+    // Kênh Presence Channel để theo dõi trạng thái online của 2 người dùng
     public function broadcastOn()
     {
-        return [
-            new PrivateChannel('chat.user.' . $this->message->user_id), // user nghe
-            new Channel('chat.admin'), // admin nghe
-        ];
+
+        return new PresenceChannel('chat.' . $this->roomId);
+
     }
 
 
@@ -32,11 +39,10 @@ class MessageSent
     {
         return [
             'message' => $this->message->message,
-            'user_id' => $this->message->user_id,
-            'admin_id' => $this->message->admin_id,
-            'is_admin' => $this->message->admin_id !== null,
-            'user_name' => $this->message->user ? $this->message->user->name : 'User ' . $this->message->user_id,
-            'timestamp' => $this->message->created_at->toDateTimeString(),
+
+            'sender_id' => $this->message->sender_id,
+            'receiver_id' => $this->message->receiver_id,
+
         ];
     }
 }

@@ -1,28 +1,15 @@
-// import { defineConfig } from 'vite';
-// import laravel from 'laravel-vite-plugin';
-
-// export default defineConfig({
-//     plugins: [
-//         laravel({
-//             input: ['resources/css/app.css', 'resources/js/app.js'],
-//             refresh: true,
-//         }),
-//     ],
-// });
-
-
-// const laravel = require('laravel-vite-plugin');
-// export default defineConfig({
-//     plugins: [laravel(['resources/js/app.js', 'resources/css/app.css'])],
-// });
-
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
+import { defineConfig } from "vite";
+import laravel from "laravel-vite-plugin";
 
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input: [
+                "resources/js/app.js",
+                "resources/js/present.js",
+                "resources/js/list.js",
+                "resources/css/chat.css",
+            ],
             refresh: true,
         }),
     ],

@@ -227,14 +227,15 @@
                         <form class="box_general summary" method="POST" action="<?php echo e(route('checkout.store')); ?>"
                             style="margin-top: 5px;">
                             <?php echo csrf_field(); ?>
-
                             <?php $__currentLoopData = $cart->cartDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="order-item">
                                     <?php if($order->variant): ?>
                                         
                                         <div class="item-details">
-                                            <strong><?php echo e($order->quantity); ?>x <?php echo e($order->variant->product->name); ?></strong>
-                                            <span><?php echo e(number_format($order->total_amount, 0, ',', '.')); ?> VNĐ</span>
+                                            <strong><?php echo e($order->variant->product->name); ?></strong><br>
+                                            <strong>Số lượng: <?php echo e($order->quantity); ?></strong><br>
+                                            <strong class="text-danger">Giá:
+                                                <?php echo e(number_format($order->total_amount, 0, ',', '.')); ?> VNĐ</strong>
                                         </div>
                                         <?php if($order->variant->attributes->isNotEmpty()): ?>
                                             <ul class="variant-attributes">

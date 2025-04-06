@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Room;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,14 +14,17 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); // Người gửi (user)
-            $table->unsignedBigInteger('admin_id')->nullable(); // Admin liên quan (nếu là tin nhắn từ/to admin)
-            $table->text('message'); // Nội dung tin nhắn
-            $table->boolean('is_read')->default(false); // Tin nhắn đã đọc chưa
-            $table->softDeletes();
+            $table->foreignIdFor(Room::class)->constrained();
+            $table->unsignedBigInteger('sender_id');
+            $table->unsignedBigInteger('receiver_id');
+            $table->text('message');
+            $table->text('attachment')->nullable(); // ảnh, video
+            $table->text('attachment_type')->nullable(); // image / video
+            $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('receiver_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+
     }
 
     /**
