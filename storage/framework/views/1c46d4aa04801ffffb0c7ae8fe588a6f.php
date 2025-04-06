@@ -343,9 +343,11 @@
                 <div class="card mb-4">
 
                     <div class="card-header d-flex justify-content-between">
-                        <h6 class="card-title m-0">Địa chỉ giao hàng</h6>
+                        <h6 class="card-title m-0">Thông tin giao hàng</h6>
                     </div>
                     <div class="card-body">
+                        <p>Email: <?php echo e($order->address->email); ?></p>
+                        <p>SĐT: <?php echo e($order->address->phone); ?></p>
                         <p class="mb-0">Địa chỉ: <?php echo e($order->address->address); ?>, <?php echo e($order->address->ward); ?>
 
                             <br> <?php echo e($order->address->district); ?>

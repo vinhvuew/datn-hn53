@@ -273,8 +273,6 @@
                                                                 <img id="modalImage" src=""
                                                                     style="max-width:90%; max-height:90%; border-radius:8px;">
                                                             </div>
-
-
                                                         </div>
                                                     </li>
                                                 <?php elseif($item->name === 'Đang giao hàng'): ?>

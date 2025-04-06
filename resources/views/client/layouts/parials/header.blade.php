@@ -40,7 +40,15 @@
                                 <a href="{{ route('news') }}">Bài viết</a>
                             </li>
                             <li>
-                                <a href="{{ route('chat.index') }}">chat</a>
+                                @if (Auth::check())
+                                    <form action="{{ route('chat.create', Auth::user()->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-outline-warning mx-2">Liên
+                                            Hệ
+                                            Admin</button>
+                                    </form>
+                                @endif
+
                             </li>
                         </ul>
                     </div>
