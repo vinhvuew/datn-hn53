@@ -18,5 +18,16 @@ class Voucher extends Model
         'status',
         'start_date',
         'end_date',
+        'quantity',
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function hasBeenUsedBy(User $user)
+    {
+        return $this->orders()->where('user_id', $user->id)->exists();
+    }
 };

@@ -261,7 +261,7 @@
                     <div class="step last">
                         <h3>3. Tóm Tắt Đơn Hàng</h3>
                         <div class="form-voucher">
-                            <h4>Chọn Voucher</h4>
+                            <h5>Chọn Voucher</h5>
                             <div class="voucher-list">
                                 @foreach ($vouchers as $voucher)
                                     @php
@@ -281,6 +281,9 @@
                                                 Đơn tối thiểu {{ number_format($voucher->min_order_value, 0, ',', '.') }} VNĐ
                                                 @if($voucher->max_discount_value)
                                                     - Giảm tối đa {{ number_format($voucher->max_discount_value, 0, ',', '.') }} VNĐ
+                                                @endif
+                                                @if($voucher->quantity)
+                                                    - Còn lại: {{ $voucher->quantity }} voucher
                                                 @endif
                                             </div>
                                         </div>
@@ -327,6 +330,10 @@
                                     <li class="clearfix" id="discount_value">
                                         <em>Mã giảm giá:</em>
                                         <span>0 VNĐ</span>
+                                    </li>
+                                    <li class="clearfix" id="voucher_info">
+                                        <em>Thông tin voucher:</em>
+                                        <span id="voucher_quantity"></span>
                                     </li>
                                 </ul>
                             </div>
@@ -564,11 +571,18 @@
                             $('#voucher_id').val(response.voucher_id);
                             $('#total_amount_display').text(new Intl.NumberFormat('vi-VN').format(response.final_total) + " VNĐ");
                             $('#discount_value span').text("-" + new Intl.NumberFormat('vi-VN').format(response.discount_amount) + " VNĐ");
+                            $('#voucher_quantity').text(response.voucher_quantity);
                             
                             // Cập nhật trạng thái selected cho voucher
                             $('.voucher-item').removeClass('selected');
                             $(`input[name="voucher"][value="${voucherId}"]`).prop('checked', true)
                                 .closest('.voucher-item').addClass('selected');
+
+                            // Giảm số lượng voucher nếu có giới hạn
+                            if (response.voucher_quantity) {
+                                response.voucher_quantity -= 1;
+                                response.save();
+                            }
                         } else {
                             alert(response.message);
                         }
