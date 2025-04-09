@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat AI</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
 
@@ -128,14 +128,14 @@
 
     <!-- Nút mở chat -->
     <button id="chat-toggle">
-        <img src="{{ asset('client/img/AIlogo.png') }}" alt="Chat AI">
+        <img src="<?php echo e(asset('client/img/AIlogo.png')); ?>" alt="Chat AI">
     </button>
 
     <!-- Khung chat -->
     <div id="chat-container">
         
         <div id="chat-header">
-            <img src="{{ asset('client/img/AIlogo.png') }}" alt="Chat AI" style="width: 28px; height: 28px; vertical-align: middle; margin-right: 8px;">
+            <img src="<?php echo e(asset('client/img/AIlogo.png')); ?>" alt="Chat AI" style="width: 28px; height: 28px; vertical-align: middle; margin-right: 8px;">
             <span style="vertical-align: middle;">Chat AI- Legend Shoes</span>
             <button id="chat-close">❌</button>
         </div>
@@ -196,3 +196,4 @@
 
 </body>
 </html>
+<?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/chatai/index.blade.php ENDPATH**/ ?>
