@@ -71,8 +71,33 @@
             background: #f9f9f9;
         }
 
-        .user-msg { color: #1a73e8; font-weight: bold; margin-bottom: 5px; }
-        .bot-msg { color: black; margin-bottom: 10px; }
+        #chat-box::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .message {
+            max-width: 80%;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            display: inline-block;
+            clear: both;
+            line-height: 1.4;
+        }
+
+        .user-msg {
+            background-color: #dcf8c6;
+            float: right;
+            text-align: right;
+        }
+
+        .bot-msg {
+            background-color: #f1f0f0;
+            float: left;
+            text-align: left;
+        }
 
         #chat-input-area {
             display: flex;
@@ -93,24 +118,6 @@
             color: white;
             cursor: pointer;
         }
-
-        /* Style sản phẩm trả về */
-        /* .product-card {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 6px;
-            background: #fff;
-            font-size: 14px;
-            color: black;
-        }
-
-        .product-card img {
-            max-width: 100%;
-            max-height: 100px;
-            margin-bottom: 5px;
-            border-radius: 4px;
-        } */
 
         .product-card .btn {
             display: inline-block;
@@ -133,10 +140,9 @@
 
     <!-- Khung chat -->
     <div id="chat-container">
-        
         <div id="chat-header">
             <img src="{{ asset('client/img/AIlogo.png') }}" alt="Chat AI" style="width: 28px; height: 28px; vertical-align: middle; margin-right: 8px;">
-            <span style="vertical-align: middle;">Chat AI- Legend Shoes</span>
+            <span style="vertical-align: middle;">Chat AI - Legend Shoes</span>
             <button id="chat-close">❌</button>
         </div>
         
@@ -174,7 +180,8 @@
             const message = messageInput.value.trim();
             if (!message) return;
 
-            chatBox.innerHTML += `<div class="user-msg">🧑 Bạn: ${message}</div>`;
+            // Tin nhắn của người dùng (bên phải)
+            chatBox.innerHTML += `<div class="message user-msg">🧑 Bạn: ${message}</div>`;
             messageInput.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
@@ -188,7 +195,8 @@
             })
             .then(res => res.json())
             .then(data => {
-                chatBox.innerHTML += `<div class="bot-msg">${data.reply}</div>`;
+                // Tin nhắn của chatbot (bên trái)
+                chatBox.innerHTML += `<div class="message bot-msg">🤖 AI: ${data.reply}</div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
             });
         }
