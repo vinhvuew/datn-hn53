@@ -9,8 +9,8 @@
     <meta name="author" content="Ansonika">
     <title>Legend Shoes | Uy Tín Tạo Niềm Tin</title>
 
-    @include('client.layouts.parials.css')
-    @yield('style-libs')
+    <?php echo $__env->make('client.layouts.parials.css', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->yieldContent('style-libs'); ?>
 
 
 </head>
@@ -18,21 +18,21 @@
 <body>
     <div id="page">
 
-        @include('client.layouts.parials.header')
+        <?php echo $__env->make('client.layouts.parials.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         
 
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
 
         
-        @include('client.layouts.parials.footer')
+        <?php echo $__env->make('client.layouts.parials.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     </div>
 
     <div id="toTop"></div>
 
-    @include('client.layouts.parials.js')
-    @yield('script-libs')
-    @include('client.chatai.index')
+    <?php echo $__env->make('client.layouts.parials.js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->yieldContent('script-libs'); ?>
+    <?php echo $__env->make('client.chatai.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 
     <script>
@@ -52,3 +52,4 @@
 </body>
 
 </html>
+<?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/layouts/master.blade.php ENDPATH**/ ?>

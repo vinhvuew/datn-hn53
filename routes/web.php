@@ -33,6 +33,12 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 
+use App\Http\Controllers\ChatAIController;
+
+Route::get('/chat-ai', [ChatAIController::class, 'index']);
+Route::post('/chat-ai/send', [ChatAIController::class, 'send']);
+
+
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/brands', [HomeController::class, 'index_brands'])->name('brand');
