@@ -19,11 +19,11 @@
     <div id="page">
 
         <?php echo $__env->make('client.layouts.parials.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-        
+
 
         <?php echo $__env->yieldContent('content'); ?>
 
-        
+
         <?php echo $__env->make('client.layouts.parials.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     </div>
