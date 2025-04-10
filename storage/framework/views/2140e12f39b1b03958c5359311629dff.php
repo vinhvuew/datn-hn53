@@ -274,32 +274,31 @@
                                 <?php $__currentLoopData = $vouchers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $voucher): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <?php
                                         $isDisabled = $voucher->min_order_value > $totalAmount;
-                                        $discountText =
-                                            $voucher->discount_type === 'percentage'
-                                                ? $voucher->discount_value . '%'
-                                                : number_format($voucher->discount_value, 0, ',', '.') . ' VNĐ';
+                                        $hasBeenUsed = $voucher->hasBeenUsedBy(Auth::user());
+                                        $discountText = $voucher->discount_type === 'percentage' 
+                                            ? $voucher->discount_value . '%' 
+                                            : number_format($voucher->discount_value, 0, ',', '.') . ' VNĐ';
                                     ?>
-                                    <div class="voucher-item <?php echo e($isDisabled ? 'disabled' : ''); ?>"
-                                        onclick="<?php echo e($isDisabled ? '' : 'selectVoucher(' . $voucher->id . ', \'' . $voucher->code . '\')'); ?>">
-                                        <input type="radio" name="voucher" value="<?php echo e($voucher->id); ?>"
-                                            class="voucher-radio" <?php echo e($isDisabled ? 'disabled' : ''); ?>>
-                                        <div class="voucher-info">
-                                            <div class="voucher-code"><?php echo e($voucher->code); ?></div>
-                                            <div class="voucher-name">Giảm <?php echo e($discountText); ?></div>
-                                            <div class="voucher-condition">
-                                                Đơn tối thiểu <?php echo e(number_format($voucher->min_order_value, 0, ',', '.')); ?>
-
-                                                VNĐ
-                                                <?php if($voucher->max_discount_value): ?>
-                                                    - Giảm tối đa
-                                                    <?php echo e(number_format($voucher->max_discount_value, 0, ',', '.')); ?> VNĐ
-                                                <?php endif; ?>
-                                                <?php if($voucher->quantity): ?>
-                                                    - Còn lại: <?php echo e($voucher->quantity); ?> voucher
-                                                <?php endif; ?>
+                                    <?php if(!$hasBeenUsed): ?>
+                                        <div class="voucher-item <?php echo e($isDisabled ? 'disabled' : ''); ?>" 
+                                             onclick="<?php echo e($isDisabled ? '' : 'selectVoucher(' . $voucher->id . ', \'' . $voucher->code . '\')'); ?>">
+                                            <input type="radio" name="voucher" value="<?php echo e($voucher->id); ?>" 
+                                                   class="voucher-radio" <?php echo e($isDisabled ? 'disabled' : ''); ?>>
+                                            <div class="voucher-info">
+                                                <div class="voucher-code"><?php echo e($voucher->code); ?></div>
+                                                <div class="voucher-name">Giảm <?php echo e($discountText); ?></div>
+                                                <div class="voucher-condition">
+                                                    Đơn tối thiểu <?php echo e(number_format($voucher->min_order_value, 0, ',', '.')); ?> VNĐ
+                                                    <?php if($voucher->max_discount_value): ?>
+                                                        - Giảm tối đa <?php echo e(number_format($voucher->max_discount_value, 0, ',', '.')); ?> VNĐ
+                                                    <?php endif; ?>
+                                                    <?php if($voucher->quantity): ?>
+                                                        - Còn lại: <?php echo e($voucher->quantity); ?> voucher
+                                                    <?php endif; ?>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    <?php endif; ?>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
@@ -552,7 +551,6 @@
     </script>
     
     <script>
-<<<<<<< HEAD
         $(document).ready(function() {
             let isApplyingVoucher = false; 
             let currentVoucherId = null; 

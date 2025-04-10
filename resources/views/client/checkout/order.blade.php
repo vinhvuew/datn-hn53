@@ -275,31 +275,31 @@
                                 @foreach ($vouchers as $voucher)
                                     @php
                                         $isDisabled = $voucher->min_order_value > $totalAmount;
-                                        $discountText =
-                                            $voucher->discount_type === 'percentage'
-                                                ? $voucher->discount_value . '%'
-                                                : number_format($voucher->discount_value, 0, ',', '.') . ' VNĐ';
+                                        $hasBeenUsed = $voucher->hasBeenUsedBy(Auth::user());
+                                        $discountText = $voucher->discount_type === 'percentage' 
+                                            ? $voucher->discount_value . '%' 
+                                            : number_format($voucher->discount_value, 0, ',', '.') . ' VNĐ';
                                     @endphp
-                                    <div class="voucher-item {{ $isDisabled ? 'disabled' : '' }}"
-                                        onclick="{{ $isDisabled ? '' : 'selectVoucher(' . $voucher->id . ', \'' . $voucher->code . '\')' }}">
-                                        <input type="radio" name="voucher" value="{{ $voucher->id }}"
-                                            class="voucher-radio" {{ $isDisabled ? 'disabled' : '' }}>
-                                        <div class="voucher-info">
-                                            <div class="voucher-code">{{ $voucher->code }}</div>
-                                            <div class="voucher-name">Giảm {{ $discountText }}</div>
-                                            <div class="voucher-condition">
-                                                Đơn tối thiểu {{ number_format($voucher->min_order_value, 0, ',', '.') }}
-                                                VNĐ
-                                                @if ($voucher->max_discount_value)
-                                                    - Giảm tối đa
-                                                    {{ number_format($voucher->max_discount_value, 0, ',', '.') }} VNĐ
-                                                @endif
-                                                @if ($voucher->quantity)
-                                                    - Còn lại: {{ $voucher->quantity }} voucher
-                                                @endif
+                                    @if (!$hasBeenUsed)
+                                        <div class="voucher-item {{ $isDisabled ? 'disabled' : '' }}" 
+                                             onclick="{{ $isDisabled ? '' : 'selectVoucher(' . $voucher->id . ', \'' . $voucher->code . '\')' }}">
+                                            <input type="radio" name="voucher" value="{{ $voucher->id }}" 
+                                                   class="voucher-radio" {{ $isDisabled ? 'disabled' : '' }}>
+                                            <div class="voucher-info">
+                                                <div class="voucher-code">{{ $voucher->code }}</div>
+                                                <div class="voucher-name">Giảm {{ $discountText }}</div>
+                                                <div class="voucher-condition">
+                                                    Đơn tối thiểu {{ number_format($voucher->min_order_value, 0, ',', '.') }} VNĐ
+                                                    @if($voucher->max_discount_value)
+                                                        - Giảm tối đa {{ number_format($voucher->max_discount_value, 0, ',', '.') }} VNĐ
+                                                    @endif
+                                                    @if($voucher->quantity)
+                                                        - Còn lại: {{ $voucher->quantity }} voucher
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
                                 @endforeach
                             </div>
                         </div>
@@ -555,7 +555,6 @@
     </script>
     {{-- voucher --}}
     <script>
-<<<<<<< HEAD
         $(document).ready(function() {
             let isApplyingVoucher = false; 
             let currentVoucherId = null; 

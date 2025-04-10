@@ -31,20 +31,14 @@ class OrderController extends Controller
     }
     public function placeOrder(Request $request)
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
-
-            $cart = Cart::where('user_id', Auth::id())->first();
-            if (!$cart) {
-                return response()->json(['error' => 'Không tìm thấy giỏ hàng'], 404);
-            }
-
-            $cart_detail = CartDetail::where('cart_id', $cart->id)
-                ->where('is_selected', CartDetail::SELECTED)
-                ->get();
+            $cart_detail = CartDetail::whereHas('cart', function ($query) {
+                $query->where('user_id', Auth::id());
+            })->get();
 
             if ($cart_detail->isEmpty()) {
-                return response()->json(['error' => 'Giỏ hàng trống'], 400);
+                return response()->json(['status' => 'error', 'message' => 'Giỏ hàng trống!'], 400);
             }
 
             $order = $this->createOrder($request, $request->payment_method === 'COD' ? 'Thanh toán khi nhận hàng' : 'Chờ thanh toán');
@@ -57,6 +51,22 @@ class OrderController extends Controller
             if (!$orderItemsResult) {
                 DB::rollback();
                 return response()->json(['status' => 'error', 'message' => 'Lỗi khi thêm chi tiết đơn hàng!'], 500);
+            }
+
+            // Cập nhật trạng thái voucher nếu có
+            if ($order->voucher_id) {
+                $voucher = Voucher::find($order->voucher_id);
+                if ($voucher) {
+                    // Kiểm tra số lượng voucher
+                    if ($voucher->quantity !== null) {
+                        if ($voucher->quantity <= 0) {
+                            DB::rollback();
+                            return response()->json(['status' => 'error', 'message' => 'Voucher đã hết!'], 400);
+                        }
+                        $voucher->quantity -= 1;
+                        $voucher->save();
+                    }
+                }
             }
 
             switch ($request->payment_method) {
@@ -75,20 +85,6 @@ class OrderController extends Controller
                         Mail::to($order->user->email)->send(new OrderInvoice($order, $order->orderDetails));
                     } catch (\Exception $e) {
                         Log::error('Lỗi gửi email hóa đơn COD: ' . $e->getMessage());
-                    }
-
-                    // Cập nhật trạng thái voucher nếu có
-                    if ($order->voucher_id) {
-                        $voucher = Voucher::find($order->voucher_id);
-                        if ($voucher) {
-                            // Giảm số lượng voucher nếu có giới hạn
-                            if ($voucher->quantity) {
-                                $voucher->quantity -= 1;
-                                $voucher->save();
-                            }
-                            // Có thể thêm logic để đánh dấu voucher đã sử dụng ở đây nếu cần
-                            // Ví dụ: $voucher->update(['status' => 'used']);
-                        }
                     }
 
                     DB::commit();
@@ -122,19 +118,27 @@ class OrderController extends Controller
             $order->payment_method = $request->payment_method;
             $order->payment_status = $status;
             $order->order_date = now();
-
-            // Lưu thông tin voucher nếu có
             if ($request->voucher_id) {
                 $voucher = Voucher::find($request->voucher_id);
                 if ($voucher) {
                     $order->voucher_id = $voucher->id;
-                    // Lưu thêm thông tin về voucher tại thời điểm áp dụng
+                   
                     $order->voucher_code = $voucher->code;
                     $order->voucher_name = $voucher->name;
                     $order->voucher_discount_type = $voucher->discount_type;
                     $order->voucher_discount_value = $voucher->discount_value;
-                    $order->voucher_discount_amount =
-                        $request->total_price - $request->subtotal_price; // Số tiền giảm giá thực tế
+                    
+                    $discountAmount = 0;
+                    if ($voucher->discount_type === 'percentage') {
+                        $discountAmount = ($request->total_price * $voucher->discount_value) / 100;
+                    } else {
+                        $discountAmount = $voucher->discount_value;
+                    }
+                    if ($voucher->max_discount_value && $discountAmount > $voucher->max_discount_value) {
+                        $discountAmount = $voucher->max_discount_value;
+                    }
+                    
+                    $order->voucher_discount_amount = $discountAmount;
                 }
             }
 
@@ -273,6 +277,11 @@ class OrderController extends Controller
 
         if ($voucher->status !== 'active' || ($voucher->end_date && $voucher->end_date < now())) {
             return response()->json(['status' => 'error', 'message' => 'Mã giảm giá đã hết hạn!']);
+        }
+
+        // Kiểm tra số lượng voucher
+        if ($voucher->quantity !== null && $voucher->quantity <= 0) {
+            return response()->json(['status' => 'error', 'message' => 'Mã giảm giá đã hết!']);
         }
 
         $totalAmount = $request->total_amount;
