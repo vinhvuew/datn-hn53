@@ -33,6 +33,12 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 
+use App\Http\Controllers\ChatAIController;
+
+Route::get('/chat-ai', [ChatAIController::class, 'index']);
+Route::post('/chat-ai/send', [ChatAIController::class, 'send']);
+
+
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/brands', [HomeController::class, 'index_brands'])->name('brand');
@@ -153,6 +159,21 @@ Route::middleware(['auth'])->group(function () {
 Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');
 
+    Route::resource('products', ProductController::class);
+    Route::resource("category", CategoryController::class);
+    Route::resource('attributes', AttributesNameController::class);
+    Route::resource('attribute-values', AttributesValuesController::class);
+    Route::resource('brands', BrandsController::class);
+    Route::resource('users', UserController::class);
+    Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
+
+    // voucher
+    Route::get('/vouchers', [VouchersController::class, 'index'])->name('vouchers.index');
+    Route::get('/vouchers/create', [VouchersController::class, 'create'])->name('vouchers.create');
+    Route::post('/vouchers', [VouchersController::class, 'store'])->name('vouchers.store');
+    Route::get('/vouchers/{voucher}/edit', [VouchersController::class, 'edit'])->name('vouchers.edit');
+    Route::put('/vouchers/{voucher}', [VouchersController::class, 'update'])->name('vouchers.update');
+    Route::delete('/vouchers/{voucher}', [VouchersController::class, 'destroy'])->name('vouchers.destroy');
     // Chatrealtime
     Route::get('/chat-rooms', [ChatController::class, 'listChatRooms'])->name('chat');
     Route::get('/{roomId}/{receiverId}', [ChatController::class, 'showChatAdmin'])
@@ -188,22 +209,6 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         });
 
 
-    Route::resource('products', ProductController::class);
-    Route::resource("category", CategoryController::class);
-    Route::resource('attributes', AttributesNameController::class);
-    Route::resource('attribute-values', AttributesValuesController::class);
-    Route::resource('brands', BrandsController::class);
-    Route::resource('users', UserController::class);
-    Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
-
-    // voucher
-    Route::get('/vouchers', [VouchersController::class, 'index'])->name('vouchers.index');
-    Route::get('/vouchers/create', [VouchersController::class, 'create'])->name('vouchers.create');
-    Route::post('/vouchers', [VouchersController::class, 'store'])->name('vouchers.store');
-    Route::get('/vouchers/{voucher}/edit', [VouchersController::class, 'edit'])->name('vouchers.edit');
-    Route::put('/vouchers/{voucher}', [VouchersController::class, 'update'])->name('vouchers.update');
-    Route::delete('/vouchers/{voucher}', [VouchersController::class, 'destroy'])->name('vouchers.destroy');
-
     // Bình luận
     Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
     Route::get('/comment/create', [CommentController::class, 'create'])->name('comment.create');
@@ -229,6 +234,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
             Route::post('refunded/{id}', 'refunded')->name('refunded');
             Route::post('returned_item_received/{id}', 'returned_item_received')->name('returned_item_received');
             Route::post('refund_completed/{id}', 'refund_completed')->name('refund_completed');
+            Route::post('update-status', 'updateStatus')->name('updateStatus');
         });
     //Thống Kê
     Route::get('/thongke', [ThongKeController::class, 'statistical'])->name('thongke.statistical');

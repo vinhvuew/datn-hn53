@@ -32,6 +32,9 @@
 
     @include('client.layouts.parials.js')
     @yield('script-libs')
+    @include('client.chatai.index')
+
+
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         const priceRange = document.getElementById('priceRange'); // Lấy thanh trượt
@@ -39,11 +42,11 @@
 
         // Cập nhật giá trị khi thanh trượt thay đổi
         priceRange.addEventListener('input', function () {
-            priceValue.textContent = this.value + 'đ'; // Cập nhật giá trị hiển thị
+            priceValue.textContent = this.value + 'VND'; // Cập nhật giá trị hiển thị
         });
 
         // Cập nhật giá trị ban đầu khi trang được tải
-        priceValue.textContent = priceRange.value + 'đ';
+        priceValue.textContent = priceRange.value + 'VND';
     });
 </script>
 </body>

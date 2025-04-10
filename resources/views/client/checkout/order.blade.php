@@ -262,6 +262,15 @@
                         <h3>3. Tóm Tắt Đơn Hàng</h3>
                         <div class="form-voucher">
                             <h5>Chọn Voucher</h5>
+                            <div class="voucher-item no-voucher selected" onclick="removeVoucher()">
+                                <input type="radio" name="voucher" value="" checked>
+                                <div class="voucher-info">
+                                    <div class="voucher-code">Không sử dụng voucher</div>
+                                </div>
+                            </div>
+
+                            {{-- Tổng tiền gốc trước khi trừ giảm giá --}}
+                            <input type="hidden" id="original_total_amount" value="{{ $totalAmount }}">
                             <div class="voucher-list">
                                 @foreach ($vouchers as $voucher)
                                     @php
@@ -348,15 +357,6 @@
                                 <strong id="total_amount_display">{{ number_format($totalAmount, 0, ',', '.') }}
                                     VNĐ</strong>
                             </div>
-
-                            <!-- Đăng ký nhận bản tin -->
-                            {{-- <div class="form-group">
-                                <label class="container_check">Đăng ký nhận bản tin.
-                                    <input type="checkbox" checked>
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div> --}}
-
                             <!-- Các giá trị ẩn -->
                             <input type="hidden" name="total_price" id="total_price" value="{{ $totalAmount }}">
                             <input type="hidden" name="address_id" id="address_id"
@@ -555,6 +555,7 @@
     </script>
     {{-- voucher --}}
     <script>
+<<<<<<< HEAD
         $(document).ready(function() {
             let isApplyingVoucher = false; 
             let currentVoucherId = null; 
@@ -639,6 +640,7 @@
             window.selectVoucher = selectVoucher;
             window.removeVoucher = removeVoucher;
         });
+ 
     </script>
     <script>
         $(document).ready(function() {
