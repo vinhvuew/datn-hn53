@@ -330,10 +330,7 @@
                                         <em>Mã giảm giá:</em>
                                         <span>0 VNĐ</span>
                                     </li>
-                                    <li class="clearfix" id="voucher_info">
-                                        <em>Thông tin voucher:</em>
-                                        <span id="voucher_quantity"></span>
-                                    </li>
+                                    
                                 </ul>
                             </div>
 
@@ -547,7 +544,24 @@
     
     <script>
         $(document).ready(function() {
+            let isApplyingVoucher = false; // Biến để kiểm tra xem đang áp dụng voucher hay không
+            let currentVoucherId = null; // Biến để lưu ID của voucher hiện tại
+
             function selectVoucher(voucherId, voucherCode) {
+                // Nếu đang áp dụng voucher, không làm gì cả
+                if (isApplyingVoucher) {
+                    return;
+                }
+
+                // Nếu đã chọn voucher này rồi, hủy áp dụng
+                if (currentVoucherId === voucherId) {
+                    removeVoucher();
+                    return;
+                }
+
+                // Đánh dấu là đang áp dụng voucher
+                isApplyingVoucher = true;
+
                 let totalAmountText = $('#total_amount_display').text().replace('VNĐ', '').trim();
                 let totalAmount = totalAmountText.replace(/[,\.]/g, '');
 
@@ -567,17 +581,15 @@
                             $('#total_amount_display').text(new Intl.NumberFormat('vi-VN').format(response.final_total) + " VNĐ");
                             $('#discount_value span').text("-" + new Intl.NumberFormat('vi-VN').format(response.discount_amount) + " VNĐ");
                             $('#voucher_quantity').text(response.voucher_quantity);
+                            $('#remove_voucher_btn').show();
                             
                             // Cập nhật trạng thái selected cho voucher
                             $('.voucher-item').removeClass('selected');
                             $(`input[name="voucher"][value="${voucherId}"]`).prop('checked', true)
                                 .closest('.voucher-item').addClass('selected');
-
-                            // Giảm số lượng voucher nếu có giới hạn
-                            if (response.voucher_quantity) {
-                                response.voucher_quantity -= 1;
-                                response.save();
-                            }
+                            
+                            // Lưu ID của voucher hiện tại
+                            currentVoucherId = voucherId;
                         } else {
                             alert(response.message);
                         }
@@ -585,12 +597,38 @@
                     error: function(xhr) {
                         console.log('Error response:', xhr.responseText);
                         alert("Có lỗi xảy ra! Vui lòng thử lại.");
+                    },
+                    complete: function() {
+                        // Đánh dấu là đã hoàn thành áp dụng voucher
+                        isApplyingVoucher = false;
                     }
                 });
             }
 
-            // Thêm hàm selectVoucher vào window object để có thể gọi từ onclick
+            // Hàm để hủy áp dụng voucher
+            function removeVoucher() {
+                // Lấy tổng tiền ban đầu
+                let originalTotal = parseFloat($('#total_price').val()) + parseFloat($('#discount_value span').text().replace('-', '').replace(/[,\.]/g, ''));
+                
+                // Cập nhật UI
+                $('#total_price').val(originalTotal);
+                $('#voucher_id').val('');
+                $('#total_amount_display').text(new Intl.NumberFormat('vi-VN').format(originalTotal) + " VNĐ");
+                $('#discount_value span').text("0 VNĐ");
+                $('#voucher_quantity').text('');
+                $('#remove_voucher_btn').hide();
+                
+                // Cập nhật trạng thái selected cho voucher
+                $('.voucher-item').removeClass('selected');
+                $('input[name="voucher"]').prop('checked', false);
+                
+                // Xóa ID của voucher hiện tại
+                currentVoucherId = null;
+            }
+
+            // Thêm hàm selectVoucher và removeVoucher vào window object để có thể gọi từ onclick
             window.selectVoucher = selectVoucher;
+            window.removeVoucher = removeVoucher;
         });
     </script>
     <script>
