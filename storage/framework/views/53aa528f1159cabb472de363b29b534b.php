@@ -1,12 +1,12 @@
-@section('style-libs')
+<?php $__env->startSection('style-libs'); ?>
     <!--datatable css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
-@endsection
-@section('script-libs')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script-libs'); ?>
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
@@ -52,4 +52,5 @@
             });
         }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/layouts/parials/datatable.blade.php ENDPATH**/ ?>
