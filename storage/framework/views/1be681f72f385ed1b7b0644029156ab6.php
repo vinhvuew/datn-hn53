@@ -1,9 +1,9 @@
-<script src="{{ asset('admin') }}/assets/js/app-ecommerce-category-list.js"></script>
-<script src="{{ asset('admin') }}/assets/js/app-ecommerce-product-list.js"></script>
+<script src="<?php echo e(asset('admin')); ?>/assets/js/app-ecommerce-category-list.js"></script>
+<script src="<?php echo e(asset('admin')); ?>/assets/js/app-ecommerce-product-list.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="//cdn.datatables.net/2.2.1/css/dataTables.dataTables.min.css"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="{{ asset('admin') }}/assets/js/app-ecommerce-product-add.js"></script>
+<script src="<?php echo e(asset('admin')); ?>/assets/js/app-ecommerce-product-add.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf/notyf.min.css">
 <script src="https://cdn.jsdelivr.net/npm/notyf/notyf.min.js"></script>
 <script>
@@ -17,13 +17,13 @@
             ripple: true,
         });
 
-        @if (session('success'))
-            notyf.success(@json(session('success')));
-        @endif
+        <?php if(session('success')): ?>
+            notyf.success(<?php echo json_encode(session('success'), 15, 512) ?>);
+        <?php endif; ?>
 
-        @if (session('error'))
-            notyf.error(@json(session('error')));
-        @endif
+        <?php if(session('error')): ?>
+            notyf.error(<?php echo json_encode(session('error'), 15, 512) ?>);
+        <?php endif; ?>
     });
 </script>
 <script>
@@ -98,3 +98,4 @@
             badge.className = 'badge ' + status.class;
         });
 </script>
+<?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/layouts/parials/js.blade.php ENDPATH**/ ?>

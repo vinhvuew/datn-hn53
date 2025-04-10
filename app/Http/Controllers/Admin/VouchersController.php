@@ -52,7 +52,42 @@ class VouchersController extends Controller
             'status' => 'required|in:active,expired,disabled',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
+            'quantity' => 'nullable|integer|min:1',
+        ], [
+            // Thông báo lỗi tiếng Việt
+            'code.required' => 'Vui lòng nhập mã voucher.',
+            'code.string' => 'Mã voucher phải là chuỗi.',
+            'code.max' => 'Mã voucher không được vượt quá 255 ký tự.',
+            'code.unique' => 'Mã voucher đã tồn tại.',
+
+            'name.required' => 'Vui lòng nhập tên voucher.',
+            'name.string' => 'Tên voucher phải là chuỗi.',
+            'name.max' => 'Tên voucher không được vượt quá 255 ký tự.',
+
+            'discount_type.required' => 'Vui lòng chọn loại giảm giá.',
+            'discount_type.in' => 'Loại giảm giá không hợp lệ.',
+
+            'discount_value.required' => 'Vui lòng nhập giá trị giảm.',
+            'discount_value.numeric' => 'Giá trị giảm phải là số.',
+            'discount_value.min' => 'Giá trị giảm không được nhỏ hơn 0.',
+
+            'min_order_value.numeric' => 'Giá trị đơn hàng tối thiểu phải là số.',
+            'min_order_value.min' => 'Giá trị đơn hàng tối thiểu không được nhỏ hơn 0.',
+
+            'max_discount_value.numeric' => 'Giá trị giảm tối đa phải là số.',
+            'max_discount_value.min' => 'Giá trị giảm tối đa không được nhỏ hơn 0.',
+
+            'status.required' => 'Vui lòng chọn trạng thái.',
+            'status.in' => 'Trạng thái không hợp lệ.',
+
+            'start_date.date' => 'Ngày bắt đầu không đúng định dạng.',
+            'end_date.date' => 'Ngày kết thúc không đúng định dạng.',
+            'end_date.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu.',
+
+            'quantity.integer' => 'Số lượng phải là số nguyên.',
+            'quantity.min' => 'Số lượng phải ít nhất là 1.',
         ]);
+
 
         try {
             Voucher::create($request->all());
@@ -82,7 +117,7 @@ class VouchersController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'code' => 'required|string|max:255|unique:vouchers,code,' . $id,
+            'code' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'discount_type' => 'required|in:percentage,fixed',
             'discount_value' => 'required|numeric|min:0',
@@ -91,6 +126,40 @@ class VouchersController extends Controller
             'status' => 'required|in:active,expired,disabled',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
+            'quantity' => 'nullable|integer|min:1',
+        ], [
+            // Thông báo lỗi tiếng Việt
+            'code.required' => 'Vui lòng nhập mã voucher.',
+            'code.string' => 'Mã voucher phải là chuỗi.',
+            'code.max' => 'Mã voucher không được vượt quá 255 ký tự.',
+            
+
+            'name.required' => 'Vui lòng nhập tên voucher.',
+            'name.string' => 'Tên voucher phải là chuỗi.',
+            'name.max' => 'Tên voucher không được vượt quá 255 ký tự.',
+
+            'discount_type.required' => 'Vui lòng chọn loại giảm giá.',
+            'discount_type.in' => 'Loại giảm giá không hợp lệ.',
+
+            'discount_value.required' => 'Vui lòng nhập giá trị giảm.',
+            'discount_value.numeric' => 'Giá trị giảm phải là số.',
+            'discount_value.min' => 'Giá trị giảm không được nhỏ hơn 0.',
+
+            'min_order_value.numeric' => 'Giá trị đơn hàng tối thiểu phải là số.',
+            'min_order_value.min' => 'Giá trị đơn hàng tối thiểu không được nhỏ hơn 0.',
+
+            'max_discount_value.numeric' => 'Giá trị giảm tối đa phải là số.',
+            'max_discount_value.min' => 'Giá trị giảm tối đa không được nhỏ hơn 0.',
+
+            'status.required' => 'Vui lòng chọn trạng thái.',
+            'status.in' => 'Trạng thái không hợp lệ.',
+
+            'start_date.date' => 'Ngày bắt đầu không đúng định dạng.',
+            'end_date.date' => 'Ngày kết thúc không đúng định dạng.',
+            'end_date.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu.',
+
+            'quantity.integer' => 'Số lượng phải là số nguyên.',
+            'quantity.min' => 'Số lượng phải ít nhất là 1.',
         ]);
 
         try {
