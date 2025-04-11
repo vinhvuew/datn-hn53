@@ -184,12 +184,19 @@
                         </div>
                     </form>
                     <div class="mt-2">
-                        <form action="{{ route('favorites.store') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <button type="submit" class="btn btn-primary">❤️ Thêm vào yêu thích</button>
-                        </form>
+                        @auth
+                            <form action="{{ route('favorites.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <button type="submit" class="btn btn-primary">❤️ Thêm vào yêu thích</button>
+                            </form>
+                        @else
+                            <a href="{{ route('login.show') }}" class="btn btn-warning">
+                                🔒 Đăng nhập để thêm vào yêu thích
+                            </a>
+                        @endauth
                     </div>
+
                     <!-- /product_actions -->
                 </div>
             </div>
@@ -201,7 +208,8 @@
             <div class="container">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab" role="tab">Bình
+                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab"
+                            role="tab">Bình
                             luận</a>
                     </li>
                     <li class="nav-item">
@@ -274,18 +282,25 @@
 
                                 <!-- Form bình luận chính -->
                                 <h4>Để lại bình luận</h4>
-                                <form action="{{ route('add.comment') }}" id="commentForm" method="POST">
-                                    @csrf
-                                    <input type="hidden" id="product_id" name="product_id"
-                                        value="{{ $product->id }}">
-                                    <div class="mb-3">
-                                        <label for="comment" class="form-label">Bình luận</label>
-                                        <textarea class="form-control" id="comment" name="content" rows="3"></textarea>
-                                    </div>
-                                    <div class="text-end">
-                                        <button type="submit" class="btn btn-primary">Gửi bình luận</button>
-                                    </div>
-                                </form>
+
+                                @auth
+                                    <form action="{{ route('add.comment') }}" id="commentForm" method="POST">
+                                        @csrf
+                                        <input type="hidden" id="product_id" name="product_id"
+                                            value="{{ $product->id }}">
+                                        <div class="mb-3">
+                                            <label for="comment" class="form-label">Bình luận</label>
+                                            <textarea class="form-control" id="comment" name="content" rows="3"></textarea>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">Gửi bình luận</button>
+                                        </div>
+                                    </form>
+                                @else
+                                    <a href="{{ route('login.show') }}" class="btn btn-warning">Đăng nhập để bình luận</a>
+                                @endauth
+
+
                             </div>
 
                         </div>
@@ -400,7 +415,7 @@
                                                 });
                                             </script>
                                         @else
-                                            <p><a href="{{ route('login') }}">Đăng nhập</a> để đánh giá sản phẩm.</p>
+                                            <p><a href="{{ route('login.show') }}">Đăng nhập</a> để đánh giá sản phẩm.</p>
                                         @endif
 
                                         <h5 class="mt-4">Đánh giá sản phẩm:</h5>
