@@ -18,4 +18,19 @@ class MessController extends Controller
         // Xử lý lưu trữ hoặc gửi message ở đây
         return back()->with('status', 'Tin nhắn đã được gửi!');
     }
+    
+    public function show($id)
+    {
+        // Giả sử bạn có một mảng tin nhắn hoặc lấy từ database
+        $messages = [
+            1 => 'Tin nhắn 1: Xin chào!',
+            2 => 'Tin nhắn 2: Chúc bạn một ngày tốt lành!',
+        ];
+
+        if (!isset($messages[$id])) {
+            abort(404, 'Tin nhắn không tồn tại.');
+        }
+
+        return view('mess.show', ['message' => $messages[$id]]);
+    }
 }
