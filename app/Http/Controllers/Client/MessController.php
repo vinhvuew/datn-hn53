@@ -55,4 +55,22 @@ class MessController extends Controller
         // Quay lại trang tin nhắn đã cập nhật
         return back()->with('status', 'Tin nhắn đã được cập nhật!');
     }
+    public function destroy($id)
+    {
+        // Giả sử bạn xóa tin nhắn từ mảng (hoặc database)
+        $messages = [
+            1 => 'Tin nhắn 1: Xin chào!',
+            2 => 'Tin nhắn 2: Chúc bạn một ngày tốt lành!',
+        ];
+
+        if (!isset($messages[$id])) {
+            abort(404, 'Tin nhắn không tồn tại.');
+        }
+
+        // Xóa tin nhắn
+        unset($messages[$id]);
+
+        // Quay lại trang danh sách tin nhắn
+        return redirect()->route('mess.index')->with('status', 'Tin nhắn đã bị xóa!');
+    }
 }
