@@ -1,15 +1,15 @@
-<!-- COMMON SCRIPTS -->
-<script src="<?php echo e(asset('client')); ?>/js/common_scripts.min.js"></script>
-<script src="<?php echo e(asset('client')); ?>/js/main.js"></script>
-
-<!-- SPECIFIC SCRIPTS -->
-<script src="<?php echo e(asset('client')); ?>/js/carousel-home.min.js"></script>
+<script src="<?php echo e(asset('admin')); ?>/assets/js/app-ecommerce-category-list.js"></script>
+<script src="<?php echo e(asset('admin')); ?>/assets/js/app-ecommerce-product-list.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="//cdn.datatables.net/2.2.1/css/dataTables.dataTables.min.css"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="<?php echo e(asset('admin')); ?>/assets/js/app-ecommerce-product-add.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf/notyf.min.css">
 <script src="https://cdn.jsdelivr.net/npm/notyf/notyf.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const notyf = new Notyf({
-            duration: 1000,
+            duration: 3000, // Thời gian hiển thị
             position: {
                 x: 'right',
                 y: 'top'
@@ -18,22 +18,12 @@
         });
 
         <?php if(session('success')): ?>
-            notyf.success('<?php echo e(session('success')); ?>');
+            notyf.success(<?php echo json_encode(session('success'), 15, 512) ?>);
         <?php endif; ?>
 
         <?php if(session('error')): ?>
-            notyf.error('<?php echo e(session('error')); ?>');
+            notyf.error(<?php echo json_encode(session('error'), 15, 512) ?>);
         <?php endif; ?>
-    });
-</script>
-
-<script>
-    const notyf = new Notyf({
-        duration: 1000, // Thời gian hiển thị (ms)
-        position: {
-            x: 'right',
-            y: 'top'
-        }, // Vị trí thông báo
     });
 </script>
 <script>
@@ -108,4 +98,4 @@
             badge.className = 'badge ' + status.class;
         });
 </script>
-<?php /**PATH /Users/admin/datn-hn53/resources/views/client/layouts/parials/js.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/layouts/parials/js.blade.php ENDPATH**/ ?>

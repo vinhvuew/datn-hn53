@@ -24,5 +24,33 @@
             ]
         });
     </script>
+    <script>
+        document.getElementById('checkAll').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.order-checkbox');
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+    </script>
+    <script>
+        const checkboxes = document.querySelectorAll('.order-checkbox');
+        const actionBtn = document.getElementById('bulkActionBtn');
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                const anyChecked = Array.from(checkboxes).some(c => c.checked);
+                actionBtn.classList.toggle('d-none', !anyChecked);
+            });
+        });
+
+        // Nếu có checkbox "Chọn tất cả"
+        const checkAll = document.getElementById('checkAll');
+        if (checkAll) {
+            checkAll.addEventListener('change', () => {
+                checkboxes.forEach(cb => cb.checked = checkAll.checked);
+
+                const anyChecked = Array.from(checkboxes).some(c => c.checked);
+                actionBtn.classList.toggle('d-none', !anyChecked);
+            });
+        }
+    </script>
 <?php $__env->stopSection(); ?>
-<?php /**PATH /Users/admin/datn-hn53/resources/views/admin/layouts/parials/datatable.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/layouts/parials/datatable.blade.php ENDPATH**/ ?>

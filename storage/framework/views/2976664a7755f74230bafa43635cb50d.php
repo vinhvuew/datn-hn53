@@ -1,137 +1,204 @@
-@extends('admin.layouts.master')
-
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container mt-5">
-        {{-- <h1 class="mb-4">Tạo Voucher Mới</h1> --}}
+        
         <div class="mb-4 text-center">
             <h1 class="fw-bold text-primary">🎁 Tạo Voucher Mới</h1>
             <p class="text-muted">Điền đầy đủ thông tin để tạo một voucher mới cho khách hàng.</p>
         </div>
 
-        <form action="{{ route('vouchers.store') }}" method="POST">
-            @csrf
+        <form action="<?php echo e(route('vouchers.store')); ?>" method="POST">
+            <?php echo csrf_field(); ?>
             <div class="card shadow">
                 <div class="card-body">
                     <div class="row">
-                        {{-- Mã Voucher --}}
+                        
                         <div class="col-md-6 mb-3">
                             <label for="code" class="form-label">Mã Voucher</label>
-                            <input type="text" name="code" class="form-control" value="{{ old('code') }}"
+                            <input type="text" name="code" class="form-control" value="<?php echo e(old('code')); ?>"
                                 placeholder="Nhập mã voucher">
-                            @error('code')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                            <?php $__errorArgs = ['code'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <small class="text-danger"><?php echo e($message); ?></small>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
-                        {{-- Tên Voucher --}}
+                        
                         <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">Tên Voucher</label>
-                            <input type="text" name="name" class="form-control" value="{{ old('name') }}"
+                            <input type="text" name="name" class="form-control" value="<?php echo e(old('name')); ?>"
                                 placeholder="Nhập tên voucher">
-                            @error('name')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                            <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <small class="text-danger"><?php echo e($message); ?></small>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
-                        {{-- Loại Giảm Giá --}}
+                        
                         <div class="col-md-6 mb-3">
                             <label for="discount_type" class="form-label">Loại Giảm Giá</label>
                             <select name="discount_type" id="discount_type" class="form-control">
-                                <option value="fixed" {{ old('discount_type') == 'fixed' ? 'selected' : '' }}>Cố định (VNĐ)
+                                <option value="fixed" <?php echo e(old('discount_type') == 'fixed' ? 'selected' : ''); ?>>Cố định (VNĐ)
                                 </option>
-                                <option value="percentage" {{ old('discount_type') == 'percentage' ? 'selected' : '' }}>Phần
+                                <option value="percentage" <?php echo e(old('discount_type') == 'percentage' ? 'selected' : ''); ?>>Phần
                                     trăm (%)</option>
                             </select>
-                            @error('discount_type')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                            <?php $__errorArgs = ['discount_type'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <small class="text-danger"><?php echo e($message); ?></small>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
-                        {{-- Giá Trị Giảm Giá --}}
+                        
                         <div class="col-md-6 mb-3">
                             <label for="discount_value" class="form-label">
                                 Giá Trị Giảm Giá (<span id="discount_label">VNĐ</span>)
                             </label>
                             <input type="number" name="discount_value" class="form-control"
-                                value="{{ old('discount_value') }}" min="0">
-                            @error('discount_value')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                                value="<?php echo e(old('discount_value')); ?>" min="0">
+                            <?php $__errorArgs = ['discount_value'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <small class="text-danger"><?php echo e($message); ?></small>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
-                        {{-- Giá trị đơn hàng tối thiểu --}}
+                        
                         <div class="col-md-6 mb-3">
                             <label for="min_order_value" class="form-label">Giá trị đơn hàng tối thiểu (VNĐ)</label>
                             <input type="number" name="min_order_value" class="form-control"
-                                value="{{ old('min_order_value') }}">
-                            @error('min_order_value')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                                value="<?php echo e(old('min_order_value')); ?>">
+                            <?php $__errorArgs = ['min_order_value'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <small class="text-danger"><?php echo e($message); ?></small>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
-                        {{-- Giá trị giảm giá tối đa --}}
+                        
                         <div class="col-md-6 mb-3" id="max_discount_group">
                             <label for="max_discount_value" class="form-label">Giảm Giá Tối Đa (VNĐ)</label>
                             <input type="number" name="max_discount_value" class="form-control"
-                                value="{{ old('max_discount_value') }}" min="0">
-                            @error('max_discount_value')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                                value="<?php echo e(old('max_discount_value')); ?>" min="0">
+                            <?php $__errorArgs = ['max_discount_value'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <small class="text-danger"><?php echo e($message); ?></small>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
-                        {{-- Ngày bắt đầu --}}
+                        
                         <div class="col-md-6 mb-3">
                             <label for="start_date" class="form-label">Ngày Bắt Đầu</label>
-                            <input type="date" name="start_date" class="form-control" value="{{ old('start_date') }}">
-                            @error('start_date')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                            <input type="date" name="start_date" class="form-control" value="<?php echo e(old('start_date')); ?>">
+                            <?php $__errorArgs = ['start_date'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <small class="text-danger"><?php echo e($message); ?></small>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
-                        {{-- Ngày hết hạn --}}
+                        
                         <div class="col-md-6 mb-3">
                             <label for="end_date" class="form-label">Ngày Hết Hạn</label>
-                            <input type="date" name="end_date" class="form-control" value="{{ old('end_date') }}">
-                            @error('end_date')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                            <input type="date" name="end_date" class="form-control" value="<?php echo e(old('end_date')); ?>">
+                            <?php $__errorArgs = ['end_date'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <small class="text-danger"><?php echo e($message); ?></small>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
-                        {{-- Số lượng --}}
+                        
                         <div class="col-md-6 mb-3">
                             <label for="quantity" class="form-label">Số lượng</label>
-                            <input type="number" name="quantity" class="form-control" value="{{ old('quantity') }}">
-                            @error('quantity')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                            <input type="number" name="quantity" class="form-control" value="<?php echo e(old('quantity')); ?>">
+                            <?php $__errorArgs = ['quantity'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <small class="text-danger"><?php echo e($message); ?></small>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
-                        {{-- Trạng thái --}}
+                        
                         <div class="col-md-6 mb-3">
                             <label for="status" class="form-label">Trạng thái</label>
                             <select name="status" class="form-control">
-                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Hoạt động</option>
-                                <option value="expired" {{ old('status') == 'expired' ? 'selected' : '' }}>Hết hạn</option>
-                                <option value="disabled" {{ old('status') == 'disabled' ? 'selected' : '' }}>Vô hiệu hóa
+                                <option value="active" <?php echo e(old('status') == 'active' ? 'selected' : ''); ?>>Hoạt động</option>
+                                <option value="expired" <?php echo e(old('status') == 'expired' ? 'selected' : ''); ?>>Hết hạn</option>
+                                <option value="disabled" <?php echo e(old('status') == 'disabled' ? 'selected' : ''); ?>>Vô hiệu hóa
                                 </option>
                             </select>
-                            @error('status')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                            <?php $__errorArgs = ['status'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <small class="text-danger"><?php echo e($message); ?></small>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
                     </div>
 
                     <div class="text-end mt-3">
                         <button type="submit" class="btn btn-success">Lưu Voucher</button>
-                        <a href="{{ route('vouchers.index') }}" class="btn btn-secondary">Quay lại</a>
+                        <a href="<?php echo e(route('vouchers.index')); ?>" class="btn btn-secondary">Quay lại</a>
                     </div>
                 </div>
             </div>
         </form>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
 
-@section('script-libs')
+<?php $__env->startSection('script-libs'); ?>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.querySelector('form');
@@ -275,4 +342,6 @@
             toggleMaxDiscount(); // initial call
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/vouchers/create.blade.php ENDPATH**/ ?>

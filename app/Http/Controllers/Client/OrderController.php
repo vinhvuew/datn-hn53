@@ -31,20 +31,14 @@ class OrderController extends Controller
     }
     public function placeOrder(Request $request)
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
-
-            $cart = Cart::where('user_id', Auth::id())->first();
-            if (!$cart) {
-                return response()->json(['error' => 'Không tìm thấy giỏ hàng'], 404);
-            }
-
-            $cart_detail = CartDetail::where('cart_id', $cart->id)
-                ->where('is_selected', CartDetail::SELECTED)
-                ->get();
+            $cart_detail = CartDetail::whereHas('cart', function ($query) {
+                $query->where('user_id', Auth::id());
+            })->get();
 
             if ($cart_detail->isEmpty()) {
-                return response()->json(['error' => 'Giỏ hàng trống'], 400);
+                return response()->json(['status' => 'error', 'message' => 'Giỏ hàng trống!'], 400);
             }
 
             $order = $this->createOrder($request, $request->payment_method === 'COD' ? 'Thanh toán khi nhận hàng' : 'Chờ thanh toán');
@@ -57,6 +51,22 @@ class OrderController extends Controller
             if (!$orderItemsResult) {
                 DB::rollback();
                 return response()->json(['status' => 'error', 'message' => 'Lỗi khi thêm chi tiết đơn hàng!'], 500);
+            }
+
+            // Cập nhật trạng thái voucher nếu có
+            if ($order->voucher_id) {
+                $voucher = Voucher::find($order->voucher_id);
+                if ($voucher) {
+                    // Kiểm tra số lượng voucher
+                    if ($voucher->quantity !== null) {
+                        if ($voucher->quantity <= 0) {
+                            DB::rollback();
+                            return response()->json(['status' => 'error', 'message' => 'Voucher đã hết!'], 400);
+                        }
+                        $voucher->quantity -= 1;
+                        $voucher->save();
+                    }
+                }
             }
 
             switch ($request->payment_method) {
@@ -75,20 +85,6 @@ class OrderController extends Controller
                         Mail::to($order->user->email)->send(new OrderInvoice($order, $order->orderDetails));
                     } catch (\Exception $e) {
                         Log::error('Lỗi gửi email hóa đơn COD: ' . $e->getMessage());
-                    }
-
-                    // Cập nhật trạng thái voucher nếu có
-                    if ($order->voucher_id) {
-                        $voucher = Voucher::find($order->voucher_id);
-                        if ($voucher) {
-                            // Giảm số lượng voucher nếu có giới hạn
-                            if ($voucher->quantity) {
-                                $voucher->quantity -= 1;
-                                $voucher->save();
-                            }
-                            // Có thể thêm logic để đánh dấu voucher đã sử dụng ở đây nếu cần
-                            // Ví dụ: $voucher->update(['status' => 'used']);
-                        }
                     }
 
                     DB::commit();
@@ -111,6 +107,7 @@ class OrderController extends Controller
     }
     private function createOrder($request, $status)
     {
+        // dd($request->all());
         try {
 
             $order = new Order();
@@ -121,21 +118,30 @@ class OrderController extends Controller
             $order->payment_method = $request->payment_method;
             $order->payment_status = $status;
             $order->order_date = now();
-            
-            // Lưu thông tin voucher nếu có
             if ($request->voucher_id) {
                 $voucher = Voucher::find($request->voucher_id);
                 if ($voucher) {
                     $order->voucher_id = $voucher->id;
-                    // Lưu thêm thông tin về voucher tại thời điểm áp dụng
+                   
                     $order->voucher_code = $voucher->code;
                     $order->voucher_name = $voucher->name;
                     $order->voucher_discount_type = $voucher->discount_type;
                     $order->voucher_discount_value = $voucher->discount_value;
-                    $order->voucher_discount_amount = $request->total_price - $order->total_price; // Số tiền giảm giá thực tế
+                    
+                    $discountAmount = 0;
+                    if ($voucher->discount_type === 'percentage') {
+                        $discountAmount = ($request->total_price * $voucher->discount_value) / 100;
+                    } else {
+                        $discountAmount = $voucher->discount_value;
+                    }
+                    if ($voucher->max_discount_value && $discountAmount > $voucher->max_discount_value) {
+                        $discountAmount = $voucher->max_discount_value;
+                    }
+                    
+                    $order->voucher_discount_amount = $discountAmount;
                 }
             }
-            
+
             if ($order->save()) {
                 return $order;
             }
@@ -165,14 +171,12 @@ class OrderController extends Controller
                 $order->variant_id = $item->variant_id ?? null;
                 $order->quantity = $item->quantity;
                 $order->price = $item->variant->product->price_sale
-                ?? $item->variant->product->base_price
-                ?? $item->product->price_sale
-                ?? $item->product->base_price
-                ?? 0;
+                    ?? $item->variant->product->base_price
+                    ?? $item->product->price_sale
+                    ?? $item->product->base_price
+                    ?? 0;
                 $order->total_price = $item->total_amount;
                 $order->product_name = $item->product->name ?? $item->variant->product->name;
-                // $order->variant_attribute = $item->variant->attributes ?? null; // "Size - Color"
-                // $order->variant_value = $item->variant->attributeValue ?? null;    // "42 - Trắng"
                 // Kiểm tra nếu có biến thể và các thuộc tính
                 if ($item->variant && $item->variant->attributes && $item->variant->attributes->isNotEmpty()) {
                     // Duyệt qua các thuộc tính và lấy tên và giá trị
@@ -258,174 +262,6 @@ class OrderController extends Controller
         }
     }
 
-    // private function orderItems($items, $orderId)
-    // {
-
-    //     try {
-    //         foreach ($items as $item) {
-    //             $price = 0;
-
-    //             $price = Product::where('id', $item->product_id)->value('price_sale')
-    //                 ?? Product::where('id', $item->product_id)->value('base_price')
-    //                 ?? 0;
-    //             $order = new OrderDetail();
-    //             $order->order_id = $orderId;
-    //             $order->product_id = $item->product_id ?? null;
-    //             $order->variant_id = $item->variant_id ?? null;
-    //             $order->quantity = $item->quantity;
-    //             $order->price = $price;
-    //             $order->total_price = $item->total_amount;
-    //             $order->product_name = $item->product->name ?? $item->variant->product->name;
-    //             $order->save();
-
-    //              // Trừ số lượng tồn kho
-    //              if ($item->variant_id) {
-    //                 $variant = Variant::find($item->variant_id);
-    //                 if ($variant) {
-    //                     $variant->quantity -= $item->quantity;
-    //                     $variant->save();
-    //                 }
-    //             } else {
-    //                 $product = Product::find($item->product_id);
-    //                 if ($product) {
-    //                     $product->quantity -= $item->quantity;
-    //                     $product->save();
-    //                 }
-    //             }
-    //             // Xóa sản phẩm khỏi giỏ hàng
-    //             CartDetail::find($item->id)->delete();
-    //             // Kiểm tra nếu giỏ hàng không còn sản phẩm nào thì xóa luôn
-    //             $remainingItems = CartDetail::where('cart_id', $item->cart_id)->count();
-    //             if ($remainingItems === 0) {
-    //                 Cart::where('id', $item->cart_id)->delete();
-    //             }
-    //             // return back()->with('success', 'Bạn đã đặt hàng thành công!');
-    //             // Thằng ngu bỏ nó ra ngoài vòng lặp
-    //         }
-    //         // Trạng Thái đơn hàng
-    //         try {
-    //             Shipping::create([
-    //                 'order_id' => $orderId,
-    //                 'name' => 'Đơn hàng của bạn đã được đặt thành công',
-    //                 'note' => 'Đơn hàng đang đợi được xác nhận',
-    //             ]);
-    //         } catch (\Exception $e) {
-    //             Log::error('Lỗi khi tạo đơn hàng: ' . $e->getMessage());
-    //         }
-    //         return back()->with('success', 'Bạn đã đặt hàng thành công!');
-    //     } catch (\Exception $e) {
-    //         Log::error('Lỗi khi thêm sản phẩm vào đơn hàng: ' . $e->getMessage());
-    //     }
-    // }
-
-    // private function orderItems($items, $orderId)
-    // {
-
-    //     try {
-    //         foreach ($items as $item) {
-    //             Log::info('Xử lý item từ giỏ hàng:', [
-    //                 'item_id' => $item->id,
-    //                 'product_id' => $item->product_id ?? null,
-    //                 'variant_id' => $item->variant_id ?? null,
-    //                 'quantity' => $item->quantity,
-    //                 'total_amount' => $item->total_amount
-    //             ]);
-    //             // Xử lý variant trước
-    //             if ($item->variant_id) {
-    //                 $variant = Variant::with('product')->find($item->variant_id);
-    //                 if (!$variant || !$variant->product) {
-    //                     throw new \Exception('Không tìm thấy biến thể hoặc sản phẩm của biến thể');
-    //                 }
-
-    //                 Log::info('Tìm thấy variant và sản phẩm:', [
-    //                     'variant_id' => $variant->id,
-    //                     'product_id' => $variant->product->id,
-    //                     'product_name' => $variant->product->name,
-    //                     'price' =>  $variant->product->price_sale ?? $variant->product->base_price,
-
-    //                 ]);
-
-    //                 // Lấy giá từ variant hoặc sản phẩm chính
-    //                 $price = $variant->product->price_sale ?? $variant->product->base_price;
-    //                 if (!$price) {
-    //                     throw new \Exception('Không tìm thấy giá hợp lệ cho sản phẩm hoặc biến thể');
-    //                 }
-
-    //                 $orderDetail = OrderDetail::create([
-    //                     'order_id' => $orderId,
-    //                     'product_id' => $variant->product->id,
-    //                     'variant_id' => $variant->id,
-    //                     'quantity' => $item->quantity,
-    //                     'price' => $price,
-    //                     'total_price' => $item->quantity * $price,
-    //                     'product_name' => $variant->product->name
-    //                 ]);
-
-    //                 // Cập nhật số lượng variant
-    //                 $variant->quantity -= $item->quantity;
-    //                 $variant->save();
-    //             }
-    //             // Xử lý sản phẩm thường
-    //             else if ($item->product_id) {
-    //                 $product = Product::find($item->product_id);
-    //                 if (!$product) {
-    //                     throw new \Exception('Không tìm thấy sản phẩm');
-    //                 }
-
-    //                 Log::info('Tìm thấy sản phẩm:', [
-    //                     'product_id' => $product->id,
-    //                     'product_name' => $product->name,
-    //                     'price' => $product->price_sale ?? $product->base_price,
-    //                 ]);
-
-    //                 $price = $product->price_sale ?? $product->base_price;
-    //                 if (!$price) {
-    //                     throw new \Exception('Giá sản phẩm không hợp lệ');
-    //                 }
-
-    //                 $orderDetail = OrderDetail::create([
-    //                     'order_id' => $orderId,
-    //                     'product_id' => $product->id,
-    //                     'variant_id' => null,
-    //                     'quantity' => $item->quantity,
-    //                     'price' => $price,
-    //                     'total_price' => $item->quantity * $price,
-    //                     'product_name' => $product->name
-    //                 ]);
-
-    //                 // Cập nhật số lượng sản phẩm
-    //                 $product->quantity -= $item->quantity;
-    //                 $product->save();
-    //             } else {
-    //                 throw new \Exception('Item không có product_id hoặc variant_id');
-    //             }
-
-    //             Log::info('Đã tạo chi tiết đơn hàng:', [
-    //                 'order_detail_id' => $orderDetail->id,
-    //                 'price' => $orderDetail->price,
-    //                 'total_price' => $orderDetail->total_price
-    //             ]);
-
-    //             // Xóa item khỏi giỏ hàng
-    //             CartDetail::find($item->id)->delete();
-
-    //             // Kiểm tra và xóa giỏ hàng nếu trống
-    //             $remainingItems = CartDetail::where('cart_id', $item->cart_id)->count();
-    //             if ($remainingItems === 0) {
-    //                 Cart::where('id', $item->cart_id)->delete();
-    //             }
-    //         }
-
-    //         return true;
-    //     } catch (\Exception $e) {
-    //         Log::error('Lỗi khi thêm sản phẩm vào đơn hàng: ' . $e->getMessage());
-    //         Log::error('Stack trace: ' . $e->getTraceAsString());
-    //         throw $e;
-    //     }
-    // }
-
-
-
     public function applyVoucher(Request $request)
     {
         $voucher = Voucher::where('code', $request->coupon_code)->first();
@@ -441,6 +277,11 @@ class OrderController extends Controller
 
         if ($voucher->status !== 'active' || ($voucher->end_date && $voucher->end_date < now())) {
             return response()->json(['status' => 'error', 'message' => 'Mã giảm giá đã hết hạn!']);
+        }
+
+        // Kiểm tra số lượng voucher
+        if ($voucher->quantity !== null && $voucher->quantity <= 0) {
+            return response()->json(['status' => 'error', 'message' => 'Mã giảm giá đã hết!']);
         }
 
         $totalAmount = $request->total_amount;

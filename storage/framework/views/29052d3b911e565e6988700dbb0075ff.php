@@ -32,12 +32,13 @@
                             <th>Mã Voucher</th>
                             <th>Tên Voucher</th>
                             <th>Giảm giá</th>
-                            <th>Điều kiện áp dụng</th>
-                            <th>Giảm giá tối đa</th>
-                            <th>Trạng thái</th>
+                            <th>Số lượng</th>
                             <th>Ngày Bắt Đầu</th>
                             <th>Ngày Kết Thúc</th>
+                            <th>Trạng thái</th>
                             <th class="text-center">Thao tác</th>
+                            <th>Điều kiện áp dụng</th>
+                            <th>Giảm giá tối đa</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,10 +46,8 @@
                             <tr>
                                 
                                 <td><?php echo e($voucher->code); ?></td>
-
                                 
                                 <td><?php echo e($voucher->name); ?></td>
-
                                 
                                 <td>
                                     <?php if($voucher->discount_type == 'percentage'): ?>
@@ -58,15 +57,13 @@
                                     <?php endif; ?>
                                 </td>
 
-                                
-                                <td><?php echo e(number_format($voucher->min_order_value, 0)); ?> VND</td>
+                                <td><?php echo e($voucher->quantity); ?></td>
 
                                 
-                                <td>
-                                    <?php echo e($voucher->discount_type == 'percentage' && $voucher->max_discount_value ? number_format($voucher->max_discount_value, 0) . ' VND' : '-'); ?>
+                                <td><?php echo e(\Carbon\Carbon::parse($voucher->start_date)->format('d/m/Y')); ?></td>
 
-                                </td>
-
+                                
+                                <td><?php echo e(\Carbon\Carbon::parse($voucher->end_date)->format('d/m/Y')); ?></td>
                                 
                                 <td>
                                     <?php
@@ -78,13 +75,6 @@
                                     ?>
                                     <span class="badge <?php echo e($statusClass); ?>"><?php echo e(ucfirst($voucher->status)); ?></span>
                                 </td>
-
-                                
-                                <td><?php echo e(\Carbon\Carbon::parse($voucher->start_date)->format('d/m/Y')); ?></td>
-
-                                
-                                <td><?php echo e(\Carbon\Carbon::parse($voucher->end_date)->format('d/m/Y')); ?></td>
-
                                 
                                 <td class="text-center">
                                     <a href="<?php echo e(route('vouchers.edit', $voucher->id)); ?>" class="btn btn-warning btn-sm">
@@ -100,6 +90,15 @@
                                         </button>
                                     </form>
                                 </td>
+
+                                
+                                <td><?php echo e(number_format($voucher->min_order_value, 0)); ?> VND</td>
+
+                                
+                                <td>
+                                    <?php echo e($voucher->discount_type == 'percentage' && $voucher->max_discount_value ? number_format($voucher->max_discount_value, 0) . ' VND' : '-'); ?>
+
+                                </td>
                             </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
@@ -111,4 +110,4 @@
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('admin.layouts.parials.datatable', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
-<?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/admin/datn-hn53/resources/views/admin/vouchers/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/vouchers/index.blade.php ENDPATH**/ ?>

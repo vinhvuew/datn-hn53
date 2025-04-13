@@ -161,6 +161,36 @@
                                                             <td>{{ number_format($item->total_price, 0, ',', '.') }}
                                                             </td>
                                                         </tr>
+                                                        <tr>
+                                                            <th>
+                                                                Mã voucher
+                                                            </th>
+                                                            <th>
+                                                                voucher
+                                                            </th>
+                                                            <th>
+                                                                Giảm giá
+                                                            </th>
+                                                            <th>
+                                                                Số tiền đã giảm
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                {{ $order->voucher_code }}
+                                                            </td>
+                                                            <td>
+                                                                {{ $order->voucher_name }}
+                                                            </td>
+                                                            <td>
+                                                                {{ $order->voucher_discount_type == 'percentage'
+                                                                    ? number_format($order->voucher_discount_value, 0) . '%'
+                                                                    : number_format($order->voucher_discount_value, 0) }}
+                                                            </td>
+                                                            <td>
+                                                                {{ number_format($order->voucher_discount_amount, 0, ',', '.') }}
+                                                            </td>
+                                                        </tr>
                                                     @endif
                                                 @endforeach
                                             </tbody>
@@ -186,7 +216,7 @@
                                                 <form action="{{ route('vnpay.repay', $order->id) }}" method="POST"
                                                     class="d-inline">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-primary btn-sm">Thanh toán
+                                                    <button type="submit" class="btn btn-warning btn-sm">Thanh toán
                                                         lại</button>
                                                 </form>
                                             @endif

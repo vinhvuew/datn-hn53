@@ -28,6 +28,9 @@ class Voucher extends Model
 
     public function hasBeenUsedBy(User $user)
     {
-        return $this->orders()->where('user_id', $user->id)->exists();
+        return $this->orders()
+            ->where('user_id', $user->id)
+            ->whereNotIn('status', [Order::CANCELED, Order::ADMIN_CANCELED])
+            ->exists();
     }
 };

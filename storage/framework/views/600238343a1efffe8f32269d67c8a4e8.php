@@ -119,4 +119,4 @@
 </body>
 
 </html>
-<?php /**PATH /Users/admin/datn-hn53/resources/views/admin/layouts/master.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/layouts/master.blade.php ENDPATH**/ ?>
