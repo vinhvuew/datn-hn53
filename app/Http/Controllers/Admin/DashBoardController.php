@@ -1,69 +1,44 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Admin\Controller;
-use App\Models\Order;
-use App\Models\Product;
-use App\Models\User;
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashBoardController extends Controller
 {
-    public function dashBoard()
+    public function dashboard(Request $request)
     {
-        $currentYear = Carbon::now()->year;
-        $lastYear = $currentYear - 1;
+        // Tổng số đơn hàng
+        $totalOrders = DB::table('orders')->count();
 
-        // Lấy danh sách trạng thái đơn hàng
-        $statusList = Order::getStatusList();
+        // Lọc theo phương thức thanh toán
+        $selectedMethod = $request->get('method', 'cod');  // Mặc định là 'cod'
 
-        // Tạo mảng labels chứa các trạng thái đơn hàng
-        $labels = array_values($statusList);
-        $data = [];
+        // Tính tổng tiền đã nhận cho phương thức thanh toán đã chọn
+        $totalCodMoney = $this->getTotalPaymentAmount('cod');  // Tổng tiền của COD
+        $totalVnpayMoney = $this->getTotalPaymentAmount('vnpay');  // Tổng tiền của VNPAY
 
-        // Duyệt từng trạng thái để lấy tổng doanh thu
-        foreach (array_keys($statusList) as $status) {
-            $data[] = Order::where('status', $status)
-                ->whereYear('order_date', $currentYear)
-                ->sum('total_price');
+        // Chọn tổng tiền đã nhận dựa trên phương thức thanh toán
+        $totalMoneyReceived = $selectedMethod === 'cod' ? $totalCodMoney : $totalVnpayMoney;
+
+        // Kiểm tra nếu là yêu cầu AJAX
+        if ($request->ajax()) {
+            return response()->json([
+                'totalMoneyReceived' => number_format($totalMoneyReceived, 0, ',', '.'),  // Trả về tổng tiền đã nhận
+                'selectedMethod' => $selectedMethod  // Trả về phương thức thanh toán đã chọn
+            ]);
         }
 
-        // Tổng doanh thu năm hiện tại
-        $totalRevenueCurrentYear = array_sum($data);
+        // Truyền dữ liệu vào view khi không phải AJAX
+        return view('admin.dashboard', compact('totalOrders', 'selectedMethod', 'totalMoneyReceived'));
+    }
 
-        // Tổng doanh thu năm trước
-        $totalRevenueLastYear = Order::whereYear('order_date', $lastYear)
-            ->where('status', Order::COMPLETED)
-            ->sum('total_price');
-
-        // Tính phần trăm tăng trưởng
-        $growthPercentage = ($totalRevenueLastYear > 0)
-            ? (($totalRevenueCurrentYear - $totalRevenueLastYear) / $totalRevenueLastYear) * 100
-            : ($totalRevenueCurrentYear > 0 ? 100 : 0);
-
-        // 🔹 Lấy số lượng sản phẩm mới theo ngày
-        $productsPerDay = Product::select(
-            DB::raw('DATE(created_at) as date'),
-            DB::raw('COUNT(id) as total')
-        )
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
-            $totalCustomers = User::count(); // Đếm số lượng người dùng
-
-        return view('admin.dashboard', compact(
-            'totalRevenueCurrentYear',
-            'totalRevenueLastYear',
-            'growthPercentage',
-            'currentYear',
-            'lastYear',
-            'labels',
-            'data',
-            'productsPerDay',
-            'totalCustomers'
-             // Truyền dữ liệu về view
-        ));
+    // Hàm tính tổng số tiền đã nhận theo phương thức thanh toán
+    private function getTotalPaymentAmount($method)
+    {
+        return DB::table('orders')
+            ->where('payment_method', $method)
+            ->sum('total_price');  // Tổng số tiền theo phương thức thanh toán
     }
 }

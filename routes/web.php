@@ -35,8 +35,17 @@ use App\Http\Controllers\Admin\RoleController;
 
 use App\Http\Controllers\ChatAIController;
 
+
+
+// Route để lấy tổng tiền nhận được theo phương thức thanh toán
+Route::get('/admin/dashboard/get-total-money-received', [DashBoardController::class, 'getTotalMoneyReceived'])->name('admin.getTotalMoneyReceived');
+
+
 Route::get('/chat-ai', [ChatAIController::class, 'index']);
 Route::post('/chat-ai/send', [ChatAIController::class, 'send']);
+
+
+
 
 
 
@@ -159,6 +168,14 @@ Route::middleware(['auth'])->group(function () {
 Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get("dashboard", [DashBoardController::class, 'dashboard'])->name('admin.dashboard');
 
+    Route::resource('products', ProductController::class);
+    Route::resource("category", CategoryController::class);
+    Route::resource('attributes', AttributesNameController::class);
+    Route::resource('attribute-values', AttributesValuesController::class);
+    Route::resource('brands', BrandsController::class);
+    Route::resource('users', UserController::class);
+    Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
+
     // Chatrealtime
     Route::get('/chat-rooms', [ChatController::class, 'listChatRooms'])->name('chat');
     Route::get('/{roomId}/{receiverId}', [ChatController::class, 'showChatAdmin'])
@@ -192,15 +209,6 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
             Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
             Route::delete('destroy/{id}', [RoleController::class, 'destroy'])->name('destroy');
         });
-
-
-    Route::resource('products', ProductController::class);
-    Route::resource("category", CategoryController::class);
-    Route::resource('attributes', AttributesNameController::class);
-    Route::resource('attribute-values', AttributesValuesController::class);
-    Route::resource('brands', BrandsController::class);
-    Route::resource('users', UserController::class);
-    Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
 
     // voucher
     Route::get('/vouchers', [VouchersController::class, 'index'])->name('vouchers.index');

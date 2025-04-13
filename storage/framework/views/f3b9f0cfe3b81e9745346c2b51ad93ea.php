@@ -195,7 +195,7 @@
                             </a>
                         <?php endif; ?>
                     </div>
-                    
+
                     <!-- /product_actions -->
                 </div>
             </div>
@@ -207,7 +207,8 @@
             <div class="container">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab" role="tab">Bình
+                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab"
+                            role="tab">Bình
                             luận</a>
                     </li>
                     <li class="nav-item">
@@ -278,24 +279,25 @@
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
 
-                               <!-- Form bình luận chính -->
-<h4>Để lại bình luận</h4>
+                                <!-- Form bình luận chính -->
+                                <h4>Để lại bình luận</h4>
 
-<?php if(auth()->guard()->check()): ?>
-    <form action="<?php echo e(route('add.comment')); ?>" id="commentForm" method="POST">
-        <?php echo csrf_field(); ?>
-        <input type="hidden" id="product_id" name="product_id" value="<?php echo e($product->id); ?>">
-        <div class="mb-3">
-            <label for="comment" class="form-label">Bình luận</label>
-            <textarea class="form-control" id="comment" name="content" rows="3"></textarea>
-        </div>
-        <div class="text-end">
-            <button type="submit" class="btn btn-primary">Gửi bình luận</button>
-        </div>
-    </form>
-<?php else: ?>
-    <a href="<?php echo e(route('login.show')); ?>" class="btn btn-warning">Đăng nhập để bình luận</a>
-<?php endif; ?>
+                                <?php if(auth()->guard()->check()): ?>
+                                    <form action="<?php echo e(route('add.comment')); ?>" id="commentForm" method="POST">
+                                        <?php echo csrf_field(); ?>
+                                        <input type="hidden" id="product_id" name="product_id"
+                                            value="<?php echo e($product->id); ?>">
+                                        <div class="mb-3">
+                                            <label for="comment" class="form-label">Bình luận</label>
+                                            <textarea class="form-control" id="comment" name="content" rows="3"></textarea>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">Gửi bình luận</button>
+                                        </div>
+                                    </form>
+                                <?php else: ?>
+                                    <a href="<?php echo e(route('login.show')); ?>" class="btn btn-warning">Đăng nhập để bình luận</a>
+                                <?php endif; ?>
 
 
                             </div>
