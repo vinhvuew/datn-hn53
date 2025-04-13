@@ -35,8 +35,17 @@ use App\Http\Controllers\Admin\RoleController;
 
 use App\Http\Controllers\ChatAIController;
 
+
+
+// Route để lấy tổng tiền nhận được theo phương thức thanh toán
+Route::get('/admin/dashboard/get-total-money-received', [DashBoardController::class, 'getTotalMoneyReceived'])->name('admin.getTotalMoneyReceived');
+
+
 Route::get('/chat-ai', [ChatAIController::class, 'index']);
 Route::post('/chat-ai/send', [ChatAIController::class, 'send']);
+
+
+
 
 
 
@@ -167,6 +176,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::resource('users', UserController::class);
     Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
 
+
     // voucher
     Route::get('/vouchers', [VouchersController::class, 'index'])->name('vouchers.index');
     Route::get('/vouchers/create', [VouchersController::class, 'create'])->name('vouchers.create');
@@ -174,6 +184,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/vouchers/{voucher}/edit', [VouchersController::class, 'edit'])->name('vouchers.edit');
     Route::put('/vouchers/{voucher}', [VouchersController::class, 'update'])->name('vouchers.update');
     Route::delete('/vouchers/{voucher}', [VouchersController::class, 'destroy'])->name('vouchers.destroy');
+
     // Chatrealtime
     Route::get('/chat-rooms', [ChatController::class, 'listChatRooms'])->name('chat');
     Route::get('/{roomId}/{receiverId}', [ChatController::class, 'showChatAdmin'])
@@ -207,6 +218,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
             Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
             Route::delete('destroy/{id}', [RoleController::class, 'destroy'])->name('destroy');
         });
+
 
 
     // Bình luận
