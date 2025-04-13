@@ -39,6 +39,8 @@ class MessController extends Controller
         $messages = [
             1 => 'Tin nhắn 1: Xin chào!',
             2 => 'Tin nhắn 2: Chúc bạn một ngày tốt lành!',
+            3 => 'Tin nhắn 3: Bạn cần hỗ trợ gì',
+            4 => 'Tin nhắn 4: Cảm Ơn',
         ];
 
         if (!isset($messages[$id])) {
