@@ -33,4 +33,22 @@ class MessController extends Controller
 
         return view('mess.show', ['message' => $messages[$id]]);
     }
+    public function update(Request $request, $id)
+    {
+        // Giả sử bạn cập nhật lại tin nhắn từ mảng (hoặc database)
+        $messages = [
+            1 => 'Tin nhắn 1: Xin chào!',
+            2 => 'Tin nhắn 2: Chúc bạn một ngày tốt lành!',
+        ];
+
+        if (!isset($messages[$id])) {
+            abort(404, 'Tin nhắn không tồn tại.');
+        }
+
+        // Cập nhật tin nhắn
+        $messages[$id] = $request->input('message');
+
+        // Quay lại trang tin nhắn đã cập nhật
+        return back()->with('status', 'Tin nhắn đã được cập nhật!');
+    }
 }
