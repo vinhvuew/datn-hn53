@@ -72,7 +72,8 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     // Xác nhận đã nhận hàng (Chỉ khi trạng thái là "delivered")
     Route::put('/orders/{id}/confirm-received', [ProfileController::class, 'confirmReceived'])
         ->name('orders.confirm-received');
-
+    Route::put('/orders/{id}/received', [ProfileController::class, 'received'])->name('orders.received');
+    Route::put('/orders/{id}/order_confirmation', [ProfileController::class, 'order_confirmation'])->name('orders.order_confirmation');
     Route::get('/refund/{id}', [RefundController::class, 'refund'])->name('refund');
     Route::post('/refund/refund_requests', [RefundController::class, 'refundRequests'])->name('refundRequests');
 });

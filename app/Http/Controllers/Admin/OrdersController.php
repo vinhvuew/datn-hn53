@@ -245,7 +245,7 @@ class OrdersController extends Controller
             Shipping::create([
                 'order_id' => $order->id,
                 'name' => 'Yêu cầu trả hàng được xác nhận',
-                'note' => 'Vui lòng đóng gói sản phẩm để đơn vị vận chuyến đến lấy'
+                'note' => 'Vui lòng đóng gói sản phẩm để gửi cho đơn vị vận chuyển'
             ]);
         } else {
             return back()->with('error', 'Cập nhật trạng thái thất bại!');

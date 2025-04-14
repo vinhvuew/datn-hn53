@@ -26,14 +26,14 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Danh mục</th>
-                            <th>Thương hiệu</th>
+                            
                             <th>Tên sp</th>
                             <th>Hình ảnh</th>
-                            <th>Số lượng</th>
+                            
                             <th>Giá cơ bản</th>
                             <th>Giá tùy chỉnh</th>
-                            <th></th>
+                            <th>trạng thái</th>
+                            <th>Thao tác</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -41,13 +41,26 @@
                         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
                                 <td><?php echo e($item->id); ?></td>
-                                <td><?php echo e($item->category->name); ?></td>
-                                <td><?php echo e($item->brand->name); ?></td>
-                                <td><?php echo e($item->name); ?></td>
+                                
+                                <td><?php echo e(Str::limit($item->name, 15)); ?></td>
                                 <td><img src="<?php echo e(Storage::url($item->img_thumbnail)); ?>" width="50px"></td>
-                                <td><?php echo e($item->quantity); ?></td>
+                                
                                 <td><?php echo e(number_format($item->base_price, 0, ',', '.')); ?> VND</td>
                                 <td><?php echo e(number_format($item->price_sale, 0, ',', '.')); ?> VND</td>
+                                <td>
+                                    <?php if($item->is_active == 1): ?>
+                                        <i class="fas fa-check-circle text-success"></i>
+                                    <?php else: ?>
+                                        <i class="fas fa-times-circle text-danger"></i>
+                                    <?php endif; ?>
+                                </td>
+
+                                <td>
+                                    <a href="<?php echo e(route('products.show', $item->id)); ?>" class="btn btn-success"><i
+                                            class="fas fa-eye"></i></a>
+                                    <a href="<?php echo e(route('products.edit', $item->id)); ?>" class="btn btn-warning"> <i
+                                            class="fas fa-edit"></i></a>
+                                </td>
                                 <td>
                                     <?php if($item->variants->isEmpty()): ?>
                                         <em>Không có biến thể</em>
@@ -94,12 +107,7 @@
                                         </table>
                                     <?php endif; ?>
                                 </td>
-                                <td>
-                                    <a href="<?php echo e(route('products.show', $item->id)); ?>" class="btn btn-success">Chi
-                                        tiết</a>
-                                    <a href="<?php echo e(route('products.edit', $item->id)); ?>" class="btn btn-warning">Chỉnh
-                                        sửa</a>
-                                </td>
+
                             </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>

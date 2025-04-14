@@ -276,24 +276,27 @@
                                     @php
                                         $isDisabled = $voucher->min_order_value > $totalAmount;
                                         $hasBeenUsed = $voucher->hasBeenUsedBy(Auth::user());
-                                        $discountText = $voucher->discount_type === 'percentage' 
-                                            ? $voucher->discount_value . '%' 
-                                            : number_format($voucher->discount_value, 0, ',', '.') . ' VNĐ';
+                                        $discountText =
+                                            $voucher->discount_type === 'percentage'
+                                                ? $voucher->discount_value . '%'
+                                                : number_format($voucher->discount_value, 0, ',', '.') . ' VNĐ';
                                     @endphp
                                     @if (!$hasBeenUsed)
-                                        <div class="voucher-item {{ $isDisabled ? 'disabled' : '' }}" 
-                                             onclick="{{ $isDisabled ? '' : 'selectVoucher(' . $voucher->id . ', \'' . $voucher->code . '\')' }}">
-                                            <input type="radio" name="voucher" value="{{ $voucher->id }}" 
-                                                   class="voucher-radio" {{ $isDisabled ? 'disabled' : '' }}>
+                                        <div class="voucher-item {{ $isDisabled ? 'disabled' : '' }}"
+                                            onclick="{{ $isDisabled ? '' : 'selectVoucher(' . $voucher->id . ', \'' . $voucher->code . '\')' }}">
+                                            <input type="radio" name="voucher" value="{{ $voucher->id }}"
+                                                class="voucher-radio" {{ $isDisabled ? 'disabled' : '' }}>
                                             <div class="voucher-info">
                                                 <div class="voucher-code">{{ $voucher->code }}</div>
                                                 <div class="voucher-name">Giảm {{ $discountText }}</div>
                                                 <div class="voucher-condition">
-                                                    Đơn tối thiểu {{ number_format($voucher->min_order_value, 0, ',', '.') }} VNĐ
-                                                    @if($voucher->max_discount_value)
-                                                        - Giảm tối đa {{ number_format($voucher->max_discount_value, 0, ',', '.') }} VNĐ
+                                                    Đơn tối thiểu
+                                                    {{ number_format($voucher->min_order_value, 0, ',', '.') }} VNĐ
+                                                    @if ($voucher->max_discount_value)
+                                                        - Giảm tối đa
+                                                        {{ number_format($voucher->max_discount_value, 0, ',', '.') }} VNĐ
                                                     @endif
-                                                    @if($voucher->quantity)
+                                                    @if ($voucher->quantity)
                                                         - Còn lại: {{ $voucher->quantity }} voucher
                                                     @endif
                                                 </div>
@@ -331,7 +334,7 @@
                                         <div class="item-details">
                                             <strong>{{ $order->quantity }}x {{ $order->product->name }}</strong>
                                             <span>{{ number_format($order->total_amount, 0, ',', '.') }} VNĐ</span>
-                                        </div>
+                                        </div><br>
                                     @endif
                                 </div>
                             @endforeach
@@ -556,11 +559,11 @@
     {{-- voucher --}}
     <script>
         $(document).ready(function() {
-            let isApplyingVoucher = false; 
-            let currentVoucherId = null; 
+            let isApplyingVoucher = false;
+            let currentVoucherId = null;
 
             function selectVoucher(voucherId, voucherCode) {
-                
+
                 if (isApplyingVoucher) {
                     return;
                 }
@@ -585,7 +588,7 @@
                     },
                     success: function(response) {
                         if (response.status === 'success') {
-                            
+
                             $('#total_price').val(response.final_total);
                             $('#voucher_id').val(response.voucher_id);
                             $('#total_amount_display').text(new Intl.NumberFormat('vi-VN').format(
@@ -595,7 +598,7 @@
                             $('#voucher_quantity').text(response.voucher_quantity);
                             $('#remove_voucher_btn').show();
 
-                            
+
                             $('.voucher-item').removeClass('selected');
                             $(`input[name="voucher"][value="${voucherId}"]`).prop('checked', true)
                                 .closest('.voucher-item').addClass('selected');
@@ -610,15 +613,16 @@
                         alert("Có lỗi xảy ra! Vui lòng thử lại.");
                     },
                     complete: function() {
-                        
+
                         isApplyingVoucher = false;
                     }
                 });
             }
+
             function removeVoucher() {
-    
+
                 let originalTotal = parseFloat($('#total_price').val()) + parseFloat($('#discount_value span')
-                .text().replace('-', '').replace(/[,\.]/g, ''));
+                    .text().replace('-', '').replace(/[,\.]/g, ''));
 
                 // Cập nhật UI
                 $('#total_price').val(originalTotal);
@@ -628,7 +632,7 @@
                 $('#voucher_quantity').text('');
                 $('#remove_voucher_btn').hide();
 
-               
+
                 $('.voucher-item').removeClass('selected');
                 $('input[name="voucher"]').prop('checked', false);
 
@@ -639,7 +643,6 @@
             window.selectVoucher = selectVoucher;
             window.removeVoucher = removeVoucher;
         });
- 
     </script>
     <script>
         $(document).ready(function() {

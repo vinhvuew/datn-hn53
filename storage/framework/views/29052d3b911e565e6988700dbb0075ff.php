@@ -30,8 +30,9 @@
                     <thead>
                         <tr>
                             <th>Mã Voucher</th>
-                            <th>Tên Voucher</th>
+
                             <th>Giảm giá</th>
+                            <th>Tên Voucher</th>
                             <th>Số lượng</th>
                             <th>Ngày Bắt Đầu</th>
                             <th>Ngày Kết Thúc</th>
@@ -80,15 +81,7 @@
                                     <a href="<?php echo e(route('vouchers.edit', $voucher->id)); ?>" class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit"></i> Sửa
                                     </a>
-                                    <form action="<?php echo e(route('vouchers.destroy', $voucher->id)); ?>" method="POST"
-                                        class="d-inline">
-                                        <?php echo csrf_field(); ?>
-                                        <?php echo method_field('DELETE'); ?>
-                                        <button type="submit" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Bạn có chắc chắn muốn xóa voucher này?')">
-                                            <i class="fas fa-trash-alt"></i> Xóa
-                                        </button>
-                                    </form>
+                                    
                                 </td>
 
                                 

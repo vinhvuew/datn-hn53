@@ -104,6 +104,14 @@
                         <button type="submit" class="btn btn-success" onclick="return confirm('Bạn có chắc chắn?')">Đang
                             giao hàng</button>
                     </form>
+                @elseif($order->status == 'delivered')
+                    <form action="{{ route('profile.orders.confirm-received', $order->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" class="btn btn-success" onclick="return confirm('Bạn có chắc chắn?');">
+                            Đã giao hàng
+                        </button>
+                    </form>
                 @elseif ($order->status == 'canceled')
                     <form action="" method="post">
                         @csrf
@@ -266,11 +274,10 @@
                             @endphp
 
                             @foreach ($events as $item)
-                                @if ($item->name === 'Đơn hàng đã được nhận')
+                                @if ($item->name === 'Giao hàng thành công')
                                     @php $hasReceived = true; @endphp
                                 @endif
                             @endforeach
-
                             @foreach ($events as $item)
                                 @if ($item->name !== 'Đang giao hàng' && $item->name !== 'Giao hàng thành công')
                                     <li

@@ -97,10 +97,10 @@ class VNPayController extends Controller
     public function handleReturn(Request $request)
     {
         try {
-           
+
             Log::info('VNPAY Response:', $request->all());
 
-           
+
             if (!$request->has('vnp_ResponseCode')) {
                 Log::info('Người dùng hủy thanh toán VNPAY');
                 return redirect()->route('profile.myOder')->with('warning', 'Bạn đã hủy thanh toán VNPAY');
@@ -118,7 +118,7 @@ class VNPayController extends Controller
                 'bankCode' => $bankCode
             ]);
 
-          
+
             if (!$orderId) {
                 Log::error('Không có mã đơn hàng từ VNPAY');
                 return redirect()->route('profile.myOder')->with('error', 'Không tìm thấy thông tin đơn hàng');
@@ -130,23 +130,23 @@ class VNPayController extends Controller
                 return redirect()->route('profile.myOder')->with('error', 'Không tìm thấy đơn hàng');
             }
 
-           
+
             if ($responseCode === '00') {
                 DB::beginTransaction();
                 try {
-                    
+
                     $order->status = 'confirmed';
                     $order->payment_status = 'Thanh toán thành công';
                     $order->save();
 
-                   
+
                     Shipping::create([
                         'order_id' => $order->id,
-                        'name' => 'Chờ xác nhận',
+                        'name' => 'Đơn hàng đã được xác nhận',
                         'note' => 'Đơn hàng đã được thanh toán qua VNPAY'
                     ]);
 
-                   
+
                     try {
                         Mail::to($order->user->email)->send(new OrderInvoice($order, $order->orderDetails));
                     } catch (\Exception $e) {
