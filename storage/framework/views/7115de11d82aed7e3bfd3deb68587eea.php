@@ -164,6 +164,40 @@
 
                                                             </td>
                                                         </tr>
+                                                        <tr>
+                                                            <th>
+                                                                Mã voucher
+                                                            </th>
+                                                            <th>
+                                                                voucher
+                                                            </th>
+                                                            <th>
+                                                                Giảm giá
+                                                            </th>
+                                                            <th>
+                                                                Số tiền đã giảm
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <?php echo e($order->voucher_code); ?>
+
+                                                            </td>
+                                                            <td>
+                                                                <?php echo e($order->voucher_name); ?>
+
+                                                            </td>
+                                                            <td>
+                                                                <?php echo e($order->voucher_discount_type == 'percentage'
+                                                                    ? number_format($order->voucher_discount_value, 0) . '%'
+                                                                    : number_format($order->voucher_discount_value, 0)); ?>
+
+                                                            </td>
+                                                            <td>
+                                                                <?php echo e(number_format($order->voucher_discount_amount, 0, ',', '.')); ?>
+
+                                                            </td>
+                                                        </tr>
                                                     <?php endif; ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tbody>
@@ -189,7 +223,7 @@
                                                 <form action="<?php echo e(route('vnpay.repay', $order->id)); ?>" method="POST"
                                                     class="d-inline">
                                                     <?php echo csrf_field(); ?>
-                                                    <button type="submit" class="btn btn-primary btn-sm">Thanh toán
+                                                    <button type="submit" class="btn btn-warning btn-sm">Thanh toán
                                                         lại</button>
                                                 </form>
                                             <?php endif; ?>

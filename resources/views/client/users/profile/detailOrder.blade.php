@@ -160,9 +160,39 @@
                                                             <td>{{ $item->quantity }}</td>
                                                             <td>{{ number_format($item->total_price, 0, ',', '.') }}
                                                             </td>
-                                                        </tr>
                                                     @endif
                                                 @endforeach
+                                                </tr>
+                                                <tr>
+                                                    <th>
+                                                        Mã voucher
+                                                    </th>
+                                                    <th>
+                                                        voucher
+                                                    </th>
+                                                    <th>
+                                                        Giảm giá
+                                                    </th>
+                                                    <th>
+                                                        Số tiền đã giảm
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        {{ $order->voucher_code }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $order->voucher_name }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $order->voucher_discount_type == 'percentage'
+                                                            ? number_format($order->voucher_discount_value, 0) . '%'
+                                                            : number_format($order->voucher_discount_value, 0) }}
+                                                    </td>
+                                                    <td>
+                                                        {{ number_format($order->voucher_discount_amount, 0, ',', '.') }}
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                         <div class="d-flex justify-content-end align-items-center m-3 p-1">
@@ -186,7 +216,7 @@
                                                 <form action="{{ route('vnpay.repay', $order->id) }}" method="POST"
                                                     class="d-inline">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-primary btn-sm">Thanh toán
+                                                    <button type="submit" class="btn btn-warning btn-sm">Thanh toán
                                                         lại</button>
                                                 </form>
                                             @endif
@@ -199,25 +229,40 @@
                                             </form>
                                         @elseif ($order->status === 'canceled')
                                             <button class="btn btn-danger btn-sm" disabled>Đơn hàng đã hủy</button>
-                                        @elseif ($order->status === 'delivered')
-                                            <form action="{{ route('profile.orders.confirm-received', $order->id) }}"
+                                            {{-- @elseif ($order->status === 'completed')
+                                            <form action="{{ route('profile.orders.received', $order->id) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('PUT')
                                                 <button type="submit" class="btn btn-success"
                                                     onclick="return confirm('Bạn có chắc chắn đã nhận hàng?');">
-                                                    Xác nhận đã nhận hàng
+                                                    Đã nhận hàng
                                                 </button>
-                                            </form>
+                                            </form> --}}
                                         @elseif ($order->status === 'completed')
-                                            <div>
-                                                <a class="btn btn-outline-danger btn-sm"
+                                            <div class="d-flex align-items-center">
+                                                <a class="btn btn-outline-danger btn-sm me-2"
                                                     href="{{ route('profile.refund', $order->id) }}">
                                                     Trả hàng / Hoàn tiền
                                                 </a>
-                                                <button class="btn btn-outline-warning btn-sm">
+                                                <form action="{{ route('profile.orders.order_confirmation', $order->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit" class="btn btn-outline-success btn-sm"
+                                                        onclick="return confirm('Bạn có chắc chắn?, sau khi xác nhận bạn không thể hoàn đơn!');">
+                                                        Xác nhận đơn hàng
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        @elseif($order->status === 'order_confirmation')
+                                            <div class="d-flex align-items-center gap-3">
+                                                <span class="badge bg-success">
+                                                    Hoàn thành đơn hàng
+                                                </span>
+                                                <a href="http://" class="text-decoration-none text-primary">
                                                     Đánh giá
-                                                </button>
+                                                </a>
                                             </div>
                                         @elseif ($order->status === 'refund_completed')
                                             <button class="btn btn-outline-success btn-sm">
@@ -235,7 +280,7 @@
                                             @endphp
 
                                             @foreach ($events as $item)
-                                                @if ($item->name === 'Đơn hàng đã được nhận')
+                                                @if ($item->name === 'Giao hàng thành công')
                                                     @php $hasReceived = true; @endphp
                                                 @endif
                                             @endforeach

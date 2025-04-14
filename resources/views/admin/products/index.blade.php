@@ -27,14 +27,15 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Danh mục</th>
-                            <th>Thương hiệu</th>
+                            {{-- <th>Danh mục</th>
+                            <th>Thương hiệu</th> --}}
                             <th>Tên sp</th>
                             <th>Hình ảnh</th>
-                            <th>Số lượng</th>
+                            {{-- <th>Số lượng</th> --}}
                             <th>Giá cơ bản</th>
                             <th>Giá tùy chỉnh</th>
-                            <th></th>
+                            <th>trạng thái</th>
+                            <th>Thao tác</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -42,13 +43,27 @@
                         @foreach ($products as $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
-                                <td>{{ $item->category->name }}</td>
-                                <td>{{ $item->brand->name }}</td>
-                                <td>{{ $item->name }}</td>
+                                {{-- <td>{{ $item->category->name }}</td>
+                                <td>{{ $item->brand->name }}</td> --}}
+                                <td>{{ Str::limit($item->name, 15) }}</td>
                                 <td><img src="{{ Storage::url($item->img_thumbnail) }}" width="50px"></td>
-                                <td>{{ $item->quantity }}</td>
+                                {{-- <td>{{ $item->quantity }}</td> --}}
                                 <td>{{ number_format($item->base_price, 0, ',', '.') }} VND</td>
                                 <td>{{ number_format($item->price_sale, 0, ',', '.') }} VND</td>
+                                <td>
+                                    @if ($item->is_active == 1)
+                                        <i class="fas fa-check-circle text-success"></i>
+                                    @else
+                                        <i class="fas fa-times-circle text-danger"></i>
+                                    @endif
+                                </td>
+
+                                <td>
+                                    <a href="{{ route('products.show', $item->id) }}" class="btn btn-success"><i
+                                            class="fas fa-eye"></i></a>
+                                    <a href="{{ route('products.edit', $item->id) }}" class="btn btn-warning"> <i
+                                            class="fas fa-edit"></i></a>
+                                </td>
                                 <td>
                                     @if ($item->variants->isEmpty())
                                         <em>Không có biến thể</em>
@@ -94,12 +109,7 @@
                                         </table>
                                     @endif
                                 </td>
-                                <td>
-                                    <a href="{{ route('products.show', $item->id) }}" class="btn btn-success">Chi
-                                        tiết</a>
-                                    <a href="{{ route('products.edit', $item->id) }}" class="btn btn-warning">Chỉnh
-                                        sửa</a>
-                                </td>
+
                             </tr>
                         @endforeach
                     </tbody>

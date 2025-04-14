@@ -114,12 +114,12 @@
                                     <a href="<?php echo e(route('chat.admin', ['roomId' => $item->id, 'receiverId' => Auth::user()->id])); ?>"
                                         class="d-flex align-items-center">
                                         <div class="flex-shrink-0 avatar <?php echo e($item->is_active ? ' avatar-online' : ''); ?>">
-                                            <?php if($item->user->image): ?>
-                                                <img src="<?php echo e(Storage::url($comment->user->img_thumbnail)); ?>"
-                                                    alt="<?php echo e($item->user->name); ?>" class="rounded-circle">
+                                            <?php if($room->user->avatar): ?>
+                                                <img src="<?php echo e(Storage::url($room->user->avatar)); ?>"
+                                                    alt="<?php echo e($room->user->name); ?>" class="rounded-circle">
                                             <?php else: ?>
                                                 <img src="<?php echo e(asset('admin/image/logo.jpg')); ?>"
-                                                    alt="<?php echo e($item->user->name); ?>" class="rounded-circle">
+                                                    alt="<?php echo e($room->user->name); ?>" class="rounded-circle">
                                             <?php endif; ?>
                                         </div>
                                         <div class="chat-contact-info flex-grow-1 ms-3">
