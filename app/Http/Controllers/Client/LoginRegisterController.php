@@ -43,9 +43,14 @@ class LoginRegisterController extends Controller
 
         $user = User::where($fieldType, $login)->first();
 
-        if (!$user || !Hash::check($password, $user->password)) {
-            return back()->withErrors(['login' => 'Thông tin đăng nhập không đúng.'])->with('auth_type', 'login');
+        if (!$user) {
+            return back()->withErrors(['login' => ucfirst($fieldType) . ' không tồn tại.'])->with('auth_type', 'login');
         }
+
+        if (!Hash::check($password, $user->password)) {
+            return back()->withErrors(['password' => 'Mật khẩu không đúng.'])->with('auth_type', 'login');
+        }
+
 
         // Nếu email chưa được xác thực, chuyển hướng sang trang nhập mã xác thực
         if ($user->email && !$user->email_verified_at) {
