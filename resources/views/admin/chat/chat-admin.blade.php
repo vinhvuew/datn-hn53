@@ -116,7 +116,7 @@
                                         class="d-flex align-items-center">
                                         <div class="flex-shrink-0 avatar {{ $room->is_active ? ' avatar-online' : '' }}">
                                             @if ($room->user->avatar)
-                                                <img src="{{ Storage::url($room->user->img_thumbnail) }}"
+                                                <img src="{{ Storage::url($room->user->avatar) }}"
                                                     alt="{{ $room->user->name }}" class="rounded-circle">
                                             @else
                                                 <img src="{{ asset('admin/image/logo.jpg') }}"

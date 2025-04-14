@@ -115,7 +115,7 @@
                                         class="d-flex align-items-center">
                                         <div class="flex-shrink-0 avatar <?php echo e($room->is_active ? ' avatar-online' : ''); ?>">
                                             <?php if($room->user->avatar): ?>
-                                                <img src="<?php echo e(Storage::url($room->user->img_thumbnail)); ?>"
+                                                <img src="<?php echo e(Storage::url($room->user->avatar)); ?>"
                                                     alt="<?php echo e($room->user->name); ?>" class="rounded-circle">
                                             <?php else: ?>
                                                 <img src="<?php echo e(asset('admin/image/logo.jpg')); ?>"

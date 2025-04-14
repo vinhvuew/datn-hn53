@@ -163,43 +163,43 @@
                                                             <td><?php echo e(number_format($item->total_price, 0, ',', '.')); ?>
 
                                                             </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                Mã voucher
-                                                            </th>
-                                                            <th>
-                                                                voucher
-                                                            </th>
-                                                            <th>
-                                                                Giảm giá
-                                                            </th>
-                                                            <th>
-                                                                Số tiền đã giảm
-                                                            </th>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <?php echo e($order->voucher_code); ?>
-
-                                                            </td>
-                                                            <td>
-                                                                <?php echo e($order->voucher_name); ?>
-
-                                                            </td>
-                                                            <td>
-                                                                <?php echo e($order->voucher_discount_type == 'percentage'
-                                                                    ? number_format($order->voucher_discount_value, 0) . '%'
-                                                                    : number_format($order->voucher_discount_value, 0)); ?>
-
-                                                            </td>
-                                                            <td>
-                                                                <?php echo e(number_format($order->voucher_discount_amount, 0, ',', '.')); ?>
-
-                                                            </td>
-                                                        </tr>
                                                     <?php endif; ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </tr>
+                                                <tr>
+                                                    <th>
+                                                        Mã voucher
+                                                    </th>
+                                                    <th>
+                                                        voucher
+                                                    </th>
+                                                    <th>
+                                                        Giảm giá
+                                                    </th>
+                                                    <th>
+                                                        Số tiền đã giảm
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <?php echo e($order->voucher_code); ?>
+
+                                                    </td>
+                                                    <td>
+                                                        <?php echo e($order->voucher_name); ?>
+
+                                                    </td>
+                                                    <td>
+                                                        <?php echo e($order->voucher_discount_type == 'percentage'
+                                                            ? number_format($order->voucher_discount_value, 0) . '%'
+                                                            : number_format($order->voucher_discount_value, 0)); ?>
+
+                                                    </td>
+                                                    <td>
+                                                        <?php echo e(number_format($order->voucher_discount_amount, 0, ',', '.')); ?>
+
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                         <div class="d-flex justify-content-end align-items-center m-3 p-1">
@@ -236,25 +236,31 @@
                                             </form>
                                         <?php elseif($order->status === 'canceled'): ?>
                                             <button class="btn btn-danger btn-sm" disabled>Đơn hàng đã hủy</button>
-                                        <?php elseif($order->status === 'delivered'): ?>
-                                            <form action="<?php echo e(route('profile.orders.confirm-received', $order->id)); ?>"
-                                                method="POST">
-                                                <?php echo csrf_field(); ?>
-                                                <?php echo method_field('PUT'); ?>
-                                                <button type="submit" class="btn btn-success"
-                                                    onclick="return confirm('Bạn có chắc chắn đã nhận hàng?');">
-                                                    Xác nhận đã nhận hàng
-                                                </button>
-                                            </form>
+                                            
                                         <?php elseif($order->status === 'completed'): ?>
-                                            <div>
-                                                <a class="btn btn-outline-danger btn-sm"
+                                            <div class="d-flex align-items-center">
+                                                <a class="btn btn-outline-danger btn-sm me-2"
                                                     href="<?php echo e(route('profile.refund', $order->id)); ?>">
                                                     Trả hàng / Hoàn tiền
                                                 </a>
-                                                <button class="btn btn-outline-warning btn-sm">
+                                                <form action="<?php echo e(route('profile.orders.order_confirmation', $order->id)); ?>"
+                                                    method="POST">
+                                                    <?php echo csrf_field(); ?>
+                                                    <?php echo method_field('PUT'); ?>
+                                                    <button type="submit" class="btn btn-outline-success btn-sm"
+                                                        onclick="return confirm('Bạn có chắc chắn?, sau khi xác nhận bạn không thể hoàn đơn!');">
+                                                        Xác nhận đơn hàng
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        <?php elseif($order->status === 'order_confirmation'): ?>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <span class="badge bg-success">
+                                                    Hoàn thành đơn hàng
+                                                </span>
+                                                <a href="http://" class="text-decoration-none text-primary">
                                                     Đánh giá
-                                                </button>
+                                                </a>
                                             </div>
                                         <?php elseif($order->status === 'refund_completed'): ?>
                                             <button class="btn btn-outline-success btn-sm">
@@ -272,7 +278,7 @@
                                             ?>
 
                                             <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <?php if($item->name === 'Đơn hàng đã được nhận'): ?>
+                                                <?php if($item->name === 'Giao hàng thành công'): ?>
                                                     <?php $hasReceived = true; ?>
                                                 <?php endif; ?>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

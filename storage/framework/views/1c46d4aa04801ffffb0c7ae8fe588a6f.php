@@ -103,6 +103,14 @@
                         <button type="submit" class="btn btn-success" onclick="return confirm('Bạn có chắc chắn?')">Đang
                             giao hàng</button>
                     </form>
+                <?php elseif($order->status == 'delivered'): ?>
+                    <form action="<?php echo e(route('profile.orders.confirm-received', $order->id)); ?>" method="POST">
+                        <?php echo csrf_field(); ?>
+                        <?php echo method_field('PUT'); ?>
+                        <button type="submit" class="btn btn-success" onclick="return confirm('Bạn có chắc chắn?');">
+                            Đã giao hàng
+                        </button>
+                    </form>
                 <?php elseif($order->status == 'canceled'): ?>
                     <form action="" method="post">
                         <?php echo csrf_field(); ?>
@@ -271,11 +279,10 @@
                             ?>
 
                             <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php if($item->name === 'Đơn hàng đã được nhận'): ?>
+                                <?php if($item->name === 'Giao hàng thành công'): ?>
                                     <?php $hasReceived = true; ?>
                                 <?php endif; ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
                             <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php if($item->name !== 'Đang giao hàng' && $item->name !== 'Giao hàng thành công'): ?>
                                     <li

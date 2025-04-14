@@ -133,8 +133,17 @@ class OrderController extends Controller
                     $order->voucher_name = $voucher->name;
                     $order->voucher_discount_type = $voucher->discount_type;
                     $order->voucher_discount_value = $voucher->discount_value;
-                    $order->voucher_discount_amount =
-                        $request->total_price - $request->subtotal_price; // Số tiền giảm giá thực tế
+                    $discountAmount = 0;
+                    if ($voucher->discount_type === 'percentage') {
+                        $discountAmount = ($request->total_price * $voucher->discount_value) / 100;
+                    } else {
+                        $discountAmount = $voucher->discount_value;
+                    }
+                    if ($voucher->max_discount_value && $discountAmount > $voucher->max_discount_value) {
+                        $discountAmount = $voucher->max_discount_value;
+                    }
+
+                    $order->voucher_discount_amount = $discountAmount; // Số tiền giảm giá thực tế
                 }
             }
 
@@ -243,8 +252,8 @@ class OrderController extends Controller
             try {
                 Shipping::create([
                     'order_id' => $orderId,
-                    'name' => 'Đơn hàng của bạn đã được đặt thành công',
-                    'note' => 'Đơn hàng đang đợi được xác nhận',
+                    'name' => 'Đơn hàng đang đợi được xác nhận',
+                    'note' => '',
                 ]);
             } catch (\Exception $e) {
                 Log::error('Lỗi khi tạo Shipping: ' . $e->getMessage());

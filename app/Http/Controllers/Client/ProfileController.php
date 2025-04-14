@@ -228,11 +228,57 @@ class ProfileController extends Controller
             // Lưu trạng thái nhận hàng vào bảng Shipping
             Shipping::create([
                 'order_id' => $order->id,
-                'name' => 'Đơn hàng đã được nhận',
-                'note' => 'Khách hàng xác nhận đã nhận hàng',
+                'name' => 'Giao hàng thành công',
+                'note' => '',
             ]);
 
             return back()->with('success', 'Cảm ơn bạn! Đơn hàng đã được xác nhận.');
+        } catch (Exception $exception) {
+            Log::error('Lỗi khi xác nhận đã nhận hàng.', [
+                'error' => $exception->getMessage(),
+                'order_id' => $id,
+            ]);
+
+            return back()->with('error', 'Có lỗi xảy ra khi xác nhận đơn hàng.');
+        }
+    }
+
+    public function received(Request $request, $id)
+    {
+        try {
+            $order = Order::findOrFail($id);
+            if ($order->status !== 'completed') {
+                return back()->with('error', 'Bạn chỉ có thể xác nhận khi đơn hàng đã giao!');
+            }
+
+            $order->update(['status' => 'received']);
+
+            return back()->with('success', 'Cảm ơn bạn đã xác nhận!.');
+        } catch (Exception $exception) {
+            Log::error('Lỗi khi xác nhận đã nhận hàng.', [
+                'error' => $exception->getMessage(),
+                'order_id' => $id,
+            ]);
+
+            return back()->with('error', 'Có lỗi xảy ra khi xác nhận đơn hàng.');
+        }
+    }
+
+    public function order_confirmation(Request $request, $id)
+    {
+        try {
+            $order = Order::findOrFail($id);
+            if ($order->status !== 'completed') {
+                return back()->with('error', 'Bạn chỉ có thể xác nhận khi bạn đã nhận đơn hàng!');
+            }
+
+            $order->update(['status' => 'order_confirmation']);
+            Shipping::create([
+                'order_id' => $order->id,
+                'name' => 'Đơn hàng đã được Xác nhận hoàn thành',
+                'note' => '',
+            ]);
+            return back()->with('success', 'Cảm ơn bạn đã xác nhận!.');
         } catch (Exception $exception) {
             Log::error('Lỗi khi xác nhận đã nhận hàng.', [
                 'error' => $exception->getMessage(),

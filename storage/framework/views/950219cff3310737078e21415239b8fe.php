@@ -11,8 +11,7 @@
                             <h3 class="card-title text-primary">
                                 Xin chào <i><?php echo e(Auth::user()->role->name); ?></i> 🎉 <i><?php echo e(Auth::user()->name); ?></i>
                             </h3>
-                            <p class="mb-0">Bạn đã hoàn thành <span class="fw-medium">72%</span> nhiều doanh số hơn hôm nay.
-                            </p>
+                            
                         </div>
                     </div>
                 </div>

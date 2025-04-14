@@ -115,12 +115,12 @@
                                     <a href="{{ route('chat.admin', ['roomId' => $item->id, 'receiverId' => Auth::user()->id]) }}"
                                         class="d-flex align-items-center">
                                         <div class="flex-shrink-0 avatar {{ $item->is_active ? ' avatar-online' : '' }}">
-                                            @if ($item->user->image)
-                                                <img src="{{ Storage::url($comment->user->img_thumbnail) }}"
-                                                    alt="{{ $item->user->name }}" class="rounded-circle">
+                                            @if ($room->user->avatar)
+                                                <img src="{{ Storage::url($room->user->avatar) }}"
+                                                    alt="{{ $room->user->name }}" class="rounded-circle">
                                             @else
                                                 <img src="{{ asset('admin/image/logo.jpg') }}"
-                                                    alt="{{ $item->user->name }}" class="rounded-circle">
+                                                    alt="{{ $room->user->name }}" class="rounded-circle">
                                             @endif
                                         </div>
                                         <div class="chat-contact-info flex-grow-1 ms-3">

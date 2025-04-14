@@ -18,7 +18,7 @@ return new class extends Migration {
                 $table->id();
                 $table->unsignedBigInteger('user_id');
                 $table->enum('status', [
-                    'pending', 'confirmed', 'shipping', 'delivered', 'completed',
+                    'pending', 'confirmed', 'shipping', 'delivered', 'completed','received',
                     'canceled', 'admin_canceled', 'return_request', 'refuse_return',
                     'sent_information', 'return_approved', 'returned_item_received', 'refund_completed'
                 ])->default(Order::PENDING);
