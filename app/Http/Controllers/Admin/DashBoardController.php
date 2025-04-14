@@ -12,33 +12,33 @@ class DashBoardController extends Controller
         // Tổng số đơn hàng
         $totalOrders = DB::table('orders')->count();
 
-        // Lọc theo phương thức thanh toán
-        $selectedMethod = $request->get('method', 'cod');  // Mặc định là 'cod'
+       
+        $selectedMethod = $request->get('method', 'cod');  
 
-        // Tính tổng tiền đã nhận cho phương thức thanh toán đã chọn
-        $totalCodMoney = $this->getTotalPaymentAmount('cod');  // Tổng tiền của COD
-        $totalVnpayMoney = $this->getTotalPaymentAmount('vnpay');  // Tổng tiền của VNPAY
+        
+        $totalCodMoney = $this->getTotalPaymentAmount('cod');  
+        $totalVnpayMoney = $this->getTotalPaymentAmount('vnpay'); 
 
-        // Chọn tổng tiền đã nhận dựa trên phương thức thanh toán
+        
         $totalMoneyReceived = $selectedMethod === 'cod' ? $totalCodMoney : $totalVnpayMoney;
 
-        // Kiểm tra nếu là yêu cầu AJAX
+       
         if ($request->ajax()) {
             return response()->json([
-                'totalMoneyReceived' => number_format($totalMoneyReceived, 0, ',', '.'),  // Trả về tổng tiền đã nhận
-                'selectedMethod' => $selectedMethod  // Trả về phương thức thanh toán đã chọn
+                'totalMoneyReceived' => number_format($totalMoneyReceived, 0, ',', '.'),  
+                'selectedMethod' => $selectedMethod  
             ]);
         }
 
-        // Truyền dữ liệu vào view khi không phải AJAX
+       
         return view('admin.dashboard', compact('totalOrders', 'selectedMethod', 'totalMoneyReceived'));
     }
 
-    // Hàm tính tổng số tiền đã nhận theo phương thức thanh toán
+    
     private function getTotalPaymentAmount($method)
     {
         return DB::table('orders')
             ->where('payment_method', $method)
-            ->sum('total_price');  // Tổng số tiền theo phương thức thanh toán
+            ->sum('total_price'); 
     }
 }
