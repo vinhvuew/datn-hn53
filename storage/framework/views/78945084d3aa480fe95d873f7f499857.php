@@ -52,4 +52,4 @@
 </body>
 
 </html>
-<?php /**PATH /Users/admin/datn-hn53/resources/views/client/layouts/master.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laragon\www\datn-hn53\resources\views/client/layouts/master.blade.php ENDPATH**/ ?>

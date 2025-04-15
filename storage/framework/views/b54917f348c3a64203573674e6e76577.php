@@ -108,4 +108,4 @@
             badge.className = 'badge ' + status.class;
         });
 </script>
-<?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/layouts/parials/js.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laragon\www\datn-hn53\resources\views/client/layouts/parials/js.blade.php ENDPATH**/ ?>

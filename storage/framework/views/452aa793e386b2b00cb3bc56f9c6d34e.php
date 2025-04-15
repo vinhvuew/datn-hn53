@@ -24,7 +24,7 @@
                 <div class="col-lg-3">
                     <div class="card shadow-sm border-0">
                         <div class="card-header bg-primary text-white text-center">
-                            <h6 class="mb-0">Tìm Kiếm Sản Phẩm</h6>
+                            <h6 class="mb-0">Tìm Kiếm Sản phẩm</h6>
                         </div>
                         <div class="card-body">
                             <form action="<?php echo e(route('products.filter')); ?>" method="GET">

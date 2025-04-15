@@ -270,8 +270,6 @@
                             </div>
 
                             <input type="hidden" id="original_total_amount" value="<?php echo e($totalAmount); ?>">
-                            <input type="hidden" name="voucher_id" id="selected_voucher_id" value="">
-
                             <div class="voucher-list">
                                 <?php $__currentLoopData = $vouchers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $voucher): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <?php
@@ -348,7 +346,7 @@
                             <div class="discount-section">
                                 <ul>
                                     <li class="clearfix" id="discount_value">
-                                        <em>Mã giảm giá:</em>
+                                        <em>Số tiền giảm:</em>
                                         <span>0 VNĐ</span>
                                     </li>
                                     
@@ -367,7 +365,7 @@
                             <input type="hidden" name="address_id" id="address_id"
                                 value="<?php echo e(isset($address[0]) ? $address[0]->id : ''); ?>">
                             <input type="hidden" name="payment_method" class="payment_method" value="COD">
-                            <input type="hidden" name="voucher_id" id="voucher_id">
+                            <input type="hidden" name="voucher_id" id="selected_voucher_id">
 
                             <!-- Nút thanh toán -->
                             <button class="btn_1 full-width">Thanh toán</button>
@@ -561,78 +559,76 @@
     
     <script>
         let selectedVoucherId = null;
-        const originalTotal = parseInt(document.getElementById('original_total_amount').value);
+const originalTotal = parseInt(document.getElementById('original_total_amount').value);
 
-        function selectVoucher(element) {
-            const voucherId = element.dataset.id;
+function selectVoucher(element) {
+    const voucherId = element.dataset.id;
 
-            // Nếu nhấp lại voucher đang chọn => hủy
-            if (selectedVoucherId === voucherId) {
-                removeVoucher();
-                return;
-            }
+    // Nếu nhấp lại voucher đang chọn => hủy
+    if (selectedVoucherId === voucherId) {
+        removeVoucher();
+        return;
+    }
 
-            // Hủy chọn radio cũ và DOM class 'selected'
-            document.querySelectorAll('.voucher-item').forEach(el => el.classList.remove('selected'));
-            document.querySelectorAll('.voucher-radio').forEach(radio => radio.checked = false);
+    // Hủy chọn radio cũ và DOM class 'selected'
+    document.querySelectorAll('.voucher-item').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('.voucher-radio').forEach(radio => radio.checked = false);
 
-            // Chọn radio và thêm class selected
-            element.classList.add('selected');
-            element.querySelector('.voucher-radio').checked = true;
+    // Chọn radio và thêm class selected
+    element.classList.add('selected');
+    element.querySelector('.voucher-radio').checked = true;
 
-            // Lấy dữ liệu voucher
-            const discountType = element.dataset.discountType;
-            const discountValue = parseFloat(element.dataset.discountValue);
-            const maxDiscount = parseFloat(element.dataset.maxDiscount);
+    // Lấy dữ liệu voucher
+    const discountType = element.dataset.discountType;
+    const discountValue = parseFloat(element.dataset.discountValue);
+    const maxDiscount = parseFloat(element.dataset.maxDiscount);
 
-            let discount = 0;
+    let discount = 0;
 
-            if (discountType === 'percentage') {
-                discount = (originalTotal * discountValue) / 100;
-                if (maxDiscount > 0 && discount > maxDiscount) {
-                    discount = maxDiscount;
-                }
-            } else {
-                discount = discountValue;
-            }
-
-            // Cập nhật UI
-            document.querySelector('#discount_value span').innerText = numberFormat(discount) + ' VNĐ';
-            const newTotal = originalTotal - discount;
-            document.querySelector('#total_amount_display').innerText = numberFormat(newTotal) + ' VNĐ';
-            document.querySelector('#total_price').value = newTotal;
-
-            // Gán voucher_id vào input hidden
-            document.getElementById('selected_voucher_id').value = voucherId;
-            selectedVoucherId = voucherId;
+    if (discountType === 'percentage') {
+        discount = (originalTotal * discountValue) / 100;
+        if (maxDiscount > 0 && discount > maxDiscount) {
+            discount = maxDiscount;
         }
+    } else {
+        discount = discountValue;
+    }
 
-        function removeVoucher() {
-            document.querySelectorAll('.voucher-item').forEach(el => el.classList.remove('selected'));
-            document.querySelectorAll('.voucher-radio').forEach(radio => radio.checked = false);
+    // Cập nhật UI
+    document.querySelector('#discount_value span').innerText = numberFormat(discount) + ' VNĐ';
+    const newTotal = originalTotal - discount;
+    document.querySelector('#total_amount_display').innerText = numberFormat(newTotal) + ' VNĐ';
+    document.querySelector('#total_price').value = newTotal;
 
-            // Chọn lại radio "Không dùng voucher"
-            const noVoucher = document.querySelector('.no-voucher');
-            noVoucher.classList.add('selected');
-            noVoucher.querySelector('input[type="radio"]').checked = true;
+    // Gán voucher_id vào input hidden
+    document.getElementById('selected_voucher_id').value = voucherId;
+    selectedVoucherId = voucherId;
+}
 
-            // Reset tổng tiền
-            document.querySelector('#discount_value span').innerText = '0 VNĐ';
-            document.querySelector('#total_amount_display').innerText = numberFormat(originalTotal) + ' VNĐ';
-            document.querySelector('#total_price').value = originalTotal;
+function removeVoucher() {
+    document.querySelectorAll('.voucher-item').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('.voucher-radio').forEach(radio => radio.checked = false);
 
-            // Gán lại input hidden là rỗng
-            document.getElementById('selected_voucher_id').value = '';
-            selectedVoucherId = null;
-        }
+    // Chọn lại radio "Không dùng voucher"
+    const noVoucher = document.querySelector('.no-voucher');
+    noVoucher.classList.add('selected');
+    noVoucher.querySelector('input[type="radio"]').checked = true;
 
-        function numberFormat(number) {
-            return new Intl.NumberFormat('vi-VN').format(number);
-        }
+    // Reset tổng tiền
+    document.querySelector('#discount_value span').innerText = '0 VNĐ';
+    document.querySelector('#total_amount_display').innerText = numberFormat(originalTotal) + ' VNĐ';
+    document.querySelector('#total_price').value = originalTotal;
+
+    // Gán lại input hidden là rỗng
+    document.getElementById('selected_voucher_id').value = '';
+    selectedVoucherId = null;
+}
+
+function numberFormat(number) {
+    return new Intl.NumberFormat('vi-VN').format(number);
+}
+
     </script>
-
-
-
     
     <script>
         $(document).ready(function() {

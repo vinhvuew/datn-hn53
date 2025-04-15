@@ -121,4 +121,4 @@
 </body>
 
 </html>
-<?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/layouts/master.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laragon\www\datn-hn53\resources\views/admin/layouts/master.blade.php ENDPATH**/ ?>

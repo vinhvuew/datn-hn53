@@ -111,8 +111,13 @@ class OrderController extends Controller
     }
     private function createOrder($request, $status)
     {
-        dd($request->all());
+        // dd($request->all());
         try {
+            // Lấy giỏ hàng của người dùng hiện tại
+            $cart = Cart::where('user_id', Auth::id())->first();
+
+            // Tính tổng tiền từ các sản phẩm trong giỏ hàng
+            $cartTotal = $cart->cartDetails->sum('total_amount');
 
             $order = new Order();
             $order->user_id = Auth::id();
@@ -134,16 +139,20 @@ class OrderController extends Controller
                     $order->voucher_discount_type = $voucher->discount_type;
                     $order->voucher_discount_value = $voucher->discount_value;
                     $discountAmount = 0;
-                    if ($voucher->discount_type === 'percentage') {
-                        $discountAmount = ($request->total_price * $voucher->discount_value) / 100;
-                    } else {
-                        $discountAmount = $voucher->discount_value;
-                    }
-                    if ($voucher->max_discount_value && $discountAmount > $voucher->max_discount_value) {
-                        $discountAmount = $voucher->max_discount_value;
-                    }
+                if ($voucher->discount_type === 'percentage') {
+                    $discountAmount = ($cartTotal * $voucher->discount_value) / 100;
+                } else {
+                    $discountAmount = $voucher->discount_value;
+                }
 
-                    $order->voucher_discount_amount = $discountAmount; // Số tiền giảm giá thực tế
+                // Kiểm tra nếu có giới hạn giảm giá tối đa
+                if ($voucher->max_discount_value && $discountAmount > $voucher->max_discount_value) {
+                    $discountAmount = $voucher->max_discount_value;
+                }
+
+                $order->voucher_discount_amount = $discountAmount;
+                $order->total_price = $cartTotal - $discountAmount; // Cập nhật tổng tiền sau khi giảm
+            
                 }
             }
 
@@ -252,8 +261,8 @@ class OrderController extends Controller
             try {
                 Shipping::create([
                     'order_id' => $orderId,
-                    'name' => 'Đơn hàng đang đợi được xác nhận',
-                    'note' => '',
+                    'name' => 'Đơn hàng của bạn đã được đặt thành công',
+                    'note' => 'Đơn hàng đang đợi được xác nhận',
                 ]);
             } catch (\Exception $e) {
                 Log::error('Lỗi khi tạo Shipping: ' . $e->getMessage());

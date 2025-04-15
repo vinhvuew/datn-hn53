@@ -1,28 +1,26 @@
-@extends('admin.layouts.master')
+<?php $__env->startSection('item-dashboards', 'active'); ?>
 
-@section('item-dashboards', 'active')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row">
 
-            {{-- Welcome Section --}}
+            
             <div class="col-lg-8 col-md-4 mb-4">
                 <div class="card h-100 ">
                     <div class="card-body">
                         <h3 class="card-title text-primary">
-                            Xin chào <i>{{ Auth::user()->role->name }}</i> 🎉 <i>{{ Auth::user()->name }}</i>
+                            Xin chào <i><?php echo e(Auth::user()->role->name); ?></i> 🎉 <i><?php echo e(Auth::user()->name); ?></i>
                         </h3>
-                        {{-- <p class="mb-0">Bạn đã hoàn thành <span class="fw-medium">72%</span> nhiều doanh số hơn hôm nay.</p> --}}
+                        
                     </div>
                 </div>
             </div>
 
-            {{-- Tổng đơn hàng & Sales --}}
+            
             <div class="col-lg-4 col-md-4 mb-4">
                 <div class="row">
 
-                    {{-- Tổng Đơn Hàng --}}
+                    
                     <div class="col-lg-6 col-md-12 mb-4">
                         <div class="card h-100" style="background-color: #d1fae5; min-height: 170px;">
                             <div class="card-body pb-0">
@@ -32,12 +30,12 @@
                                     </div>
                                 </div>
                                 <span class="d-block fw-medium mt-4">Tổng Đơn Hàng</span>
-                                <h3 class="card-title">{{ $totalOrders }}</h3>
+                                <h3 class="card-title"><?php echo e($totalOrders); ?></h3>
                             </div>
                         </div>
                     </div>
 
-                   {{-- Tổng Tiền Đã Nhận --}}
+                   
         <div class="col-lg-6 col-md-12 mb-4">
             <div class="card h-100">
                 <div class="card-body">
@@ -48,10 +46,10 @@
                                 <!-- COD Icon -->
                                 <i class="bx bx-wallet-alt fs-4 me-2"></i> <!-- icon ví tiền cho COD -->
                                 <select name="method" id="methodSelect" class="form-select">
-                                    <option value="cod" {{ $selectedMethod == 'cod' ? 'selected' : '' }}>
+                                    <option value="cod" <?php echo e($selectedMethod == 'cod' ? 'selected' : ''); ?>>
                                         <i class="bx bx-wallet-alt"></i> COD (Thanh toán khi nhận hàng)
                                     </option>
-                                    <option value="vnpay" {{ $selectedMethod == 'vnpay' ? 'selected' : '' }}>
+                                    <option value="vnpay" <?php echo e($selectedMethod == 'vnpay' ? 'selected' : ''); ?>>
                                         <i class="bx bx-credit-card"></i> VNPAY
                                     </option>
                                 </select>
@@ -60,7 +58,7 @@
                     </form>
 
                     <!-- Hiển thị tổng số tiền đã nhận -->
-                    <h6 id="totalMoneyReceived">Tổng Tiền Đã Nhận: {{ number_format($totalMoneyReceived, 0, ',', '.') }} VND</h6>
+                    <h6 id="totalMoneyReceived">Tổng Tiền Đã Nhận: <?php echo e(number_format($totalMoneyReceived, 0, ',', '.')); ?> VND</h6>
                 </div>
             </div>
         </div>
@@ -68,7 +66,7 @@
                 </div>
             </div>
 
-            {{-- Total Revenue --}}
+            
             <div class="col-12 col-lg-8 mb-4">
                 <div class="card">
                     <div class="row row-bordered g-0">
@@ -117,16 +115,16 @@
                 </div>
             </div>
 
-            {{-- Sidebar Cards --}}
+            
             <div class="col-12 col-md-8 col-lg-4 mb-4">
                 <div class="row">
-                    {{-- Payments --}}
+                    
                     <div class="col-6 mb-4">
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-title d-flex align-items-start justify-content-between">
                                     <div class="avatar flex-shrink-0">
-                                        <img src="{{ asset('assets/img/icons/unicons/paypal.png') }}" alt="Payments Icon"
+                                        <img src="<?php echo e(asset('assets/img/icons/unicons/paypal.png')); ?>" alt="Payments Icon"
                                             class="rounded" />
                                     </div>
                                 </div>
@@ -137,7 +135,7 @@
                         </div>
                     </div>
 
-                    {{-- Revenue --}}
+                    
                     <div class="col-6 mb-4">
                         <div class="card">
                             <div class="card-body pb-2">
@@ -148,7 +146,7 @@
                         </div>
                     </div>
 
-                    {{-- Profile Report --}}
+                    
                     <div class="col-12 mb-4">
                         <div class="card">
                             <div class="card-body">
@@ -174,21 +172,21 @@
 
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('style.libs')
-    {{-- Add CSS libraries here if needed --}}
-@endsection
+<?php $__env->startSection('style.libs'); ?>
+    
+<?php $__env->stopSection(); ?>
 
-@section('script-libs')
-    <script src="{{ asset('admin/assets/js/dashboards-analytics.js') }}"></script>
+<?php $__env->startSection('script-libs'); ?>
+    <script src="<?php echo e(asset('admin/assets/js/dashboards-analytics.js')); ?>"></script>
 
     <!-- SweetAlert2 + ApexCharts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script>
-        const totalOrders = {{ $totalOrders }}; // Đưa giá trị totalOrders vào JavaScript
+        const totalOrders = <?php echo e($totalOrders); ?>; // Đưa giá trị totalOrders vào JavaScript
 
         // Biểu tượng giỏ hàng lớn
         const iconSize = "4rem"; // Kích thước biểu tượng giỏ hàng
@@ -241,7 +239,7 @@
         }
     </script>
 
-    {{-- js bieu do pthuc thanh toan --}}
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -252,11 +250,11 @@
 
                 // Gửi yêu cầu AJAX đến server
                 $.ajax({
-                    url: '{{ route("admin.dashboard") }}',  // URL của route xử lý (cập nhật dữ liệu)
+                    url: '<?php echo e(route("admin.dashboard")); ?>',  // URL của route xử lý (cập nhật dữ liệu)
                     method: 'GET',
                     data: {
                         method: selectedMethod,  // Gửi phương thức thanh toán
-                        _token: '{{ csrf_token() }}'  // Thêm CSRF token bảo mật
+                        _token: '<?php echo e(csrf_token()); ?>'  // Thêm CSRF token bảo mật
                     },
                     success: function(response) {
                         // Cập nhật tổng tiền đã nhận sau khi thành công
@@ -272,4 +270,6 @@
         });
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\datn-hn53\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

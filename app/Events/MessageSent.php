@@ -27,6 +27,7 @@ class MessageSent implements ShouldBroadcast
     // Kênh Presence Channel để theo dõi trạng thái online của 2 người dùng
     public function broadcastOn()
     {
+
         return new PresenceChannel('chat.' . $this->roomId);
     }
 
