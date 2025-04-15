@@ -9,7 +9,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.10",
 
-        "nesbot/carbon": "^2.73"
+        "nesbot/carbon": "^2.73",
 
         "pusher/pusher-php-server": "^7.2"
 
