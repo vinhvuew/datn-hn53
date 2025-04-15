@@ -142,8 +142,8 @@ class VNPayController extends Controller
 
                     Shipping::create([
                         'order_id' => $order->id,
-                        'name' => 'Đơn hàng đã được xác nhận',
-                        'note' => 'Đơn hàng đã được thanh toán qua VNPAY'
+                        'name' => 'Đơn hàng đã được thanh toán qua VNPAY',
+                        'note' => 'Đơn hàng đã được xác nhận'
                     ]);
 
 

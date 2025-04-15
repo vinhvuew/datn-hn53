@@ -104,11 +104,11 @@ class OrdersController extends Controller
                     $shippingData = match ($newStatus) {
                         'confirmed' => [
                             'name' => 'Đơn hàng đã được xác nhận',
-                            'note' => 'Đang chuẩn bị hàng gửi cho đơn vị vận chuyển'
+                            'note' => ''
                         ],
                         'shipping' => [
                             'name' => 'Chờ giao hàng',
-                            'note' => 'Đơn hàng đã gửi cho đơn vị vận chuyển'
+                            'note' => 'Đang đợi đơn vị vận chuyển đến lấy hàng'
                         ],
                         'delivered' => [
                             'name' => 'Đang giao hàng',
@@ -191,7 +191,7 @@ class OrdersController extends Controller
             Shipping::create([
                 'order_id' => $order->id,
                 'name' => 'Đơn hàng đã được xác nhận',
-                'note' => 'Đang chuẩn bị hàng gửi cho đơn vị vận chuyển',
+                'note' => '',
             ]);
         } else {
             return back()->with('error', 'Xác nhận đơn hàng thất bại!');
@@ -210,7 +210,7 @@ class OrdersController extends Controller
             Shipping::create([
                 'order_id' => $order->id,
                 'name' => 'Chờ giao hàng',
-                'note' => 'Đơn hàng đã gửi cho đơn vị vận chuyển',
+                'note' => 'Đang chuẩn bị hàng gửi cho đơn vị vận chuyển',
             ]);
         } else {
             return back()->with('error', 'Cập nhật trạng thái thất bại!');
