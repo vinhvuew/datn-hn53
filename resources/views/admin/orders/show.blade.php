@@ -33,6 +33,8 @@
                             @case('shipping') bg-primary rounded-pill @break
                             @case('delivered') bg-success rounded-pill @break
                             @case('completed') bg-info rounded-pill @break
+                            @case('received') bg-info @break
+                            @case('order_confirmation') bg-success @break
                             @case('canceled') bg-danger rounded-pill @break
                             @case('admin_canceled') bg-danger rounded-pill @break
                             @case('return_request') bg-danger rounded-pill @break
@@ -49,6 +51,8 @@
                             'shipping' => 'Chờ giao hàng',
                             'delivered' => 'Đang giao hàng',
                             'completed' => 'Giao hàng thành công',
+                            'received' => 'Đã nhận hàng',
+                            'order_confirmation' => 'Hoàn thành',
                             'canceled' => 'Người mua đã hủy',
                             'admin_canceled' => 'Đã hủy bởi ' . Auth::user()->name,
                             'return_request' => 'Yêu cầu trả hàng',

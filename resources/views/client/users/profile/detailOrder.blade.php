@@ -250,15 +250,15 @@
                                                     @csrf
                                                     @method('PUT')
                                                     <button type="submit" class="btn btn-outline-success btn-sm"
-                                                        onclick="return confirm('Bạn có chắc chắn?, sau khi xác nhận bạn không thể hoàn đơn!');">
+                                                        onclick="return confirm('Sau khi xác nhận đơn hàng đồng nghĩa với việc bạn đồng ý với chính sách của Shop');">
                                                         Xác nhận đơn hàng
                                                     </button>
                                                 </form>
                                             </div>
                                         @elseif($order->status === 'order_confirmation')
                                             <div class="d-flex align-items-center gap-3">
-                                                <span class="badge bg-success">
-                                                    Hoàn thành đơn hàng
+                                                <span class="text-success">
+                                                    ĐƠN HÀNG HOÀN THÀNH
                                                 </span>
                                                 <a href="http://" class="text-decoration-none text-primary">
                                                     Đánh giá

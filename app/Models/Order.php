@@ -28,7 +28,8 @@ class Order extends Model
         'voucher_discount_type',
         'voucher_discount_value',
         'voucher_discount_amount',
-        'status'
+        'status',
+        'completed_at'
     ];
 
     public static function getStatusList()
@@ -39,6 +40,7 @@ class Order extends Model
             'shipping' => 'Chờ giao hàng',
             'delivered' => 'Đang giao hàng',
             'completed' => 'Giao hàng thành công',
+            'order_confirmation' => 'Xác nhận đơn hàng',
             'canceled' => 'Người mua đã hủy',
             'admin_canceled' => 'Đã hủy bởi Admin',
             'return_request' => 'Yêu cầu trả hàng',

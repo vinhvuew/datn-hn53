@@ -111,7 +111,7 @@ class OrderController extends Controller
     }
     private function createOrder($request, $status)
     {
-        // dd($request->all());
+        dd($request->all());
         try {
 
             $order = new Order();

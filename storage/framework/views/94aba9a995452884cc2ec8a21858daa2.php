@@ -103,11 +103,11 @@
                             <div
                                 class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-3 pb-sm-0">
                                 <div>
-                                    <h3 class="mb-2"><?php echo e($completedCount); ?></h3>
+                                    <h3 class="mb-2"><?php echo e($order_confirmation); ?></h3>
                                     <p class="mb-0">Hoàn thành</p>
                                 </div>
                                 <div class="avatar me-lg-4">
-                                    <a href="<?php echo e(route('orders.index', ['status' => 'completed'])); ?>">
+                                    <a href="<?php echo e(route('orders.index', ['status' => 'order_confirmation'])); ?>">
                                         <span class="avatar-initial rounded bg-label-secondary">
                                             <i class="bx bx-check-double bx-sm"></i>
                                         </span>
@@ -249,6 +249,8 @@
                                                 <?php case ('shipping'): ?> bg-primary <?php break; ?>
                                                 <?php case ('delivered'): ?> bg-success <?php break; ?>
                                                 <?php case ('completed'): ?> bg-info <?php break; ?>
+                                                <?php case ('received'): ?> bg-info <?php break; ?>
+                                                <?php case ('order_confirmation'): ?> bg-success <?php break; ?>
                                                 <?php case ('canceled'): ?> bg-danger <?php break; ?>
                                                 <?php case ('admin_canceled'): ?> bg-danger <?php break; ?>
                                                 <?php case ('return_request'): ?> bg-danger <?php break; ?>
@@ -265,6 +267,8 @@
                                                 'shipping' => 'Chờ giao hàng',
                                                 'delivered' => 'Đang giao hàng',
                                                 'completed' => 'Giao hàng thành công',
+                                                'received' => 'Đã nhận hàng',
+                                                'order_confirmation' => 'Hoàn thành',
                                                 'canceled' => 'Người mua đã hủy',
                                                 'admin_canceled' => 'Đã hủy bởi' . Auth::user()->name,
                                                 'return_request' => 'Yêu cầu trả hàng',
