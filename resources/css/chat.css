@@ -1,0 +1,31 @@
+#message-box {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    height: 400px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.message {
+    max-width: 70%; /* Giới hạn chiều rộng tin nhắn */
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;
+}
+
+.message.sent {
+    background-color: #d1e7dd; /* Xanh nhạt */
+    align-self: flex-end; /* Căn phải */
+    text-align: right;
+}
+
+.message.received {
+    background-color: #f8d7da; /* Hồng nhạt */
+    align-self: flex-start; /* Căn trái */
+    text-align: left;
+}

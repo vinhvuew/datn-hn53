@@ -4,15 +4,16 @@
     "type": "project",
     "require": {
         "php": "^8.1",
+        "guzzlehttp/guzzle": "^7.9",
         "intervention/image": "^3.11",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.10",
 
         "nesbot/carbon": "^2.73",
+        "openai-php/laravel": "^0.11.0",
 
         "pusher/pusher-php-server": "^7.2"
-
     },
     "autoload": {
         "psr-4": {
@@ -33,7 +34,10 @@
     },
     "config": {
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*"

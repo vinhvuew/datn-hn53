@@ -8,10 +8,7 @@
     <div class="row text-center mb-4">
         @php
             $summary = [
-                ['title' => 'Hôm nay', 'value' => $doanhThuNgay->sum('doanh_thu'), 'class' => 'success'],
-                ['title' => 'Tuần này', 'value' => $doanhThuTuan->sum('doanh_thu'), 'class' => 'info'],
-                ['title' => 'Tháng này', 'value' => $doanhThuThang->sum('doanh_thu'), 'class' => 'warning'],
-                ['title' => 'Năm nay', 'value' => $doanhThuNam->sum('doanh_thu'), 'class' => 'danger']
+                
             ];
         @endphp
         @foreach ($summary as $item)

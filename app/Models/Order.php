@@ -23,6 +23,11 @@ class Order extends Model
         'payment_status',
         'order_date',
         'voucher_id',
+        'voucher_code',
+        'voucher_name',
+        'voucher_discount_type',
+        'voucher_discount_value',
+        'voucher_discount_amount',
         'status'
     ];
 

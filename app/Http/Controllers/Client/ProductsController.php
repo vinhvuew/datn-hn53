@@ -241,7 +241,7 @@ class ProductsController extends Controller
     public function favorite()
     {
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để xem danh sách yêu thích.');
+            return redirect()->route('login.show')->with('error', 'Bạn cần đăng nhập để xem danh sách yêu thích.');
         }
 
         $favorites = Auth::user()->favoriteProducts()->get();
@@ -253,7 +253,7 @@ class ProductsController extends Controller
     public function storefavorite(Request $request)
     {
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để thêm vào yêu thích.');
+            return redirect()->route('login.show')->with('error', 'Bạn cần đăng nhập để thêm vào yêu thích.');
         }
 
         $user = Auth::user();
@@ -269,7 +269,7 @@ class ProductsController extends Controller
 
     public function destroyfavorite($id) {
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để xóa sản phẩm yêu thích.');
+            return redirect()->route('login.show')->with('error', 'Bạn cần đăng nhập để xóa sản phẩm yêu thích.');
         }
 
         $user = Auth::user();

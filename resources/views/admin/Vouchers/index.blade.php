@@ -30,14 +30,16 @@
                     <thead>
                         <tr>
                             <th>Mã Voucher</th>
-                            <th>Tên Voucher</th>
+
                             <th>Giảm giá</th>
-                            <th>Điều kiện áp dụng</th>
-                            <th>Giảm giá tối đa</th>
-                            <th>Trạng thái</th>
+                            <th>Tên Voucher</th>
+                            <th>Số lượng</th>
                             <th>Ngày Bắt Đầu</th>
                             <th>Ngày Kết Thúc</th>
+                            <th>Trạng thái</th>
                             <th class="text-center">Thao tác</th>
+                            <th>Điều kiện áp dụng</th>
+                            <th>Giảm giá tối đa</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,10 +47,8 @@
                             <tr>
                                 {{-- Mã Voucher --}}
                                 <td>{{ $voucher->code }}</td>
-
                                 {{-- Tên Voucher --}}
                                 <td>{{ $voucher->name }}</td>
-
                                 {{-- Giảm Giá --}}
                                 <td>
                                     @if ($voucher->discount_type == 'percentage')
@@ -58,14 +58,13 @@
                                     @endif
                                 </td>
 
-                                {{-- Điều Kiện Áp Dụng --}}
-                                <td>{{ number_format($voucher->min_order_value, 0) }} VND</td>
+                                <td>{{ $voucher->quantity }}</td>
 
-                                {{-- Giảm Giá Tối Đa (Chỉ hiển thị nếu có) --}}
-                                <td>
-                                    {{ $voucher->discount_type == 'percentage' && $voucher->max_discount_value ? number_format($voucher->max_discount_value, 0) . ' VND' : '-' }}
-                                </td>
+                                {{-- Ngày Bắt Đầu --}}
+                                <td>{{ \Carbon\Carbon::parse($voucher->start_date)->format('d/m/Y') }}</td>
 
+                                {{-- Ngày Kết Thúc --}}
+                                <td>{{ \Carbon\Carbon::parse($voucher->end_date)->format('d/m/Y') }}</td>
                                 {{-- Trạng Thái --}}
                                 <td>
                                     @php
@@ -77,19 +76,12 @@
                                     @endphp
                                     <span class="badge {{ $statusClass }}">{{ ucfirst($voucher->status) }}</span>
                                 </td>
-
-                                {{-- Ngày Bắt Đầu --}}
-                                <td>{{ \Carbon\Carbon::parse($voucher->start_date)->format('d/m/Y') }}</td>
-
-                                {{-- Ngày Kết Thúc --}}
-                                <td>{{ \Carbon\Carbon::parse($voucher->end_date)->format('d/m/Y') }}</td>
-
                                 {{-- Thao Tác --}}
                                 <td class="text-center">
                                     <a href="{{ route('vouchers.edit', $voucher->id) }}" class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit"></i> Sửa
                                     </a>
-                                    <form action="{{ route('vouchers.destroy', $voucher->id) }}" method="POST"
+                                    {{-- <form action="{{ route('vouchers.destroy', $voucher->id) }}" method="POST"
                                         class="d-inline">
                                         @csrf
                                         @method('DELETE')
@@ -97,7 +89,15 @@
                                             onclick="return confirm('Bạn có chắc chắn muốn xóa voucher này?')">
                                             <i class="fas fa-trash-alt"></i> Xóa
                                         </button>
-                                    </form>
+                                    </form> --}}
+                                </td>
+
+                                {{-- Điều Kiện Áp Dụng --}}
+                                <td>{{ number_format($voucher->min_order_value, 0) }} VND</td>
+
+                                {{-- Giảm Giá Tối Đa (Chỉ hiển thị nếu có) --}}
+                                <td>
+                                    {{ $voucher->discount_type == 'percentage' && $voucher->max_discount_value ? number_format($voucher->max_discount_value, 0) . ' VND' : '-' }}
                                 </td>
                             </tr>
                         @endforeach
