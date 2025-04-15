@@ -20,4 +20,4 @@
         </div>
     </div>
 </footer>
-<?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/layouts/parials/footer.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laragon\www\datn-hn53\resources\views/admin/layouts/parials/footer.blade.php ENDPATH**/ ?>

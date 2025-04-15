@@ -145,4 +145,4 @@
         }
     }
 </style>
-<?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/layouts/parials/css.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laragon\www\datn-hn53\resources\views/client/layouts/parials/css.blade.php ENDPATH**/ ?>

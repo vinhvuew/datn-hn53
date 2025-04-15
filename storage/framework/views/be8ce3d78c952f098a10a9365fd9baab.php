@@ -68,4 +68,4 @@
         <i class="bx bx-x bx-sm search-toggler cursor-pointer"></i>
     </div>
 </nav>
-<?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/layouts/parials/navBar.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laragon\www\datn-hn53\resources\views/admin/layouts/parials/navBar.blade.php ENDPATH**/ ?>

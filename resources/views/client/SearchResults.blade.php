@@ -46,7 +46,7 @@
                 @else
                     <div class="col-12 text-center">
                         <h4 class="text-danger">Sản phẩm không tồn tại</h4>
-                        <p>Vui lòng thử lại với từ khóa khác.</p>
+                        <p>Vui lòng thử lại bằng từ khóa khác.</p>
                     </div>
                 @endif
             </div>
