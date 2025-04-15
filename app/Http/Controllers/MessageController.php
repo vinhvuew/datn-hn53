@@ -27,7 +27,14 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'sender_id' => 'required|integer',
+            'receiver_id' => 'required|integer',
+            'message' => 'required',
+        ]);
+
+        Message::create($request->all());
+        return redirect()->route('messages.index')->with('success', 'Đã gửi tin nhắn');
     }
 
     /**
