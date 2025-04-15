@@ -1,6 +1,4 @@
-@extends('client.layouts.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <main>
         <!-- Banner -->
         <div class="top_banner mb-5">
@@ -16,7 +14,7 @@
                     <h1 class="text-white">Shoes - Grid Listing</h1>
                 </div>
             </div>
-            <img src="{{ asset('client/img/bg_cat_shoes.jpg') }}" class="img-fluid w-100" alt="Banner Shoes">
+            <img src="<?php echo e(asset('client/img/bg_cat_shoes.jpg')); ?>" class="img-fluid w-100" alt="Banner Shoes">
         </div>
         <!-- /Banner -->
 
@@ -29,18 +27,19 @@
                             <h6 class="mb-0">Tìm Kiếm Sản phẩm</h6>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('products.filter') }}" method="GET">
+                            <form action="<?php echo e(route('products.filter')); ?>" method="GET">
                                 <!-- Danh mục -->
                                 <div class="mb-3">
                                     <label class="form-label"><strong>Danh mục</strong></label>
                                     <select class="form-select" name="category">
                                         <option value="">Chọn danh mục</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}"
-                                                {{ request('category') == $category->id ? 'selected' : '' }}>
-                                                {{ $category->name }}
+                                        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($category->id); ?>"
+                                                <?php echo e(request('category') == $category->id ? 'selected' : ''); ?>>
+                                                <?php echo e($category->name); ?>
+
                                             </option>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
 
@@ -49,15 +48,26 @@
                                     <label class="form-label"><strong>Hãng</strong></label>
                                     <select class="form-select" name="brand">
                                         <option value="">Chọn hãng</option>
-                                        @foreach ($brands as $brand)
-                                            <option value="{{ $brand->id }}"
-                                                {{ request('brand') == $brand->id ? 'selected' : '' }}>
-                                                {{ $brand->name }}
+                                        <?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($brand->id); ?>"
+                                                <?php echo e(request('brand') == $brand->id ? 'selected' : ''); ?>>
+                                                <?php echo e($brand->name); ?>
+
                                             </option>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
 
+ <!-- Khoảng giá -->
+ <div class="mb-3">
+    <label class="form-label"><strong>Khoảng giá</strong></label>
+    <select class="form-select" name="price_range">
+        <option value="">Chọn khoảng giá</option>
+        <option value="1" <?php echo e(request('price_range') == '1' ? 'selected' : ''); ?>>Dưới 500.000 VND</option>
+        <option value="2" <?php echo e(request('price_range') == '2' ? 'selected' : ''); ?>>500.000 - 1.999.000 VND</option>
+        <option value="3" <?php echo e(request('price_range') == '3' ? 'selected' : ''); ?>>2.000.000 - 10.000.000 VND</option>
+    </select>
+</div>
 
 
                                 <!-- Nút lọc -->
@@ -70,52 +80,53 @@
                 <!-- Danh sách sản phẩm (70%) -->
                 <div class="col-lg-9">
                     <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-3 mt-4">
-                        @foreach ($products as $product)
+                        <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="col">
                                 <div class="card border-0 shadow-sm text-center h-100">
                                     <div class="position-relative overflow-hidden">
-                                        <a href="{{ route('productDetail', $product->slug) }}" class="d-block">
-                                            <img src="{{ Storage::url($product->img_thumbnail) }}"
+                                        <a href="<?php echo e(route('productDetail', $product->slug)); ?>" class="d-block">
+                                            <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
                                                  class="img-fluid product-image"
-                                                 alt="{{ $product->name }}">
+                                                 alt="<?php echo e($product->name); ?>">
                                         </a>
                                     </div>
                                     <div class="card-body p-3">
-                                        <a href="{{ route('product.show', $product->slug) }}" class="text-decoration-none">
-                                            <h5 class="card-title text-truncate">{{ $product->name }}</h5>
+                                        <a href="<?php echo e(route('product.show', $product->slug)); ?>" class="text-decoration-none">
+                                            <h5 class="card-title text-truncate"><?php echo e($product->name); ?></h5>
                                         </a>
                                         <div class="price_box">
-                                            @if ($product->price_sale)
+                                            <?php if($product->price_sale): ?>
                                                 <span class="new_price text-danger fw-bold">
-                                                    {{ number_format($product->price_sale, 0, ',', '.') }}VND
+                                                    <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?>VND
                                                 </span>
                                                 <span class="old_price text-muted text-decoration-line-through ms-2">
-                                                    {{ number_format($product->base_price, 0, ',', '.') }}VND
+                                                    <?php echo e(number_format($product->base_price, 0, ',', '.')); ?>VND
                                                 </span>
-                                            @else
+                                            <?php else: ?>
                                                 <span class="new_price fw-bold">
-                                                    {{ number_format($product->base_price, 0, ',', '.') }}VND
+                                                    <?php echo e(number_format($product->base_price, 0, ',', '.')); ?>VND
 
                                                 </span>
-                                            @endif
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
 
                     <!-- Phân trang -->
                     <div class="pagination__wrapper d-flex justify-content-center mt-4">
-                        {{ $products->links() }}
+                        <?php echo e($products->links()); ?>
+
                     </div>
                 </div>
             </div>
         </div>
     </main>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('style-libs')
+<?php $__env->startSection('style-libs'); ?>
     <!-- CSS tùy chỉnh -->
     <style>
         .product-image {
@@ -168,9 +179,9 @@
     display: none !important;
 }
     </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script-libs')
+<?php $__env->startSection('script-libs'); ?>
     <!-- JavaScript để cập nhật giá trị range slider -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -185,4 +196,6 @@
             }
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\datn-hn53\resources\views/client/product/products.blade.php ENDPATH**/ ?>

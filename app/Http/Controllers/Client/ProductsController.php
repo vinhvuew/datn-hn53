@@ -201,41 +201,43 @@ class ProductsController extends Controller
     // tùng bún
     public function statistical(Request $request)
     {
-        // Lấy danh sách danh mục và thương hiệu
         $categories = Category::all();
         $brands = Brand::all();
 
         // Khởi tạo query
-        $query = Product::query();
+        $query = Product::query()->where('is_active', 1);
 
-        // Lọc theo danh mục (nếu có)
-        if ($request->has('category') && $request->category != '') {
+        // Lọc theo danh mục
+        if ($request->filled('category')) {
             $query->where('category_id', $request->category);
         }
 
-        // Lọc theo thương hiệu (nếu có)
-        if ($request->has('brand') && $request->brand != '') {
+        // Lọc theo thương hiệu
+        if ($request->filled('brand')) {
             $query->where('brand_id', $request->brand);
         }
 
-        // Lọc theo giá sale (nếu có)
-        if ($request->has('price_sale') && $request->price_sale != '') {
-            // Chỉ lọc nếu price_sale > 0
-            if ($request->price_sale > 0) {
-                $query->where('price_sale', '<=', $request->price_sale);
+        // Lọc theo khoảng giá dựa vào price_sale
+        if ($request->filled('price_range')) {
+            switch ($request->price_range) {
+                case '1':
+                    $query->where('price_sale', '<', 500000);
+                    break;
+                case '2':
+                    $query->whereBetween('price_sale', [500000, 1999000]);
+                    break;
+                case '3':
+                    $query->whereBetween('price_sale', [2000000, 10000000]);
+                    break;
             }
         }
 
-        // Phân trang
-        $products = Product::where('is_active', 1)
-            ->latest()
-            ->limit(8)
-            ->paginate(12);
-        // $products = $query->paginate(12);
+        // Lấy danh sách sản phẩm theo phân trang
+        $products = $query->latest()->paginate(12);
 
-        // Trả về view với dữ liệu
         return view('client.product.products', compact('products', 'categories', 'brands'));
     }
+
 
     // yêu thích
     public function favorite()
