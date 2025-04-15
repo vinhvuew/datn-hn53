@@ -20,9 +20,8 @@ class MessageController extends Controller
      */
     public function create()
     {
-        //
+        return view('messages.create');
     }
-
     /**
      * Store a newly created resource in storage.
      */
