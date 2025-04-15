@@ -58,6 +58,16 @@
                                     </select>
                                 </div>
 
+ <!-- Khoảng giá -->
+ <div class="mb-3">
+    <label class="form-label"><strong>Khoảng giá</strong></label>
+    <select class="form-select" name="price_range">
+        <option value="">Chọn khoảng giá</option>
+        <option value="1" {{ request('price_range') == '1' ? 'selected' : '' }}>Dưới 500.000 VND</option>
+        <option value="2" {{ request('price_range') == '2' ? 'selected' : '' }}>500.000 - 1.999.000 VND</option>
+        <option value="3" {{ request('price_range') == '3' ? 'selected' : '' }}>2.000.000 - 10.000.000 VND</option>
+    </select>
+</div>
 
 
                                 <!-- Nút lọc -->
