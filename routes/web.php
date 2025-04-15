@@ -178,6 +178,11 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::post('/admin/users/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
 
 
+    // Bình luận
+    Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
+    Route::get('/comment/create', [CommentController::class, 'create'])->name('comment.create');
+    Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+
     // voucher
     Route::get('/vouchers', [VouchersController::class, 'index'])->name('vouchers.index');
     Route::get('/vouchers/create', [VouchersController::class, 'create'])->name('vouchers.create');
@@ -222,10 +227,6 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
 
 
 
-    // Bình luận
-    Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
-    Route::get('/comment/create', [CommentController::class, 'create'])->name('comment.create');
-    Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
 
 
     // Đơn hàng
