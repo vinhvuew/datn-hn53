@@ -1,6 +1,4 @@
-@extends('client.layouts.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <style>
         .address-box {
             border: 1px solid #ccc;
@@ -143,32 +141,33 @@
                             <div class="tab-pane fade show active" id="tab_1" role="tabpanel" aria-labelledby="tab_1">
                                 <div id="addressList">
 
-                                    @foreach ($address as $index => $a)
+                                    <?php $__currentLoopData = $address; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="address-box">
                                             <input type="radio" name="address" class="address-checkbox"
-                                                value="{{ $a->id }}" {{ $loop->first ? 'checked' : '' }}
+                                                value="<?php echo e($a->id); ?>" <?php echo e($loop->first ? 'checked' : ''); ?>
+
                                                 onchange="getSelectedAddresses()">
-                                            <p><strong>{{ $a->full_name }}</strong></p>
-                                            <p>📞 {{ $a->phone }}</p>
-                                            <p>📍 {{ $a->address }}, {{ $a->ward }}, {{ $a->district }},
-                                                {{ $a->province }}</p>
+                                            <p><strong><?php echo e($a->full_name); ?></strong></p>
+                                            <p>📞 <?php echo e($a->phone); ?></p>
+                                            <p>📍 <?php echo e($a->address); ?>, <?php echo e($a->ward); ?>, <?php echo e($a->district); ?>,
+                                                <?php echo e($a->province); ?></p>
                                             <div class="address-actions">
-                                                <i class="ti-pencil edit-address" data-address-id="{{ $a->id }}"
+                                                <i class="ti-pencil edit-address" data-address-id="<?php echo e($a->id); ?>"
                                                     title="Sửa địa chỉ"></i>
-                                                <i class="ti-trash delete-address" data-address-id="{{ $a->id }}"
+                                                <i class="ti-trash delete-address" data-address-id="<?php echo e($a->id); ?>"
                                                     title="Xóa địa chỉ"></i>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </div>
                             <!-- /tab_1 -->
                             <div class="tab-pane fade" id="tab_2" role="tabpanel" aria-labelledby="tab_2"
                                 style="position: relative;">
 
-                                <form id="addressForm" action="{{ route('addresses.store') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <form id="addressForm" action="<?php echo e(route('addresses.store')); ?>" method="POST">
+                                    <?php echo csrf_field(); ?>
+                                    <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
                                     <input type="hidden" name="address_id" id="edit_address_id">
                                     <div class="form-group">
                                         <label for="full_name">Họ và Tên</label>
@@ -242,16 +241,16 @@
                         <h3>2. Phương Thức Thanh Toán</h3>
                         <ul>
 
-                            @foreach ($payment_method as $method)
+                            <?php $__currentLoopData = $payment_method; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $method): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <li>
-                                    <label class="container_radio">{{ $method['name'] }}<a href="#0" class="info"
+                                    <label class="container_radio"><?php echo e($method['name']); ?><a href="#0" class="info"
                                             data-bs-toggle="modal" data-bs-target="#payments_method"></a>
-                                        <input type="radio" name="payment" value="{{ $method['value'] }}"
+                                        <input type="radio" name="payment" value="<?php echo e($method['value']); ?>"
                                             id="payment_method" checked>
                                         <span class="checkmark"></span>
                                     </label>
                                 </li>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                         </ul>
                     </div>
@@ -260,7 +259,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="step last">
                         <h3>3. Tóm Tắt Đơn Hàng</h3>
-                        {{-- voucher --}}
+                        
                         <div class="form-voucher">
                             <h5>Chọn Voucher</h5>
                             <div class="voucher-item no-voucher selected" onclick="removeVoucher()">
@@ -270,78 +269,78 @@
                                 </div>
                             </div>
 
-                            <input type="hidden" id="original_total_amount" value="{{ $totalAmount }}">
+                            <input type="hidden" id="original_total_amount" value="<?php echo e($totalAmount); ?>">
                             <div class="voucher-list">
-                                @foreach ($vouchers as $voucher)
-                                    @php
+                                <?php $__currentLoopData = $vouchers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $voucher): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php
                                         $isDisabled = $voucher->min_order_value > $totalAmount;
                                         $hasBeenUsed = $voucher->hasBeenUsedBy(Auth::user());
                                         $discountText =
                                             $voucher->discount_type === 'percentage'
                                                 ? $voucher->discount_value . '%'
                                                 : number_format($voucher->discount_value, 0, ',', '.') . ' VNĐ';
-                                    @endphp
-                                    @if (!$hasBeenUsed)
-                                        <div class="voucher-item {{ $isDisabled ? 'disabled' : '' }}"
-                                            data-id="{{ $voucher->id }}" data-code="{{ $voucher->code }}"
-                                            data-discount-type="{{ $voucher->discount_type }}"
-                                            data-discount-value="{{ $voucher->discount_value }}"
-                                            data-max-discount="{{ $voucher->max_discount_value ?? 0 }}"
-                                            onclick="{{ $isDisabled ? '' : 'selectVoucher(this)' }}">
-                                            <input type="radio" name="voucher" value="{{ $voucher->id }}"
-                                                class="voucher-radio" {{ $isDisabled ? 'disabled' : '' }}>
+                                    ?>
+                                    <?php if(!$hasBeenUsed): ?>
+                                        <div class="voucher-item <?php echo e($isDisabled ? 'disabled' : ''); ?>"
+                                            data-id="<?php echo e($voucher->id); ?>" data-code="<?php echo e($voucher->code); ?>"
+                                            data-discount-type="<?php echo e($voucher->discount_type); ?>"
+                                            data-discount-value="<?php echo e($voucher->discount_value); ?>"
+                                            data-max-discount="<?php echo e($voucher->max_discount_value ?? 0); ?>"
+                                            onclick="<?php echo e($isDisabled ? '' : 'selectVoucher(this)'); ?>">
+                                            <input type="radio" name="voucher" value="<?php echo e($voucher->id); ?>"
+                                                class="voucher-radio" <?php echo e($isDisabled ? 'disabled' : ''); ?>>
                                             <div class="voucher-info">
-                                                <div class="voucher-code">{{ $voucher->code }}</div>
-                                                <div class="voucher-name">Giảm {{ $discountText }}</div>
+                                                <div class="voucher-code"><?php echo e($voucher->code); ?></div>
+                                                <div class="voucher-name">Giảm <?php echo e($discountText); ?></div>
                                                 <div class="voucher-condition">
                                                     Đơn tối thiểu
-                                                    {{ number_format($voucher->min_order_value, 0, ',', '.') }} VNĐ
-                                                    @if ($voucher->max_discount_value)
+                                                    <?php echo e(number_format($voucher->min_order_value, 0, ',', '.')); ?> VNĐ
+                                                    <?php if($voucher->max_discount_value): ?>
                                                         - Giảm tối đa
-                                                        {{ number_format($voucher->max_discount_value, 0, ',', '.') }} VNĐ
-                                                    @endif
-                                                    @if ($voucher->quantity)
-                                                        - Còn lại: {{ $voucher->quantity }} voucher
-                                                    @endif
+                                                        <?php echo e(number_format($voucher->max_discount_value, 0, ',', '.')); ?> VNĐ
+                                                    <?php endif; ?>
+                                                    <?php if($voucher->quantity): ?>
+                                                        - Còn lại: <?php echo e($voucher->quantity); ?> voucher
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
                                         </div>
-                                    @endif
-                                @endforeach
+                                    <?php endif; ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
-                        <form class="box_general summary" method="POST" action="{{ route('checkout.store') }}"
+                        <form class="box_general summary" method="POST" action="<?php echo e(route('checkout.store')); ?>"
                             style="margin-top: 5px;">
-                            @csrf
-                            @foreach ($cart->cartDetails as $order)
+                            <?php echo csrf_field(); ?>
+                            <?php $__currentLoopData = $cart->cartDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="order-item">
-                                    @if ($order->variant)
-                                        {{-- Nếu có biến thể --}}
+                                    <?php if($order->variant): ?>
+                                        
                                         <div class="item-details">
-                                            <strong>{{ $order->variant->product->name }}</strong><br>
-                                            <strong>Số lượng: {{ $order->quantity }}</strong><br>
+                                            <strong><?php echo e($order->variant->product->name); ?></strong><br>
+                                            <strong>Số lượng: <?php echo e($order->quantity); ?></strong><br>
                                             <strong class="text-danger">Giá:
-                                                {{ number_format($order->total_amount, 0, ',', '.') }} VNĐ</strong>
+                                                <?php echo e(number_format($order->total_amount, 0, ',', '.')); ?> VNĐ</strong>
                                         </div>
-                                        @if ($order->variant->attributes->isNotEmpty())
+                                        <?php if($order->variant->attributes->isNotEmpty()): ?>
                                             <ul class="variant-attributes">
-                                                @foreach ($order->variant->attributes as $variantAttribute)
-                                                    <li><strong>{{ $variantAttribute->attribute->name }}:</strong>
-                                                        {{ $variantAttribute->attributeValue->value }}</li>
-                                                @endforeach
+                                                <?php $__currentLoopData = $order->variant->attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variantAttribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <li><strong><?php echo e($variantAttribute->attribute->name); ?>:</strong>
+                                                        <?php echo e($variantAttribute->attributeValue->value); ?></li>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </ul>
-                                        @else
+                                        <?php else: ?>
                                             <span>Không có thuộc tính biến thể</span>
-                                        @endif
-                                    @elseif ($order->product)
-                                        {{-- Nếu không có biến thể, hiển thị thông tin sản phẩm gốc --}}
+                                        <?php endif; ?>
+                                    <?php elseif($order->product): ?>
+                                        
                                         <div class="item-details">
-                                            <strong>{{ $order->quantity }}x {{ $order->product->name }}</strong>
-                                            <span>{{ number_format($order->total_amount, 0, ',', '.') }} VNĐ</span>
+                                            <strong><?php echo e($order->quantity); ?>x <?php echo e($order->product->name); ?></strong>
+                                            <span><?php echo e(number_format($order->total_amount, 0, ',', '.')); ?> VNĐ</span>
                                         </div><br>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                             <!-- Mã giảm giá -->
                             <div class="discount-section">
@@ -350,24 +349,21 @@
                                         <em>Số tiền giảm:</em>
                                         <span>0 VNĐ</span>
                                     </li>
-                                    {{-- <li class="clearfix" id="voucher_info">
-                                        <em>Thông tin voucher:</em>
-                                        <span id="voucher_quantity"></span>
-                                        <button type="button" class="btn btn-sm btn-danger" id="remove_voucher_btn" style="display: none;" onclick="removeVoucher()">Hủy</button>
-                                    </li> --}}
+                                    
                                 </ul>
                             </div>
 
                             <!-- Tổng tiền -->
                             <div class="total mb-2">
                                 <em>Tổng tiền:</em>
-                                <strong id="total_amount_display">{{ number_format($totalAmount, 0, ',', '.') }}
+                                <strong id="total_amount_display"><?php echo e(number_format($totalAmount, 0, ',', '.')); ?>
+
                                     VNĐ</strong>
                             </div>
                             <!-- Các giá trị ẩn -->
-                            <input type="hidden" name="total_price" id="total_price" value="{{ $totalAmount }}">
+                            <input type="hidden" name="total_price" id="total_price" value="<?php echo e($totalAmount); ?>">
                             <input type="hidden" name="address_id" id="address_id"
-                                value="{{ isset($address[0]) ? $address[0]->id : '' }}">
+                                value="<?php echo e(isset($address[0]) ? $address[0]->id : ''); ?>">
                             <input type="hidden" name="payment_method" class="payment_method" value="COD">
                             <input type="hidden" name="voucher_id" id="selected_voucher_id">
 
@@ -382,14 +378,14 @@
         </div>
 
     </main>
-@endsection
-@section('style-libs')
-    <link href="{{ asset('client') }}/css/checkout.css" rel="stylesheet">
-@endsection
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('style-libs'); ?>
+    <link href="<?php echo e(asset('client')); ?>/css/checkout.css" rel="stylesheet">
+<?php $__env->stopSection(); ?>
 
-@section('script-libs')
-    <script src="{{ asset('client') }}/js/common_scripts.min.js"></script>
-    <script src="{{ asset('client') }}/js/main.js"></script>
+<?php $__env->startSection('script-libs'); ?>
+    <script src="<?php echo e(asset('client')); ?>/js/common_scripts.min.js"></script>
+    <script src="<?php echo e(asset('client')); ?>/js/main.js"></script>
     <script>
         function getSelectedAddresses() {
             document.querySelectorAll('.address-checkbox:checked').forEach(checkbox => {
@@ -405,7 +401,7 @@
             })
         }
     </script>
-    {{-- địa chỉ --}}
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -560,7 +556,7 @@
             });
         });
     </script>
-    {{-- voucher --}}
+    
     <script>
         let selectedVoucherId = null;
 const originalTotal = parseInt(document.getElementById('original_total_amount').value);
@@ -633,7 +629,7 @@ function numberFormat(number) {
 }
 
     </script>
-    {{-- địa chỉ --}}
+    
     <script>
         $(document).ready(function() {
             // Reset form khi chuyển tab
@@ -641,7 +637,7 @@ function numberFormat(number) {
                 $('#addressForm')[0].reset();
                 $('#edit_address_id').val('');
                 $('#addressForm button[type="submit"]').text('Thêm địa chỉ');
-                $('#addressForm').attr('action', '{{ route('addresses.store') }}');
+                $('#addressForm').attr('action', '<?php echo e(route('addresses.store')); ?>');
                 $('#addressForm input[name="_method"]').remove();
                 $('#profile-tab').text('Thêm Địa Chỉ Mới');
             });
@@ -683,7 +679,7 @@ function numberFormat(number) {
                         url: `/addresses/${addressId}`,
                         type: 'DELETE',
                         data: {
-                            _token: '{{ csrf_token() }}'
+                            _token: '<?php echo e(csrf_token()); ?>'
                         },
                         success: function(response) {
                             if (response.success) {
@@ -720,7 +716,7 @@ function numberFormat(number) {
                                 method: 'POST',
                                 body: formData,
                                 headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
                                 }
                             })
                             .then(response => response.json())
@@ -742,4 +738,6 @@ function numberFormat(number) {
             }
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/Client/checkout/order.blade.php ENDPATH**/ ?>

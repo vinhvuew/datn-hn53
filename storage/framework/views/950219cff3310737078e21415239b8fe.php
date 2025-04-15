@@ -19,7 +19,7 @@
             
             <div class="col-lg-4 col-md-4 mb-4">
                 <div class="row">
-            
+
                     
                     <div class="col-lg-6 col-md-12 mb-4">
                         <div class="card h-100" style="background-color: #d1fae5; min-height: 170px;">
@@ -34,7 +34,7 @@
                             </div>
                         </div>
                     </div>
-            
+
                    
         <div class="col-lg-6 col-md-12 mb-4">
             <div class="card h-100">
@@ -62,10 +62,10 @@
                 </div>
             </div>
         </div>
-            
+
                 </div>
             </div>
-            
+
             
             <div class="col-12 col-lg-8 mb-4">
                 <div class="card">
@@ -247,7 +247,7 @@
             // Xử lý thay đổi phương thức thanh toán
             $('#methodSelect').change(function() {
                 var selectedMethod = $(this).val();  // Lấy giá trị phương thức thanh toán được chọn
-    
+
                 // Gửi yêu cầu AJAX đến server
                 $.ajax({
                     url: '<?php echo e(route("admin.dashboard")); ?>',  // URL của route xử lý (cập nhật dữ liệu)
@@ -269,6 +269,7 @@
             });
         });
     </script>
-    
+
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

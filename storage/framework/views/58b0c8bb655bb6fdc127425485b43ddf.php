@@ -1,6 +1,4 @@
-@extends('client.layouts.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <main class="py-5">
         <div class="container">
             <div class="text-center mb-5">
@@ -8,7 +6,7 @@
                 <p class="text-muted">Tôn trọng khách hàng – Tận tâm phục vụ</p>
             </div>
 
-            {{-- Chính sách đổi trả --}}
+            
             <div class="mb-5">
                 <h2 class="text-primary mb-3">1. Chính Sách Đổi Trả</h2>
                 <p>Chúng tôi cam kết mang đến sự hài lòng cho khách hàng khi mua sắm tại cửa hàng. Nếu sản phẩm gặp vấn đề,
@@ -23,7 +21,7 @@
                 </ul>
             </div>
 
-            {{-- Chính sách vận chuyển --}}
+            
             <div class="mb-5">
                 <h2 class="text-primary mb-3">2. Chính Sách Vận Chuyển</h2>
                 <p><strong>⏱ Thời gian giao hàng:</strong></p>
@@ -38,7 +36,7 @@
                 </ul>
             </div>
 
-            {{-- Chính sách bảo mật --}}
+            
             <div class="mb-5">
                 <h2 class="text-primary mb-3">3. Chính Sách Bảo Mật</h2>
                 <p>Chúng tôi cam kết bảo vệ thông tin cá nhân của khách hàng:</p>
@@ -55,4 +53,6 @@
             </div>
         </div>
     </main>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/policy/index.blade.php ENDPATH**/ ?>

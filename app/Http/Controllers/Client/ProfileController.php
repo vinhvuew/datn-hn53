@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Models\Variant;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -124,21 +125,64 @@ class ProfileController extends Controller
     }
 
     // đơn hàng
+    // public function myOder(Request $request)
+    // {
+    //     $user = Auth::user();
+
+    //     // Lấy danh sách đơn hàng của người dùng kèm theo thông tin sản phẩm và biến thể
+    //     $orders = Order::with([
+    //         'orderDetails',
+    //         'orderDetails.product', // Lấy sản phẩm trong đơn hàng
+    //         'orderDetails.variant.attributes.attribute',
+    //         'orderDetails.variant.attributes.attributeValue' // Lấy biến thể và thuộc tính biến thể
+    //     ])
+    //         ->where('user_id', $user->id)
+    //         ->orderBy('id', 'desc')
+    //         ->paginate(5);
+    //     // dd($orders);
+    //     return view('client.users.profile.order', compact('orders'));
+    // }
+
     public function myOder(Request $request)
     {
         $user = Auth::user();
 
-        // Lấy danh sách đơn hàng của người dùng kèm theo thông tin sản phẩm và biến thể
+        // Lấy tất cả đơn hàng của người dùng
         $orders = Order::with([
             'orderDetails',
-            'orderDetails.product', // Lấy sản phẩm trong đơn hàng
+            'orderDetails.product',
             'orderDetails.variant.attributes.attribute',
-            'orderDetails.variant.attributes.attributeValue' // Lấy biến thể và thuộc tính biến thể
+            'orderDetails.variant.attributes.attributeValue'
         ])
-            ->where('user_id', $user->id)
-            ->orderBy('id', 'desc')
-            ->paginate(5);
-        // dd($orders);
+        ->where('user_id', $user->id)
+        ->orderBy('id', 'desc')
+        ->paginate(5);
+
+        // Tự động xác nhận đơn hàng nếu đã quá 3 ngày sau khi 'completed'
+        foreach ($orders as $order) {
+            if (
+                $order->status === 'completed' &&
+                $order->completed_at && // đảm bảo có ngày hoàn thành
+                Carbon::parse($order->completed_at)->diffInDays(now()) >= 3
+                // Carbon::parse($order->completed_at)->diffInMinutes(now()) >= 1
+
+            ) {
+                try {
+                    $order->update(['status' => 'order_confirmation']);
+
+                    Shipping::create([
+                        'order_id' => $order->id,
+                        'name' => 'Đơn hàng đã được tự động xác nhận hoàn thành',
+                        'note' => 'Tự động xác nhận sau 3 ngày',
+                    ]);
+
+                    Log::info('Đã tự động xác nhận đơn hàng ID: ' . $order->id);
+                } catch (Exception $e) {
+                    Log::error('Lỗi khi xác nhận đơn hàng tự động: ' . $e->getMessage());
+                }
+            }
+        }
+
         return view('client.users.profile.order', compact('orders'));
     }
 
@@ -223,7 +267,7 @@ class ProfileController extends Controller
                 return back()->with('error', 'Bạn chỉ có thể xác nhận khi đơn hàng đã giao!');
             }
 
-            $order->update(['status' => 'completed']);
+            $order->update(['status' => 'completed', 'completed_at' => now()]);
 
             // Lưu trạng thái nhận hàng vào bảng Shipping
             Shipping::create([

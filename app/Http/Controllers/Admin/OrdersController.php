@@ -54,6 +54,8 @@ class OrdersController extends Controller
         $completedCount  = $statusCounts['completed'] ?? 0;
         $refund          = $statusCounts['refund_completed'] ?? 0;
         $canceled        = $statusCounts['canceled'] ?? 0;
+        $order_confirmation        = $statusCounts['order_confirmation'] ?? 0;
+
 
         return view('admin.orders.index', compact(
             'orders',
@@ -65,7 +67,8 @@ class OrdersController extends Controller
             'refund',
             'canceled',
             'payment_status',
-            'statusFilter' // để highlight hoặc active tab/filter trên view nếu cần
+            'statusFilter',
+            'order_confirmation' // để highlight hoặc active tab/filter trên view nếu cần
         ));
     }
 
