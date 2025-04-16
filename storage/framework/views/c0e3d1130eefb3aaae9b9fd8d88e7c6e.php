@@ -72,6 +72,54 @@
         // console.log(roleId)
     </script>
     <?php echo app('Illuminate\Foundation\Vite')('resources/js/present.js'); ?>
+
+    <script>
+        $('#send-message-btn').on('click', function(e) {
+    e.preventDefault();
+
+    let message = $('#message-input').val();
+
+    if (message.trim() === '') return;
+
+    $.ajax({
+        url: "<?php echo e(route('messages.send')); ?>", // route xử lý gửi tin nhắn
+        type: "POST",
+        data: {
+            message: message,
+            room_id: roomId,
+            receiver_id: receiverId,
+            _token: '<?php echo e(csrf_token()); ?>'
+        },
+        success: function(response) {
+            $('#message-input').val('');
+            $('#message-box').append(`
+                <div class="message sent"><strong>Bạn: </strong>${message}</div>
+            `);
+        },
+        error: function(error) {
+            console.error(error);
+        }
+    });
+});
+
+setInterval(function () {
+    $.ajax({
+        url: "<?php echo e(route('messages.send', ['roomId' => $roomId])); ?>",
+        type: "GET",
+        success: function (messages) {
+            $('#message-box').html('');
+            messages.forEach(function (item) {
+                let sender = item.sender_id == userId ? 'Bạn' : 'Đối phương';
+                let className = item.sender_id == userId ? 'sent' : 'received';
+                $('#message-box').append(`
+                    <div class="message ${className}"><strong>${sender}: </strong>${item.message}</div>
+                `);
+            });
+        }
+    });
+}, 3000); // 3 giây
+
+    </script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('client.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/chat/room.blade.php ENDPATH**/ ?>
