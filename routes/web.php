@@ -185,7 +185,14 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/vouchers/{voucher}/edit', [VouchersController::class, 'edit'])->name('vouchers.edit');
     Route::put('/vouchers/{voucher}', [VouchersController::class, 'update'])->name('vouchers.update');
     Route::delete('/vouchers/{voucher}', [VouchersController::class, 'destroy'])->name('vouchers.destroy');
-
+ // Tin Tức
+ Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+ Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
+ Route::post('/news/store', [NewsController::class, 'store'])->name('news.store');
+ Route::delete('/news/{id}', [NewsController::class, 'destroy'])->name('news.destroy');
+ Route::get('/news/{id}/edit', [NewsController::class, 'edit'])->name('news.edit');
+ Route::put('/news/{id}/update', [NewsController::class, 'update'])->name('news.update');
+ Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
     // Chatrealtime
     Route::get('/chat-rooms', [ChatController::class, 'listChatRooms'])->name('chat');
     Route::get('/{roomId}/{receiverId}', [ChatController::class, 'showChatAdmin'])
@@ -251,14 +258,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         });
     //Thống Kê
     Route::get('/thongke', [ThongKeController::class, 'statistical'])->name('thongke.statistical');
-    // Tin Tức
-    Route::get('/news', [NewsController::class, 'index'])->name('news.index');
-    Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
-    Route::post('/news/store', [NewsController::class, 'store'])->name('news.store');
-    Route::delete('/news/{id}', [NewsController::class, 'destroy'])->name('news.destroy');
-    Route::get('/news/{id}/edit', [NewsController::class, 'edit'])->name('news.edit');
-    Route::put('/news/{id}/update', [NewsController::class, 'update'])->name('news.update');
-    Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
+
 });
 
 //chat realtime
