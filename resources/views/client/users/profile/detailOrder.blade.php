@@ -85,6 +85,7 @@
                                                     <th>Giá</th>
                                                     <th>Số Lượng</th>
                                                     <th>Tổng tiền</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -113,8 +114,21 @@
                                                                 {{ number_format($item->price, 0, ',', '.') }}
                                                             </td>
                                                             <td>{{ $item->quantity }}</td>
-                                                            <td>{{ number_format($item->total_price, 0, ',', '.') }} VND
+                                                            <td>{{ number_format($item->total_price, 0, ',', '.') }}
                                                             </td>
+                                                            @if (
+                                                                $item->order->status === 'order_confirmation' &&
+                                                                    !\App\Models\ProductReview::where('order_detail_id', $item->id)->where('user_id', Auth::id())->exists())
+                                                                <td><a href="#"
+                                                                        class="text-decoration-none text-primary btn-review"
+                                                                        data-url="{{ route('profile.review.store', [$item->id, $item->product->id]) }}"
+                                                                        data-item-id="{{ $item->id }}"
+                                                                        data-product-id="{{ $item->product->id }}"
+                                                                        data-product-name="{{ $item->product->name }}">
+                                                                        Đánh giá
+                                                                    </a>
+                                                                </td>
+                                                            @endif
                                                         </tr>
                                                     @else
                                                         <tr>
@@ -160,6 +174,19 @@
                                                             <td>{{ $item->quantity }}</td>
                                                             <td>{{ number_format($item->total_price, 0, ',', '.') }}
                                                             </td>
+                                                            @if (
+                                                                $item->order->status === 'order_confirmation' &&
+                                                                    !\App\Models\ProductReview::where('order_detail_id', $item->id)->where('user_id', Auth::id())->exists())
+                                                                <td><a href="#"
+                                                                        class="text-decoration-none text-primary btn-review"
+                                                                        data-url="{{ route('profile.review.store', [$item->id, $item->variant->product->id]) }}"
+                                                                        data-item-id="{{ $item->id }}"
+                                                                        data-product-id="{{ $item->variant->product->id }}"
+                                                                        data-product-name="{{ $item->variant->product->name }}">
+                                                                        Đánh giá
+                                                                    </a>
+                                                                </td>
+                                                            @endif
                                                     @endif
                                                 @endforeach
                                                 </tr>
@@ -245,7 +272,8 @@
                                                     href="{{ route('profile.refund', $order->id) }}">
                                                     Trả hàng / Hoàn tiền
                                                 </a>
-                                                <form action="{{ route('profile.orders.order_confirmation', $order->id) }}"
+                                                <form
+                                                    action="{{ route('profile.orders.order_confirmation', $order->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('PUT')
@@ -260,9 +288,13 @@
                                                 <span class="text-success">
                                                     ĐƠN HÀNG HOÀN THÀNH
                                                 </span>
-                                                <a href="http://" class="text-decoration-none text-primary">
+                                                <!-- Nút mở modal -->
+                                                {{-- <a href="#" class="text-decoration-none text-primary"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#reviewModal_{{ $order->id }}">
                                                     Đánh giá
-                                                </a>
+                                                </a> --}}
+
                                             </div>
                                         @elseif ($order->status === 'refund_completed')
                                             <button class="btn btn-outline-success btn-sm">
@@ -470,5 +502,86 @@
             modalImg.src = src;
             modal.style.display = 'flex';
         }
+    </script>
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const reviewButtons = document.querySelectorAll('.btn-review');
+
+            reviewButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const itemId = this.dataset.itemId;
+                    const productId = this.dataset.productId;
+                    const productName = this.dataset.productName;
+                    const url = this.dataset.url;
+                    Swal.fire({
+                        title: `Đánh giá sản phẩm <br><span class="text-primary">${productName}</span>`,
+                        html: `<form id="reviewForm" action="${url}" method="POST">` +
+                            `@csrf` +
+                            `<div class="mb-3">` +
+                            `<div id="star-rating" class="text-warning fs-4">` +
+                            Array.from({
+                                    length: 5
+                                }, (_, i) =>
+                                `<i class="bi bi-star star ms-1" data-value="${i + 1}" style="cursor: pointer;"></i>`
+                            ).join('') +
+                            `</div>` +
+                            `<input type="hidden" name="rating" id="rating" required>` +
+                            `</div>` +
+                            `<div class="mb-3">` +
+                            `<textarea name="review" class="form-control" placeholder="Nhập nội dung đánh giá..." rows="4" required></textarea>` +
+                            `</div>` +
+                            `</form>`,
+                        showCancelButton: true,
+                        confirmButtonText: 'Gửi đánh giá',
+                        cancelButtonText: 'Hủy',
+                        customClass: {
+                            popup: 'rounded-4 p-3',
+                            confirmButton: 'btn btn-primary mx-2',
+                            cancelButton: 'btn btn-outline-secondary'
+                        },
+                        buttonsStyling: false,
+                        didOpen: () => {
+                            // Xử lý khi popup hiển thị: gắn sự kiện click sao
+                            const stars = Swal.getPopup().querySelectorAll('.star');
+                            const ratingInput = Swal.getPopup().querySelector(
+                                '#rating');
+
+                            stars.forEach(star => {
+                                star.addEventListener('click', function() {
+                                    const value = parseInt(this.dataset
+                                        .value);
+                                    ratingInput.value = value;
+
+                                    // Cập nhật trạng thái fill sao
+                                    stars.forEach(s => {
+                                        const sVal = parseInt(s
+                                            .dataset.value);
+                                        s.classList.toggle(
+                                            'bi-star-fill',
+                                            sVal <= value);
+                                        s.classList.toggle(
+                                            'bi-star',
+                                            sVal > value);
+                                    });
+                                });
+                            });
+                        },
+                        preConfirm: () => {
+                            const form = Swal.getPopup().querySelector('#reviewForm');
+                            if (form.checkValidity()) {
+                                form.submit();
+                            } else {
+                                Swal.showValidationMessage(
+                                    'Vui lòng chọn số sao và nhập nội dung.');
+                            }
+                        }
+                    });
+                });
+            });
+        });
     </script>
 @endsection

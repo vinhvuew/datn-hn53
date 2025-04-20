@@ -352,108 +352,31 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         @if (Auth::check())
-                                            @php
-                                                $userReview = $product->productReviews
-                                                    ->where('user_id', Auth::id())
-                                                    ->first();
-                                            @endphp
-
-                                            <!-- Form đánh giá hoặc chỉnh sửa -->
-                                            <form
-                                                action="{{ $userReview ? route('reviews.update', $userReview->id) : route('reviews.store', $product->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @if ($userReview)
-                                                    @method('PUT')
-                                                @endif
-
-                                                <div class="mb-3">
-                                                    <label class="form-label">Số sao:</label>
-                                                    <div id="star-rating" class="text-warning fs-4">
-                                                        @for ($i = 1; $i <= 5; $i++)
-                                                            <i class="bi {{ $i <= ($userReview->rating ?? 0) ? 'bi-star-fill' : 'bi-star' }} star"
-                                                                data-value="{{ $i }}"
-                                                                style="cursor: pointer;"></i>
-                                                        @endfor
+                                            @if ($product->productReviews->count())
+                                                @foreach ($product->productReviews as $review)
+                                                    <div class="review border-bottom py-2">
+                                                        <strong>{{ $review->user->name ?? 'Người dùng' }}</strong>
+                                                        <div class="stars text-warning">
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                <i
+                                                                    class="bi {{ $i <= $review->rating ? 'bi-star-fill' : 'bi-star' }}"></i>
+                                                            @endfor
+                                                        </div>
+                                                        <p>{{ $review->review }}</p>
                                                     </div>
-                                                    <input type="hidden" name="rating" id="rating"
-                                                        value="{{ $userReview->rating ?? '' }}" required>
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="review" class="form-label">Nội dung đánh giá:</label>
-                                                    <textarea name="review" id="review" class="form-control" rows="4">{{ $userReview->review ?? '' }}</textarea>
-                                                </div>
-
-                                                <button type="submit" class="btn btn-primary">
-                                                    {{ $userReview ? 'Cập nhật đánh giá' : 'Gửi đánh giá' }}
-                                                </button>
-                                            </form>
-
-                                            <!-- JavaScript xử lý sao -->
-                                            <script>
-                                                document.addEventListener('DOMContentLoaded', function() {
-                                                    const stars = document.querySelectorAll('.star');
-                                                    const ratingInput = document.getElementById('rating');
-
-                                                    stars.forEach(star => {
-                                                        star.addEventListener('click', function() {
-                                                            const selectedRating = this.getAttribute('data-value');
-                                                            ratingInput.value = selectedRating;
-
-                                                            stars.forEach(s => {
-                                                                if (s.getAttribute('data-value') <= selectedRating) {
-                                                                    s.classList.remove('bi-star');
-                                                                    s.classList.add('bi-star-fill');
-                                                                } else {
-                                                                    s.classList.remove('bi-star-fill');
-                                                                    s.classList.add('bi-star');
-                                                                }
-                                                            });
-                                                        });
-                                                    });
-                                                });
-                                            </script>
+                                                @endforeach
+                                            @else
+                                                <p class="alert alert-warning">Chưa có đánh giá nào cho sản phẩm này.</p>
+                                            @endif
                                         @else
-                                            <p><a href="{{ route('login.show') }}">Đăng nhập</a> để đánh giá sản phẩm.</p>
+                                            <p>Bạn cần đăng nhập để xem!</p>
                                         @endif
-
-                                        <h5 class="mt-4">Đánh giá sản phẩm:</h5>
-                                        @forelse($product->productReviews as $review)
-                                            <div class="review border-bottom py-2">
-                                                <strong>{{ $review->user->name ?? 'Người dùng' }}</strong>
-                                                <div class="stars text-warning">
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        <i
-                                                            class="bi {{ $i <= $review->rating ? 'bi-star-fill' : 'bi-star' }}"></i>
-                                                    @endfor
-                                                </div>
-                                                <p>{{ $review->review }}</p>
-
-                                                @if (Auth::check() && Auth::id() === $review->user_id)
-                                                    <form action="{{ route('reviews.destroy', $review->id) }}"
-                                                        method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm">Xóa đánh
-                                                            giá</button>
-                                                    </form>
-                                                @endif
-                                            </div>
-                                        @empty
-                                            <p>Chưa có đánh giá nào cho sản phẩm này.</p>
-                                        @endforelse
 
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    {{-- Ennd đánh giá --}}
-
-
-                    <!-- /tab B -->
                 </div>
                 <!-- /tab-content -->
             </div>

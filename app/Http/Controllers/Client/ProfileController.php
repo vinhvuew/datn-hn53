@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Events\OrderStatusUpdated;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\ProductReview;
 use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -154,9 +155,9 @@ class ProfileController extends Controller
             'orderDetails.variant.attributes.attribute',
             'orderDetails.variant.attributes.attributeValue'
         ])
-        ->where('user_id', $user->id)
-        ->orderBy('id', 'desc')
-        ->paginate(5);
+            ->where('user_id', $user->id)
+            ->orderBy('id', 'desc')
+            ->paginate(5);
 
         // Tự động xác nhận đơn hàng nếu đã quá 3 ngày sau khi 'completed'
         foreach ($orders as $order) {
@@ -331,5 +332,25 @@ class ProfileController extends Controller
 
             return back()->with('error', 'Có lỗi xảy ra khi xác nhận đơn hàng.');
         }
+    }
+
+    public function review(Request $request, $orderID, $productID)
+    {
+        // dd($orderID);
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'nullable|string|max:1000',
+        ]);
+
+        ProductReview::create([
+            'user_id'     => auth()->id(),
+            'product_id'  => $productID,
+            'order_detail_id'    => $orderID,
+            'rating'      => $request->rating,
+            'review'      => $request->review,
+            'is_approved' => false, // đợi duyệt
+        ]);
+
+        return redirect()->back()->with('success', 'Cảm ơn bạn đã đánh giá sản phẩm!');
     }
 }

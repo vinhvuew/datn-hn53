@@ -38,5 +38,8 @@ class OrderDetail extends Model
         return $this->belongsTo(Variant::class);
     }
 
-
+    public function productReviews()
+    {
+        return $this->hasMany(ProductReview::class);
+    }
 }
