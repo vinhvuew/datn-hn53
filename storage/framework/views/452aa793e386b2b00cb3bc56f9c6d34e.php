@@ -34,7 +34,7 @@
                                     <select class="form-select" name="category">
                                         <option value="">Chọn danh mục</option>
                                         <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <option value="<?php echo e($category->id); ?>" 
+                                            <option value="<?php echo e($category->id); ?>"
                                                 <?php echo e(request('category') == $category->id ? 'selected' : ''); ?>>
                                                 <?php echo e($category->name); ?>
 
@@ -49,7 +49,7 @@
                                     <select class="form-select" name="brand">
                                         <option value="">Chọn hãng</option>
                                         <?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <option value="<?php echo e($brand->id); ?>" 
+                                            <option value="<?php echo e($brand->id); ?>"
                                                 <?php echo e(request('brand') == $brand->id ? 'selected' : ''); ?>>
                                                 <?php echo e($brand->name); ?>
 
@@ -57,6 +57,18 @@
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
+
+ <!-- Khoảng giá -->
+ <div class="mb-3">
+    <label class="form-label"><strong>Khoảng giá</strong></label>
+    <select class="form-select" name="price_range">
+        <option value="">Chọn khoảng giá</option>
+        <option value="1" <?php echo e(request('price_range') == '1' ? 'selected' : ''); ?>>Dưới 500.000 VND</option>
+        <option value="2" <?php echo e(request('price_range') == '2' ? 'selected' : ''); ?>>500.000 - 1.999.000 VND</option>
+        <option value="3" <?php echo e(request('price_range') == '3' ? 'selected' : ''); ?>>2.000.000 - 10.000.000 VND</option>
+    </select>
+</div>
+
 
                                 <!-- Nút lọc -->
                                 <button type="submit" class="btn btn-primary w-100 mt-3">Áp dụng</button>
@@ -73,8 +85,8 @@
                                 <div class="card border-0 shadow-sm text-center h-100">
                                     <div class="position-relative overflow-hidden">
                                         <a href="<?php echo e(route('productDetail', $product->slug)); ?>" class="d-block">
-                                            <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>" 
-                                                 class="img-fluid product-image" 
+                                            <img src="<?php echo e(Storage::url($product->img_thumbnail)); ?>"
+                                                 class="img-fluid product-image"
                                                  alt="<?php echo e($product->name); ?>">
                                         </a>
                                     </div>

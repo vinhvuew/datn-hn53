@@ -94,4 +94,5 @@ class Order extends Model
     {
         return $this->hasMany(Shipping::class, 'order_id', 'id');
     }
+
 }
