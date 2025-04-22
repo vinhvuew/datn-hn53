@@ -44,13 +44,13 @@
                             <td>
 
                                 <a href="{{ route('attribute-values.edit', $value->id) }}" class="btn btn-warning">Sửa</a>
-                                <form action="{{ route('attribute-values.destroy', $value->id) }}" method="POST"
+                                {{-- <form action="{{ route('attribute-values.destroy', $value->id) }}" method="POST"
                                     style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger"
                                         onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
-                                </form>
+                                </form> --}}
                             </td>
                         </tr>
                     @endforeach

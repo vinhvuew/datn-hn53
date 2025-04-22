@@ -1,275 +1,324 @@
 @extends('admin.layouts.master')
-
 @section('item-dashboards', 'active')
 
 @section('content')
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="row">
+    @if (Auth::user()->role_id == 1)
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row">
+                <div class="row">
+                    <!-- Xin chào mừng (8/12 cột) -->
+                    <div class="col-lg-8 mb-4">
+                        <div class="card h-100 d-flex flex-column">
+                            <div class="card-body">
+                                <h3 class="card-title text-primary">
+                                    Xin chào <i>{{ Auth::user()->role->name }}</i> 🎉 <i>{{ Auth::user()->name }}</i>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
 
-            {{-- Welcome Section --}}
-            <div class="col-lg-8 col-md-4 mb-4">
-                <div class="card h-100 ">
+                    <!-- Biểu đồ tiếp cận khách hàng (4/12 cột) -->
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100 d-flex flex-column justify-content-center align-items-center p-3">
+                            <h6 class="card-title text-success mb-2">Tiếp cận khách hàng</h6>
+                            <h4 id="totalCustomers" class="mb-2">0</h4>
+                            <canvas id="customerChart" style="max-width: 80px; max-height: 80px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        let totalCustomers = {{ $totalCustomers }};
+                        document.getElementById("totalCustomers").innerText = totalCustomers;
+
+                        new Chart(document.getElementById("customerChart").getContext("2d"), {
+                            type: "doughnut",
+                            data: {
+                                labels: ["Đã đăng ký"],
+                                datasets: [{
+                                    data: [totalCustomers],
+                                    backgroundColor: ["#28a745"]
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                cutout: "70%", // Làm nhỏ biểu đồ
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    } // Ẩn chú thích
+                                }
+                            }
+                        });
+                    });
+                </script>
+
+                <!-- Biểu đồ Doanh Thu Theo Trạng Thái -->
+                <div class="row">
+                    <div class="d-flex justify-content-end mb-2">
+                        <button id="download-png" class="btn btn-sm btn-outline-primary me-2">📷 Tải ảnh PNG</button>
+                        <button id="download-csv" class="btn btn-sm btn-outline-success">📄 Tải file CSV</button>
+                    </div>
+                    <div class="col-12 col-lg-8 order-1 order-lg-1 mb-4">
+                        <div class="card h-100 d-flex align-items-stretch">
+                            <div class="row row-bordered g-0">
+                                <div class="col-md-8">
+                                    <h5 class="card-header pb-3">Doanh Thu Theo Trạng Thái ({{ $currentYear }})</h5>
+                                    <div class="card-body">
+                                        <canvas id="totalRevenueChart" height="250"></canvas> <!-- Biểu đồ -->
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card-body text-center">
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-label-primary dropdown-toggle" type="button"
+                                                id="growthReportId" data-bs-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                {{ $currentYear }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="totalChart"></div>
+                                    <div class="text-center fw-medium pt-3">
+                                        <span class="text-success">
+                                            📈 {{ number_format($growthPercentage, 2) }}% Tăng Trưởng ({{ $currentYear }})
+                                        </span>
+                                    </div>
+                                    <div class="d-flex justify-content-between px-3 py-3">
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge bg-label-primary p-2 me-2"><i
+                                                    class="bx bx-dollar text-primary"></i></span>
+                                            <div>
+                                                <small>{{ $currentYear }}</small>
+                                                <h6 class="mb-0">VND {{ number_format($totalRevenueCurrentYear, 0) }}</h6>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge bg-label-info p-2 me-2"><i
+                                                    class="bx bx-wallet text-info"></i></span>
+                                            <div>
+                                                <small>{{ $lastYear }}</small>
+                                                <h6 class="mb-0">VND {{ number_format($totalRevenueLastYear, 0) }}</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Biểu đồ sản phẩm mới theo ngày (BÊN PHẢI) -->
+                    <div class="col-lg-4 col-md-6 order-2 order-lg-2 mb-4">
+                        <div class="card h-100 d-flex align-items-stretch">
+                            <div class="card-body pb-3">
+                                <span class="d-block fw-medium mb-2">Sản phẩm mới</span>
+                                <h3 class="card-title mb-3 text-center" id="totalProducts">0</h3>
+                                <canvas id="productChart" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- top 10 sản phẩm --}}
+            <div class="row">
+                <div class="card mt-4">
+                    <div class="card-header">Top 10 Sản Phẩm Bán Chạy</div>
                     <div class="card-body">
-                        <h3 class="card-title text-primary">
-                            Xin chào <i>{{ Auth::user()->role->name }}</i> 🎉 <i>{{ Auth::user()->name }}</i>
-                        </h3>
-                        {{-- <p class="mb-0">Bạn đã hoàn thành <span class="fw-medium">72%</span> nhiều doanh số hơn hôm nay.</p> --}}
+                        <div id="topSellingChart"></div>
                     </div>
                 </div>
-            </div>
-
-            {{-- Tổng đơn hàng & Sales --}}
-            <div class="col-lg-4 col-md-4 mb-4">
-                <div class="row">
-
-                    {{-- Tổng Đơn Hàng --}}
-                    <div class="col-lg-6 col-md-12 mb-4">
-                        <div class="card h-100" style="background-color: #d1fae5; min-height: 170px;">
-                            <div class="card-body pb-0">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="icon text-success">
-                                        <i class="bx bx-cart" style="font-size: 3rem;"></i>
-                                    </div>
-                                </div>
-                                <span class="d-block fw-medium mt-4">Tổng Đơn Hàng</span>
-                                <h3 class="card-title">{{ $totalOrders }}</h3>
-                            </div>
-                        </div>
+                <div class="card mt-4">
+                    <div class="card-header">Top 10 Khách Hàng chi tiêu Nhiều Nhất</div>
+                    <div class="card-body">
+                        <div id="topCustomersChart"></div>
                     </div>
-
-                   {{-- Tổng Tiền Đã Nhận --}}
-        <div class="col-lg-6 col-md-12 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <!-- Form chọn phương thức thanh toán -->
-                    <form id="paymentMethodForm">
-                        <div class="mb-3">
-                            <div class="d-flex align-items-center">
-                                <!-- COD Icon -->
-                                <i class="bx bx-wallet-alt fs-4 me-2"></i> <!-- icon ví tiền cho COD -->
-                                <select name="method" id="methodSelect" class="form-select">
-                                    <option value="cod" {{ $selectedMethod == 'cod' ? 'selected' : '' }}>
-                                        <i class="bx bx-wallet-alt"></i> COD (Thanh toán khi nhận hàng)
-                                    </option>
-                                    <option value="vnpay" {{ $selectedMethod == 'vnpay' ? 'selected' : '' }}>
-                                        <i class="bx bx-credit-card"></i> VNPAY
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-
-                    <!-- Hiển thị tổng số tiền đã nhận -->
-                    <h6 id="totalMoneyReceived">Tổng Tiền Đã Nhận: {{ number_format($totalMoneyReceived, 0, ',', '.') }} VND</h6>
                 </div>
             </div>
         </div>
-
+    @else
+        {{-- Giao diện nhân viên có màu sắc dễ thương --}}
+        <div class="container-xxl flex-grow-1 container-p-y d-flex align-items-center justify-content-center"
+            style="min-height: 80vh;">
+            <div class="card shadow-lg border-0 text-center"
+                style="max-width: 500px; width: 100%; background: linear-gradient(135deg, #f8f9fa, #e3f2fd);">
+                <div class="card-body py-5">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2922/2922510.png" alt="Welcome" width="100"
+                        class="mb-4">
+                    <h2 class="text-primary mb-3">Xin chào, {{ Auth::user()->name }} 🌼</h2>
+                    <p class="text-muted">Chào mừng bạn đến với giao diện nhân viên!<br>Hãy kiểm tra đơn hàng hoặc liên hệ
+                        quản trị viên nếu cần hỗ trợ.</p>
+                    <a href="{{ route('orders.index') }}" class="btn btn-outline-primary mt-3">🔍 Xem Đơn Hàng</a>
                 </div>
             </div>
-
-            {{-- Total Revenue --}}
-            <div class="col-12 col-lg-8 mb-4">
-                <div class="card">
-                    <div class="row row-bordered g-0">
-                        <div class="col-md-8">
-                            <h5 class="card-header m-0 me-2 pb-3">Total Revenue</h5>
-                            <div id="totalRevenueChart" class="px-2"></div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card-body text-center">
-                                <div class="dropdown mb-3">
-                                    <button class="btn btn-sm btn-label-primary dropdown-toggle" type="button"
-                                        data-bs-toggle="dropdown">
-                                        2022
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">2021</a>
-                                        <a class="dropdown-item" href="#">2020</a>
-                                        <a class="dropdown-item" href="#">2019</a>
-                                    </div>
-                                </div>
-                                <div id="growthChart"></div>
-                                <div class="text-center fw-medium pt-3 mb-2">62% Company Growth</div>
-
-                                <div class="d-flex justify-content-between px-3 gap-3">
-                                    <div class="d-flex align-items-center">
-                                        <span class="badge bg-label-primary p-2 me-2"><i
-                                                class="bx bx-dollar text-primary"></i></span>
-                                        <div>
-                                            <small>2022</small>
-                                            <h6 class="mb-0">$32.5k</h6>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <span class="badge bg-label-info p-2 me-2"><i
-                                                class="bx bx-wallet text-info"></i></span>
-                                        <div>
-                                            <small>2021</small>
-                                            <h6 class="mb-0">$41.2k</h6>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Sidebar Cards --}}
-            <div class="col-12 col-md-8 col-lg-4 mb-4">
-                <div class="row">
-                    {{-- Payments --}}
-                    <div class="col-6 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-start justify-content-between">
-                                    <div class="avatar flex-shrink-0">
-                                        <img src="{{ asset('assets/img/icons/unicons/paypal.png') }}" alt="Payments Icon"
-                                            class="rounded" />
-                                    </div>
-                                </div>
-                                <span class="d-block mb-1">Payments</span>
-                                <h3 class="card-title text-nowrap mb-2">$2,456</h3>
-                                <small class="text-danger fw-medium"><i class="bx bx-down-arrow-alt"></i> -14.82%</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Revenue --}}
-                    <div class="col-6 mb-4">
-                        <div class="card">
-                            <div class="card-body pb-2">
-                                <span class="d-block fw-medium mb-1">Revenue</span>
-                                <h3 class="card-title mb-1">425k</h3>
-                                <div id="revenueChart"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Profile Report --}}
-                    <div class="col-12 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
-                                    <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
-                                        <div class="card-title">
-                                            <h5 class="text-nowrap mb-2">Profile Report</h5>
-                                            <span class="badge bg-label-warning rounded-pill">Year 2021</span>
-                                        </div>
-                                        <div class="mt-sm-auto">
-                                            <small class="text-success text-nowrap fw-medium"><i
-                                                    class="bx bx-chevron-up"></i> 68.2%</small>
-                                            <h3 class="mb-0">$84,686k</h3>
-                                        </div>
-                                    </div>
-                                    <div id="profileReportChart"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
-    </div>
+    @endif
 @endsection
 
 @section('style.libs')
-    {{-- Add CSS libraries here if needed --}}
 @endsection
 
 @section('script-libs')
-    <script src="{{ asset('admin/assets/js/dashboards-analytics.js') }}"></script>
+    <script src="{{ asset('admin') }}/assets/js/dashboards-analytics.js"></script>
 
-    <!-- SweetAlert2 + ApexCharts -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const totalOrders = {{ $totalOrders }}; // Đưa giá trị totalOrders vào JavaScript
+        document.addEventListener("DOMContentLoaded", function() {
+            // Biểu đồ sản phẩm theo ngày
+            let productsData = @json($productsPerDay);
+            let labels = productsData.map(item => item.date);
+            let values = productsData.map(item => item.total);
 
-        // Biểu tượng giỏ hàng lớn
-        const iconSize = "4rem"; // Kích thước biểu tượng giỏ hàng
+            document.getElementById('totalProducts').innerText = values.reduce((a, b) => a + b, 0);
 
-        function showChart() {
-            Swal.fire({
-                title: 'Tổng số đơn hàng',
-                html: '<div id="popupChart" style="height: 300px;"></div>', // Cung cấp vị trí biểu đồ
-                width: 600,
-                showCloseButton: true,
-                showConfirmButton: false,
-                didOpen: () => {
-                    const options = {
-                        chart: {
-                            type: 'column', // Biểu đồ cột
-                            height: 300,
-                            toolbar: {
-                                show: false
-                            }
-                        },
-                        series: [{
-                            name: 'Tổng đơn',
-                            data: [totalOrders]
-                        }],
-                        xaxis: {
-                            categories: ['Tất cả đơn hàng'],
-                            labels: {
-                                style: {
-                                    fontSize: '14px'
-                                }
-                            }
-                        },
-                        plotOptions: {
-                            column: {
-                                width: '50%'
-                            }
-                        },
-                        colors: ['#16a34a'],
-                        tooltip: {
-                            y: {
-                                formatter: val => `${val} đơn hàng`
-                            }
+            new Chart(document.getElementById("productChart").getContext("2d"), {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Sản phẩm mới",
+                        data: values,
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        backgroundColor: "rgba(75, 192, 192, 0.2)",
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
                         }
-                    };
-
-                    const chart = new ApexCharts(document.querySelector("#popupChart"), options);
-                    chart.render();
+                    }
                 }
             });
-        }
-    </script>
 
-    {{-- js bieu do pthuc thanh toan --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Xử lý thay đổi phương thức thanh toán
-            $('#methodSelect').change(function() {
-                var selectedMethod = $(this).val();  // Lấy giá trị phương thức thanh toán được chọn
-
-                // Gửi yêu cầu AJAX đến server
-                $.ajax({
-                    url: '{{ route("admin.dashboard") }}',  // URL của route xử lý (cập nhật dữ liệu)
-                    method: 'GET',
-                    data: {
-                        method: selectedMethod,  // Gửi phương thức thanh toán
-                        _token: '{{ csrf_token() }}'  // Thêm CSRF token bảo mật
-                    },
-                    success: function(response) {
-                        // Cập nhật tổng tiền đã nhận sau khi thành công
-                        $('#totalMoneyReceived').text('Tổng Tiền Đã Nhận: ' + response.totalMoneyReceived + ' VND');
-                        // Cập nhật giá trị selectedMethod trong select (nếu cần)
-                        $('#methodSelect').val(response.selectedMethod);
-                    },
-                    error: function(xhr, status, error) {
-                        alert("Đã xảy ra lỗi. Vui lòng thử lại.");
+            // Biểu đồ doanh thu theo trạng thái
+            new Chart(document.getElementById('totalRevenueChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: {!! json_encode($labels) !!},
+                    datasets: [{
+                        label: 'Doanh thu (VND)',
+                        data: {!! json_encode($data) !!},
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
-                });
+                }
             });
+
+            // Biểu đồ tỷ lệ tăng trưởng
+            new ApexCharts(document.querySelector("#totalChart"), {
+                series: [{{ $growthPercentage }}],
+                chart: {
+                    height: 200,
+                    type: "radialBar"
+                },
+                plotOptions: {
+                    radialBar: {
+                        hollow: {
+                            size: "60%"
+                        },
+                        dataLabels: {
+                            name: {
+                                show: false
+                            },
+                            value: {
+                                fontSize: "20px",
+                                color: "#333",
+                                formatter: val => val + "%"
+                            }
+                        }
+                    }
+                },
+                colors: ["#7367F0"]
+            }).render();
         });
     </script>
+    {{-- top 10 sẩn phẩm bán chạy --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const topSellingProducts = @json($topSellingProducts);
+            const categories = topSellingProducts.map(p => p.product_name);
+            const seriesData = topSellingProducts.map(p => p.total_sold);
 
+            const options = {
+                chart: {
+                    type: 'bar',
+                    height: 350
+                },
+                series: [{
+                    name: 'Số lượng bán',
+                    data: seriesData
+                }],
+                xaxis: {
+                    categories: categories
+                },
+                title: {
+                    text: 'Top 10 Sản Phẩm Bán Chạy',
+                    align: 'center'
+                }
+            };
+
+            new ApexCharts(document.querySelector("#topSellingChart"), options).render();
+        });
+    </script>
+    {{-- khách hàng chi tiêu nhiều nhất --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const topCustomer = @json($topCustomer);
+
+            const names = topCustomer.map(c => c.name);
+            const spending = topCustomer.map(c => parseFloat(c.total_spent));
+
+            const options = {
+                chart: {
+                    type: 'bar',
+                    height: 400
+                },
+                series: [{
+                    name: 'Tổng Chi Tiêu',
+                    data: spending
+                }],
+                xaxis: {
+                    categories: names,
+                    labels: {
+                        style: {
+                            fontSize: '14px'
+                        }
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: true
+                    }
+                },
+                title: {
+                    text: 'Top 10 Khách Hàng chi tiêu Nhiều Nhất',
+                    align: 'center',
+                    style: {
+                        fontSize: '20px'
+                    }
+                },
+                tooltip: {
+                    y: {
+                        formatter: value => new Intl.NumberFormat('vi-VN').format(value) + '₫'
+                    }
+                }
+            };
+
+            new ApexCharts(document.querySelector("#topCustomersChart"), options).render();
+        });
+    </script>
 @endsection

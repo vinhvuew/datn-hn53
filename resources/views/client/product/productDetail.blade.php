@@ -207,11 +207,11 @@
         <div class="tabs_product">
             <div class="container">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab"
                             role="tab">Bình
                             luận</a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a id="tab-B" href="#pane-B" class="nav-link" data-bs-toggle="tab" role="tab">Mô tả</a>
                     </li>
@@ -226,7 +226,7 @@
         <div class="tab_content_wrapper">
             <div class="container">
                 <div class="tab-content" role="tablist">
-                    <div id="pane-A" class="card tab-pane fade active show" role="tabpanel" aria-labelledby="tab-A">
+                    {{-- <div id="pane-A" class="card tab-pane fade active show" role="tabpanel" aria-labelledby="tab-A">
                         <div class="card-header" role="tab" id="heading-A">
                             <h5 class="mb-0">
                                 <a class="collapsed" data-bs-toggle="collapse" href="#collapse-A" aria-expanded="false"
@@ -302,9 +302,8 @@
 
 
                             </div>
-
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- /TAB A -->
                     <div id="pane-B" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
                         <div class="card-header" role="tab" id="heading-B">

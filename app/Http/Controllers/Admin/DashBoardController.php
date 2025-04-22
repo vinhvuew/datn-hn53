@@ -1,55 +1,87 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashBoardController extends Controller
 {
-    public function dashboard(Request $request)
+    public function dashBoard()
     {
-        // Tổng số đơn hàng
-        $totalOrders = DB::table('orders')->count();
+        $currentYear = Carbon::now()->year;
+        $lastYear = $currentYear - 1;
 
-        // Lấy phương thức thanh toán chọn (mặc định là 'cod')
-        $selectedMethod = $request->get('method', 'cod');
+        // Lấy danh sách trạng thái đơn hàng
+        $statusList = Order::getStatusList();
 
-        // Tổng tiền cho COD và VNPAY
-        $totalCodMoney = $this->getTotalPaymentAmount('cod');
-        $totalVnpayMoney = $this->getTotalPaymentAmount('vnpay');
+        // Tạo mảng labels chứa các trạng thái đơn hàng
+        $labels = array_values($statusList);
+        $data = [];
 
-        // Tổng tiền đã nhận theo phương thức đã chọn
-        $totalMoneyReceived = $selectedMethod === 'cod' ? $totalCodMoney : $totalVnpayMoney;
-
-        // Trả dữ liệu nếu yêu cầu AJAX
-        if ($request->ajax()) {
-            return response()->json([
-                'totalCodMoney' => number_format($totalCodMoney, 0, ',', '.'),
-                'totalVnpayMoney' => number_format($totalVnpayMoney, 0, ',', '.'),
-                'totalMoneyReceived' => number_format($totalMoneyReceived, 0, ',', '.'),
-                'selectedMethod' => $selectedMethod,
-            ]);
-        }
-
-        // Trả lại view cho admin
-        return view('admin.dashboard', compact('totalOrders', 'selectedMethod', 'totalMoneyReceived', 'totalCodMoney', 'totalVnpayMoney'));
-    }
-
-
-    public function getTotalPaymentAmount($method)
-    {
-        // Kiểm tra nếu phương thức là vnpay và xử lý cả "VNPAY_DECOD"
-        if ($method === 'vnpay') {
-            return DB::table('orders')
-                ->whereIn('payment_method', ['vnpay', 'VNPAY_DECOD']) // Kiểm tra cả vnpay và VNPAY_DECOD
+        // Duyệt từng trạng thái để lấy tổng doanh thu
+        foreach (array_keys($statusList) as $status) {
+            $data[] = Order::where('status', $status)
+                ->whereYear('order_date', $currentYear)
                 ->sum('total_price');
         }
 
-        // Nếu không phải vnpay, tính bình thường cho COD
-        return DB::table('orders')
-            ->where('payment_method', $method)
-            ->sum('total_price');
-    }
+        // Tổng doanh thu năm hiện tại
+        $totalRevenueCurrentYear = array_sum($data);
 
+        // Tổng doanh thu năm trước
+        $totalRevenueLastYear = Order::whereYear('order_date', $lastYear)
+            ->where('status', Order::COMPLETED)
+            ->sum('total_price');
+
+        // Tính phần trăm tăng trưởng
+        $growthPercentage = ($totalRevenueLastYear > 0)
+            ? (($totalRevenueCurrentYear - $totalRevenueLastYear) / $totalRevenueLastYear) * 100
+            : ($totalRevenueCurrentYear > 0 ? 100 : 0);
+
+        // 🔹 Lấy số lượng sản phẩm mới theo ngày
+        $productsPerDay = Product::select(
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('COUNT(id) as total')
+        )
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+        $totalCustomers = User::count(); // Đếm số lượng người dùng
+        // sản phẩm bán chạy
+        $topSellingProducts = DB::table('order_details')
+            ->select('product_name', DB::raw('SUM(quantity) as total_sold'))
+            ->groupBy('product_name')
+            ->orderByDesc('total_sold')
+            ->limit(10)
+            ->get();
+        // khách mùa hàng chi tiêu nhiều nhất
+        $topCustomer = DB::table('orders')
+            ->join('users', 'orders.user_id', '=', 'users.id')
+            ->select('users.id', 'users.name', DB::raw('SUM(orders.total_price) as total_spent'), DB::raw('COUNT(orders.id) as total_orders'))
+            ->where('orders.status', 'order_confirmation')
+            ->groupBy('users.id', 'users.name')
+            ->orderByDesc('total_spent')
+            ->limit(10)
+            ->get();
+        return view('admin.dashboard', compact(
+            'totalRevenueCurrentYear',
+            'totalRevenueLastYear',
+            'growthPercentage',
+            'currentYear',
+            'lastYear',
+            'labels',
+            'data',
+            'productsPerDay',
+            'totalCustomers',
+            'topSellingProducts',
+            'topCustomer'
+            // Truyền dữ liệu về view
+        ));
+    }
 }

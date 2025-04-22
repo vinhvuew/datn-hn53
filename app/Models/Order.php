@@ -40,7 +40,7 @@ class Order extends Model
             'shipping' => 'Chờ giao hàng',
             'delivered' => 'Đang giao hàng',
             'completed' => 'Giao hàng thành công',
-            'order_confirmation' => 'Xác nhận đơn hàng',
+            'order_confirmation' => 'Đơn hàng hoàn thành',
             'canceled' => 'Người mua đã hủy',
             'admin_canceled' => 'Đã hủy bởi Admin',
             'return_request' => 'Yêu cầu trả hàng',
