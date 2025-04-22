@@ -46,13 +46,7 @@
                                 <td>
 
                                     <a href="<?php echo e(route('attributes.edit', $attribute->id)); ?>" class="btn btn-warning">Sửa</a>
-                                    <form action="<?php echo e(route('attributes.destroy', $attribute->id)); ?>" method="POST"
-                                        style="display:inline-block;">
-                                        <?php echo csrf_field(); ?>
-                                        <?php echo method_field('DELETE'); ?>
-                                        <button type="submit" class="btn btn-danger"
-                                            onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
-                                    </form>
+                                    
                                 </td>
                             </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

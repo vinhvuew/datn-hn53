@@ -181,13 +181,13 @@
         </li>
 
 
-        <li class="menu-item">
+        {{-- <li class="menu-item">
             <a href="{{ route('comment.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-chart"></i>
                 <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>
             </a>
-        </li>
-        <li class="menu-item">
+        </li> --}}
+        {{-- <li class="menu-item">
             <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class=" menu-icon fa-sharp fa-solid fa-chart-simple"></i>
                 <div class="text-truncate" data-i18n="Thống kê">
@@ -204,7 +204,7 @@
                 </li>
 
             </ul>
-        </li>
+        </li> --}}
 
 
         <li class="menu-item">

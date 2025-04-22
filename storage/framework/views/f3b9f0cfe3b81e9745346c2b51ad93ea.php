@@ -206,11 +206,7 @@
         <div class="tabs_product">
             <div class="container">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab"
-                            role="tab">Bình
-                            luận</a>
-                    </li>
+                    
                     <li class="nav-item">
                         <a id="tab-B" href="#pane-B" class="nav-link" data-bs-toggle="tab" role="tab">Mô tả</a>
                     </li>
@@ -225,85 +221,7 @@
         <div class="tab_content_wrapper">
             <div class="container">
                 <div class="tab-content" role="tablist">
-                    <div id="pane-A" class="card tab-pane fade active show" role="tabpanel" aria-labelledby="tab-A">
-                        <div class="card-header" role="tab" id="heading-A">
-                            <h5 class="mb-0">
-                                <a class="collapsed" data-bs-toggle="collapse" href="#collapse-A" aria-expanded="false"
-                                    aria-controls="collapse-A">
-                                    Bình luận
-                                </a>
-                            </h5>
-                        </div>
-                        <div id="collapse-A" class="collapse" role="tabpanel" aria-labelledby="heading-A">
-                            <div class="card-body">
-                                <h3>Bình luận</h3>
-                                <div id="comments-container">
-                                    <?php $__currentLoopData = $comments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <div class="comment mb-3 p-3 border rounded">
-                                            <div class="d-flex justify-content-between">
-                                                <strong><?php echo e($comment->user->name); ?></strong>
-                                                <span class="text-muted"><?php echo e($comment->created_at); ?></span>
-                                            </div>
-                                            <p class="mt-1"><?php echo e($comment->content); ?></p>
-
-                                            <!-- Nút mở form trả lời -->
-                                            <button class="btn btn-sm btn-outline-primary reply-toggle">Trả lời</button>
-
-                                            <!-- Danh sách phản hồi -->
-                                            <?php if($comment->replies->count() > 0): ?>
-                                                <div class="replies ms-4 mt-2 border-start ps-3">
-                                                    <?php $__currentLoopData = $comment->replies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $reply): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <div class="reply mb-2">
-                                                            <strong><?php echo e($reply->user->name); ?></strong>
-                                                            <p class="mb-1"><?php echo e($reply->content); ?></p>
-                                                            <small class="text-muted"><?php echo e($reply->created_at); ?></small>
-                                                        </div>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </div>
-                                            <?php endif; ?>
-
-                                            <!-- Form trả lời (ẩn mặc định) -->
-                                            <div class="reply-form mt-2 ms-4" style="display: none;">
-                                                <form action="<?php echo e(route('add.reply')); ?>" method="POST">
-                                                    <?php echo csrf_field(); ?>
-                                                    <input type="hidden" name="product_id" value="<?php echo e($product->id); ?>">
-                                                    <input type="hidden" name="parent_id" value="<?php echo e($comment->id); ?>">
-                                                    <textarea name="content" class="form-control" rows="2" required></textarea>
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-success mt-2">Gửi</button>
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-secondary mt-2 cancel-reply">Hủy</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </div>
-
-                                <!-- Form bình luận chính -->
-                                <h4>Để lại bình luận</h4>
-
-                                <?php if(auth()->guard()->check()): ?>
-                                    <form action="<?php echo e(route('add.comment')); ?>" id="commentForm" method="POST">
-                                        <?php echo csrf_field(); ?>
-                                        <input type="hidden" id="product_id" name="product_id"
-                                            value="<?php echo e($product->id); ?>">
-                                        <div class="mb-3">
-                                            <label for="comment" class="form-label">Bình luận</label>
-                                            <textarea class="form-control" id="comment" name="content" rows="3"></textarea>
-                                        </div>
-                                        <div class="text-end">
-                                            <button type="submit" class="btn btn-primary">Gửi bình luận</button>
-                                        </div>
-                                    </form>
-                                <?php else: ?>
-                                    <a href="<?php echo e(route('login.show')); ?>" class="btn btn-warning">Đăng nhập để bình luận</a>
-                                <?php endif; ?>
-
-
-                            </div>
-
-                        </div>
-                    </div>
+                    
                     <!-- /TAB A -->
                     <div id="pane-B" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
                         <div class="card-header" role="tab" id="heading-B">

@@ -181,30 +181,8 @@
         </li>
 
 
-        <li class="menu-item">
-            <a href="<?php echo e(route('comment.index')); ?>" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-chart"></i>
-                <div class="text-truncate" data-i18n="Bình luận">Bình luận</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="javascript:void(0)" class="menu-link menu-toggle">
-                <i class=" menu-icon fa-sharp fa-solid fa-chart-simple"></i>
-                <div class="text-truncate" data-i18n="Thống kê">
-                    Thống kê
-                </div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="<?php echo e(route('thongke.statistical')); ?>" class="menu-link">
-                        <div class="text-truncate" data-i18n=" Doanh thu">
-                            Doanh thu
-                        </div>
-                    </a>
-                </li>
-
-            </ul>
-        </li>
+        
+        
 
 
         <li class="menu-item">
