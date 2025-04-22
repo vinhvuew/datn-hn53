@@ -482,35 +482,6 @@
     </script>
 
     
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll(".reply-toggle").forEach(button => {
-                button.addEventListener("click", function() {
-                    let commentContainer = this.closest(".comment");
-                    let replyForm = commentContainer.querySelector(".reply-form");
-                    if (replyForm.style.display === "none" || replyForm.style.display === "") {
-                        replyForm.style.display = "block";
-                    } else {
-                        replyForm.style.display = "none";
-                    }
-                });
-            });
-
-            document.querySelectorAll(".cancel-reply").forEach(button => {
-                button.addEventListener("click", function() {
-                    let replyForm = this.closest(".reply-form");
-                    replyForm.style.display = "none";
-                });
-            });
-        });
-        // cách dòng trong mô tả
-        document.addEventListener("DOMContentLoaded", function() {
-            let productContent = document.querySelector(".product-description p");
-            if (productContent) {
-                productContent.innerHTML = productContent.innerHTML.replace(/\.\s*/g, '.<br>');
-            }
-        });
-    </script>
 
 
     <script>

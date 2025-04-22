@@ -560,7 +560,7 @@
         });
     </script>
 
-    {{-- comment --}}
+    {{-- comment
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll(".reply-toggle").forEach(button => {
@@ -589,7 +589,7 @@
                 productContent.innerHTML = productContent.innerHTML.replace(/\.\s*/g, '.<br>');
             }
         });
-    </script>
+    </script> --}}
 
 
     <script>
