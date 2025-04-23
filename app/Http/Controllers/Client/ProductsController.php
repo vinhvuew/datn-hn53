@@ -47,15 +47,15 @@ class ProductsController extends Controller
             ->get();
 
         // Lấy danh sách bình luận
-        $comments = Comment::where('product_id', $product->id)
-            ->whereNull('parent_id')
-            ->with(['user', 'replies.user'])
-            ->orderBy('created_at', 'desc')
-            ->get();
-        // dd($comments);
+        // $comments = Comment::where('product_id', $product->id)
+        //     ->whereNull('parent_id')
+        //     ->with(['user', 'replies.user'])
+        //     ->orderBy('created_at', 'desc')
+        //     ->get();
+        // // dd($comments);
 
         // Trả dữ liệu ra view
-        return view('client.product.productDetail', compact('product', 'relatedProducts', 'totalStock', 'comments'));
+        return view('client.product.productDetail', compact('product', 'relatedProducts', 'totalStock', ));
     }
 
     public function addToCart(Request $request)
