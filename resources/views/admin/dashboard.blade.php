@@ -58,10 +58,7 @@
 
                 <!-- Biểu đồ Doanh Thu Theo Trạng Thái -->
                 <div class="row">
-                    <div class="d-flex justify-content-end mb-2">
-                        <button id="download-png" class="btn btn-sm btn-outline-primary me-2">📷 Tải ảnh PNG</button>
-                        <button id="download-csv" class="btn btn-sm btn-outline-success">📄 Tải file CSV</button>
-                    </div>
+
                     <div class="col-12 col-lg-8 order-1 order-lg-1 mb-4">
                         <div class="card h-100 d-flex align-items-stretch">
                             <div class="row row-bordered g-0">

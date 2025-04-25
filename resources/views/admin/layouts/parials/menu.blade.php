@@ -124,7 +124,7 @@
 
             </ul>
         </li>
-        <li class="menu-item">
+        <li class="menu-item" @yield('item-voucher')>
             <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-copy"></i>
                 <div class="text-truncate" data-i18n="Voucher">
@@ -132,14 +132,14 @@
                 </div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item" @yield('item-voucher-index')>
                     <a href="{{ route('vouchers.index') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="danh sach">
                             Danh sách
                         </div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item" @yield('item-voucher-creat')>
                     <a href="{{ route('vouchers.create') }}" class="menu-link">
                         <div class="text-truncate" data-i18n="them">
                             Thêm
@@ -206,7 +206,6 @@
             </ul>
         </li> --}}
 
-
         <li class="menu-item">
             <a href="{{ route('news.index') }}" class="menu-link">
                 <i class="menu-icon fa-regular fa-newspaper"></i>
@@ -214,8 +213,6 @@
                 <div class="text-truncate" data-i18n="Tin Tức">Tin Tức</div>
             </a>
         </li>
-
-
 
     </ul>
 </aside>

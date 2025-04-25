@@ -324,19 +324,26 @@
                                             style="width: 100%; height: 100%; object-fit: cover;">
                                     </a>
                                 </figure>
-                                <div class="rating" style="margin: 10px 0;">
-                                    <i class="icon-star voted"></i><i class="icon-star voted"></i>
-                                    <i class="icon-star voted"></i><i class="icon-star voted"></i>
-                                    <i class="icon-star"></i>
-                                </div>
+                                
                                 <a href="<?php echo e(route('productDetail', $related->slug)); ?>">
-                                    <h3 style="font-size: 1rem; min-height: 48px; margin-bottom: 10px;">
+                                    <h3 style="font-size: 1rem; min-height: 48px; ;">
                                         <?php echo e($related->name); ?></h3>
                                 </a>
+                                <p class="small text-muted flex-grow-1"><?php echo e(Str::limit($related->description, 50)); ?></p>
                                 <div class="price_box">
-                                    <span class="new_price"><?php echo e(number_format($related->price_sale, 0, ',', '.')); ?>
+                                    <?php if($related->price_sale): ?>
+                                        <span class="old_price text-muted text-decoration-line-through ms-2">
+                                            <?php echo e(number_format($related->base_price, 0, ',', '.')); ?>VND
+                                        </span>
+                                        <span class="new_price text-danger fw-bold">
+                                            <?php echo e(number_format($related->price_sale, 0, ',', '.')); ?>VND
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="new_price fw-bold">
+                                            <?php echo e(number_format($related->base_price, 0, ',', '.')); ?>VND
 
-                                        VND</span>
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
