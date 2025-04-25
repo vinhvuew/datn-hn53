@@ -1,3 +1,5 @@
+<?php $__env->startSection('item-voucher', 'open'); ?>
+<?php $__env->startSection('item-voucher-index', 'active'); ?>
 <?php $__env->startSection('content'); ?>
     <div class="container mt-5">
         <div class="mb-4 text-center">
@@ -207,149 +209,151 @@ unset($__errorArgs, $__bag); ?>
     </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script-libs'); ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector('form');
-            const discountType = document.getElementById('discount_type');
-            const maxDiscountGroup = document.getElementById('max_discount_group');
-            const discountLabel = document.getElementById('discount_label');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        const discountType = document.getElementById('discount_type');
+        const maxDiscountGroup = document.getElementById('max_discount_group');
+        const discountLabel = document.getElementById('discount_label');
 
-            const discountValue = document.querySelector('input[name="discount_value"]');
-            const minOrderValue = document.querySelector('input[name="min_order_value"]');
-            const maxDiscountValue = document.querySelector('input[name="max_discount_value"]');
-            const quantity = document.querySelector('input[name="quantity"]');
-            const startDate = document.querySelector('input[name="start_date"]');
-            const endDate = document.querySelector('input[name="end_date"]');
+        const discountValue = document.querySelector('input[name="discount_value"]');
+        const minOrderValue = document.querySelector('input[name="min_order_value"]');
+        const maxDiscountValue = document.querySelector('input[name="max_discount_value"]');
+        const quantity = document.querySelector('input[name="quantity"]');
+        const startDate = document.querySelector('input[name="start_date"]');
+        const endDate = document.querySelector('input[name="end_date"]');
 
-            function createError(input, message) {
-                let error = input.parentElement.querySelector('.text-danger.client');
-                if (!error) {
-                    error = document.createElement('small');
-                    error.classList.add('text-danger', 'client');
-                    input.parentElement.appendChild(error);
-                }
-                error.textContent = message;
-                error.style.display = 'block';
+        function createError(input, message) {
+            let error = input.parentElement.querySelector('.text-danger.client');
+            if (!error) {
+                error = document.createElement('small');
+                error.classList.add('text-danger', 'client');
+                input.parentElement.appendChild(error);
             }
+            error.textContent = message;
+            error.style.display = 'block';
+        }
 
-            function clearError(input) {
-                const error = input.parentElement.querySelector('.text-danger.client');
-                if (error) {
-                    error.style.display = 'none';
-                    error.textContent = '';
-                }
+        function clearError(input) {
+            const error = input.parentElement.querySelector('.text-danger.client');
+            if (error) {
+                error.style.display = 'none';
+                error.textContent = '';
             }
+        }
 
-            function toggleMaxDiscount() {
-                const type = discountType.value;
-                if (type === 'percentage') {
-                    maxDiscountGroup.style.display = 'block';
-                    discountLabel.textContent = '%';
-                } else {
-                    maxDiscountGroup.style.display = 'none';
-                    discountLabel.textContent = 'VNĐ';
-                }
-            }
+        function toggleMaxDiscount() {
+            const type = discountType.value;
+            maxDiscountGroup.style.display = (type === 'percentage') ? 'block' : 'none';
+            discountLabel.textContent = (type === 'percentage') ? '%' : 'VNĐ';
+        }
 
-            function validateDiscountValue() {
-                const type = discountType.value;
-                const value = parseFloat(discountValue.value);
-                let valid = true;
+        function validateDiscountValue() {
+            const type = discountType.value;
+            let value = parseFloat(discountValue.value);
+            let valid = true;
 
-                if (isNaN(value)) {
-                    createError(discountValue, 'Vui lòng nhập giá trị giảm.');
-                    valid = false;
-                } else if (type === 'percentage' && value > 90) {
-                    createError(discountValue, 'Giá trị phần trăm không được lớn hơn 90%.');
+            if (isNaN(value)) {
+                createError(discountValue, 'Vui lòng nhập giá trị giảm.');
+                valid = false;
+            } else if (type === 'percentage') {
+                if (value > 90) {
+                    discountValue.value = 90;
+                    createError(discountValue, 'Giá trị phần trăm đã tự động giới hạn ở 90%.');
+                } else if (value <= 0) {
+                    createError(discountValue, 'Giá trị phần trăm phải lớn hơn 0%.');
                     valid = false;
                 } else {
                     clearError(discountValue);
                 }
-
-                return valid;
+            } else {
+                clearError(discountValue);
             }
 
-            function validateMinOrder() {
-                const type = discountType.value;
-                const discount = parseFloat(discountValue.value);
-                const minOrder = parseFloat(minOrderValue.value);
-                let valid = true;
+            return valid;
+        }
 
-                if (type === 'fixed' && !isNaN(discount) && !isNaN(minOrder) && discount > minOrder) {
-                    createError(minOrderValue, 'Giá trị đơn hàng tối thiểu phải lớn hơn hoặc bằng giá trị giảm.');
-                    valid = false;
-                } else {
-                    clearError(minOrderValue);
-                }
+        function validateMinOrder() {
+            const type = discountType.value;
+            const discount = parseFloat(discountValue.value);
+            const minOrder = parseFloat(minOrderValue.value);
+            let valid = true;
 
-                return valid;
+            if (type === 'fixed' && !isNaN(discount) && !isNaN(minOrder) && discount > minOrder) {
+                createError(minOrderValue, 'Giá trị đơn hàng tối thiểu phải lớn hơn hoặc bằng giá trị giảm.');
+                valid = false;
+            } else {
+                clearError(minOrderValue);
             }
 
-            function validateQuantity() {
-                const value = parseInt(quantity.value);
-                let valid = true;
+            return valid;
+        }
 
-                if (!value || value < 1) {
-                    createError(quantity, 'Số lượng phải lớn hơn 0.');
-                    valid = false;
-                } else {
-                    clearError(quantity);
-                }
+        function validateQuantity() {
+            const value = parseInt(quantity.value);
+            let valid = true;
 
-                return valid;
+            if (!value || value < 1) {
+                createError(quantity, 'Số lượng phải lớn hơn 0.');
+                valid = false;
+            } else {
+                clearError(quantity);
             }
 
-            function validateDates() {
-                const start = new Date(startDate.value);
-                const end = new Date(endDate.value);
-                let valid = true;
+            return valid;
+        }
 
-                if (startDate.value && endDate.value && end < start) {
-                    createError(endDate, 'Ngày kết thúc phải sau hoặc bằng ngày bắt đầu.');
-                    valid = false;
-                } else {
-                    clearError(endDate);
-                }
+        function validateDates() {
+            const start = new Date(startDate.value);
+            const end = new Date(endDate.value);
+            let valid = true;
 
-                return valid;
+            if (startDate.value && endDate.value && end < start) {
+                createError(endDate, 'Ngày kết thúc phải sau hoặc bằng ngày bắt đầu.');
+                valid = false;
+            } else {
+                clearError(endDate);
             }
 
-            function validateForm() {
-                const validations = [
-                    validateDiscountValue(),
-                    validateMinOrder(),
-                    validateQuantity(),
-                    validateDates()
-                ];
-                return validations.every(v => v);
-            }
+            return valid;
+        }
 
-            // Event listeners
-            discountType.addEventListener('change', () => {
-                toggleMaxDiscount();
-                validateDiscountValue();
-                validateMinOrder();
-            });
+        function validateForm() {
+            return [
+                validateDiscountValue(),
+                validateMinOrder(),
+                validateQuantity(),
+                validateDates()
+            ].every(v => v);
+        }
 
-            discountValue.addEventListener('input', () => {
-                validateDiscountValue();
-                validateMinOrder();
-            });
-
-            minOrderValue.addEventListener('input', validateMinOrder);
-            quantity.addEventListener('input', validateQuantity);
-            startDate.addEventListener('change', validateDates);
-            endDate.addEventListener('change', validateDates);
-
-            form.addEventListener('submit', function(e) {
-                if (!validateForm()) {
-                    e.preventDefault();
-                }
-            });
-
-            toggleMaxDiscount(); // initial call
+        // Event bindings
+        discountType.addEventListener('change', () => {
+            toggleMaxDiscount();
+            validateDiscountValue();
+            validateMinOrder();
         });
-    </script>
+
+        discountValue.addEventListener('input', () => {
+            validateDiscountValue();
+            validateMinOrder();
+        });
+
+        minOrderValue.addEventListener('input', validateMinOrder);
+        quantity.addEventListener('input', validateQuantity);
+        startDate.addEventListener('change', validateDates);
+        endDate.addEventListener('change', validateDates);
+
+        form.addEventListener('submit', function (e) {
+            if (!validateForm()) {
+                e.preventDefault();
+            }
+        });
+
+        toggleMaxDiscount(); // Initial run
+    });
+</script>
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/vouchers/edit.blade.php ENDPATH**/ ?>

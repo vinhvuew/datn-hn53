@@ -1,3 +1,5 @@
+<?php $__env->startSection('item-voucher', 'open'); ?>
+<?php $__env->startSection('item-voucher-creat', 'active'); ?>
 <?php $__env->startSection('content'); ?>
     <div class="container mt-5">
         

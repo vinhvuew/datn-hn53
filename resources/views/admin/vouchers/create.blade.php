@@ -1,6 +1,7 @@
 @extends('admin.layouts.master')
 
-
+@section('item-voucher', 'open')
+@section('item-voucher-creat', 'active')
 @section('content')
     <div class="container mt-5">
         {{-- <h1 class="mb-4">Tạo Voucher Mới</h1> --}}

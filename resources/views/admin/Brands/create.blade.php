@@ -6,22 +6,13 @@
 @section('content')
     <div class="container mt-5">
         <h1>Thêm Thương Hiệu</h1>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
 
         <form action="{{ route('brands.store') }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">Tên Thương Hiệu</label>
                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
-                    value="{{ old('name') }}" required>
+                    value="{{ old('name') }}">
                 @error('name')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror

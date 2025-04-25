@@ -404,18 +404,30 @@
                                             style="width: 100%; height: 100%; object-fit: cover;">
                                     </a>
                                 </figure>
-                                <div class="rating" style="margin: 10px 0;">
+                                {{-- <div class="rating" style="margin: 10px 0;">
                                     <i class="icon-star voted"></i><i class="icon-star voted"></i>
                                     <i class="icon-star voted"></i><i class="icon-star voted"></i>
                                     <i class="icon-star"></i>
-                                </div>
+                                </div> --}}
                                 <a href="{{ route('productDetail', $related->slug) }}">
-                                    <h3 style="font-size: 1rem; min-height: 48px; margin-bottom: 10px;">
+                                    <h3 style="font-size: 1rem; min-height: 48px; ;">
                                         {{ $related->name }}</h3>
                                 </a>
+                                <p class="small text-muted flex-grow-1">{{ Str::limit($related->description, 50) }}</p>
                                 <div class="price_box">
-                                    <span class="new_price">{{ number_format($related->price_sale, 0, ',', '.') }}
-                                        VND</span>
+                                    @if ($related->price_sale)
+                                        <span class="old_price text-muted text-decoration-line-through ms-2">
+                                            {{ number_format($related->base_price, 0, ',', '.') }}VND
+                                        </span>
+                                        <span class="new_price text-danger fw-bold">
+                                            {{ number_format($related->price_sale, 0, ',', '.') }}VND
+                                        </span>
+                                    @else
+                                        <span class="new_price fw-bold">
+                                            {{ number_format($related->base_price, 0, ',', '.') }}VND
+
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                         </div>

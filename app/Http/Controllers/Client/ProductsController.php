@@ -88,7 +88,6 @@ class ProductsController extends Controller
                     return back()->with('error', 'Số lượng vượt quá tồn kho.');
                 }
 
-
                 $cartDetail = CartDetail::where('cart_id', $cart->id)
                     ->where('variant_id', $variant->id)
                     ->first();

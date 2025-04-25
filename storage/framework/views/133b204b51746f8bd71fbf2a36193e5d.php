@@ -124,7 +124,7 @@
 
             </ul>
         </li>
-        <li class="menu-item">
+        <li class="menu-item" <?php echo $__env->yieldContent('item-voucher'); ?>>
             <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-copy"></i>
                 <div class="text-truncate" data-i18n="Voucher">
@@ -132,14 +132,14 @@
                 </div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item" <?php echo $__env->yieldContent('item-voucher-index'); ?>>
                     <a href="<?php echo e(route('vouchers.index')); ?>" class="menu-link">
                         <div class="text-truncate" data-i18n="danh sach">
                             Danh sách
                         </div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item" <?php echo $__env->yieldContent('item-voucher-creat'); ?>>
                     <a href="<?php echo e(route('vouchers.create')); ?>" class="menu-link">
                         <div class="text-truncate" data-i18n="them">
                             Thêm
@@ -184,7 +184,6 @@
         
         
 
-
         <li class="menu-item">
             <a href="<?php echo e(route('news.index')); ?>" class="menu-link">
                 <i class="menu-icon fa-regular fa-newspaper"></i>
@@ -192,8 +191,6 @@
                 <div class="text-truncate" data-i18n="Tin Tức">Tin Tức</div>
             </a>
         </li>
-
-
 
     </ul>
 </aside>
