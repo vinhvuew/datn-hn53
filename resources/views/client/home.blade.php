@@ -87,18 +87,11 @@
                                 </a>
                                 <p class="small text-muted flex-grow-1">{{ Str::limit($product->description, 50) }}</p>
                                 <div class="price_box mt-auto">
-                                    @if ($product->price_sale && $product->price_sale < $product->base_price)
-                                        <span class="old_price text-muted text-decoration-line-through">
-                                            {{ number_format($product->base_price, 0, ',', '.') }} VND
-                                        </span>
+                                   
                                         <span class="new_price text-danger fw-bold">
                                             {{ number_format($product->price_sale, 0, ',', '.') }} VND
                                         </span>
-                                    @else
-                                        <span class="new_price text-danger fw-bold">
-                                            {{ number_format($product->base_price, 0, ',', '.') }} VND
-                                        </span>
-                                    @endif
+                        
                                 </div>
                             </div>
                         </div>
@@ -132,10 +125,9 @@
                                     <h3><a href="{{ route('productDetail', $product->slug) }}">{{ $product->name }}</a>
                                     </h3>
                                     <div class="price_box">
-                                        <span class="new_price">{{ number_format($product->price_sale, 0, ',', '.') }}
-                                            VND</span>
-                                        <span class="old_price text-muted text-decoration-line-through">
-                                            {{ number_format($product->base_price, 0, ',', '.') }} VND
+                                    
+                                        <span >
+                                            {{ number_format($product->price_sale, 0, ',', '.') }} VND
                                         </span>
                                     </div>
 
@@ -172,14 +164,11 @@
                                     {{ Str::limit($product->description, 50) }}
                                 </p>
                                 <div class="price_box mt-auto">
-                                    <span class="old_price text-muted text-decoration-line-through">
-                                        {{ number_format($product->base_price, 0, ',', '.') }} VND
-                                    </span>
-                                    @if ($product->price_sale)
+                                
                                         <span class="new_price text-danger fw-bold">
                                             {{ number_format($product->price_sale, 0, ',', '.') }} VND
                                         </span>
-                                    @endif
+                                  
                                 </div>
                             </div>
                         </div>

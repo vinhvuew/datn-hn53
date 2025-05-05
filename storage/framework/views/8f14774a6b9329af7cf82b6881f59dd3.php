@@ -30,8 +30,8 @@
                             <th>Tên sp</th>
                             <th>Hình ảnh</th>
                             
-                            <th>Giá cơ bản</th>
-                            <th>Giá tùy chỉnh</th>
+                            <th>Giá Gốc</th>
+                            <th>Giá Bán</th>
                             <th>trạng thái</th>
                             <th>Thao tác</th>
                             <th></th>

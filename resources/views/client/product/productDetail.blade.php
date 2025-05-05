@@ -155,17 +155,11 @@
                                     <div class="price_main">
                                         <label for=""> <strong>Đơn giá:</strong> </label>
 
-                                        @if ($product->price_sale > 0 && $product->price_sale < $product->base_price)
+                                       
                                             <span
                                                 class="new_price text-danger">{{ number_format($product->price_sale, 0, ',', '.') }}
                                                 VND</span>
-                                            <span class="old_price text-muted" style="text-decoration: line-through;">
-                                                {{ number_format($product->base_price, 0, ',', '.') }} VND
-                                            </span>
-                                        @else
-                                            <span class="new_price">{{ number_format($product->base_price, 0, ',', '.') }}
-                                                VND</span>
-                                        @endif
+                                           
                                     </div>
 
                                 </div>
@@ -415,19 +409,11 @@
                                 </a>
                                 <p class="small text-muted flex-grow-1">{{ Str::limit($related->description, 50) }}</p>
                                 <div class="price_box">
-                                    @if ($related->price_sale)
-                                        <span class="old_price text-muted text-decoration-line-through ms-2">
-                                            {{ number_format($related->base_price, 0, ',', '.') }}VND
-                                        </span>
+                                  
                                         <span class="new_price text-danger fw-bold">
                                             {{ number_format($related->price_sale, 0, ',', '.') }}VND
                                         </span>
-                                    @else
-                                        <span class="new_price fw-bold">
-                                            {{ number_format($related->base_price, 0, ',', '.') }}VND
-
-                                        </span>
-                                    @endif
+                                  
                                 </div>
                             </div>
                         </div>

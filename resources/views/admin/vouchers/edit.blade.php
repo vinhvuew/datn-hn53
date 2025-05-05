@@ -119,8 +119,7 @@
                             <select name="status" class="form-control">
                                 <option value="active" {{ old('status', $voucher->status) == 'active' ? 'selected' : '' }}>
                                     Hoạt động</option>
-                                <option value="expired"
-                                    {{ old('status', $voucher->status) == 'expired' ? 'selected' : '' }}>Hết hạn</option>
+                                
                                 <option value="disabled"
                                     {{ old('status', $voucher->status) == 'disabled' ? 'selected' : '' }}>Vô hiệu hóa
                                 </option>

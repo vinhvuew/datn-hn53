@@ -134,14 +134,14 @@
             <ul class="menu-sub">
                 <li class="menu-item" <?php echo $__env->yieldContent('item-voucher-index'); ?>>
                     <a href="<?php echo e(route('vouchers.index')); ?>" class="menu-link">
-                        <div class="text-truncate" data-i18n="danh sach">
+                        <div class="text-truncate" data-i18n="Danh Sách">
                             Danh sách
                         </div>
                     </a>
                 </li>
                 <li class="menu-item" <?php echo $__env->yieldContent('item-voucher-creat'); ?>>
                     <a href="<?php echo e(route('vouchers.create')); ?>" class="menu-link">
-                        <div class="text-truncate" data-i18n="them">
+                        <div class="text-truncate" data-i18n="Thêm">
                             Thêm
                         </div>
                     </a>

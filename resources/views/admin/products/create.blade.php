@@ -263,19 +263,18 @@
                                 <div class="card-body">
                                     <!-- Base Price -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="base_price">giá cơ bản</label>
+                                        <label class="form-label" for="base_price">Giá Gốc</label>
                                         <input type="number" class="form-control" id="base_price"
-                                            placeholder="base_price" name="base_price" aria-label="base_price">
+                                            placeholder="base_price" name="base_price" aria-label="base_price" required>
                                         @error('base_price')
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <!-- Discounted Price -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="ecommerce-product-discount-price">giá ưu
-                                            đãi</label>
+                                        <label class="form-label" for="ecommerce-product-discount-price">Giá Bán</label>
                                         <input type="number" class="form-control" id="price_sale"
-                                            placeholder="price_sale" name="price_sale" aria-label="price_sale">
+                                            placeholder="price_sale" name="price_sale" aria-label="price_sale" required>
                                         @error('price_sale')
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                         @enderror

@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\ProveRefund;
 use App\Models\ReturnOrder;
 use App\Models\Shipping;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -56,6 +57,7 @@ class OrdersController extends Controller
         $canceled        = $statusCounts['canceled'] ?? 0;
         $order_confirmation        = $statusCounts['order_confirmation'] ?? 0;
 
+       
 
         return view('admin.orders.index', compact(
             'orders',

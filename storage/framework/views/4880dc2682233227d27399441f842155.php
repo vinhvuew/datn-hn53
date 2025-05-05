@@ -320,9 +320,9 @@ unset($__errorArgs, $__bag); ?>
                                 <div class="card-body">
                                     <!-- Base Price -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="base_price">giá cơ bản</label>
+                                        <label class="form-label" for="base_price">Giá Gốc</label>
                                         <input type="number" class="form-control" id="base_price"
-                                            placeholder="base_price" name="base_price" aria-label="base_price">
+                                            placeholder="base_price" name="base_price" aria-label="base_price" required>
                                         <?php $__errorArgs = ['base_price'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -336,10 +336,9 @@ unset($__errorArgs, $__bag); ?>
                                     </div>
                                     <!-- Discounted Price -->
                                     <div class="mb-3">
-                                        <label class="form-label" for="ecommerce-product-discount-price">giá ưu
-                                            đãi</label>
+                                        <label class="form-label" for="ecommerce-product-discount-price">Giá Bán</label>
                                         <input type="number" class="form-control" id="price_sale"
-                                            placeholder="price_sale" name="price_sale" aria-label="price_sale">
+                                            placeholder="price_sale" name="price_sale" aria-label="price_sale" required>
                                         <?php $__errorArgs = ['price_sale'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

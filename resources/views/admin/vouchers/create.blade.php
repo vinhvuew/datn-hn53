@@ -111,7 +111,6 @@
                             <label for="status" class="form-label">Trạng thái</label>
                             <select name="status" class="form-control">
                                 <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Hoạt động</option>
-                                <option value="expired" {{ old('status') == 'expired' ? 'selected' : '' }}>Hết hạn</option>
                                 <option value="disabled" {{ old('status') == 'disabled' ? 'selected' : '' }}>Vô hiệu hóa
                                 </option>
                             </select>

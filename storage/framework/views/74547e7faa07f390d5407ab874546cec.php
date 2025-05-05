@@ -85,18 +85,11 @@
                                 </a>
                                 <p class="small text-muted flex-grow-1"><?php echo e(Str::limit($product->description, 50)); ?></p>
                                 <div class="price_box mt-auto">
-                                    <?php if($product->price_sale && $product->price_sale < $product->base_price): ?>
-                                        <span class="old_price text-muted text-decoration-line-through">
-                                            <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
-                                        </span>
+                                   
                                         <span class="new_price text-danger fw-bold">
                                             <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?> VND
                                         </span>
-                                    <?php else: ?>
-                                        <span class="new_price text-danger fw-bold">
-                                            <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
-                                        </span>
-                                    <?php endif; ?>
+                        
                                 </div>
                             </div>
                         </div>
@@ -130,11 +123,9 @@
                                     <h3><a href="<?php echo e(route('productDetail', $product->slug)); ?>"><?php echo e($product->name); ?></a>
                                     </h3>
                                     <div class="price_box">
-                                        <span class="new_price"><?php echo e(number_format($product->price_sale, 0, ',', '.')); ?>
-
-                                            VND</span>
-                                        <span class="old_price text-muted text-decoration-line-through">
-                                            <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
+                                    
+                                        <span >
+                                            <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?> VND
                                         </span>
                                     </div>
 
@@ -172,14 +163,11 @@
 
                                 </p>
                                 <div class="price_box mt-auto">
-                                    <span class="old_price text-muted text-decoration-line-through">
-                                        <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
-                                    </span>
-                                    <?php if($product->price_sale): ?>
+                                
                                         <span class="new_price text-danger fw-bold">
                                             <?php echo e(number_format($product->price_sale, 0, ',', '.')); ?> VND
                                         </span>
-                                    <?php endif; ?>
+                                  
                                 </div>
                             </div>
                         </div>

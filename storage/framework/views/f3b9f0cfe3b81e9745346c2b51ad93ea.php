@@ -152,19 +152,12 @@
                                     <div class="price_main">
                                         <label for=""> <strong>Đơn giá:</strong> </label>
 
-                                        <?php if($product->price_sale > 0 && $product->price_sale < $product->base_price): ?>
+                                       
                                             <span
                                                 class="new_price text-danger"><?php echo e(number_format($product->price_sale, 0, ',', '.')); ?>
 
                                                 VND</span>
-                                            <span class="old_price text-muted" style="text-decoration: line-through;">
-                                                <?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND
-                                            </span>
-                                        <?php else: ?>
-                                            <span class="new_price"><?php echo e(number_format($product->base_price, 0, ',', '.')); ?>
-
-                                                VND</span>
-                                        <?php endif; ?>
+                                           
                                     </div>
 
                                 </div>
@@ -331,19 +324,11 @@
                                 </a>
                                 <p class="small text-muted flex-grow-1"><?php echo e(Str::limit($related->description, 50)); ?></p>
                                 <div class="price_box">
-                                    <?php if($related->price_sale): ?>
-                                        <span class="old_price text-muted text-decoration-line-through ms-2">
-                                            <?php echo e(number_format($related->base_price, 0, ',', '.')); ?>VND
-                                        </span>
+                                  
                                         <span class="new_price text-danger fw-bold">
                                             <?php echo e(number_format($related->price_sale, 0, ',', '.')); ?>VND
                                         </span>
-                                    <?php else: ?>
-                                        <span class="new_price fw-bold">
-                                            <?php echo e(number_format($related->base_price, 0, ',', '.')); ?>VND
-
-                                        </span>
-                                    <?php endif; ?>
+                                  
                                 </div>
                             </div>
                         </div>

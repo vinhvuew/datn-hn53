@@ -180,8 +180,7 @@ unset($__errorArgs, $__bag); ?>
                             <select name="status" class="form-control">
                                 <option value="active" <?php echo e(old('status', $voucher->status) == 'active' ? 'selected' : ''); ?>>
                                     Hoạt động</option>
-                                <option value="expired"
-                                    <?php echo e(old('status', $voucher->status) == 'expired' ? 'selected' : ''); ?>>Hết hạn</option>
+                                
                                 <option value="disabled"
                                     <?php echo e(old('status', $voucher->status) == 'disabled' ? 'selected' : ''); ?>>Vô hiệu hóa
                                 </option>

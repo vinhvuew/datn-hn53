@@ -37,8 +37,6 @@ use App\Http\Controllers\ChatAIController;
 
 
 
-// Route để lấy tổng tiền nhận được theo phương thức thanh toán
-Route::get('/admin/dashboard/get-total-money-received', [DashBoardController::class, 'getTotalMoneyReceived'])->name('admin.getTotalMoneyReceived');
 
 
 Route::get('/chat-ai', [ChatAIController::class, 'index']);

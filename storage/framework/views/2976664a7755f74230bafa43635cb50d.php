@@ -172,7 +172,6 @@ unset($__errorArgs, $__bag); ?>
                             <label for="status" class="form-label">Trạng thái</label>
                             <select name="status" class="form-control">
                                 <option value="active" <?php echo e(old('status') == 'active' ? 'selected' : ''); ?>>Hoạt động</option>
-                                <option value="expired" <?php echo e(old('status') == 'expired' ? 'selected' : ''); ?>>Hết hạn</option>
                                 <option value="disabled" <?php echo e(old('status') == 'disabled' ? 'selected' : ''); ?>>Vô hiệu hóa
                                 </option>
                             </select>

@@ -1,267 +1,93 @@
 <?php $__env->startSection('item-dashboards', 'active'); ?>
 
 <?php $__env->startSection('content'); ?>
-    <?php if(Auth::user()->role_id == 1): ?>
-        <div class="container-xxl flex-grow-1 container-p-y">
-            <div class="row">
-                <div class="row">
-                    <!-- Xin chào mừng (8/12 cột) -->
-                    <div class="col-lg-8 mb-4">
-                        <div class="card h-100 d-flex flex-column">
-                            <div class="card-body">
-                                <h3 class="card-title text-primary">
-                                    Xin chào <i><?php echo e(Auth::user()->role->name); ?></i> 🎉 <i><?php echo e(Auth::user()->name); ?></i>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
+<form method="GET" action="<?php echo e(route('admin.dashboard')); ?>" class="mb-4">
+    <label> Từ ngày:
+        <input type="date" name="start_date" value="<?php echo e(request('start_date')); ?>">
+    </label>
+    <label> Đến ngày:
+        <input type="date" name="end_date" value="<?php echo e(request('end_date')); ?>">
+    </label>
+    <button type="submit">Lọc</button>
+</form>
 
-                    <!-- Biểu đồ tiếp cận khách hàng (4/12 cột) -->
-                    <div class="col-lg-4 mb-4">
-                        <div class="card h-100 d-flex flex-column justify-content-center align-items-center p-3">
-                            <h6 class="card-title text-success mb-2">Tiếp cận khách hàng</h6>
-                            <h4 id="totalCustomers" class="mb-2">0</h4>
-                            <canvas id="customerChart" style="max-width: 80px; max-height: 80px;"></canvas>
-                        </div>
-                    </div>
-                </div>
+<div class="container">
+    <ul>
+        <li><strong>Tổng số đơn hàng hoàn thành:</strong> <?php echo e($totalOrders); ?></li>
+        <li><strong>Tổng doanh thu:</strong> <?php echo e(number_format($totalRevenue, 0, ',', '.')); ?> VNĐ</li>
+        <li><strong>Tổng sản phẩm đã bán:</strong> <?php echo e($totalProductsSold); ?></li>
+        <li><strong>Tổng lợi nhuận:</strong> <?php echo e(number_format($totalProfit, 0, ',', '.')); ?> VNĐ</li>
+    </ul>
+</div>
 
-                <!-- Biểu đồ Doanh Thu Theo Trạng Thái -->
-                <div class="row">
+<div class="row">
+    <div class="col-md-6">
+        <h4>Biểu đồ Doanh thu</h4>
+        <canvas id="revenueChart" width="400" height="200"></canvas>
+    </div>
+    <div class="col-md-6">
+        <h4>Biểu đồ Lợi nhuận</h4>
+        <canvas id="profitChart" width="400" height="200"></canvas>
+    </div>
+</div>
 
-                    <div class="col-12 col-lg-8 order-1 order-lg-1 mb-4">
-                        <div class="card h-100 d-flex align-items-stretch">
-                            <div class="row row-bordered g-0">
-                                <div class="col-md-12">
-                                    <h5 class="card-header pb-3">Doanh Thu Theo Trạng Thái (<?php echo e($currentYear); ?>)</h5>
-                                    <div class="card-body">
-                                        <canvas id="totalRevenueChart" height="250"></canvas> <!-- Biểu đồ -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Biểu đồ sản phẩm mới theo ngày (BÊN PHẢI) -->
-                    <div class="col-lg-4 col-md-6 order-2 order-lg-2 mb-4">
-                        <div class="card h-100 d-flex align-items-stretch">
-                            <div class="card-body pb-3">
-                                <span class="d-block fw-medium mb-2">Sản phẩm mới</span>
-                                <h3 class="card-title mb-3 text-center" id="totalProducts">0</h3>
-                                <canvas id="productChart" height="250"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="card mt-4">
-                    <div class="card-header">Top 10 sản phẩm bán chạy của tháng</div>
-                    <div class="card-body">
-                        <div id="topSellingChart"></div>
-                    </div>
-                </div>
-                <div class="card mt-4">
-                    <div class="card-header">Top 10 Khách Hàng chi tiêu Nhiều Nhất tháng</div>
-                    <div class="card-body">
-                        <div id="topCustomersChart"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php else: ?>
-        
-        <div class="container-xxl flex-grow-1 container-p-y d-flex align-items-center justify-content-center"
-            style="min-height: 80vh;">
-            <div class="card shadow-lg border-0 text-center"
-                style="max-width: 500px; width: 100%; background: linear-gradient(135deg, #f8f9fa, #e3f2fd);">
-                <div class="card-body py-5">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2922/2922510.png" alt="Welcome" width="100"
-                        class="mb-4">
-                    <h2 class="text-primary mb-3">Xin chào, <?php echo e(Auth::user()->name); ?> 🌼</h2>
-                    <p class="text-muted">Chào mừng bạn đến với giao diện nhân viên!<br>Hãy kiểm tra đơn hàng hoặc liên hệ
-                        quản trị viên nếu cần hỗ trợ.</p>
-                    <a href="<?php echo e(route('orders.index')); ?>" class="btn btn-outline-primary mt-3">🔍 Xem Đơn Hàng</a>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
-<?php $__env->stopSection(); ?>
-
-<?php $__env->startSection('style.libs'); ?>
-<?php $__env->stopSection(); ?>
-
-<?php $__env->startSection('script-libs'); ?>
-    <script src="<?php echo e(asset('admin')); ?>/assets/js/dashboards-analytics.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    // biểu đồ số lượng người dùng
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let totalCustomers = <?php echo e($totalCustomers); ?>;
-            document.getElementById("totalCustomers").innerText = totalCustomers;
-
-            new Chart(document.getElementById("customerChart").getContext("2d"), {
-                type: "doughnut",
-                data: {
-                    labels: ["Đã đăng ký"],
-                    datasets: [{
-                        data: [totalCustomers],
-                        backgroundColor: ["#28a745"]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: "70%", // Làm nhỏ biểu đồ
-                    plugins: {
-                        legend: {
-                            display: false
-                        } // Ẩn chú thích
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Biểu đồ Doanh thu - Dạng cột (Bar Chart)
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    new Chart(revenueCtx, {
+        type: 'bar', // Đổi từ line sang bar
+        data: {
+            labels: <?php echo json_encode(array_keys($orderStats->toArray()), 15, 512) ?>,  // Các ngày
+            datasets: [{
+                label: 'Doanh thu (VNĐ)',
+                data: <?php echo json_encode(array_values($orderStats->toArray()), 15, 512) ?>, // Dữ liệu doanh thu
+                backgroundColor: 'rgba(75, 192, 192, 0.7)', // Màu nền của cột
+                borderColor: 'rgba(75, 192, 192, 1)', // Màu viền của cột
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { 
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) { return value.toLocaleString(); } // Định dạng số
                     }
                 }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Biểu đồ sản phẩm theo ngày
-            let productsData = <?php echo json_encode($productsPerDay, 15, 512) ?>;
-            let labels = productsData.map(item => item.date);
-            let values = productsData.map(item => item.total);
+            }
+        }
+    });
 
-            document.getElementById('totalProducts').innerText = values.reduce((a, b) => a + b, 0);
-
-            new Chart(document.getElementById("productChart").getContext("2d"), {
-                type: "line",
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: "Sản phẩm mới",
-                        data: values,
-                        borderColor: "rgba(75, 192, 192, 1)",
-                        backgroundColor: "rgba(75, 192, 192, 0.2)",
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+    // Biểu đồ Lợi nhuận - Dạng cột (Bar Chart)
+    const profitCtx = document.getElementById('profitChart').getContext('2d');
+    new Chart(profitCtx, {
+        type: 'bar', // Đổi từ line sang bar
+        data: {
+            labels: <?php echo json_encode(array_keys($profitStats->toArray()), 15, 512) ?>, // Các ngày
+            datasets: [{
+                label: 'Lợi nhuận (VNĐ)',
+                data: <?php echo json_encode(array_values($profitStats->toArray()), 15, 512) ?>, // Dữ liệu lợi nhuận
+                backgroundColor: 'rgba(255, 99, 132, 0.7)', // Màu nền của cột
+                borderColor: 'rgba(255, 99, 132, 1)', // Màu viền của cột
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { 
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) { return value.toLocaleString(); } // Định dạng số
                     }
                 }
-            });
+            }
+        }
+    });
+</script>
 
-            // Biểu đồ doanh thu theo trạng thái
-            new Chart(document.getElementById('totalRevenueChart').getContext('2d'), {
-                type: 'bar',
-                data: {
-                    labels: <?php echo json_encode($labels); ?>,
-                    datasets: [{
-                        label: 'Doanh thu (VND)',
-                        data: <?php echo json_encode($data); ?>,
-                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-
-
-        });
-    </script>
-    
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Chuyển đổi dữ liệu PHP thành JSON
-            const topSellingProducts = <?php echo json_encode($topSellingProducts, 15, 512) ?>;
-
-            // Tạo danh sách tên sản phẩm và số lượng bán
-            const categories = topSellingProducts.map(p => p.product_name);
-            const seriesData = topSellingProducts.map(p => p.total_sold);
-
-            // Cấu hình biểu đồ
-            const options = {
-                chart: {
-                    type: 'bar', // Chọn loại biểu đồ
-                    height: 350
-                },
-                series: [{
-                    name: 'Số lượng bán',
-                    data: seriesData
-                }],
-                xaxis: {
-                    categories: categories
-                },
-                title: {
-                    text: 'Top 10 Sản Phẩm Bán Chạy của tháng',
-                    align: 'center'
-                }
-            };
-
-            // Khởi tạo và vẽ biểu đồ
-            new ApexCharts(document.querySelector("#topSellingChart"), options).render();
-        });
-    </script>
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const topCustomer = <?php echo json_encode($topCustomer, 15, 512) ?>;
-
-            const names = topCustomer.map(c => c.name);
-            const spending = topCustomer.map(c => parseFloat(c.total_spent));
-
-            const options = {
-                chart: {
-                    type: 'bar',
-                    height: 400
-                },
-                series: [{
-                    name: 'Tổng Chi Tiêu',
-                    data: spending
-                }],
-                xaxis: {
-                    categories: names,
-                    labels: {
-                        style: {
-                            fontSize: '14px'
-                        }
-                    }
-                },
-                plotOptions: {
-                    bar: {
-                        horizontal: true
-                    }
-                },
-                title: {
-                    text: 'Top 10 Khách Hàng chi tiêu Nhiều Nhất',
-                    align: 'center',
-                    style: {
-                        fontSize: '20px'
-                    }
-                },
-                tooltip: {
-                    y: {
-                        formatter: value => new Intl.NumberFormat('vi-VN').format(value) + '₫'
-                    }
-                }
-            };
-
-            new ApexCharts(document.querySelector("#topCustomersChart"), options).render();
-        });
-    </script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\datn-hn53\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

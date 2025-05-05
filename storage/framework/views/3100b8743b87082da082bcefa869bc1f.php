@@ -177,14 +177,14 @@
                             <div class="card-body">
                                 <!-- Base Price -->
                                 <div class="mb-3">
-                                    <label class="form-label" for="base_price">Giá cơ bản</label>
+                                    <label class="form-label" for="base_price">Giá Gốc</label>
                                     <input type="text" class="form-control"
                                         value="<?php echo e(number_format($product->base_price, 0, ',', '.')); ?> VND" disabled>
 
                                 </div>
                                 <!-- Discounted Price -->
                                 <div class="mb-3">
-                                    <label class="form-label" for="ecommerce-product-discount-price">Giá bán</label>
+                                    <label class="form-label" for="ecommerce-product-discount-price">Giá Bán</label>
                                     <input type="text" class="form-control"
                                         value="<?php echo e(number_format($product->price_sale, 0, ',', '.')); ?> VNĐ" disabled>
                                 </div>

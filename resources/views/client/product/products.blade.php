@@ -95,19 +95,11 @@
                                             <h5 class="card-title text-truncate">{{ $product->name }}</h5>
                                         </a>
                                         <div class="price_box">
-                                            @if ($product->price_sale)
+                                           
                                                 <span class="new_price text-danger fw-bold">
                                                     {{ number_format($product->price_sale, 0, ',', '.') }}VND
                                                 </span>
-                                                <span class="old_price text-muted text-decoration-line-through ms-2">
-                                                    {{ number_format($product->base_price, 0, ',', '.') }}VND
-                                                </span>
-                                            @else
-                                                <span class="new_price fw-bold">
-                                                    {{ number_format($product->base_price, 0, ',', '.') }}VND
-
-                                                </span>
-                                            @endif
+                                              
                                         </div>
                                     </div>
                                 </div>

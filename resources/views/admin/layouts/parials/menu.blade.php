@@ -134,14 +134,14 @@
             <ul class="menu-sub">
                 <li class="menu-item" @yield('item-voucher-index')>
                     <a href="{{ route('vouchers.index') }}" class="menu-link">
-                        <div class="text-truncate" data-i18n="danh sach">
+                        <div class="text-truncate" data-i18n="Danh Sách">
                             Danh sách
                         </div>
                     </a>
                 </li>
                 <li class="menu-item" @yield('item-voucher-creat')>
                     <a href="{{ route('vouchers.create') }}" class="menu-link">
-                        <div class="text-truncate" data-i18n="them">
+                        <div class="text-truncate" data-i18n="Thêm">
                             Thêm
                         </div>
                     </a>
