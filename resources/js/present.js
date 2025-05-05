@@ -10,7 +10,7 @@ window.Echo.join(`chat.${roomId}`)
             document.getElementById("user-status").textContent = "Online";
             document.getElementById("user-status").style.color = "green";
         } else {
-            if (roleId === 3) {
+            if (roleId === 2) {
                 document.getElementById("user-status").textContent =
                     "Vui lòng đợi ...";
                 document.getElementById("user-status").style.color = "red";
@@ -74,7 +74,7 @@ function appendMessage(message, senderId) {
     messageElement.classList.add("message"); // Thêm luôn class "message"
 
     // Kiểm tra vai trò và căn chỉnh tin nhắn
-    if (roleId === 1 || roleId === 2) {
+    if (roleId === 1 || roleId === 3) {
         if (senderId === userId) {
             messageElement.classList.add("sent"); // Tin nhắn của bạn
             messageElement.innerHTML = "<strong>Bạn: </strong>" + message; // Sử dụng innerHTML để hỗ trợ HTML
@@ -83,14 +83,13 @@ function appendMessage(message, senderId) {
             messageElement.innerHTML =
                 "<strong>Khách hàng: </strong>" + message;
         }
-    } else if (roleId === 3) {
+    } else if (roleId === 2) {
         if (senderId === userId) {
             messageElement.classList.add("sent"); // Tin nhắn của bạn
             messageElement.innerHTML = "<strong>Bạn: </strong>" + message;
         } else {
             messageElement.classList.add("received"); // Tin nhắn của quản trị viên
-            messageElement.innerHTML =
-                "<strong>Quản trị viên: </strong>" + message;
+            messageElement.innerHTML = "<strong>Shop: </strong>" + message;
         }
     }
 

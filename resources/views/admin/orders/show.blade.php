@@ -116,11 +116,6 @@
                             Đã giao hàng
                         </button>
                     </form>
-                @elseif ($order->status == 'canceled')
-                    <form action="" method="post">
-                        @csrf
-                        <button type="submit" class="btn btn-danger">Xóa</button>
-                    </form>
                 @elseif ($order->status == 'return_request')
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#refuse">Từ
                         chối</button>
@@ -571,24 +566,6 @@
                             <h3 class="mb-2">Lý do hủy đơn hàng</h3>
                             <p class="pt-1">Thông tin sẽ được gửi đến người mua hàng</p>
                         </div>
-                        {{-- <form action="{{ route('orders.cancel', $order->id) }}" class="row g-4" method="POST">
-                            @csrf
-                            <div class="col-12 col-md-12">
-                                <div class="form-floating form-floating-outline">
-                                    <textarea name="note"cols="30" rows="10" class="form-control" placeholder="Lý do từ chối..."></textarea>
-                                    <label for="note">Lý do từ chối</label>
-                                </div>
-                                @error('note')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Gửi</button>
-                                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal"
-                                    aria-label="Close">Hủy bỏ</button>
-                            </div>
-                        </form> --}}
                     </div>
                 </div>
             </div>

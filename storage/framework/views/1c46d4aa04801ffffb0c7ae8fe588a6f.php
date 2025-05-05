@@ -115,11 +115,6 @@
                             Đã giao hàng
                         </button>
                     </form>
-                <?php elseif($order->status == 'canceled'): ?>
-                    <form action="" method="post">
-                        <?php echo csrf_field(); ?>
-                        <button type="submit" class="btn btn-danger">Xóa</button>
-                    </form>
                 <?php elseif($order->status == 'return_request'): ?>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#refuse">Từ
                         chối</button>
@@ -591,7 +586,6 @@ unset($__errorArgs, $__bag); ?>
                             <h3 class="mb-2">Lý do hủy đơn hàng</h3>
                             <p class="pt-1">Thông tin sẽ được gửi đến người mua hàng</p>
                         </div>
-                        
                     </div>
                 </div>
             </div>

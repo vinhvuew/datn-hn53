@@ -1,92 +1,71 @@
-<footer class="revealed">
+<footer class="revealed bg-dark text-light pt-5 pb-4">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-6">
-                <h3 data-bs-target="#collapse_1">Quick Links</h3>
-                <div class="collapse dont-collapse-sm links" id="collapse_1">
-                    <ul>
-                        <li><a href="about.html">About us</a></li>
-                        <li><a href="help.html">Faq</a></li>
-                        <li><a href="help.html">Help</a></li>
-                        <li><a href="account.html">My account</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="contacts.html">Contacts</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h3 data-bs-target="#collapse_2">Categories</h3>
-                <div class="collapse dont-collapse-sm links" id="collapse_2">
-                    <ul>
-                        <li><a href="listing-grid-1-full.html">Clothes</a></li>
-                        <li><a href="listing-grid-2-full.html">Electronics</a></li>
-                        <li><a href="listing-grid-1-full.html">Furniture</a></li>
-                        <li><a href="listing-grid-3.html">Glasses</a></li>
-                        <li><a href="listing-grid-1-full.html">Shoes</a></li>
-                        <li><a href="listing-grid-1-full.html">Watches</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h3 data-bs-target="#collapse_3">Contacts</h3>
-                <div class="collapse dont-collapse-sm contacts" id="collapse_3">
-                    <ul>
-                        
-                        <li><i class="ti-headphone-alt"></i>+94 423-23-221</li>
-                        <li><i class="ti-email"></i><a href="#0">adlegendshoes@gmail.com</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h3 data-bs-target="#collapse_4">Keep in touch</h3>
-                <div class="collapse dont-collapse-sm" id="collapse_4">
-                    <div id="newsletter">
-                        <div class="form-group">
-                            <input type="email" name="email_newsletter" id="email_newsletter" class="form-control"
-                                placeholder="Your email">
-                            <button type="submit" id="submit-newsletter"><i class="ti-angle-double-right"></i></button>
-                        </div>
-                    </div>
-                    <div class="follow_us">
-                        <h5>Follow Us</h5>
-                        <ul>
-                            <li><a href="#0"><i class="bi bi-facebook"></i></a></li>
-                            <li><a href="#0"><i class="bi bi-twitter-x"></i></a></li>
-                            <li><a href="#0"><i class="bi bi-instagram"></i></a></li>
-                            <li><a href="#0"><i class="bi bi-tiktok"></i></a></li>
-                            <li><a href="#0"><i class="bi bi-whatsapp"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /row-->
-        <hr>
-        <div class="row add_bottom_25">
-            <div class="col-lg-6">
-                <ul class="footer-selector clearfix">
-                    <li>
-                        <div class="styled-select lang-selector">
-                            <select>
-                                <option value="English" selected>Tiếng Việt</option>
-                               
-                            </select>
-                        </div>
-                    </li>
-                    <li>
-                    </li>
-                  
+            <!-- Liên kết nhanh -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <h5 class="fw-bold text-uppercase mb-3">Liên kết nhanh</h5>
+                <ul class="list-unstyled">
+                    <li><a class="text-light text-decoration-none" href="about.html">Về chúng tôi</a></li>
+                    <li><a class="text-light text-decoration-none" href="help.html">Câu hỏi thường gặp</a></li>
+                    <li><a class="text-light text-decoration-none" href="account.html">Tài khoản của tôi</a></li>
+                    <li><a class="text-light text-decoration-none" href="blog.html">Blog</a></li>
+                    <li><a class="text-light text-decoration-none" href="contacts.html">Liên hệ</a></li>
                 </ul>
             </div>
-            <div class="col-lg-6">
-                <ul class="additional_links">
-                    <li><a href="#0">Terms and conditions</a></li>
-                    <li><a href="#0">Privacy</a></li>
-                    <li><span>© 2024 Allaia</span></li>
+
+            <!-- Thông tin liên hệ -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <h5 class="fw-bold text-uppercase mb-3">Liên hệ</h5>
+                <ul class="list-unstyled">
+                    <li><i class="ti-headphone-alt me-2"></i> +0345961416</li>
+                    <li><i class="ti-email me-2"></i> <a class="text-light text-decoration-none"
+                            href="mailto:adlegendshoes@gmail.com">legendshoes@gmail.com</a></li>
+                    <li><i class="ti-location-pin me-2"></i> 13 p.trịnh văn bô, xuân phương, nam từ liêm, Hà Nội</li>
+                </ul>
+            </div>
+
+            <!-- Đăng ký & Mạng xã hội -->
+            <div class="col-lg-4 col-md-12 mb-4">
+                <h5 class="fw-bold text-uppercase mb-3">Kết nối với chúng tôi</h5>
+                <p>Nhận thông tin khuyến mãi mới nhất qua email</p>
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" placeholder="Nhập email của bạn">
+                    <button class="btn btn-outline-light" type="submit"><i class="ti-angle-double-right"></i></button>
+                </div>
+                <h6 class="fw-bold mt-3">Theo dõi chúng tôi</h6>
+                <ul class="list-inline mt-2">
+                    <li class="list-inline-item"><a class="text-light" href="#"><i
+                                class="bi bi-facebook fs-5"></i></a></li>
+                    <li class="list-inline-item"><a class="text-light" href="#"><i
+                                class="bi bi-twitter-x fs-5"></i></a></li>
+                    <li class="list-inline-item"><a class="text-light" href="#"><i
+                                class="bi bi-instagram fs-5"></i></a></li>
+                    <li class="list-inline-item"><a class="text-light" href="#"><i
+                                class="bi bi-tiktok fs-5"></i></a></li>
+                    <li class="list-inline-item"><a class="text-light" href="#"><i
+                                class="bi bi-whatsapp fs-5"></i></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="border-light">
+
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <select class="form-select bg-dark text-light border-light w-auto">
+                    <option selected>Tiếng Việt</option>
+                </select>
+            </div>
+            <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item"><a class="text-light text-decoration-none" href="#">Điều
+                            khoản</a></li>
+                    <li class="list-inline-item"><a class="text-light text-decoration-none" href="#">Bảo mật</a>
+                    </li>
+                    <li class="list-inline-item text-secondary">© 2025 legendshoes</li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
-<!--/footer-->
 <?php /**PATH D:\laragon\www\datn-hn53\resources\views/client/layouts/parials/footer.blade.php ENDPATH**/ ?>

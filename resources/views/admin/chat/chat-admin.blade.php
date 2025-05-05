@@ -119,7 +119,7 @@
                                                 <img src="{{ Storage::url($room->user->avatar) }}"
                                                     alt="{{ $room->user->name }}" class="rounded-circle">
                                             @else
-                                                <img src="{{ asset('admin/image/logo.jpg') }}"
+                                                <img src="{{ asset('admin/imageassets/jpg') }}"
                                                     alt="{{ $room->user->name }}" class="rounded-circle">
                                             @endif
                                         </div>
@@ -237,21 +237,7 @@
 @endsection
 @section('script-libs')
     <script src="{{ asset('admin') }}/assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js"></script>
-    <script>
-        window.Echo.join('chat.' + roomId)
-            .here((users) => {
-                console.log('Users online:', users);
-            })
-            .joining((user) => {
-                console.log(user.name + ' has joined');
-            })
-            .leaving((user) => {
-                console.log(user.name + ' has left');
-            })
-            .listen('MessageSent', (event) => {
-                console.log('New message received:', event.message);
-            });
-    </script>
+
     <!-- Page JS -->
     <script src="{{ asset('admin') }}/assets/js/app-chat.js"></script>
 @endsection

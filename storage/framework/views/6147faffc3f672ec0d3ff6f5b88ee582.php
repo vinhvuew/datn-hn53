@@ -1,3 +1,8 @@
+<?php $__env->startSection('style-libs'); ?>
+    <?php echo app('Illuminate\Foundation\Vite')('resources/css/chat.css'); ?>
+    <link rel="stylesheet" href="<?php echo e(asset('admin')); ?>/assets/vendor/css/pages/app-chat.css">
+<?php $__env->stopSection(); ?>
+
 <?php $__env->startSection('title'); ?>
     Trò Chuyện
 <?php $__env->stopSection(); ?>
@@ -7,81 +12,9 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="app-chat card overflow-hidden">
             <div class="row g-0">
-                <!-- Sidebar Left -->
-                <div class="col app-chat-sidebar-left app-sidebar overflow-hidden" id="app-chat-sidebar-left">
-                    <div
-                        class="chat-sidebar-left-user sidebar-header d-flex flex-column justify-content-center align-items-center flex-wrap px-4 pt-5">
-                        <div class="avatar avatar-xl avatar-online w-px-75 h-px-75">
-                            <img src="<?php echo e(asset('admin')); ?>/assets/img/avatars/1.png" alt="Avatar" class="rounded-circle">
-                        </div>
-                        <h5 class="mt-3 mb-1">John Doe</h5>
-                        <span>UI/UX Designer</span>
-                        <i class="mdi mdi-close mdi-20px cursor-pointer close-sidebar" data-bs-toggle="sidebar" data-overlay
-                            data-target="#app-chat-sidebar-left"></i>
-                    </div>
-                    <div class="sidebar-body px-4 pb-4">
-                        <div class="my-4 pt-2">
-                            <label for="chat-sidebar-left-user-about" class="text-uppercase text-muted">About</label>
-                            <textarea id="chat-sidebar-left-user-about" class="form-control chat-sidebar-left-user-about mt-2" rows="3"
-                                maxlength="120">Hey there, we’re just writing to let you know that you’ve been subscribed to a repository on GitHub.</textarea>
-                        </div>
-                        <div class="my-4">
-                            <p class="text-uppercase text-muted">Status</p>
-                            <div class="d-grid gap-2">
-                                <div class="form-check form-check-success">
-                                    <input name="chat-user-status" class="form-check-input" type="radio" value="active"
-                                        id="user-active" checked>
-                                    <label class="form-check-label" for="user-active">Active</label>
-                                </div>
-                                <div class="form-check form-check-warning">
-                                    <input name="chat-user-status" class="form-check-input" type="radio" value="away"
-                                        id="user-away">
-                                    <label class="form-check-label" for="user-away">Away</label>
-                                </div>
-                                <div class="form-check form-check-danger">
-                                    <input name="chat-user-status" class="form-check-input" type="radio" value="busy"
-                                        id="user-busy">
-                                    <label class="form-check-label" for="user-busy">Do not Disturb</label>
-                                </div>
-                                <div class="form-check form-check-secondary">
-                                    <input name="chat-user-status" class="form-check-input" type="radio" value="offline"
-                                        id="user-offline">
-                                    <label class="form-check-label" for="user-offline">Offline</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="my-4">
-                            <p class="text-uppercase text-muted mb-2">Settings</p>
-                            <ul class="list-unstyled d-grid gap-3 ms-2">
-                                <li>
-                                    <i class="mdi mdi-check-circle-outline me-1"></i>
-                                    <span class="align-middle">Two-step Verification</span>
-                                </li>
-                                <li>
-                                    <i class="mdi mdi-bell-outline me-1"></i>
-                                    <span class="align-middle">Notification</span>
-                                </li>
-                                <li>
-                                    <i class="mdi mdi-account-outline me-1"></i>
-                                    <span class="align-middle">Invite Friends</span>
-                                </li>
-                                <li>
-                                    <i class="mdi mdi-delete-outline me-1"></i>
-                                    <span class="align-middle">Delete Account</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="d-flex mt-4">
-                            <button class="btn btn-primary" data-bs-toggle="sidebar" data-overlay
-                                data-target="#app-chat-sidebar-left">Logout</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Sidebar Left-->
 
                 <!-- Chat & Contacts -->
-                <div class="col app-chat-contacts app-sidebar flex-grow-0 overflow-hidden border-end"
-                    id="app-chat-contacts">
+                <div class="col app-chat-contacts app-sidebar flex-grow-0 overflow-hidden border-end" id="app-chat-contacts">
                     <div class="sidebar-header py-3 px-4 border-bottom">
                         <div class="d-flex align-items-center me-3 me-lg-0">
                             <div class="flex-shrink-0 avatar avatar-online me-3" data-bs-toggle="sidebar"
@@ -114,12 +47,12 @@
                                     <a href="<?php echo e(route('chat.admin', ['roomId' => $item->id, 'receiverId' => Auth::user()->id])); ?>"
                                         class="d-flex align-items-center">
                                         <div class="flex-shrink-0 avatar <?php echo e($item->is_active ? ' avatar-online' : ''); ?>">
-                                            <?php if($room->user->avatar): ?>
-                                                <img src="<?php echo e(Storage::url($room->user->avatar)); ?>"
-                                                    alt="<?php echo e($room->user->name); ?>" class="rounded-circle">
+                                            <?php if($item->user->avatar): ?>
+                                                <img src="<?php echo e(Storage::url($item->user->avatar)); ?>"
+                                                    alt="<?php echo e($item->user->name); ?>" class="rounded-circle">
                                             <?php else: ?>
-                                                <img src="<?php echo e(asset('admin/image/logo.jpg')); ?>"
-                                                    alt="<?php echo e($room->user->name); ?>" class="rounded-circle">
+                                                <img src="<?php echo e(asset('admin/image/ssets.jpg')); ?>"
+                                                    alt="<?php echo e($item->user->name); ?>" class="rounded-circle">
                                             <?php endif; ?>
                                         </div>
                                         <div class="chat-contact-info flex-grow-1 ms-3">
@@ -177,8 +110,7 @@
                                             class="btn btn-icon btn-text-secondary rounded-pill dropdown-toggle hide-arrow"
                                             data-bs-toggle="dropdown" aria-expanded="true" id="chat-header-actions"><i
                                                 class="mdi mdi-dots-vertical mdi-24px"></i></button>
-                                        <div class="dropdown-menu dropdown-menu-end"
-                                            aria-labelledby="chat-header-actions">
+                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="chat-header-actions">
                                             <a class="dropdown-item" href="javascript:void(0);">View Contact</a>
                                             <a class="dropdown-item" href="javascript:void(0);">Mute Notifications</a>
                                             <a class="dropdown-item" href="javascript:void(0);">Block Contact</a>
@@ -191,8 +123,10 @@
                         </div>
                         <div class="chat-history-body" id="message-box">
 
+
+
                             <?php $__currentLoopData = $messages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2): ?>
+                                <?php if(Auth::user()->role_id == 1 || Auth::user()->role_id == 3): ?>
                                     <?php if(Auth::user()->id === $item->sender_id): ?>
                                         <div class="message sent">
                                             <strong>Bạn: </strong><?php echo e($item->message); ?>
@@ -205,7 +139,7 @@
                                         </div>
                                     <?php endif; ?>
                                 <?php endif; ?>
-                                <?php if(Auth::user()->role_id == 3): ?>
+                                <?php if(Auth::user()->role_id == 2): ?>
                                     <?php if(Auth::user()->id === $item->sender_id): ?>
                                         <div class="message sent">
                                             <strong>Bạn: </strong><?php echo e($item->message); ?>
@@ -213,19 +147,20 @@
                                         </div>
                                     <?php else: ?>
                                         <div class="message received">
-                                            <strong>Quản trị viên: </strong><?php echo e($item->message); ?>
+                                            <strong>Quảng trị viên: </strong><?php echo e($item->message); ?>
 
                                         </div>
                                     <?php endif; ?>
                                 <?php endif; ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+
                         </div>
                         <!-- Chat message form -->
                         <div class="chat-history-footer mt-3">
-                            <form class="form-send-message d-flex justify-content-between align-items-center ">
+                            <div class="form-send-message d-flex justify-content-between align-items-center ">
                                 <input class="form-control message-input me-3 shadow-none" id="message-input"
                                     placeholder="Nhập tin nhắn ...">
-
                                 <div class="message-actions d-flex align-items-center">
                                     <i
                                         class="btn btn-text-secondary btn-icon rounded-pill speech-to-text mdi mdi-microphone mdi-20px cursor-pointer text-heading"></i>
@@ -238,7 +173,7 @@
                                         <span class="align-middles">Gửi</span>
                                     </button>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -318,10 +253,6 @@
     <!-- / Content -->
 <?php $__env->stopSection(); ?>
 
-<?php $__env->startSection('style-libs'); ?>
-    <?php echo app('Illuminate\Foundation\Vite')('resources/css/chat.css'); ?>
-    <link rel="stylesheet" href="<?php echo e(asset('admin')); ?>/assets/vendor/css/pages/app-chat.css">
-<?php $__env->stopSection(); ?>
 <?php $__env->startSection('script-libs'); ?>
     <script>
         let userId = <?php echo e(auth()->id()); ?>;
@@ -331,8 +262,8 @@
     </script>
     <?php echo app('Illuminate\Foundation\Vite')('resources/js/present.js'); ?>
     <?php echo app('Illuminate\Foundation\Vite')('resources/js/list.js'); ?>
-
     <script src="<?php echo e(asset('admin')); ?>/assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js"></script>
+
     <!-- Page JS -->
     <script src="<?php echo e(asset('admin')); ?>/assets/js/app-chat.js"></script>
 <?php $__env->stopSection(); ?>

@@ -14,11 +14,25 @@
                 <!-- Hiển thị trạng thái người dùng -->
                 <div class="status mt-2">
                     <b>Trạng thái: <span id="user-status">Đang kiểm tra...</span></b>
+
                 </div>
                 <hr>
                 <div id="message-box" style="height: 400px; overflow-y: auto; background-color: #ffff; padding: 10px;">
                     <?php $__currentLoopData = $messages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <?php if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2): ?>
+                        <?php if(Auth::user()->role_id == 1 || Auth::user()->role_id == 3): ?>
+                            <?php if(Auth::user()->id === $item->sender_id): ?>
+                                <div class="message sent">
+                                    <strong>Bạn: </strong><?php echo e($item->message); ?>
+
+                                </div>
+                            <?php else: ?>
+                                <div class="message received">
+                                    <strong>Khách hàng: </strong><?php echo e($item->message); ?>
+
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <?php if(Auth::user()->role_id == 2): ?>
                             <?php if(Auth::user()->id === $item->sender_id): ?>
                                 <div class="message sent">
                                     <strong>Bạn: </strong><?php echo e($item->message); ?>
@@ -27,19 +41,6 @@
                             <?php else: ?>
                                 <div class="message received">
                                     <strong>Shop: </strong><?php echo e($item->message); ?>
-
-                                </div>
-                            <?php endif; ?>
-                        <?php endif; ?>
-                        <?php if(Auth::user()->role_id == 3): ?>
-                            <?php if(Auth::user()->id === $item->sender_id): ?>
-                                <div class="message sent">
-                                    <strong>Bạn: </strong><?php echo e($item->message); ?>
-
-                                </div>
-                            <?php else: ?>
-                                <div class="message received">
-                                    <strong>Quảng trị viên: </strong><?php echo e($item->message); ?>
 
                                 </div>
                             <?php endif; ?>

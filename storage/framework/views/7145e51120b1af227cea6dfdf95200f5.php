@@ -118,7 +118,7 @@
                                                 <img src="<?php echo e(Storage::url($room->user->avatar)); ?>"
                                                     alt="<?php echo e($room->user->name); ?>" class="rounded-circle">
                                             <?php else: ?>
-                                                <img src="<?php echo e(asset('admin/image/logo.jpg')); ?>"
+                                                <img src="<?php echo e(asset('admin/imageassets/jpg')); ?>"
                                                     alt="<?php echo e($room->user->name); ?>" class="rounded-circle">
                                             <?php endif; ?>
                                         </div>
@@ -238,21 +238,7 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script-libs'); ?>
     <script src="<?php echo e(asset('admin')); ?>/assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js"></script>
-    <script>
-        window.Echo.join('chat.' + roomId)
-            .here((users) => {
-                console.log('Users online:', users);
-            })
-            .joining((user) => {
-                console.log(user.name + ' has joined');
-            })
-            .leaving((user) => {
-                console.log(user.name + ' has left');
-            })
-            .listen('MessageSent', (event) => {
-                console.log('New message received:', event.message);
-            });
-    </script>
+
     <!-- Page JS -->
     <script src="<?php echo e(asset('admin')); ?>/assets/js/app-chat.js"></script>
 <?php $__env->stopSection(); ?>
