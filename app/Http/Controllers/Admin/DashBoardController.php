@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class DashBoardController extends Controller
 {
-    public function dashBoard()
+    public function dashBoard(Request $request)
     {
         $currentYear = Carbon::now()->year;
         $lastYear = $currentYear - 1;
@@ -39,11 +39,6 @@ class DashBoardController extends Controller
             ->where('status', Order::COMPLETED)
             ->sum('total_price');
 
-        // Tính phần trăm tăng trưởng
-        $growthPercentage = ($totalRevenueLastYear > 0)
-            ? (($totalRevenueCurrentYear - $totalRevenueLastYear) / $totalRevenueLastYear) * 100
-            : ($totalRevenueCurrentYear > 0 ? 100 : 0);
-
         // 🔹 Lấy số lượng sản phẩm mới theo ngày
         $productsPerDay = Product::select(
             DB::raw('DATE(created_at) as date'),
@@ -53,9 +48,14 @@ class DashBoardController extends Controller
             ->orderBy('date')
             ->get();
         $totalCustomers = User::count(); // Đếm số lượng người dùng
-        // sản phẩm bán chạy
+        // Lấy top 10 sản phẩm bán chạy theo tháng + năm
+        $selectedMonth = $request->input('month') ?? date('m');
+        $selectedYear = $request->input('year') ?? date('Y');
+
         $topSellingProducts = DB::table('order_details')
             ->select('product_name', DB::raw('SUM(quantity) as total_sold'))
+            ->whereMonth('created_at', $selectedMonth)
+            ->whereYear('created_at', $selectedYear)
             ->groupBy('product_name')
             ->orderByDesc('total_sold')
             ->limit(10)
@@ -72,7 +72,6 @@ class DashBoardController extends Controller
         return view('admin.dashboard', compact(
             'totalRevenueCurrentYear',
             'totalRevenueLastYear',
-            'growthPercentage',
             'currentYear',
             'lastYear',
             'labels',
@@ -80,6 +79,8 @@ class DashBoardController extends Controller
             'productsPerDay',
             'totalCustomers',
             'topSellingProducts',
+            'selectedMonth',
+            'selectedYear',
             'topCustomer'
             // Truyền dữ liệu về view
         ));

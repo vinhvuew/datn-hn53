@@ -115,9 +115,9 @@
     <!-- Main JS -->
     <script src="<?php echo e(asset('admin')); ?>/assets/js/main.js"></script>
     <?php echo $__env->make('admin.layouts.parials.js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    <?php echo app('Illuminate\Foundation\Vite')('resources/js/list.js'); ?>
     <!-- Page JS -->
     <?php echo $__env->yieldContent('script-libs'); ?>
+    <?php echo app('Illuminate\Foundation\Vite')('resources/js/list.js'); ?>
 </body>
 
 </html>

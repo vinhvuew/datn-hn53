@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Allaia Bootstrap eCommerce Template - ThemeForest">
     <meta name="author" content="Ansonika">
-    <title>Legend Shoes | Uy Tín Tạo Niềm Tin</title>
+    <title>LegendShoes | Uy Tín Tạo Niềm Tin</title>
 
     <?php echo $__env->make('client.layouts.parials.css', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php echo $__env->yieldContent('style-libs'); ?>
@@ -19,11 +19,11 @@
     <div id="page">
 
         <?php echo $__env->make('client.layouts.parials.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-        
+
 
         <?php echo $__env->yieldContent('content'); ?>
 
-        
+
         <?php echo $__env->make('client.layouts.parials.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     </div>

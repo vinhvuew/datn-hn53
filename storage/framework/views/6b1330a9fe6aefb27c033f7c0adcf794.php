@@ -35,8 +35,6 @@
                                     <th>Email</th>
                                     <th>Số Điện Thoại</th>
                                     <th>Địa Chỉ</th>
-                                    <th>Vai Trò</th>
-                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,19 +47,7 @@
                                             <td class="align-middle"><?php echo e($user->email ?? '-'); ?></td>
                                             <td class="align-middle"><?php echo e($user->phone ?? '-'); ?></td>
                                             <td class="align-middle"><?php echo e($user->address); ?></td>
-                                            <td class="align-middle">
-                                                <select name="role" class="form-select form-select-sm role-select"
-                                                    data-user-id="<?php echo e($user->id); ?>"
-                                                    data-old-role="<?php echo e($user->role_id); ?>">
-                                                    <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <option value="<?php echo e($role->id); ?>"
-                                                            <?php echo e($user->role_id == $role->id ? 'selected' : ''); ?>>
-                                                            <?php echo e($role->name); ?>
 
-                                                        </option>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </select>
-                                            </td>
                                             
                                         </tr>
                                     <?php endif; ?>

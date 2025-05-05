@@ -36,8 +36,6 @@
                                     <th>Email</th>
                                     <th>Số Điện Thoại</th>
                                     <th>Địa Chỉ</th>
-                                    <th>Vai Trò</th>
-                                    {{-- <th class="text-center">Chức Năng</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,18 +48,7 @@
                                             <td class="align-middle">{{ $user->email ?? '-' }}</td>
                                             <td class="align-middle">{{ $user->phone ?? '-' }}</td>
                                             <td class="align-middle">{{ $user->address }}</td>
-                                            <td class="align-middle">
-                                                <select name="role" class="form-select form-select-sm role-select"
-                                                    data-user-id="{{ $user->id }}"
-                                                    data-old-role="{{ $user->role_id }}">
-                                                    @foreach ($roles as $role)
-                                                        <option value="{{ $role->id }}"
-                                                            {{ $user->role_id == $role->id ? 'selected' : '' }}>
-                                                            {{ $role->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
+
                                             {{-- <td class="text-center align-middle">
                                                 <form class="delete-form d-inline" data-user-id="{{ $user->id }}"
                                                     data-user-name="{{ $user->name }}">

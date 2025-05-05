@@ -5,18 +5,8 @@
             <script>
                 document.write(new Date().getFullYear());
             </script>
-            , được thực hiện với ❤️ by
+            , được thực hiện bởi ❤️ nhóm WD-59
             <a href="https://themeselection.com/" target="_blank" class="footer-link fw-medium"></a>
-        </div>
-        <div class="d-none d-lg-inline-block">
-            <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
-            <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
-
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/"
-                target="_blank" class="footer-link">Documentation</a>
-
-            <a href="https://themeselection.com/support/" target="_blank"
-                class="footer-link d-none d-sm-inline-block">Support</a>
         </div>
     </div>
 </footer>

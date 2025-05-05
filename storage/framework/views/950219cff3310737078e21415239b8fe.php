@@ -26,81 +26,16 @@
                     </div>
                 </div>
 
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        let totalCustomers = <?php echo e($totalCustomers); ?>;
-                        document.getElementById("totalCustomers").innerText = totalCustomers;
-
-                        new Chart(document.getElementById("customerChart").getContext("2d"), {
-                            type: "doughnut",
-                            data: {
-                                labels: ["Đã đăng ký"],
-                                datasets: [{
-                                    data: [totalCustomers],
-                                    backgroundColor: ["#28a745"]
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                cutout: "70%", // Làm nhỏ biểu đồ
-                                plugins: {
-                                    legend: {
-                                        display: false
-                                    } // Ẩn chú thích
-                                }
-                            }
-                        });
-                    });
-                </script>
-
                 <!-- Biểu đồ Doanh Thu Theo Trạng Thái -->
                 <div class="row">
 
                     <div class="col-12 col-lg-8 order-1 order-lg-1 mb-4">
                         <div class="card h-100 d-flex align-items-stretch">
                             <div class="row row-bordered g-0">
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <h5 class="card-header pb-3">Doanh Thu Theo Trạng Thái (<?php echo e($currentYear); ?>)</h5>
                                     <div class="card-body">
                                         <canvas id="totalRevenueChart" height="250"></canvas> <!-- Biểu đồ -->
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card-body text-center">
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-label-primary dropdown-toggle" type="button"
-                                                id="growthReportId" data-bs-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                <?php echo e($currentYear); ?>
-
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div id="totalChart"></div>
-                                    <div class="text-center fw-medium pt-3">
-                                        <span class="text-success">
-                                            📈 <?php echo e(number_format($growthPercentage, 2)); ?>% Tăng Trưởng (<?php echo e($currentYear); ?>)
-                                        </span>
-                                    </div>
-                                    <div class="d-flex justify-content-between px-3 py-3">
-                                        <div class="d-flex align-items-center">
-                                            <span class="badge bg-label-primary p-2 me-2"><i
-                                                    class="bx bx-dollar text-primary"></i></span>
-                                            <div>
-                                                <small><?php echo e($currentYear); ?></small>
-                                                <h6 class="mb-0">VND <?php echo e(number_format($totalRevenueCurrentYear, 0)); ?></h6>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <span class="badge bg-label-info p-2 me-2"><i
-                                                    class="bx bx-wallet text-info"></i></span>
-                                            <div>
-                                                <small><?php echo e($lastYear); ?></small>
-                                                <h6 class="mb-0">VND <?php echo e(number_format($totalRevenueLastYear, 0)); ?></h6>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -122,13 +57,13 @@
             
             <div class="row">
                 <div class="card mt-4">
-                    <div class="card-header">Top 10 Sản Phẩm Bán Chạy</div>
+                    <div class="card-header">Top 10 sản phẩm bán chạy của tháng</div>
                     <div class="card-body">
                         <div id="topSellingChart"></div>
                     </div>
                 </div>
                 <div class="card mt-4">
-                    <div class="card-header">Top 10 Khách Hàng chi tiêu Nhiều Nhất</div>
+                    <div class="card-header">Top 10 Khách Hàng chi tiêu Nhiều Nhất tháng</div>
                     <div class="card-body">
                         <div id="topCustomersChart"></div>
                     </div>
@@ -161,6 +96,34 @@
     <script src="<?php echo e(asset('admin')); ?>/assets/js/dashboards-analytics.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    // biểu đồ số lượng người dùng
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let totalCustomers = <?php echo e($totalCustomers); ?>;
+            document.getElementById("totalCustomers").innerText = totalCustomers;
+
+            new Chart(document.getElementById("customerChart").getContext("2d"), {
+                type: "doughnut",
+                data: {
+                    labels: ["Đã đăng ký"],
+                    datasets: [{
+                        data: [totalCustomers],
+                        backgroundColor: ["#28a745"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: "70%", // Làm nhỏ biểu đồ
+                    plugins: {
+                        legend: {
+                            display: false
+                        } // Ẩn chú thích
+                    }
+                }
+            });
+        });
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Biểu đồ sản phẩm theo ngày
@@ -215,44 +178,24 @@
                 }
             });
 
-            // Biểu đồ tỷ lệ tăng trưởng
-            new ApexCharts(document.querySelector("#totalChart"), {
-                series: [<?php echo e($growthPercentage); ?>],
-                chart: {
-                    height: 200,
-                    type: "radialBar"
-                },
-                plotOptions: {
-                    radialBar: {
-                        hollow: {
-                            size: "60%"
-                        },
-                        dataLabels: {
-                            name: {
-                                show: false
-                            },
-                            value: {
-                                fontSize: "20px",
-                                color: "#333",
-                                formatter: val => val + "%"
-                            }
-                        }
-                    }
-                },
-                colors: ["#7367F0"]
-            }).render();
+
         });
     </script>
     
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // Chuyển đổi dữ liệu PHP thành JSON
             const topSellingProducts = <?php echo json_encode($topSellingProducts, 15, 512) ?>;
+
+            // Tạo danh sách tên sản phẩm và số lượng bán
             const categories = topSellingProducts.map(p => p.product_name);
             const seriesData = topSellingProducts.map(p => p.total_sold);
 
+            // Cấu hình biểu đồ
             const options = {
                 chart: {
-                    type: 'bar',
+                    type: 'bar', // Chọn loại biểu đồ
                     height: 350
                 },
                 series: [{
@@ -263,11 +206,12 @@
                     categories: categories
                 },
                 title: {
-                    text: 'Top 10 Sản Phẩm Bán Chạy',
+                    text: 'Top 10 Sản Phẩm Bán Chạy của tháng',
                     align: 'center'
                 }
             };
 
+            // Khởi tạo và vẽ biểu đồ
             new ApexCharts(document.querySelector("#topSellingChart"), options).render();
         });
     </script>

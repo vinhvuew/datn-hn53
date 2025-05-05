@@ -115,9 +115,9 @@
     <!-- Main JS -->
     <script src="{{ asset('admin') }}/assets/js/main.js"></script>
     @include('admin.layouts.parials.js')
-    @vite('resources/js/list.js')
     <!-- Page JS -->
     @yield('script-libs')
+    @vite('resources/js/list.js')
 </body>
 
 </html>
