@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 
 class VouchersController extends Controller
@@ -20,6 +21,13 @@ class VouchersController extends Controller
         } catch (\Throwable $th) {
             return response()->view('admin.errors.unauthorized', ['message' => 'Bạn không có quyền truy cập!']);
         }
+    
+        // Tự động cập nhật các voucher hết hạn
+        Voucher::where('status', 'active')
+            ->whereNotNull('end_date')
+            ->where('end_date', '<', Carbon::now())
+            ->update(['status' => 'expired']);
+    
         $vouchers = Voucher::all(); // Lấy tất cả các voucher
         return view('admin.vouchers.index', compact('vouchers'));
     }
